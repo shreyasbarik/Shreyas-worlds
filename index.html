@@ -1,23 +1,156 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Shreyas World</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f5f7fa;
+      color: #333;
+    }
+
+    header {
+      background-color: #111;
+      color: white;
+      padding: 20px 40px;
+      text-align: center;
+    }
+
+    nav {
+      background-color: #222;
+      display: flex;
+      justify-content: center;
+      padding: 10px 0;
+    }
+
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #ffa500;
+    }
+
+    .hero {
+      background-image: url('https://via.placeholder.com/1200x600.png?text=Welcome+to+Shreyas+World');
+      background-size: cover;
+      background-position: center;
+      height: 70vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-shadow: 2px 2px 5px #000;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .hero h1 {
+      font-size: 3.5em;
+    }
+
+    .hero p {
+      font-size: 1.2em;
+      margin-top: 10px;
+    }
+
+    .section {
+      padding: 50px 20px;
+      text-align: center;
+    }
+
+    .section h2 {
+      color: #e67e22;
+      margin-bottom: 20px;
+    }
+
+    .topics {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .topics div {
+      background-color: white;
+      padding: 15px 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ccc;
+      transition: transform 0.3s ease;
+    }
+
+    .topics div:hover {
+      transform: translateY(-5px);
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 {
+        font-size: 2em;
+      }
+    }
+  </style>
 </head>
-<body style="font-family: Arial; text-align: center; padding: 30px; background-color: #f9f9f9;">
+<body>
 
-  <!-- Welcome Image -->
-  <img src="https://via.placeholder.com/600x300.png?text=Welcome+to+Shreyas+World" alt="Welcome Image" style="max-width: 90%; border-radius: 10px; box-shadow: 0 0 10px #ccc;">
+  <!-- Header -->
+  <header>
+    <h1>Shreyas World</h1>
+    <p>Your daily dose of motivation & skills</p>
+  </header>
 
-  <!-- Welcome Text -->
-  <h1>Welcome to Shreyas World!</h1>
-  <p style="font-size: 18px; line-height: 1.6; max-width: 700px; margin: auto;">
-    This is not just a website — it's a journey of passion, learning, and motivation.<br>
-    I created this site all by myself, facing failures and challenges every day.<br>
-    My goal is to inspire you with motivational content, skill-building videos, and educational topics like coding (Java, Python) and health.<br><br>
-    Stay tuned — the full website will be completed before <strong>June 22</strong>!<br><br>
-    <em>~ Shreyas</em>
-  </p>
+  <!-- Navigation -->
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">About</a>
+    <a href="#">Videos</a>
+    <a href="#">Contact</a>
+  </nav>
+
+  <!-- Hero Section -->
+  <div class="hero">
+    <h1>Welcome to Shreyas World</h1>
+    <p>Created with passion, failures & dreams</p>
+  </div>
+
+  <!-- Content Section -->
+  <div class="section">
+    <h2>What's Inside?</h2>
+    <div class="topics">
+      <div>Motivational Talks</div>
+      <div>Java & Python Codes</div>
+      <div>Healthy Habits</div>
+      <div>Skill Building</div>
+      <div>Life Success Stories</div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    Launched by Shreyas | Full version coming by June 22  
+    <br>Join me on this journey!
+  </footer>
 
 </body>
 </html>
