@@ -1,58 +1,235 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Shreyas World</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <style>
-    /* Reset & base */
     * {
-      margin: 0; padding: 0; box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
+
     body {
-      font-family: 'Poppins', sans-serif;
-      background: #fff;
-      color: #222;
-      line-height: 1.6;
+      background: url('https://source.unsplash.com/1600x900/?technology,education') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
       overflow-x: hidden;
     }
 
-    /* Navigation */
-    nav {
-      background: rgba(0,0,0,0.8);
-      position: fixed;
-      width: 100%;
-      top: 0; left: 0;
+    header {
+      background: rgba(0, 0, 0, 0.7);
+      padding: 1rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 15px 40px;
+      position: sticky;
+      top: 0;
       z-index: 1000;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
     }
 
-    nav .logo {
-      color: #fff;
-      font-size: 1.8rem;
-      font-weight: 700;
-      letter-spacing: 2px;
-      cursor: pointer;
-      user-select: none;
+    .logo {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #00bfff;
     }
 
-    nav .links a {
-      color: #fff;
-      margin-left: 25px;
-      font-weight: 600;
+    nav a {
+      margin: 0 1rem;
       text-decoration: none;
-      position: relative;
-      transition: color 0.3s ease;
+      color: white;
+      font-weight: 500;
+      transition: color 0.3s;
     }
-    nav .links a::after {
-      content: '';
-      position: absolute;
-      width: 0;
-      height: 2px;
-      background:
+
+    nav a:hover {
+      color: #00bfff;
+    }
+
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 5rem 2rem;
+      background: rgba(0, 0, 0, 0.5);
+      height: 90vh;
+    }
+
+    .hero h1 {
+      font-size: 5rem;
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+
+    .hero p {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      font-size: 1.2rem;
+      background-color: #00bfff;
+      border: none;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #009acd;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      padding: 4rem 2rem;
+      background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    .feature {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2rem;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .feature i {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: #00bfff;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background: rgba(0, 0, 0, 0.8);
+    }
+
+    /* Sign In Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.9);
+    }
+
+    .modal-content {
+      background-color: #1e1e1e;
+      margin: 10% auto;
+      padding: 2rem;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 400px;
+      color: white;
+      border-radius: 8px;
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 0.75rem;
+      margin: 1rem 0;
+      border: none;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo">Shreyas World</div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#features">Features</a>
+      <a href="#game">Game</a>
+      <a href="#">Courses</a>
+      <a href="#">About</a>
+      <a href="#" onclick="openModal()">Sign In</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Welcome to Shreyas World</h1>
+    <p>Your gateway to learning, fun and success!</p>
+    <button class="btn" onclick="alert('Coming Soon!')">Explore Now</button>
+  </section>
+
+  <section class="features" id="features">
+    <div class="feature">
+      <i class="fas fa-book"></i>
+      <h3>Online Courses</h3>
+      <p>Learn from the best educators in every subject.</p>
+    </div>
+    <div class="feature">
+      <i class="fas fa-gamepad"></i>
+      <h3>Educational Games</h3>
+      <p>Learn through fun and interactive games.</p>
+    </div>
+    <div class="feature">
+      <i class="fas fa-users"></i>
+      <h3>Community</h3>
+      <p>Join our student community and grow together.</p>
+    </div>
+    <div class="feature">
+      <i class="fas fa-lock"></i>
+      <h3>Secure Login</h3>
+      <p>Your data and progress are safe with us.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Shreyas World. All rights reserved.</p>
+  </footer>
+
+  <!-- Sign In Modal -->
+  <div id="signinModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h2>Sign In</h2>
+      <input type="text" placeholder="Username" />
+      <input type="password" placeholder="Password" />
+      <button class="btn" onclick="alert('OTP sent to registered mobile number!')">Sign In</button>
+    </div>
+  </div>
+
+  <script>
+    function openModal() {
+      document.getElementById("signinModal").style.display = "block";
+    }
+
+    function closeModal() {
+      document.getElementById("signinModal").style.display = "none";
+    }
+
+    window.onclick = function (event) {
+      const modal = document.getElementById("signinModal");
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    };
+  </script>
+</body>
+
+</html>
