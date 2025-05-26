@@ -1,11 +1,12 @@
-!DOCTYPE html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Welcome to Shreyas World — motivation, coding, self-growth.">
   <title>Shreyas World</title>
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -14,40 +15,80 @@
     }
 
     body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #eef2f3;
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(to right, #f9f9f9, #e0f7fa);
       color: #333;
+      overflow-x: hidden;
     }
 
     header {
-      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+      position: relative;
+      height: 100vh;
+      background: black;
+      overflow: hidden;
+    }
+
+    header video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      min-width: 100%;
+      min-height: 100%;
+      object-fit: cover;
+      z-index: -1;
+      opacity: 0.7;
+    }
+
+    header .overlay {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       color: white;
       text-align: center;
-      padding: 80px 20px;
+      padding: 0 20px;
     }
 
     header h1 {
       font-family: 'Pacifico', cursive;
-      font-size: 3.5em;
+      font-size: 4em;
       margin-bottom: 10px;
+      animation: fadeInDown 1.5s ease-out;
     }
 
     header p {
-      font-size: 1.2em;
+      font-size: 1.5em;
       font-weight: 300;
+      animation: fadeInUp 2s ease-out;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     nav {
-      background-color: #1a1a1a;
+      background-color: #111;
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
       padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
 
     nav a {
       color: white;
-      margin: 0 25px;
+      margin: 0 20px;
       text-decoration: none;
       font-weight: 600;
       font-size: 1.1em;
@@ -55,134 +96,43 @@
     }
 
     nav a:hover {
-      color: #00ffcc;
-    }
-
-    .hero {
-      text-align: center;
-      padding: 100px 20px;
-      background: linear-gradient(to right, #00c6ff, #0072ff);
-      color: white;
-    }
-
-    .hero h2 {
-      font-size: 2.8em;
-      margin-bottom: 20px;
-    }
-
-    .hero p {
-      font-size: 1.3em;
-      max-width: 600px;
-      margin: 0 auto 30px;
-    }
-
-    .hero button {
-      padding: 12px 25px;
-      font-size: 1em;
-      background-color: white;
-      color: #0072ff;
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    .hero button:hover {
-      background-color: #f0f0f0;
+      color: #00e6e6;
     }
 
     .section {
-      padding: 60px 20px;
+      padding: 80px 20px;
       text-align: center;
     }
 
     .section h2 {
-      font-size: 2.4em;
-      color: #2c3e50;
-      margin-bottom: 30px;
+      font-size: 2.6em;
+      color: #00796b;
+      margin-bottom: 40px;
     }
 
     .topics {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 20px;
+      gap: 25px;
     }
 
     .topics div {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      background-color: #ffffff;
+      padding: 25px 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
       min-width: 200px;
       font-weight: 600;
-      transition: transform 0.3s ease;
+      font-size: 1.1em;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     .topics div:hover {
-      transform: translateY(-5px);
+      transform: scale(1.05);
+      box-shadow: 0 15px 25px rgba(0,0,0,0.15);
     }
 
     footer {
-      background-color: #111;
-      color: white;
-      text-align: center;
-      padding: 25px;
-      font-size: 0.95em;
-      margin-top: 50px;
-    }
-
-    @media (max-width: 600px) {
-      header h1 {
-        font-size: 2.5em;
-      }
-
-      .hero h2 {
-        font-size: 2em;
-      }
-    }
-  </style>
-</head>
-<body>
-
-  <header>
-    <h1>Shreyas World</h1>
-    <p>Your digital gateway to motivation, coding, and personal mastery</p>
-  </header>
-
-  <nav>
-    <a href="#">Home</a>
-    <a href="#">About</a>
-    <a href="#">Projects</a>
-    <a href="#">Videos</a>
-    <a href="#">Blog</a>
-    <a href="#">Contact</a>
-  </nav>
-
-  <div class="hero">
-    <h2>Welcome to Shreyas World 🌍</h2>
-    <p>Step into a world of inspiration, learning and growth. Let your journey begin with purpose and passion.</p>
-    <button onclick="alert('Thanks for joining Shreyas World!')">Get Started</button>
-  </div>
-
-  <div class="section">
-    <h2>Explore Our Content</h2>
-    <div class="topics">
-      <div>🌟 Motivational Talks</div>
-      <div>💻 Coding Projects (Java/Python)</div>
-      <div>🍀 Healthy Life Tips</div>
-      <div>📚 Study Plans & Resources</div>
-      <div>🎯 Life Success Stories</div>
-      <div>🎥 Personal Vlogs</div>
-    </div>
-  </div>
-
-  <footer>
-    &copy; 2025 Shreyas World | Designed with love & code 💙<br>
-    Stay tuned for more updates and inspiring content!
-  </footer>
-
-</body>
-</html>
-
-    
+      background-color: #222;
+      color: white
