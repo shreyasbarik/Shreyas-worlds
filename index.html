@@ -1,245 +1,157 @@
-<!DOCTYPE html>
-<html lang="en">
 
+     !DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
   <title>Shreyas World</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     body {
-      background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
-      background-size: cover;
-      color: white;
-      overflow-x: hidden;
+      font-family: 'Poppins', sans-serif;
+      background-color: #f5f7fa;
+      color: #333;
     }
 
     header {
-      background: rgba(0, 0, 0, 0.7);
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
+      background-color: #111;
+      color: white;
+      padding: 20px 40px;
+      text-align: center;
     }
 
-    .logo {
-      font-size: 2rem;
-      font-weight: bold;
-      color: #00bfff;
+    nav {
+      background-color: #222;
+      display: flex;
+      justify-content: center;
+      padding: 10px 0;
     }
 
     nav a {
-      margin: 0 1rem;
-      text-decoration: none;
       color: white;
-      font-weight: 500;
-      transition: color 0.3s;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
     }
 
     nav a:hover {
-      color: #00bfff;
+      color: #ffa500;
     }
 
     .hero {
+      background-image: url('https://via.placeholder.com/1200x600.png?text=Welcome+to+Shreyas+World');
+      background-size: cover;
+      background-position: center;
+      height: 70vh;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
+      align-items: center;
+      color: white;
+      text-shadow: 2px 2px 5px #000;
       text-align: center;
-      padding: 6rem 2rem;
-      background: rgba(0, 0, 0, 0.6);
-      min-height: 90vh;
+      padding: 20px;
     }
 
     .hero h1 {
-      font-size: 4.5rem;
-      margin-bottom: 1rem;
-      color: #fff;
+      font-size: 3.5em;
     }
 
     .hero p {
-      font-size: 1.5rem;
-      margin-bottom: 2rem;
+      font-size: 1.2em;
+      margin-top: 10px;
     }
 
-    .btn {
-      padding: 0.75rem 1.5rem;
-      font-size: 1.2rem;
-      background-color: #00bfff;
-      border: none;
-      color: white;
-      cursor: pointer;
-      border-radius: 5px;
-      transition: background-color 0.3s;
-    }
-
-    .btn:hover {
-      background-color: #009acd;
-    }
-
-    .features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-      padding: 4rem 2rem;
-      background-color: rgba(0, 0, 0, 0.8);
-    }
-
-    .feature {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 2rem;
-      border-radius: 10px;
+    .section {
+      padding: 50px 20px;
       text-align: center;
     }
 
-    .feature i {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-      color: #00bfff;
+    .section h2 {
+      color: #e67e22;
+      margin-bottom: 20px;
+    }
+
+    .topics {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .topics div {
+      background-color: white;
+      padding: 15px 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ccc;
+      transition: transform 0.3s ease;
+    }
+
+    .topics div:hover {
+      transform: translateY(-5px);
     }
 
     footer {
-      text-align: center;
-      padding: 2rem;
-      background: rgba(0, 0, 0, 0.8);
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 2000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0, 0, 0, 0.9);
-    }
-
-    .modal-content {
-      background-color: #1e1e1e;
-      margin: 10% auto;
-      padding: 2rem;
-      border: 1px solid #888;
-      width: 80%;
-      max-width: 400px;
+      background-color: #333;
       color: white;
-      border-radius: 8px;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
     }
 
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    input[type="text"],
-    input[type="password"] {
-      width: 100%;
-      padding: 0.75rem;
-      margin: 1rem 0;
-      border: none;
-      border-radius: 5px;
+    @media (max-width: 600px) {
+      .hero h1 {
+        font-size: 2em;
+      }
     }
   </style>
 </head>
-
 <body>
+
+  <!-- Header -->
   <header>
-    <div class="logo">Shreyas World</div>
-    <nav>
-      <a href="#">Home</a>
-      <a href="#features">Features</a>
-      <a href="#">Motivational Videos</a>
-      <a href="#">Java & Python Codes</a>
-      <a href="#">Health Tips</a>
-      <a href="#">AI Tools</a>
-      <a href="#">Games</a>
-      <a href="#" onclick="openModal()">Sign In</a>
-    </nav>
+    <h1>Shreyas World</h1>
+    <p>Your daily dose of motivation & skills</p>
   </header>
 
-  <section class="hero">
+  <!-- Navigation -->
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">About</a>
+    <a href="#">Videos</a>
+    <a href="#">Contact</a>
+  </nav>
+
+  <!-- Hero Section -->
+  <div class="hero">
     <h1>Welcome to Shreyas World</h1>
-    <p>Motivation, Learning, Health & Fun — All in One Place</p>
-    <button class="btn" onclick="alert('Explore coming soon!')">Explore Now</button>
-  </section>
+    <p>Created with passion, failures & dreams</p>
+  </div>
 
-  <section class="features" id="features">
-    <div class="feature">
-      <i class="fas fa-video"></i>
-      <h3>Motivational Videos</h3>
-      <p>Stay inspired with the best handpicked motivational videos.</p>
-    </div>
-    <div class="feature">
-      <i class="fas fa-code"></i>
-      <h3>Java & Python Learning</h3>
-      <p>Easy tutorials and examples to learn coding step by step.</p>
-    </div>
-    <div class="feature">
-      <i class="fas fa-heartbeat"></i>
-      <h3>Health & Wellness</h3>
-      <p>Daily tips and tricks to stay healthy in body and mind.</p>
-    </div>
-    <div class="feature">
-      <i class="fas fa-brain"></i>
-      <h3>Brain Games</h3>
-      <p>Boost your memory and focus with fun brain games.</p>
-    </div>
-    <div class="feature">
-      <i class="fas fa-robot"></i>
-      <h3>AI Study Tools</h3>
-      <p>Discover top AI-powered apps to help you study smarter.</p>
-    </div>
-    <div class="feature">
-      <i class="fas fa-sign-in-alt"></i>
-      <h3>Secure Sign-In</h3>
-      <p>Keep your learning journey private and protected.</p>
-    </div>
-  </section>
-
-  <footer>
-    <p>&copy; 2025 Shreyas World. All rights reserved.</p>
-  </footer>
-
-  <div id="signinModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal()">&times;</span>
-      <h2>Sign In</h2>
-      <input type="text" placeholder="Username" />
-      <input type="password" placeholder="Password" />
-      <button class="btn" onclick="alert('OTP sent to registered mobile number!')">Sign In</button>
+  <!-- Content Section -->
+  <div class="section">
+    <h2>What's Inside?</h2>
+    <div class="topics">
+      <div>Motivational Talks</div>
+      <div>Java & Python Codes</div>
+      <div>Healthy Habits</div>
+      <div>Skill Building</div>
+      <div>Life Success Stories</div>
     </div>
   </div>
 
-  <script>
-    function openModal() {
-      document.getElementById("signinModal").style.display = "block";
-    }
+  <!-- Footer -->
+  <footer>
+    Launched by Shreyas | Full version coming by June 22  
+    <br>Join me on this journey!
+  </footer>
 
-    function closeModal() {
-      document.getElementById("signinModal").style.display = "none";
-    }
-
-    window.onclick = function (event) {
-      const modal = document.getElementById("signinModal");
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
-    };
-  </script>
 </body>
-
 </html>
