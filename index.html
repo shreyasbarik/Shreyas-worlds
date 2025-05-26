@@ -1,14 +1,12 @@
 
     
-     
-    
-<!DOCTYPE html>
+     <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Shreyas World</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
     * {
       margin: 0;
@@ -27,6 +25,10 @@
       color: white;
       padding: 30px 20px;
       text-align: center;
+    }
+
+    header h1 {
+      font-weight: 700;
     }
 
     nav {
@@ -68,8 +70,9 @@
     }
 
     .hero {
-      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
-        url('https://via.placeholder.com/1200x600.png?text=Shreyas+World') center/cover no-repeat;
+      background: linear-gradient(-45deg, #ff6b6b, #fbc531, #70a1ff, #7bed9f);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
       height: 70vh;
       display: flex;
       justify-content: center;
@@ -79,9 +82,16 @@
       padding: 20px;
     }
 
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
     .hero h1 {
       font-size: 3em;
       margin-bottom: 10px;
+      font-weight: 700;
     }
 
     .hero p {
@@ -228,7 +238,7 @@
   <!-- Hero Section -->
   <div class="hero">
     <div>
-      <h1>Welcome to Shreyas World</h1>
+      <h1>Welcome to <strong>Shreyas World</strong></h1>
       <p>Created with passion, failures & dreams</p>
     </div>
   </div>
