@@ -1,5 +1,5 @@
 
-   <!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -219,4 +219,26 @@
   <!-- Sign In / Sign Up -->
   <div class="auth">
     <h3>Sign In</h3>
-    <form onsubmit="event.preventDefault(); alert('OTP sent to your email. Please verify to continue.');"> 
+    <form onsubmit="event.preventDefault(); alert('OTP sent to your email. Please verify to continue.');">
+      <input type="email" placeholder="Email" required>
+      <input type="password" placeholder="Password" required>
+      <button type="submit">Sign In with OTP</button>
+    </form>
+    <hr style="margin:20px 0;">
+    <h3>Sign Up</h3>
+    <form onsubmit="event.preventDefault(); alert('OTP sent to your email for verification.');">
+      <input type="text" placeholder="Name" required>
+      <input type="email" placeholder="Email" required>
+      <input type="password" placeholder="Password" required>
+      <button type="submit">Register with OTP</button>
+    </form>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 Shreyas World | Designed with passion 💙<br>
+    Powered by creativity, motivation & technology 🚀
+  </footer>
+
+</body>
+</html>
