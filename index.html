@@ -22,3 +22,276 @@
     }
 
     header {
+      background-color: #0a0a0a;
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-weight: 700;
+    }
+
+    nav {
+      background-color: #1c1c1c;
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 40px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    nav .logo {
+      color: #fff;
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+
+    nav .links a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    nav .links a:hover {
+      color: #ffa500;
+    }
+
+    nav .auth button {
+      background: #ffa500;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    .hero {
+      background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1400&q=80') no-repeat center center/cover;
+      height: 70vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      padding: 20px;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.4);
+      z-index: 1;
+    }
+
+    .hero > div {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero h1 {
+      font-size: 3em;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .hero p {
+      font-size: 1.2em;
+    }
+
+    .section {
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .section h2 {
+      color: #e67e22;
+      font-size: 2em;
+      margin-bottom: 30px;
+    }
+
+    .topics {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .topics div {
+      background-color: white;
+      padding: 20px 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      font-weight: 600;
+      transition: transform 0.3s;
+    }
+
+    .topics div:hover {
+      transform: translateY(-5px);
+    }
+
+    footer {
+      background-color: #1c1c1c;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+      font-size: 0.95em;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .modal-content h3 {
+      margin-bottom: 20px;
+    }
+
+    .modal-content input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .modal-content button {
+      background-color: #ffa500;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .modal-content .close {
+      background: none;
+      border: none;
+      color: #333;
+      font-size: 1.2em;
+      float: right;
+      cursor: pointer;
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 {
+        font-size: 2em;
+      }
+
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav .links {
+        margin-top: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Audio -->
+  <audio autoplay loop id="bgMusic">
+    <source src="your-background-music.mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Header -->
+  <header>
+    <h1>Shreyas World</h1>
+    <p>Your daily dose of motivation & skills</p>
+  </header>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="logo">Shreyas</div>
+    <div class="links">
+      <a href="#" onclick="alert('Home is active')">Home</a>
+      <a href="#" onclick="alert('About Coming Soon')">About</a>
+      <a href="#" onclick="alert('Videos Coming Soon')">Videos</a>
+      <a href="#" onclick="alert('Contact Coming Soon')">Contact</a>
+    </div>
+    <div class="auth">
+      <button onclick="openModal('signin')">Sign In</button>
+      <button onclick="openModal('signup')">Sign Up</button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <div class="hero">
+    <div>
+      <h1>Welcome to <strong>Shreyas World</strong></h1>
+      <p>Created with passion, failures & dreams</p>
+    </div>
+  </div>
+
+  <!-- What's Inside -->
+  <div class="section">
+    <h2>What's Inside?</h2>
+    <div class="topics">
+      <div>Motivational Talks</div>
+      <div>Java & Python Codes</div>
+      <div>Healthy Habits</div>
+      <div>Skill Building</div>
+      <div>Life Success Stories</div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    Launched by Shreyas | Full version coming June 22  
+    <br>Join me on this journey!
+  </footer>
+
+  <!-- Modal -->
+  <div class="modal" id="authModal">
+    <div class="modal-content">
+      <button class="close" onclick="closeModal()">×</button>
+      <h3 id="modalTitle">Sign In</h3>
+      <input type="text" placeholder="Enter your email" />
+      <input type="password" placeholder="Enter password" />
+      <button onclick="alert('OTP Sent to your Email/Mobile')">Submit</button>
+    </div>
+  </div>
+
+  <script>
+    let currentMode = 'signin';
+
+    function openModal(mode) {
+      currentMode = mode;
+      document.getElementById('authModal').style.display = 'flex';
+      document.getElementById('modalTitle').innerText = mode === 'signin' ? 'Sign In' : 'Sign Up';
+    }
+
+    function closeModal() {
+      document.getElementById('authModal').style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>
