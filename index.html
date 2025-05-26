@@ -15,7 +15,7 @@
     }
 
     body {
-      background: url('https://source.unsplash.com/1600x900/?technology,education') no-repeat center center fixed;
+      background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
       background-size: cover;
       color: white;
       overflow-x: hidden;
@@ -56,13 +56,13 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 5rem 2rem;
-      background: rgba(0, 0, 0, 0.5);
-      height: 90vh;
+      padding: 6rem 2rem;
+      background: rgba(0, 0, 0, 0.6);
+      min-height: 90vh;
     }
 
     .hero h1 {
-      font-size: 5rem;
+      font-size: 4.5rem;
       margin-bottom: 1rem;
       color: #fff;
     }
@@ -92,7 +92,7 @@
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 2rem;
       padding: 4rem 2rem;
-      background-color: rgba(0, 0, 0, 0.7);
+      background-color: rgba(0, 0, 0, 0.8);
     }
 
     .feature {
@@ -114,7 +114,6 @@
       background: rgba(0, 0, 0, 0.8);
     }
 
-    /* Sign In Modal */
     .modal {
       display: none;
       position: fixed;
@@ -163,39 +162,51 @@
     <nav>
       <a href="#">Home</a>
       <a href="#features">Features</a>
-      <a href="#game">Game</a>
-      <a href="#">Courses</a>
-      <a href="#">About</a>
+      <a href="#">Motivational Videos</a>
+      <a href="#">Java & Python Codes</a>
+      <a href="#">Health Tips</a>
+      <a href="#">AI Tools</a>
+      <a href="#">Games</a>
       <a href="#" onclick="openModal()">Sign In</a>
     </nav>
   </header>
 
   <section class="hero">
     <h1>Welcome to Shreyas World</h1>
-    <p>Your gateway to learning, fun and success!</p>
-    <button class="btn" onclick="alert('Coming Soon!')">Explore Now</button>
+    <p>Motivation, Learning, Health & Fun — All in One Place</p>
+    <button class="btn" onclick="alert('Explore coming soon!')">Explore Now</button>
   </section>
 
   <section class="features" id="features">
     <div class="feature">
-      <i class="fas fa-book"></i>
-      <h3>Online Courses</h3>
-      <p>Learn from the best educators in every subject.</p>
+      <i class="fas fa-video"></i>
+      <h3>Motivational Videos</h3>
+      <p>Stay inspired with the best handpicked motivational videos.</p>
     </div>
     <div class="feature">
-      <i class="fas fa-gamepad"></i>
-      <h3>Educational Games</h3>
-      <p>Learn through fun and interactive games.</p>
+      <i class="fas fa-code"></i>
+      <h3>Java & Python Learning</h3>
+      <p>Easy tutorials and examples to learn coding step by step.</p>
     </div>
     <div class="feature">
-      <i class="fas fa-users"></i>
-      <h3>Community</h3>
-      <p>Join our student community and grow together.</p>
+      <i class="fas fa-heartbeat"></i>
+      <h3>Health & Wellness</h3>
+      <p>Daily tips and tricks to stay healthy in body and mind.</p>
     </div>
     <div class="feature">
-      <i class="fas fa-lock"></i>
-      <h3>Secure Login</h3>
-      <p>Your data and progress are safe with us.</p>
+      <i class="fas fa-brain"></i>
+      <h3>Brain Games</h3>
+      <p>Boost your memory and focus with fun brain games.</p>
+    </div>
+    <div class="feature">
+      <i class="fas fa-robot"></i>
+      <h3>AI Study Tools</h3>
+      <p>Discover top AI-powered apps to help you study smarter.</p>
+    </div>
+    <div class="feature">
+      <i class="fas fa-sign-in-alt"></i>
+      <h3>Secure Sign-In</h3>
+      <p>Keep your learning journey private and protected.</p>
     </div>
   </section>
 
@@ -203,7 +214,6 @@
     <p>&copy; 2025 Shreyas World. All rights reserved.</p>
   </footer>
 
-  <!-- Sign In Modal -->
   <div id="signinModal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="closeModal()">&times;</span>
