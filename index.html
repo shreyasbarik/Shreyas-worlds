@@ -1,6 +1,6 @@
 
-<!DOCTYPE html>
-<html lang="en">
+ <!DOCTYPE html>
+<html lang="en" >
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,96 +8,282 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
   <style>
+    /* Background & Body */
     body {
-      background-image: url('https://images.unsplash.com/photo-1557683304-673a23048d34?auto=format&fit=crop&w=1470&q=80');
+      background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1470&q=80');
       background-size: cover;
       background-position: center;
-      color: white;
       min-height: 100vh;
+      color: #fff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       position: relative;
+      padding-top: 70px;
     }
     .overlay {
-      background: rgba(0, 0, 0, 0.75);
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.75);
       z-index: -1;
     }
+
+    /* Navbar */
     .navbar-brand, .nav-link {
-      color: white !important;
+      color: #ffc107 !important;
+      font-weight: 600;
+      font-size: 1.1rem;
     }
+    .navbar-brand i {
+      margin-right: 8px;
+    }
+    .navbar {
+      background: rgba(0,0,0,0.4) !important;
+      backdrop-filter: saturate(180%) blur(8px);
+    }
+    .navbar-toggler {
+      border-color: #ffc107;
+    }
+
+    /* Main Container */
     .container {
-      margin-top: 100px;
+      max-width: 960px;
     }
-    .card {
+
+    /* Heading */
+    h1, h2 {
+      text-shadow: 0 0 8px rgba(0,0,0,0.9);
+    }
+
+    /* Welcome Section */
+    #welcome-section {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    #welcome-section p.lead {
+      font-size: 1.4rem;
+      font-weight: 500;
+      margin-bottom: 20px;
+      color: #ffd54f;
+      text-shadow: 1px 1px 2px #000;
+    }
+    #welcome-section .btn-warning {
+      font-weight: 700;
+      font-size: 1.1rem;
+      padding: 10px 25px;
+      box-shadow: 0 0 15px #ffc107aa;
+    }
+
+    /* Games Section */
+    #games h2 {
+      margin-bottom: 30px;
+      color: #ffc107;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    .card-game {
       background: rgba(255, 255, 255, 0.1);
       border-radius: 1rem;
-      color: white;
       border: none;
-      transition: transform 0.3s ease;
-    }
-    .card:hover {
-      transform: scale(1.03);
-      background: rgba(255, 255, 255, 0.15);
-    }
-    .card i {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-      color: #ffc107;
-    }
-    .btn-game {
-      color: #ffc107;
-      font-weight: 600;
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-    .btn-game:hover {
       color: #fff;
-      text-decoration: underline;
-    }
-    .footer {
-      background-color: rgba(0, 0, 0, 0.8);
-      padding: 20px 0;
-      margin-top: 50px;
-      text-align: center;
-      color: white;
-    }
-    .footer a {
-      color: #ffc107;
-      text-decoration: none;
-    }
-    /* Book style for Motivational Stories */
-    #book {
-      width: 100%;
-      max-width: 320px;
-      min-height: 220px;
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 1rem;
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
-      perspective: 1200px;
-      margin: 0 auto 20px;
-      padding: 1rem 1.5rem;
-      position: relative;
-      overflow: hidden;
-      color: #fff;
-    }
-    .page {
-      transition: transform 0.6s ease;
-      backface-visibility: hidden;
-    }
-    .page-flip {
-      transform: rotateY(180deg);
-    }
-    /* Art & Drawing images */
-    .art-image {
-      width: 100%;
-      border-radius: 1rem;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-      transition: transform 0.3s ease;
+      padding: 30px 20px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
       cursor: pointer;
+      box-shadow: 0 0 10px transparent;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .card-game:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px #ffc107;
+      background: rgba(255, 255, 255, 0.15);
+    }
+    .card-game i {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      color: #ffc107;
+    }
+    .card-game h5 {
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+    .card-game a {
+      font-weight: 600;
+      color: #ffc107;
+      text-decoration: none;
+      border-bottom: 1.5px solid transparent;
+      transition: all 0.3s ease;
+    }
+    .card-game a:hover {
+      border-color: #ffc107;
+      color: #fff;
+    }
+
+    /* Motivational Story Section */
+    #motivation {
+      background: rgba(0,0,0,0.5);
+      padding: 40px 30px;
+      border-radius: 1rem;
+      margin-bottom: 50px;
+      box-shadow: 0 0 20px #ffc107aa;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #motivation h2 {
+      color: #ffc107;
+      text-align: center;
+      font-weight: 700;
+      margin-bottom: 30px;
+      letter-spacing: 1.2px;
+    }
+    #story-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      text-align: center;
+      text-shadow: 0 0 8px #000;
+    }
+    #story-text {
+      font-size: 1.25rem;
+      line-height: 1.6;
+      color: #fff;
+      text-align: justify;
+      max-width: 700px;
+      margin: 0 auto 30px auto;
+      text-shadow: 1px 1px 3px #000000cc;
+    }
+    #motivation button {
+      font-weight: 600;
+      min-width: 130px;
+      margin: 5px;
+    }
+
+    /* Art & Drawing Section */
+    #art-drawing {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    #art-drawing h2 {
+      color: #ffc107;
+      font-weight: 700;
+      margin-bottom: 30px;
+      letter-spacing: 1.2px;
+    }
+    .art-image {
+      max-width: 100%;
+      max-height: 420px;
+      border-radius: 1rem;
+      box-shadow: 0 0 30px #ffc107aa;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      margin-bottom: 15px;
+      user-select: none;
     }
     .art-image:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 30px #ffc107;
+      transform: scale(1.04);
+      box-shadow: 0 0 45px #ffca28cc;
+    }
+    #art-caption {
+      font-size: 1.1rem;
+      color: #ffd54f;
+      font-weight: 600;
+      max-width: 600px;
+      margin: 0 auto;
+      text-shadow: 1px 1px 3px #000;
+    }
+
+    /* Chatbot Section */
+    #chatbot-section {
+      max-width: 700px;
+      margin: 0 auto 60px auto;
+      background: rgba(0,0,0,0.6);
+      border-radius: 1rem;
+      box-shadow: 0 0 30px #ffc107bb;
+      color: #fff;
+      padding: 25px 20px;
+    }
+    #chatbot-section h2 {
+      color: #ffc107;
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    #chatbot-messages {
+      background: rgba(255,255,255,0.1);
+      border-radius: 0.8rem;
+      height: 320px;
+      overflow-y: auto;
+      padding: 15px;
+      margin-bottom: 15px;
+      font-size: 1rem;
+      line-height: 1.4;
+      box-shadow: inset 0 0 10px #ffd54faa;
+    }
+    .chat-message {
+      margin-bottom: 12px;
+      padding: 8px 12px;
+      border-radius: 15px;
+      max-width: 80%;
+      clear: both;
+      word-wrap: break-word;
+      white-space: pre-wrap;
+    }
+    .chat-user {
+      background: #ffc107;
+      color: #000;
+      float: right;
+      text-align: right;
+    }
+    .chat-bot {
+      background: #444;
+      color: #ffc107;
+      float: left;
+      text-align: left;
+    }
+    #chatbot-input-group {
+      display: flex;
+      gap: 10px;
+    }
+    #chatbot-input {
+      flex-grow: 1;
+      border-radius: 30px;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1rem;
+      outline: none;
+    }
+    #chatbot-send-btn {
+      background: #ffc107;
+      border: none;
+      border-radius: 30px;
+      color: #000;
+      font-weight: 700;
+      padding: 10px 18px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    #chatbot-send-btn:hover {
+      background: #ffca28;
+    }
+
+    /* Footer */
+    footer.footer {
+      background-color: rgba(0, 0, 0, 0.85);
+      padding: 15px 0;
+      text-align: center;
+      color: #ffd54f;
+      font-weight: 600;
+      box-shadow: 0 -4px 15px #ffca28cc;
+      user-select: none;
+    }
+    footer.footer a {
+      color: #ffc107;
+      text-decoration: none;
+      font-weight: 700;
+    }
+    footer.footer a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
@@ -105,127 +291,122 @@
   <div class="overlay"></div>
 
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-transparent fixed-top">
-    <div class="container-fluid">
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
       <a class="navbar-brand" href="#"><i class="bi bi-globe"></i> Shreyas World</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="#ai-tools"><i class="bi bi-cpu"></i> AI Tools</a></li>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav gap-3">
           <li class="nav-item"><a class="nav-link" href="#games"><i class="bi bi-controller"></i> Brain Booster Games</a></li>
-          <li class="nav-item"><a class="nav-link" href="#java-python"><i class="bi bi-code-slash"></i> Java & Python</a></li>
-          <li class="nav-item"><a class="nav-link" href="#smart-test"><i class="bi bi-bar-chart-line"></i> Smart Test</a></li>
-          <li class="nav-item"><a class="nav-link" href="#art-drawing"><i class="bi bi-brush"></i> Art & Drawing</a></li>
           <li class="nav-item"><a class="nav-link" href="#motivation"><i class="bi bi-lightbulb"></i> Motivation</a></li>
-          <li class="nav-item"><a class="nav-link" href="#skills"><i class="bi bi-tools"></i> Skills</a></li>
+          <li class="nav-item"><a class="nav-link" href="#art-drawing"><i class="bi bi-brush"></i> Art & Drawing</a></li>
+          <li class="nav-item"><a class="nav-link" href="#chatbot-section"><i class="bi bi-chat-dots"></i> ShreyasBot</a></li>
+          <li class="nav-item"><button class="btn btn-warning btn-sm px-3" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="bi bi-person-circle"></i> Login</button></li>
         </ul>
       </div>
     </div>
   </nav>
 
   <!-- Welcome Section -->
-  <div class="container text-center">
+  <section id="welcome-section" class="container">
     <h1>Welcome to Shreyas World</h1>
-    <p class="lead">Learn. Grow. Conquer.</p>
-    <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="bi bi-person-circle"></i> Login</button>
-  </div>
+    <p class="lead">Your personal hub for learning, creativity, motivation, and fun!</p>
+    <button class="btn btn-warning" onclick="document.getElementById('games').scrollIntoView({behavior:'smooth'})">
+      Explore Brain Booster Games <i class="bi bi-arrow-right"></i>
+    </button>
+  </section>
 
-  <!-- Brain Booster Games Section -->
-  <div class="container mt-5" id="games">
-    <h2 class="text-center mb-4"><i class="bi bi-controller"></i> Brain Booster Games</h2>
-    <div class="row g-4 justify-content-center">
+  <!-- Brain Booster Games -->
+  <section id="games" class="container mb-5">
+    <h2>Top 3 Brain Booster Educational Games</h2>
+    <div class="row gy-4 justify-content-center">
       <div class="col-md-4">
-        <div class="card p-4 text-center">
-          <i class="bi bi-lightning-charge"></i>
-          <h5 class="mt-2">Reaction Time Test</h5>
-          <a class="btn-game" target="_blank" href="https://humanbenchmark.com/tests/reactiontime">Play Now</a>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card p-4 text-center">
+        <div class="card-game" onclick="window.open('https://www.lumosity.com/', '_blank')">
           <i class="bi bi-brain"></i>
-          <h5 class="mt-2">Memory Game</h5>
-          <a class="btn-game" target="_blank" href="https://www.memozor.com/memory-games/for-kids/online-free">Play Now</a>
+          <h5>Lumosity</h5>
+          <p>Scientifically designed puzzles and challenges to improve memory and attention.</p>
+          <a href="https://www.lumosity.com/" target="_blank" rel="noopener noreferrer">Play Now <i class="bi bi-box-arrow-up-right"></i></a>
         </div>
       </div>
       <div class="col-md-4">
-        <div class="card p-4 text-center">
-          <i class="bi bi-hourglass-split"></i>
-          <h5 class="mt-2">Number Memory</h5>
-          <a class="btn-game" target="_blank" href="https://humanbenchmark.com/tests/number-memory">Play Now</a>
+        <div class="card-game" onclick="window.open('https://www.brainmetrix.com/', '_blank')">
+          <i class="bi bi-puzzle"></i>
+          <h5>Brain Metrix</h5>
+          <p>Free brain games to improve IQ, concentration, and memory skills.</p>
+          <a href="https://www.brainmetrix.com/" target="_blank" rel="noopener noreferrer">Play Now <i class="bi bi-box-arrow-up-right"></i></a>
         </div>
       </div>
       <div class="col-md-4">
-        <div class="card p-4 text-center">
-          <i class="bi bi-eyeglasses"></i>
-          <h5 class="mt-2">Visual Memory</h5>
-          <a class="btn-game" target="_blank" href="https://humanbenchmark.com/tests/visual-memory">Play Now</a>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card p-4 text-center">
-          <i class="bi bi-speedometer2"></i>
-          <h5 class="mt-2">Typing Speed Test</h5>
-          <a class="btn-game" target="_blank" href="https://10fastfingers.com/typing-test/english">Play Now</a>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card p-4 text-center">
-          <i class="bi bi-question-circle"></i>
-          <h5 class="mt-2">Trivia Quiz</h5>
-          <a class="btn-game" target="_blank" href="https://www.funtrivia.com/">Play Now</a>
+        <div class="card-game" onclick="window.open('https://www.mathplayground.com/', '_blank')">
+          <i class="bi bi-calculator"></i>
+          <h5>Math Playground</h5>
+          <p>Engaging math games that sharpen problem-solving and logic skills.</p>
+          <a href="https://www.mathplayground.com/" target="_blank" rel="noopener noreferrer">Play Now <i class="bi bi-box-arrow-up-right"></i></a>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- Motivational Stories Section -->
-  <div class="container mt-5" id="motivation">
-    <h2 class="text-center mb-4"><i class="bi bi-lightbulb"></i> Motivational Stories</h2>
-    <div class="row justify-content-center">
-      <div class="col-md-6 text-center">
-        <div id="book" class="mb-3">
-          <div id="story-page" class="page">
-            <h5 id="story-title">🌟 From Failure to Founder</h5>
-            <p id="story-text">
-              Arjun failed three exams. Everyone gave up on him — except himself. He read daily, worked nights, and stayed silent while building. Four years later, he built a startup that solved exam stress — helping lakhs of students feel hope again.
-            </p>
-          </div>
-        </div>
-        <div class="d-flex justify-content-center gap-3 flex-wrap">
-          <button class="btn btn-warning" onclick="previousStory()">⏮ Previous</button>
-          <button class="btn btn-warning" onclick="nextStory()">Next ⏭</button>
-          <button class="btn btn-success" onclick="readStory()">🔊 Read Aloud</button>
-        </div>
-      </div>
+  <!-- Motivational Story -->
+  <section id="motivation">
+    <h2>Motivational Story</h2>
+    <div id="story-title">The Story of Thomas Edison</div>
+    <div id="story-text">
+      Thomas Edison was told by his teachers that he was "too stupid to learn anything." But he didn't give up. He famously said, "I have not failed. I've just found 10,000 ways that won't work." His perseverance led to the invention of the electric light bulb, changing the world forever. Remember, success comes not from never failing, but from never giving up.
     </div>
-  </div>
+    <div class="text-center">
+      <button class="btn btn-warning" onclick="alert('Keep going, you are capable of great things!')">Get Inspired</button>
+    </div>
+  </section>
 
-  <!-- Art & Drawing Section -->
-  <div class="container mt-5" id="art-drawing">
-    <h2 class="text-center mb-4"><i class="bi bi-brush"></i> Art & Drawing</h2>
-    <div class="row g-4 justify-content-center">
-      <div class="col-md-4">
-        <div class="card p-3 text-center">
-          <img class="art-image" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Drawing 1" />
-          <h5 class="mt-3">Mountain Landscape</h5>
-          <p>A calm and inspiring landscape drawing to spark creativity.</p>
+  <!-- Art and Drawing -->
+  <section id="art-drawing" class="container">
+    <h2>Art & Drawing</h2>
+    <img
+      src="https://upload.wikimedia.org/wikipedia/commons/1/10/Vincent_van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg"
+      alt="Starry Night by Vincent van Gogh"
+      class="art-image"
+      title="Starry Night by Vincent van Gogh"
+      draggable="false"
+    />
+    <div id="art-caption">"Starry Night" by Vincent van Gogh, 1889 — A masterpiece of swirling night sky and bold colors.</div>
+  </section>
+
+  <!-- AI Chatbot Section -->
+  <section id="chatbot-section">
+    <h2>Chat with ShreyasBot 🤖</h2>
+    <div id="chatbot-messages"></div>
+    <div id="chatbot-input-group">
+      <input type="text" id="chatbot-input" placeholder="Ask me anything..." autocomplete="off" />
+      <button id="chatbot-send-btn"><i class="bi bi-send"></i></button>
+    </div>
+  </section>
+
+  <!-- Login Modal -->
+  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content text-dark">
+        <div class="modal-header">
+          <h5 class="modal-title" id="loginModalLabel"><i class="bi bi-person-circle"></i> User Login</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card p-3 text-center">
-          <img class="art-image" src="https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=600&q=80" alt="Drawing 2" />
-          <h5 class="mt-3">Colorful Abstract</h5>
-          <p>Bright colors blending into an abstract masterpiece.</p>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card p-3 text-center">
-          <img class="art-image" src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=600&q=80" alt="Drawing 3" />
-          <h5 class="mt-3">Sketch of Nature</h5>
-          <p>A simple pencil sketch showing the beauty of nature.</p>
+        <div class="modal-body">
+          <form id="login-form">
+            <div class="mb-3">
+              <label for="inputEmail" class="form-label">Email address</label>
+              <input type="email" class="form-control" id="inputEmail" placeholder="name@example.com" required />
+            </div>
+            <div class="mb-3">
+              <label for="inputPassword" class="form-label">Password</label>
+              <input type="password" class="form-control" id="inputPassword" placeholder="Enter password" required />
+            </div>
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-warning">Login</button>
+            </div>
+          </form>
+          <small class="text-muted mt-2 d-block text-center">* This is a demo login form (no real backend)</small>
         </div>
       </div>
     </div>
@@ -233,97 +414,67 @@
 
   <!-- Footer -->
   <footer class="footer">
-    <p>© 2025 Shreyas World. All rights reserved. | <a href="#loginModal" data-bs-toggle="modal">Login</a></p>
+    &copy; 2025 Shreyas World. All rights reserved. | <a href="https://github.com/shreyasworld" target="_blank" rel="noopener noreferrer">GitHub</a>
   </footer>
 
-  <!-- Login Modal -->
-  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content bg-dark text-white rounded-4">
-        <div class="modal-header border-0">
-          <h5 class="modal-title" id="loginModalLabel"><i class="bi bi-person-circle"></i> Login to Shreyas World</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">
-          <form id="loginForm" onsubmit="event.preventDefault(); alert('Login functionality coming soon!');">
-            <div class="mb-3">
-              <label for="phone" class="form-label">Mobile Number</label>
-              <input type="tel" class="form-control" id="phone" placeholder="+91 98765 43210" pattern="^\+?\d{10,13}$" required />
-            </div>
-            <div class="mb-3">
-              <button type="button" class="btn btn-warning w-100" onclick="alert('OTP sent! (Simulated)')">Send OTP</button>
-            </div>
-            <div class="mb-3">
-              <label for="otp" class="form-label">Enter OTP</label>
-              <input type="text" class="form-control" id="otp" placeholder="123456" pattern="^\d{6}$" required />
-            </div>
-            <button type="submit" class="btn btn-success w-100">Login</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
   <script>
-    // Motivational Stories Data
-    const stories = [
-      {
-        title: "🌟 From Failure to Founder",
-        text: "Arjun failed three exams. Everyone gave up on him — except himself. He read daily, worked nights, and stayed silent while building. Four years later, he built a startup that solved exam stress — helping lakhs of students feel hope again."
-      },
-      {
-        title: "🚀 Dream Big, Work Hard",
-        text: "Sneha dreamed of becoming a pilot. She woke up early, studied aviation books, and never gave up. Today, she flies planes and inspires thousands to chase their dreams."
-      },
-      {
-        title: "🌱 The Power of Persistence",
-        text: "Rajesh planted a seed of hope in his village. Despite failures and droughts, he kept nurturing it. His perseverance turned the barren land into a lush farm that feeds many."
-      },
-      {
-        title: "🔥 Rising from Ashes",
-        text: "Meera lost everything in a fire. Instead of despairing, she rebuilt her life, started a community help group, and now supports others facing hardships."
+    // Login form demo behavior
+    document.getElementById('login-form').addEventListener('submit', e => {
+      e.preventDefault();
+      alert('Login feature coming soon! For now, just explore the website :)');
+      const modal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+      modal.hide();
+    });
+
+    // Chatbot basic mock logic
+    const chatbotMessages = document.getElementById('chatbot-messages');
+    const chatbotInput = document.getElementById('chatbot-input');
+    const sendBtn = document.getElementById('chatbot-send-btn');
+
+    function appendMessage(text, sender) {
+      const msgDiv = document.createElement('div');
+      msgDiv.classList.add('chat-message', sender === 'user' ? 'chat-user' : 'chat-bot');
+      msgDiv.textContent = text;
+      chatbotMessages.appendChild(msgDiv);
+      chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    }
+
+    function botReply(userText) {
+      // Simple canned replies for demo
+      userText = userText.toLowerCase();
+      if (userText.includes('hello') || userText.includes('hi')) {
+        return 'Hello! I\'m ShreyasBot. How can I assist you today?';
       }
-    ];
-    let currentStoryIndex = 0;
+      if (userText.includes('motivate')) {
+        return 'Remember, every great journey starts with a single step. Keep pushing!';
+      }
+      if (userText.includes('game')) {
+        return 'Try the brain booster games above to sharpen your mind!';
+      }
+      if (userText.includes('art')) {
+        return 'Art is the soul’s expression. Check out the beautiful painting above!';
+      }
+      return 'Thanks for chatting! I\'m still learning, but I\'m here to help you stay motivated and curious.';
+    }
 
-    const storyTitle = document.getElementById('story-title');
-    const storyText = document.getElementById('story-text');
-    const storyPage = document.getElementById('story-page');
-
-    function showStory(index) {
-      storyPage.classList.add('page-flip');
+    function sendChat() {
+      const userText = chatbotInput.value.trim();
+      if (!userText) return;
+      appendMessage(userText, 'user');
+      chatbotInput.value = '';
+      // simulate bot typing delay
       setTimeout(() => {
-        storyTitle.textContent = stories[index].title;
-        storyText.textContent = stories[index].text;
-        storyPage.classList.remove('page-flip');
-      }, 300);
+        appendMessage(botReply(userText), 'bot');
+      }, 600);
     }
 
-    function nextStory() {
-      currentStoryIndex = (currentStoryIndex + 1) % stories.length;
-      showStory(currentStoryIndex);
-    }
-
-    function previousStory() {
-      currentStoryIndex = (currentStoryIndex - 1 + stories.length) % stories.length;
-      showStory(currentStoryIndex);
-    }
-
-    function readStory() {
-      if ('speechSynthesis' in window) {
-        const msg = new SpeechSynthesisUtterance();
-        msg.text = stories[currentStoryIndex].title + ". " + stories[currentStoryIndex].text;
-        msg.lang = 'en-US';
-        msg.rate = 1;
-        msg.pitch = 1;
-        window.speechSynthesis.speak(msg);
-      } else {
-        alert("Sorry, your browser doesn't support text-to-speech.");
+    sendBtn.addEventListener('click', sendChat);
+    chatbotInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        sendChat();
       }
-    }
+    });
   </script>
 </body>
 </html>
