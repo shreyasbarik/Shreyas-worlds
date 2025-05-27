@@ -1,377 +1,137 @@
-
-   
-    <!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Shreyas World</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shreyas World - Smart Study Hub</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * {
-      margin: 0; padding: 0; box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Roboto', sans-serif;
     }
-
     body, html {
       height: 100%;
-      font-family: 'Poppins', sans-serif;
-      background-color: #f4f6f8;
-      color: #333;
       overflow-x: hidden;
     }
-
-    /* Video Background */
-    #bgVideo {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw;
-      height: 100vh;
-      object-fit: cover;
-      z-index: -2;
-      filter: brightness(0.7);
-    }
-
-    /* Dark Overlay */
-    #overlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0,0,0,0.45);
-      z-index: -1;
-    }
-
-    header {
-      background-color: #0a0a0a;
-      color: white;
-      padding: 30px 20px;
-      text-align: center;
-      position: relative;
-      z-index: 10;
-    }
-
-    nav {
-      background-color: #1c1c1c;
-      display: flex;
-      justify-content: space-between;
-      padding: 10px 40px;
-      align-items: center;
-      flex-wrap: wrap;
-      position: relative;
-      z-index: 10;
-    }
-
-    nav .logo {
-      color: #fff;
-      font-size: 2em;
-      font-weight: 900;
-      transition: transform 0.6s ease-in-out;
-      cursor: default;
-      user-select: none;
-    }
-
-    nav .logo.animate {
-      transform: scale(1.2);
-    }
-
-    nav .links a {
-      color: white;
-      margin: 0 15px;
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.3s ease;
-    }
-
-    nav .links a:hover {
-      color: #ffa500;
-    }
-
-    nav .auth button {
-      background: #ffa500;
-      color: white;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 6px;
-      font-weight: 600;
-      cursor: pointer;
-      margin-left: 10px;
-      transition: background-color 0.3s ease;
-    }
-
-    nav .auth button:hover {
-      background-color: #e59400;
-    }
-
-    /* Hero Section */
     .hero {
-      position: relative;
-      height: 70vh;
+      background-image: url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b');
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
       text-align: center;
       color: white;
-      padding: 20px;
-      z-index: 5;
-    }
-
-    .hero h1 {
-      font-size: 3em;
-      font-weight: 700;
-      min-height: 1.2em; /* to prevent jump */
-      letter-spacing: 1.5px;
-    }
-
-    .hero p {
-      font-size: 1.3em;
-      margin-top: 15px;
-      font-weight: 500;
-      text-shadow: 0 0 8px rgba(0,0,0,0.7);
-    }
-
-    /* Sections */
-    .section {
-      padding: 60px 20px;
-      text-align: center;
-      background: white;
       position: relative;
-      z-index: 10;
-      max-width: 1100px;
-      margin: auto;
-      border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-      margin-top: -60px;
     }
-
-    .section h2 {
-      color: #e67e22;
-      font-size: 2em;
-      margin-bottom: 30px;
-      font-weight: 700;
-    }
-
-    .topics {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-    }
-
-    .topics div {
-      background-color: #f9f9f9;
-      padding: 20px 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-      font-weight: 600;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      cursor: default;
-      min-width: 180px;
-      user-select: none;
-    }
-
-    .topics div:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 10px 20px rgba(230, 126, 34, 0.3);
-    }
-
-    footer {
-      background-color: #1c1c1c;
-      color: white;
-      text-align: center;
-      padding: 20px;
-      margin-top: 40px;
-      font-size: 0.95em;
-      position: relative;
-      z-index: 10;
-      user-select: none;
-    }
-
-    /* Auth Modal */
-    .modal {
-      display: none;
-      position: fixed;
+    .overlay {
+      position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(0,0,0,0.6);
-      justify-content: center;
-      align-items: center;
-      z-index: 999;
+      background: rgba(0, 0, 0, 0.5);
     }
-
-    .modal-content {
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      font-size: 1.2rem;
+    }
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 2rem;
+      background: #f9f9f9;
+    }
+    .feature-box {
       background: white;
-      padding: 30px;
-      border-radius: 10px;
-      width: 90%;
-      max-width: 400px;
+      border-radius: 15px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       text-align: center;
-      box-shadow: 0 6px 24px rgba(0,0,0,0.2);
+      transition: 0.3s;
     }
-
-    .modal-content h3 {
-      margin-bottom: 20px;
-      font-weight: 700;
+    .feature-box:hover {
+      transform: scale(1.05);
     }
-
-    .modal-content input {
-      width: 100%;
+    .feature-box i {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      color: #007BFF;
+    }
+    .auth-section {
+      padding: 2rem;
+      text-align: center;
+    }
+    input[type="text"], input[type="email"] {
       padding: 10px;
-      margin-bottom: 15px;
+      margin: 10px;
+      width: 250px;
+      border-radius: 5px;
       border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 1em;
     }
-
-    .modal-content button {
-      background-color: #ffa500;
-      border: none;
-      color: white;
+    .btn {
       padding: 10px 20px;
-      font-weight: 600;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      font-size: 1em;
-    }
-
-    .modal-content button:hover {
-      background-color: #e59400;
-    }
-
-    .modal-content .close {
-      background: none;
+      background: #007BFF;
+      color: white;
       border: none;
-      color: #333;
-      font-size: 1.4em;
-      float: right;
+      border-radius: 5px;
       cursor: pointer;
-      margin-top: -10px;
-      font-weight: 700;
     }
-
-    /* Responsive */
-    @media (max-width: 600px) {
-      .hero h1 {
-        font-size: 2em;
-      }
-      nav {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      nav .links {
-        margin-top: 10px;
-      }
-      .topics {
-        flex-direction: column;
-      }
-      .topics div {
-        width: 100%;
-        max-width: 320px;
-        margin: 0 auto;
-      }
+    footer {
+      background: #222;
+      color: white;
+      text-align: center;
+      padding: 1rem;
     }
   </style>
 </head>
 <body>
-
-  <!-- Video Background -->
-  <video autoplay muted loop id="bgVideo" playsinline>
-    <source src="https://cdn.pixabay.com/vimeo/357356268/Forest%20Stream%20Loop-22899.mp4" type="video/mp4" />
-    Your browser does not support the video tag.
-  </video>
-  <div id="overlay"></div>
-
-  <!-- Header -->
-  <header>
-    <h1>Shreyas World</h1>
-    <p>Your daily dose of motivation & skills</p>
-  </header>
-
-  <!-- Navigation -->
-  <nav>
-    <div class="logo">Shreyas World</div>
-    <div class="links">
-      <a href="#" onclick="alert('Home is active')">Home</a>
-      <a href="#" onclick="alert('About Coming Soon')">About</a>
-      <a href="#" onclick="alert('Videos Coming Soon')">Videos</a>
-      <a href="#" onclick="alert('Contact Coming Soon')">Contact</a>
-    </div>
-    <div class="auth">
-      <button onclick="openModal('signin')">Sign In</button>
-      <button onclick="openModal('signup')">Sign Up</button>
-    </div>
-  </nav>
-
-  <!-- Hero Section -->
   <div class="hero">
-    <div>
-      <h1 id="typing"></h1>
-      <p>Created with passion, failures & dreams</p>
+    <div class="overlay"></div>
+    <div class="hero-content">
+      <h1>Welcome to Shreyas World</h1>
+      <p>Smart Study, AI Tools, Brain Games & More</p>
     </div>
-  </div>
-
-  <!-- What's Inside -->
-  <div class="section">
-    <h2>What's Inside?</h2>
-    <div class="topics">
-      <div>Motivational Talks</div>
-      <div>Java & Python Codes</div>
-      <div>Healthy Habits</div>
-      <div>Skill Building</div>
-      <div>Life Success Stories</div>
+  </div>  <section class="features">
+    <div class="feature-box">
+      <i class="fas fa-brain"></i>
+      <h3>Brain Booster Games</h3>
+      <p>Interactive games to improve focus & memory.</p>
     </div>
-  </div>
-
-  <!-- Footer -->
-  <footer>
-    Launched by Shreyas | Full version coming June 22  
-    <br>Join me on this journey!
+    <div class="feature-box">
+      <i class="fas fa-robot"></i>
+      <h3>AI Study Tools</h3>
+      <p>Get AI help for explanations, notes, and quizzes.</p>
+    </div>
+    <div class="feature-box">
+      <i class="fas fa-laptop-code"></i>
+      <h3>Java & Python Learning</h3>
+      <p>Learn programming with hands-on challenges.</p>
+    </div>
+    <div class="feature-box">
+      <i class="fas fa-paint-brush"></i>
+      <h3>Art & Drawing Lessons</h3>
+      <p>Creative tutorials for beginners to advanced.</p>
+    </div>
+  </section>  <section class="auth-section">
+    <h2>Sign Up Now</h2>
+    <form onsubmit="event.preventDefault(); alert('OTP sent! (Simulation)');">
+      <input type="text" placeholder="Your Name" required><br>
+      <input type="email" placeholder="Email" required><br>
+      <button class="btn">Send OTP</button>
+    </form>
+  </section>  <footer>
+    &copy; 2025 Shreyas World. Built with passion.
   </footer>
-
-  <!-- Modal -->
-  <div class="modal" id="authModal">
-    <div class="modal-content">
-      <button class="close" onclick="closeModal()">×</button>
-      <h3 id="modalTitle">Sign In</h3>
-      <input type="text" placeholder="Enter your email" />
-      <input type="password" placeholder="Enter password" />
-      <button onclick="alert('OTP Sent to your Email/Mobile')">Submit</button>
-    </div>
-  </div>
-
-  <script>
-    // Animate logo scale on page load
-    window.onload = () => {
-      document.querySelector('.logo').classList.add('animate');
-      typeWriter();
-    };
-
-    // Typing effect for hero heading
-    const text = "Welcome to Shreyas World";
-    let index = 0;
-    const typingElem = document.getElementById('typing');
-
-    function typeWriter() {
-      if (index < text.length) {
-        typingElem.textContent += text.charAt(index);
-        index++;
-        setTimeout(typeWriter, 100);
-      }
-    }
-
-    // Modal open/close
-    let currentMode = 'signin';
-
-    function openModal(mode) {
-      currentMode = mode;
-      document.getElementById('authModal').style.display = 'flex';
-      document.getElementById('modalTitle').innerText = mode === 'signin' ? 'Sign In' : 'Sign Up';
-    }
-
-    function closeModal() {
-      document.getElementById('authModal').style.display = 'none';
-    }
-  </script>
-
 </body>
 </html>
