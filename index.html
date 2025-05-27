@@ -1,148 +1,115 @@
 
-<!DOCTYPE html><html lang="en"><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shreyas World</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }body {
-        background: linear-gradient(135deg, #150050, #3F0071);
-        color: white;
-        min-height: 100vh;
-        overflow-x: hidden;
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shreyas World</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #0f1624;
+      color: #ffffff;
+    }
     header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 60px;
+      background: transparent;
     }
-
-    header img {
-        height: 60px;
+    .nav-links a {
+      color: #fff;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: 500;
     }
-
-    nav ul {
-        display: flex;
-        list-style: none;
+    .hero {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 100px 60px;
+      background: url('https://images.unsplash.com/photo-1603570419988-f03f2f0c2555') no-repeat center center/cover;
+      height: 100vh;
+      color: #fff;
     }
-
-    nav ul li {
-        margin: 0 15px;
-        cursor: pointer;
-        font-weight: bold;
+    .hero h1 {
+      font-size: 60px;
+      line-height: 1.2;
+      margin-bottom: 20px;
     }
-
-    .main-section {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 50px;
-        background: url('https://i.ibb.co/jrzR0w0/bg-illustration.png') no-repeat center center;
-        background-size: cover;
+    .hero p {
+      font-size: 18px;
+      max-width: 600px;
+      margin-bottom: 30px;
     }
-
-    .main-text {
-        max-width: 50%;
+    .hero button {
+      padding: 10px 30px;
+      font-size: 16px;
+      background: #3f8efc;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
     }
-
-    .main-text h1 {
-        font-size: 48px;
-        margin-bottom: 20px;
+    .sections {
+      padding: 60px;
+      background: #10182c;
     }
-
-    .main-text p {
-        font-size: 18px;
-        margin-bottom: 30px;
+    .sections h2 {
+      font-size: 30px;
+      margin-bottom: 20px;
     }
-
-    .main-text button {
-        padding: 12px 25px;
-        background-color: #ff5c8a;
-        border: none;
-        border-radius: 30px;
-        color: white;
-        font-size: 16px;
-        cursor: pointer;
+    .section-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
     }
-
-    .main-img img {
-        max-width: 500px;
+    .section-item {
+      background: #1c2a47;
+      padding: 20px;
+      border-radius: 10px;
+      transition: 0.3s;
     }
-
-    .section-links {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin-top: 60px;
-        padding: 0 20px 40px;
+    .section-item:hover {
+      background: #3f8efc;
+      color: white;
     }
-
-    .section-links a {
-        background-color: #fff;
-        color: #150050;
-        text-decoration: none;
-        margin: 15px;
-        padding: 15px 25px;
-        border-radius: 10px;
-        font-weight: bold;
-        transition: 0.3s;
-    }
-
-    .section-links a:hover {
-        background-color: #ff5c8a;
-        color: white;
-    }
-
-    footer {
-        text-align: center;
-        padding: 20px;
-        background-color: rgba(0, 0, 0, 0.3);
-        margin-top: 20px;
-    }
-</style>
-
-</head><body>
-    <header>
-        <img src="/mnt/data/file-DCUFtq7eK8ViGHgRFzzKXg" alt="Shreyas World Logo">
-        <nav>
-            <ul>
-                <li>Home</li>
-                <li>About</li>
-                <li>Team</li>
-                <li>Contact</li>
-            </ul>
-        </nav>
-    </header><section class="main-section">
-    <div class="main-text">
-        <h1>Welcome to Shreyas World</h1>
-        <p>Your one-stop hub for learning, games, skills, motivation, and powerful AI tools!</p>
-        <button>Get Started</button>
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <h2>Shreyas World</h2>
     </div>
-    <div class="main-img">
-        <img src="https://i.ibb.co/jh90Frz/3d-marketplace.png" alt="3D Illustration">
+    <nav class="nav-links">
+      <a href="#">Home</a>
+      <a href="#">Support</a>
+      <a href="#">Portfolio</a>
+      <a href="#">Contact</a>
+    </nav>
+  </header>
+  <section class="hero">
+    <h1>WORKING <span style="text-decoration: line-through;">SPACE</span></h1>
+    <p>Welcome to Shreyas World — Learn, Build Skills, Boost Brainpower, and Stay Motivated.</p>
+    <button>Read More</button>
+  </section>
+  <section class="sections">
+    <h2>Explore Sections</h2>
+    <div class="section-list">
+      <div class="section-item">AI Tools</div>
+      <div class="section-item">Brain Booster Games</div>
+      <div class="section-item">Java & Python Learning</div>
+      <div class="section-item">Smart Test</div>
+      <div class="section-item">Art & Drawing Learning</div>
+      <div class="section-item">Motivation</div>
+      <div class="section-item">Skills</div>
     </div>
-</section>
-
-<div class="section-links">
-    <a href="#">AI Tools</a>
-    <a href="#">Brain Booster Games</a>
-    <a href="#">Java Learning</a>
-    <a href="#">Python Learning</a>
-    <a href="#">Smart Test</a>
-    <a href="#">Art & Drawing</a>
-    <a href="#">Motivation</a>
-    <a href="#">Skills</a>
-</div>
-
-<footer>
-    &copy; 2025 Shreyas World. All rights reserved.
-</footer>
-
-</body></html>
+  </section>
+</body>
+</html>
