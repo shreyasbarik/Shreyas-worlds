@@ -1,122 +1,148 @@
 
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shreyas World</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }body {
+        background: linear-gradient(135deg, #150050, #3F0071);
+        color: white;
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
 
-  <!DOCTYPE html><html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shreyas World</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom right, #e6f0ff, #ffffff);
-      color: #222;
-    }
     header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 40px;
-      background: #fff;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 50px;
     }
-    .logo {
-      display: flex;
-      align-items: center;
+
+    header img {
+        height: 60px;
     }
-    .logo img {
-      height: 50px;
-      margin-right: 10px;
+
+    nav ul {
+        display: flex;
+        list-style: none;
     }
-    nav a {
-      margin: 0 15px;
-      text-decoration: none;
-      color: #333;
-      font-weight: bold;
+
+    nav ul li {
+        margin: 0 15px;
+        cursor: pointer;
+        font-weight: bold;
     }
-    .hero {
-      text-align: left;
-      padding: 60px 40px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
+
+    .main-section {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 50px;
+        background: url('https://i.ibb.co/jrzR0w0/bg-illustration.png') no-repeat center center;
+        background-size: cover;
     }
-    .hero h1 {
-      font-size: 48px;
-      color: #003366;
+
+    .main-text {
+        max-width: 50%;
     }
-    .hero p {
-      font-size: 18px;
-      margin-top: 15px;
-      color: #444;
+
+    .main-text h1 {
+        font-size: 48px;
+        margin-bottom: 20px;
     }
-    .hero button {
-      margin-top: 25px;
-      padding: 12px 24px;
-      background-color: #004aad;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
+
+    .main-text p {
+        font-size: 18px;
+        margin-bottom: 30px;
     }
-    .sections {
-      padding: 40px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
+
+    .main-text button {
+        padding: 12px 25px;
+        background-color: #ff5c8a;
+        border: none;
+        border-radius: 30px;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
     }
-    .card {
-      background: #fff;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-      text-align: center;
+
+    .main-img img {
+        max-width: 500px;
     }
-    .card i {
-      font-size: 36px;
-      color: #004aad;
-      margin-bottom: 15px;
+
+    .section-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 60px;
+        padding: 0 20px 40px;
     }
-    .card h3 {
-      margin-bottom: 10px;
+
+    .section-links a {
+        background-color: #fff;
+        color: #150050;
+        text-decoration: none;
+        margin: 15px;
+        padding: 15px 25px;
+        border-radius: 10px;
+        font-weight: bold;
+        transition: 0.3s;
     }
-  </style>
-</head>
-<body>
-  <header>
-    <div class="logo">
-      <img src="logo.png" alt="Shreyas World Logo">
-      <h2>Shreyas World</h2>
+
+    .section-links a:hover {
+        background-color: #ff5c8a;
+        color: white;
+    }
+
+    footer {
+        text-align: center;
+        padding: 20px;
+        background-color: rgba(0, 0, 0, 0.3);
+        margin-top: 20px;
+    }
+</style>
+
+</head><body>
+    <header>
+        <img src="/mnt/data/file-DCUFtq7eK8ViGHgRFzzKXg" alt="Shreyas World Logo">
+        <nav>
+            <ul>
+                <li>Home</li>
+                <li>About</li>
+                <li>Team</li>
+                <li>Contact</li>
+            </ul>
+        </nav>
+    </header><section class="main-section">
+    <div class="main-text">
+        <h1>Welcome to Shreyas World</h1>
+        <p>Your one-stop hub for learning, games, skills, motivation, and powerful AI tools!</p>
+        <button>Get Started</button>
     </div>
-    <nav>
-      <a href="#ai">AI Tools</a>
-      <a href="#games">Brain Games</a>
-      <a href="#code">Java & Python</a>
-      <a href="#test">Smart Test</a>
-      <a href="#art">Art & Drawing</a>
-      <a href="#motivation">Motivation</a>
-      <a href="#skills">Skills</a>
-    </nav>
-  </header>
-  <section class="hero">
-    <h1>It’s your world.<br>We’ll help you grow it.</h1>
-    <p>Explore knowledge, creativity, and AI with us. Learn Java, Python, draw your dreams, boost your brain, and get motivated.</p>
-    <button>Get Started</button>
-  </section>
-  <section class="sections">
-    <div class="card" id="ai">
-      <i class="fas fa-robot"></i>
-      <h3>AI Tools</h3>
-      <p>Smart tools for learning, creativity, and productivity.</p>
+    <div class="main-img">
+        <img src="https://i.ibb.co/jh90Frz/3d-marketplace.png" alt="3D Illustration">
     </div>
-    <div class="card" id="games">
-      <i class="fas fa-brain"></i>
-      <h3>Brain Booster Games</h3>
-      <p>Fun and challenging games to train your brain.</p>
-    </div>
-    <div class="card" id="code">
-      <i class="fas fa-code"></i>
-      <h
+</section>
+
+<div class="section-links">
+    <a href="#">AI Tools</a>
+    <a href="#">Brain Booster Games</a>
+    <a href="#">Java Learning</a>
+    <a href="#">Python Learning</a>
+    <a href="#">Smart Test</a>
+    <a href="#">Art & Drawing</a>
+    <a href="#">Motivation</a>
+    <a href="#">Skills</a>
+</div>
+
+<footer>
+    &copy; 2025 Shreyas World. All rights reserved.
+</footer>
+
+</body></html>
