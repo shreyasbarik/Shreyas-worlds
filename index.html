@@ -6,12 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Shreyas World</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Inter', sans-serif;
     }
 
     body {
@@ -30,24 +31,39 @@
       position: sticky;
       top: 0;
       z-index: 1000;
+      animation: slideInDown 1s ease-in-out;
+    }
+
+    @keyframes slideInDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
 
     .logo {
-      font-size: 2rem;
-      font-weight: bold;
-      color: #00bfff;
+      font-size: 3rem;
+      font-weight: 800;
+      color: #00ffea;
+      text-shadow: 4px 4px #000;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
     }
 
     nav a {
       margin: 0 1rem;
       text-decoration: none;
       color: white;
-      font-weight: 500;
+      font-weight: 600;
       transition: color 0.3s;
     }
 
     nav a:hover {
-      color: #00bfff;
+      color: #00ffea;
     }
 
     .hero {
@@ -56,35 +72,44 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 6rem 2rem;
+      padding: 8rem 2rem;
       background: rgba(0, 0, 0, 0.6);
       min-height: 90vh;
+      animation: fadeIn 2s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     .hero h1 {
-      font-size: 4.5rem;
+      font-size: 5rem;
       margin-bottom: 1rem;
       color: #fff;
+      text-shadow: 4px 4px #000;
     }
 
     .hero p {
-      font-size: 1.5rem;
+      font-size: 2rem;
       margin-bottom: 2rem;
     }
 
     .btn {
-      padding: 0.75rem 1.5rem;
+      padding: 0.9rem 2rem;
       font-size: 1.2rem;
-      background-color: #00bfff;
+      background-color: #00ffea;
       border: none;
-      color: white;
+      color: black;
       cursor: pointer;
-      border-radius: 5px;
-      transition: background-color 0.3s;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background-color 0.3s, transform 0.3s;
     }
 
     .btn:hover {
-      background-color: #009acd;
+      background-color: #00d4c1;
+      transform: scale(1.05);
     }
 
     .features {
@@ -92,20 +117,26 @@
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 2rem;
       padding: 4rem 2rem;
-      background-color: rgba(0, 0, 0, 0.8);
+      background-color: rgba(0, 0, 0, 0.85);
+      animation: fadeInUp 2s ease-in;
+    }
+
+    @keyframes fadeInUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
 
     .feature {
       background: rgba(255, 255, 255, 0.1);
       padding: 2rem;
-      border-radius: 10px;
+      border-radius: 12px;
       text-align: center;
     }
 
     .feature i {
       font-size: 2.5rem;
       margin-bottom: 1rem;
-      color: #00bfff;
+      color: #00ffea;
     }
 
     footer {
@@ -134,7 +165,7 @@
       width: 80%;
       max-width: 400px;
       color: white;
-      border-radius: 8px;
+      border-radius: 10px;
     }
 
     .close {
@@ -153,60 +184,77 @@
       border: none;
       border-radius: 5px;
     }
+
+    audio {
+      display: none;
+    }
   </style>
 </head>
 
 <body>
   <header>
-    <div class="logo">Shreyas World</div>
+    <div class="logo">🌟 Shreyas World</div>
     <nav>
       <a href="#">Home</a>
       <a href="#features">Features</a>
-      <a href="#">Motivational Videos</a>
-      <a href="#">Java & Python Codes</a>
-      <a href="#">Health Tips</a>
-      <a href="#">AI Tools</a>
-      <a href="#">Games</a>
-      <a href="#" onclick="openModal()">Sign In</a>
+      <a href="#" onclick="alert('Coming soon!')">Welcome & Inspire</a>
+      <a href="#" onclick="alert('Coming soon!')">Upload Content</a>
+      <a href="#" onclick="alert('Coming soon!')">Blog Update</a>
+      <a href="#" onclick="alert('Coming soon!')">Interactive Pages</a>
+      <a href="#" onclick="alert('Meet your AI Assistant - ShreyasBot')">ShreyasBot</a>
+      <a href="#" onclick="alert('Drawing Pad coming soon!')">Drawing Pad</a>
+      <a href="#" onclick="alert('Mobile App version coming soon!')">Mobile App</a>
+      <a href="#" onclick="alert('Track progress - coming soon!')">Progress Dashboard</a>
+      <a href="#" onclick="openModal()">Login / Sign Up</a>
     </nav>
   </header>
 
   <section class="hero">
     <h1>Welcome to Shreyas World</h1>
-    <p>Motivation, Learning, Health & Fun — All in One Place</p>
-    <button class="btn" onclick="alert('Explore coming soon!')">Explore Now</button>
+    <p>Your Gateway to Motivation, Coding, Health, AI Tools, and Brain Games</p>
+    <button class="btn" onclick="alert('Explore features coming soon!')">Explore Now</button>
   </section>
 
   <section class="features" id="features">
     <div class="feature">
-      <i class="fas fa-video"></i>
-      <h3>Motivational Videos</h3>
-      <p>Stay inspired with the best handpicked motivational videos.</p>
+      <i class="fas fa-lightbulb"></i>
+      <h3>Welcome & Inspire</h3>
+      <p>Daily quotes and stories to kickstart your day with purpose.</p>
     </div>
     <div class="feature">
-      <i class="fas fa-code"></i>
-      <h3>Java & Python Learning</h3>
-      <p>Easy tutorials and examples to learn coding step by step.</p>
+      <i class="fas fa-upload"></i>
+      <h3>Upload Content</h3>
+      <p>Share your videos, code, and thoughts with the community.</p>
     </div>
     <div class="feature">
-      <i class="fas fa-heartbeat"></i>
-      <h3>Health & Wellness</h3>
-      <p>Daily tips and tricks to stay healthy in body and mind.</p>
+      <i class="fas fa-blog"></i>
+      <h3>Blog Updates</h3>
+      <p>Fresh articles on tech, motivation, and well-being every week.</p>
     </div>
     <div class="feature">
-      <i class="fas fa-brain"></i>
-      <h3>Brain Games</h3>
-      <p>Boost your memory and focus with fun brain games.</p>
+      <i class="fas fa-comments"></i>
+      <h3>Interactive Pages</h3>
+      <p>Engage with quizzes, polls, and interactive learning tools.</p>
     </div>
     <div class="feature">
       <i class="fas fa-robot"></i>
-      <h3>AI Study Tools</h3>
-      <p>Discover top AI-powered apps to help you study smarter.</p>
+      <h3>ShreyasBot Assistant</h3>
+      <p>Your smart AI friend to guide and motivate your journey.</p>
     </div>
     <div class="feature">
-      <i class="fas fa-sign-in-alt"></i>
-      <h3>Secure Sign-In</h3>
-      <p>Keep your learning journey private and protected.</p>
+      <i class="fas fa-pencil-ruler"></i>
+      <h3>Drawing Pad</h3>
+      <p>Express your creativity right from your browser.</p>
+    </div>
+    <div class="feature">
+      <i class="fas fa-mobile-alt"></i>
+      <h3>Mobile App</h3>
+      <p>Experience Shreyas World on the go.</p>
+    </div>
+    <div class="feature">
+      <i class="fas fa-chart-line"></i>
+      <h3>Progress Dashboard</h3>
+      <p>Visualize and track your learning and health goals.</p>
     </div>
   </section>
 
@@ -217,12 +265,19 @@
   <div id="signinModal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="closeModal()">&times;</span>
-      <h2>Sign In</h2>
-      <input type="text" placeholder="Username" />
-      <input type="password" placeholder="Password" />
-      <button class="btn" onclick="alert('OTP sent to registered mobile number!')">Sign In</button>
+      <h2>Sign In / Sign Up</h2>
+      <form action="/auth" method="POST">
+        <input type="text" placeholder="Username" name="username" required />
+        <input type="password" placeholder="Password" name="password" required />
+        <button type="submit" class="btn">Continue</button>
+      </form>
     </div>
   </div>
+
+  <audio autoplay loop>
+    <source src="https://dl.sndup.net/mf58/Intro%20Music%20By%20Shreyas%20World.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
 
   <script>
     function openModal() {
