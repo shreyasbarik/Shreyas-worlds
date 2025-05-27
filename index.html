@@ -1,480 +1,557 @@
-
- <!DOCTYPE html>
-<html lang="en" >
+`shreyas_world_premium.html`
+```html
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Shreyas World</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
-  <style>
-    /* Background & Body */
-    body {
-      background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1470&q=80');
-      background-size: cover;
-      background-position: center;
-      min-height: 100vh;
-      color: #fff;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      position: relative;
-      padding-top: 70px;
-    }
-    .overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0, 0, 0, 0.75);
-      z-index: -1;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Shreyas World - Premium Learning Platform</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" rel="stylesheet" />
+<style>
+  /* Reset */
+  * {
+    margin: 0; padding: 0; box-sizing: border-box;
+  }
+  body {
+    font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg,#f8f9fa,#dbe4ff);
+    color: #222;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    scroll-behavior: smooth;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  /* Container */
+  .container {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 24px;
+    width: 100%;
+  }
+  /* Header */
+  header {
+    position: sticky;
+    top: 0;
+    background: #1c40b2;
+    box-shadow: 0 6px 13px rgb(28 64 178 / 0.4);
+    padding: 18px 0;
+    z-index: 1000;
+  }
+  header .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    font-weight: 900;
+    font-size: 1.85rem;
+    color: #fff;
+    font-family: 'Georgia', serif;
+    letter-spacing: 2px;
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .logo .en {
+    text-shadow: 0 2px 8px #09172d;
+  }
+  .logo .hi {
+    font-family: 'Noto Sans Devanagari', 'Mangal', 'Arial Unicode MS', sans-serif;
+    font-size: 1.3rem;
+    color: #a6c8ff;
+    text-shadow: 0 1px 5px #09172d;
+    user-select: none;
+  }
+  nav {
+    display: flex;
+    gap: 18px;
+  }
+  nav a {
+    color: #bbd1ff;
+    font-weight: 600;
+    padding: 10px 12px;
+    border-radius: 6px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  nav a:hover, nav a:focus {
+    background: #fdd835;
+    color: #0a237b;
+    outline: none;
+  }
+  /* Hero Section */
+  #hero {
+    padding: 140px 24px 90px;
+    text-align: center;
+    background: radial-gradient(circle at center top, #1c40b2 0%, #3258e5 85%);
+    color: white;
+    clip-path: ellipse(100% 220% at 50% 0);
+  }
+  #hero h1.en {
+    font-family: 'Georgia', serif;
+    font-weight: 900;
+    font-size: clamp(2.6rem,5vw,4.2rem);
+    line-height: 1.1;
+    text-shadow: 2px 3px 12px rgba(0,0,0,0.5);
+    margin-bottom: 8px;
+  }
+  #hero h2.hi {
+    font-family: 'Noto Sans Devanagari', serif;
+    font-size: clamp(1.5rem,3vw,2.4rem);
+    font-weight: 700;
+    color: #fdd835cc;
+    margin-bottom: 26px;
+    text-shadow: 0 1px 12px rgba(0,0,0,0.45);
+  }
+  #hero p.quote {
+    margin: 0 auto 48px;
+    font-family: 'Noto Serif Devanagari', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    max-width: 680px;
+    line-height: 1.6;
+    color: #f5e97dcc;
+    text-shadow: 0 2px 14px rgba(0,0,0,0.45);
+  }
+  #hero button.cta {
+    background-color: #fdd835;
+    color: #0a237b;
+    padding: 16px 48px;
+    font-weight: 700;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 50px;
+    box-shadow: 0 6px 25px rgb(253 216 53 / 0.7);
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.25s ease;
+  }
+  #hero button.cta:hover, #hero button.cta:focus {
+    background-color: #e6c230;
+    outline: none;
+    transform: scale(1.05);
+  }
 
-    /* Navbar */
-    .navbar-brand, .nav-link {
-      color: #ffc107 !important;
-      font-weight: 600;
-      font-size: 1.1rem;
-    }
-    .navbar-brand i {
-      margin-right: 8px;
-    }
-    .navbar {
-      background: rgba(0,0,0,0.4) !important;
-      backdrop-filter: saturate(180%) blur(8px);
-    }
-    .navbar-toggler {
-      border-color: #ffc107;
-    }
+  /* Features Section: Tabs */
+  #features {
+    background: #fff;
+    padding: 60px 24px 80px;
+    box-shadow: 0 6px 25px rgb(0 0 0 / 0.1);
+    border-radius: 18px;
+    margin: 40px auto;
+    max-width: 1140px;
+  }
+  #features h2 {
+    text-align: center;
+    font-weight: 700;
+    font-size: 2.8rem;
+    margin-bottom: 38px;
+    color: #1c40b2;
+    user-select: none;
+  }
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 36px;
+  }
+  .tab {
+    background: #e1eaff;
+    border-radius: 40px;
+    padding: 14px 24px;
+    font-weight: 700;
+    color: #1c40b2cc;
+    cursor: pointer;
+    box-shadow: inset 0 0 0 1.5px transparent;
+    user-select: none;
+    transition: all 0.3s ease;
+    flex-grow: 1;
+    max-width: 200px;
+    text-align: center;
+  }
+  .tab:hover, .tab:focus {
+    box-shadow: inset 0 0 0 1.5px #1c40b2;
+    outline: none;
+  }
+  .tab.active {
+    background: #fdd835;
+    color: #0a237b;
+    box-shadow: inset 0 0 0 3px #0a237b;
+    cursor: default;
+  }
+  /* Tab content */
+  .tab-content {
+    max-width: 760px;
+    margin: 0 auto;
+    box-shadow: 0 3px 15px rgb(0 0 0 / 0.08);
+    background: #f7faff;
+    padding: 28px 32px;
+    border-radius: 16px;
+    font-size: 1.1rem;
+    line-height: 1.52;
+    color: #112244;
+    font-weight: 500;
+    min-height: 220px;
+    user-select: text;
+    box-sizing: border-box;
+    position: relative;
+  }
+  .tab-icon {
+    font-size: 38px;
+    margin-right: 14px;
+    vertical-align: middle;
+    color: #1c40b2cc;
+  }
+  .tab-title {
+    font-size: 1.6rem;
+    vertical-align: middle;
+    color: #1c40b2;
+    font-weight: 700;
+    user-select: none;
+  }
+  .tab-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  /* Smart AI Section */
+  #shreyas-ai {
+    background: #f0f5ff;
+    padding: 60px 24px 80px;
+    text-align: center;
+    border-radius: 18px;
+    box-shadow: 0 6px 25px rgb(0 0 0 / 0.12);
+    max-width: 1140px;
+    margin: 0 auto 48px;
+  }
+  #shreyas-ai h2 {
+    font-weight: 700;
+    color: #1c40b2;
+    font-size: 2.8rem;
+    margin-bottom: 22px;
+  }
+  #shreyas-ai p.description {
+    font-weight: 500;
+    font-size: 1.15rem;
+    color: #3b4c7f;
+    max-width: 620px;
+    margin: 0 auto 36px;
+  }
+  #ai-chat {
+    max-width: 680px;
+    height: 440px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 35px rgb(0 0 0 / 0.12);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  #messages {
+    flex-grow: 1;
+    padding: 20px 24px;
+    overflow-y: auto;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  .message {
+    max-width: 75%;
+    margin-bottom: 16px;
+    padding: 14px 20px;
+    border-radius: 30px;
+    font-weight: 500;
+    box-shadow: 0 3px 13px rgb(0 0 0 / 0.07);
+    word-wrap: break-word;
+    word-break: break-word;
+  }
+  .message.user {
+    background: #1c40b2;
+    color: #fff;
+    margin-left: auto;
+    border-bottom-right-radius: 4px;
+  }
+  .message.ai {
+    background: #e2ebff;
+    color: #223344;
+    margin-right: auto;
+    border-bottom-left-radius: 4px;
+  }
+  #ai-form {
+    display: flex;
+    border-top: 1px solid #d4d9e2;
+    background: #f7faff;
+    padding: 14px 20px;
+  }
+  #user-input {
+    flex-grow: 1;
+    border: 2px solid #1c40b2;
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    outline: none;
+  }
+  #user-input:focus {
+    border-color: #fdd835;
+  }
+  #send-btn {
+    background-color: #fdd835;
+    border: none;
+    margin-left: 16px;
+    padding: 12px 28px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    border-radius: 30px;
+    color: #0a237b;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  #send-btn:hover, #send-btn:focus {
+    background-color: #e6c230;
+    outline: none;
+  }
 
-    /* Main Container */
-    .container {
-      max-width: 960px;
+  /* Footer */
+  footer {
+    background: #1c40b2;
+    color: white;
+    text-align: center;
+    padding: 24px 16px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    box-shadow: inset 0 8px 15px rgb(0 0 0 / 0.3);
+    user-select: none;
+  }
+  /* Responsive */
+  @media (max-width: 950px) {
+    .tabs {
+      justify-content: center;
     }
-
-    /* Heading */
-    h1, h2 {
-      text-shadow: 0 0 8px rgba(0,0,0,0.9);
+    .tab {
+      max-width: 48%;
     }
-
-    /* Welcome Section */
-    #welcome-section {
-      text-align: center;
-      margin-bottom: 50px;
-    }
-    #welcome-section p.lead {
-      font-size: 1.4rem;
-      font-weight: 500;
-      margin-bottom: 20px;
-      color: #ffd54f;
-      text-shadow: 1px 1px 2px #000;
-    }
-    #welcome-section .btn-warning {
-      font-weight: 700;
-      font-size: 1.1rem;
-      padding: 10px 25px;
-      box-shadow: 0 0 15px #ffc107aa;
-    }
-
-    /* Games Section */
-    #games h2 {
-      margin-bottom: 30px;
-      color: #ffc107;
-      font-weight: 700;
-      letter-spacing: 1px;
-    }
-    .card-game {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 1rem;
-      border: none;
-      color: #fff;
-      padding: 30px 20px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      cursor: pointer;
-      box-shadow: 0 0 10px transparent;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-    .card-game:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 25px #ffc107;
-      background: rgba(255, 255, 255, 0.15);
-    }
-    .card-game i {
-      font-size: 3rem;
-      margin-bottom: 15px;
-      color: #ffc107;
-    }
-    .card-game h5 {
-      font-weight: 700;
-      margin-bottom: 15px;
-    }
-    .card-game a {
-      font-weight: 600;
-      color: #ffc107;
-      text-decoration: none;
-      border-bottom: 1.5px solid transparent;
-      transition: all 0.3s ease;
-    }
-    .card-game a:hover {
-      border-color: #ffc107;
-      color: #fff;
-    }
-
-    /* Motivational Story Section */
-    #motivation {
-      background: rgba(0,0,0,0.5);
-      padding: 40px 30px;
-      border-radius: 1rem;
-      margin-bottom: 50px;
-      box-shadow: 0 0 20px #ffc107aa;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    #motivation h2 {
-      color: #ffc107;
-      text-align: center;
-      font-weight: 700;
-      margin-bottom: 30px;
-      letter-spacing: 1.2px;
-    }
-    #story-title {
-      font-size: 1.8rem;
-      font-weight: 700;
-      margin-bottom: 15px;
-      text-align: center;
-      text-shadow: 0 0 8px #000;
-    }
-    #story-text {
-      font-size: 1.25rem;
-      line-height: 1.6;
-      color: #fff;
-      text-align: justify;
-      max-width: 700px;
-      margin: 0 auto 30px auto;
-      text-shadow: 1px 1px 3px #000000cc;
-    }
-    #motivation button {
-      font-weight: 600;
-      min-width: 130px;
-      margin: 5px;
-    }
-
-    /* Art & Drawing Section */
-    #art-drawing {
-      text-align: center;
-      margin-bottom: 50px;
-    }
-    #art-drawing h2 {
-      color: #ffc107;
-      font-weight: 700;
-      margin-bottom: 30px;
-      letter-spacing: 1.2px;
-    }
-    .art-image {
+    .tab-content {
       max-width: 100%;
-      max-height: 420px;
-      border-radius: 1rem;
-      box-shadow: 0 0 30px #ffc107aa;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      cursor: pointer;
-      margin-bottom: 15px;
-      user-select: none;
     }
-    .art-image:hover {
-      transform: scale(1.04);
-      box-shadow: 0 0 45px #ffca28cc;
+  }
+  @media (max-width: 600px) {
+    header .container {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
     }
-    #art-caption {
+    nav {
+      width: 100%;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    nav a {
+      font-size: 0.9rem;
+      padding: 8px 11px;
+      max-width: 140px;
+      text-align: center;
+    }
+    #hero {
+      padding: 100px 20px 70px;
+    }
+    #hero h1.en {
+      font-size: 2.8rem;
+    }
+    #hero h2.hi {
+      font-size: 1.7rem;
+    }
+    #hero p.quote {
       font-size: 1.1rem;
-      color: #ffd54f;
-      font-weight: 600;
-      max-width: 600px;
-      margin: 0 auto;
-      text-shadow: 1px 1px 3px #000;
+      max-width: 90vw;
     }
-
-    /* Chatbot Section */
-    #chatbot-section {
-      max-width: 700px;
-      margin: 0 auto 60px auto;
-      background: rgba(0,0,0,0.6);
-      border-radius: 1rem;
-      box-shadow: 0 0 30px #ffc107bb;
-      color: #fff;
-      padding: 25px 20px;
+    #features {
+      margin: 20px 0 50px;
+      border-radius: 12px;
+      padding: 40px 20px 60px;
     }
-    #chatbot-section h2 {
-      color: #ffc107;
-      font-weight: 700;
-      margin-bottom: 20px;
-      text-align: center;
+    #features h2 {
+      font-size: 2.1rem;
+      margin-bottom: 30px;
     }
-    #chatbot-messages {
-      background: rgba(255,255,255,0.1);
-      border-radius: 0.8rem;
-      height: 320px;
-      overflow-y: auto;
-      padding: 15px;
-      margin-bottom: 15px;
-      font-size: 1rem;
-      line-height: 1.4;
-      box-shadow: inset 0 0 10px #ffd54faa;
+    .tab {
+      max-width: 100%;
+      font-size: 0.95rem;
     }
-    .chat-message {
-      margin-bottom: 12px;
-      padding: 8px 12px;
-      border-radius: 15px;
-      max-width: 80%;
-      clear: both;
-      word-wrap: break-word;
-      white-space: pre-wrap;
+    #shreyas-ai {
+      padding: 40px 20px 60px;
+      border-radius: 12px;
+      max-width: 100%;
     }
-    .chat-user {
-      background: #ffc107;
-      color: #000;
-      float: right;
-      text-align: right;
+    #shreyas-ai h2 {
+      font-size: 2.3rem;
     }
-    .chat-bot {
-      background: #444;
-      color: #ffc107;
-      float: left;
-      text-align: left;
+    #ai-chat {
+      height: 380px;
+      border-radius: 16px;
     }
-    #chatbot-input-group {
-      display: flex;
-      gap: 10px;
-    }
-    #chatbot-input {
-      flex-grow: 1;
-      border-radius: 30px;
-      border: none;
-      padding: 10px 20px;
-      font-size: 1rem;
-      outline: none;
-    }
-    #chatbot-send-btn {
-      background: #ffc107;
-      border: none;
-      border-radius: 30px;
-      color: #000;
-      font-weight: 700;
-      padding: 10px 18px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    #chatbot-send-btn:hover {
-      background: #ffca28;
-    }
-
-    /* Footer */
-    footer.footer {
-      background-color: rgba(0, 0, 0, 0.85);
-      padding: 15px 0;
-      text-align: center;
-      color: #ffd54f;
-      font-weight: 600;
-      box-shadow: 0 -4px 15px #ffca28cc;
-      user-select: none;
-    }
-    footer.footer a {
-      color: #ffc107;
-      text-decoration: none;
-      font-weight: 700;
-    }
-    footer.footer a:hover {
-      text-decoration: underline;
-    }
-  </style>
+  }
+</style>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <div class="overlay"></div>
 
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="#"><i class="bi bi-globe"></i> Shreyas World</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-        <ul class="navbar-nav gap-3">
-          <li class="nav-item"><a class="nav-link" href="#games"><i class="bi bi-controller"></i> Brain Booster Games</a></li>
-          <li class="nav-item"><a class="nav-link" href="#motivation"><i class="bi bi-lightbulb"></i> Motivation</a></li>
-          <li class="nav-item"><a class="nav-link" href="#art-drawing"><i class="bi bi-brush"></i> Art & Drawing</a></li>
-          <li class="nav-item"><a class="nav-link" href="#chatbot-section"><i class="bi bi-chat-dots"></i> ShreyasBot</a></li>
-          <li class="nav-item"><button class="btn btn-warning btn-sm px-3" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="bi bi-person-circle"></i> Login</button></li>
-        </ul>
-      </div>
+<header>
+  <div class="container">
+    <div class="logo" aria-label="Shreyas World Brand">
+      <span class="en" lang="en">Shreyas World</span>
+      <span class="hi" lang="hi">श्रेयस वर्ल्ड</span>
     </div>
-  </nav>
-
-  <!-- Welcome Section -->
-  <section id="welcome-section" class="container">
-    <h1>Welcome to Shreyas World</h1>
-    <p class="lead">Your personal hub for learning, creativity, motivation, and fun!</p>
-    <button class="btn btn-warning" onclick="document.getElementById('games').scrollIntoView({behavior:'smooth'})">
-      Explore Brain Booster Games <i class="bi bi-arrow-right"></i>
-    </button>
-  </section>
-
-  <!-- Brain Booster Games -->
-  <section id="games" class="container mb-5">
-    <h2>Top 3 Brain Booster Educational Games</h2>
-    <div class="row gy-4 justify-content-center">
-      <div class="col-md-4">
-        <div class="card-game" onclick="window.open('https://www.lumosity.com/', '_blank')">
-          <i class="bi bi-brain"></i>
-          <h5>Lumosity</h5>
-          <p>Scientifically designed puzzles and challenges to improve memory and attention.</p>
-          <a href="https://www.lumosity.com/" target="_blank" rel="noopener noreferrer">Play Now <i class="bi bi-box-arrow-up-right"></i></a>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card-game" onclick="window.open('https://www.brainmetrix.com/', '_blank')">
-          <i class="bi bi-puzzle"></i>
-          <h5>Brain Metrix</h5>
-          <p>Free brain games to improve IQ, concentration, and memory skills.</p>
-          <a href="https://www.brainmetrix.com/" target="_blank" rel="noopener noreferrer">Play Now <i class="bi bi-box-arrow-up-right"></i></a>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card-game" onclick="window.open('https://www.mathplayground.com/', '_blank')">
-          <i class="bi bi-calculator"></i>
-          <h5>Math Playground</h5>
-          <p>Engaging math games that sharpen problem-solving and logic skills.</p>
-          <a href="https://www.mathplayground.com/" target="_blank" rel="noopener noreferrer">Play Now <i class="bi bi-box-arrow-up-right"></i></a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Motivational Story -->
-  <section id="motivation">
-    <h2>Motivational Story</h2>
-    <div id="story-title">The Story of Thomas Edison</div>
-    <div id="story-text">
-      Thomas Edison was told by his teachers that he was "too stupid to learn anything." But he didn't give up. He famously said, "I have not failed. I've just found 10,000 ways that won't work." His perseverance led to the invention of the electric light bulb, changing the world forever. Remember, success comes not from never failing, but from never giving up.
-    </div>
-    <div class="text-center">
-      <button class="btn btn-warning" onclick="alert('Keep going, you are capable of great things!')">Get Inspired</button>
-    </div>
-  </section>
-
-  <!-- Art and Drawing -->
-  <section id="art-drawing" class="container">
-    <h2>Art & Drawing</h2>
-    <img
-      src="https://upload.wikimedia.org/wikipedia/commons/1/10/Vincent_van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg"
-      alt="Starry Night by Vincent van Gogh"
-      class="art-image"
-      title="Starry Night by Vincent van Gogh"
-      draggable="false"
-    />
-    <div id="art-caption">"Starry Night" by Vincent van Gogh, 1889 — A masterpiece of swirling night sky and bold colors.</div>
-  </section>
-
-  <!-- AI Chatbot Section -->
-  <section id="chatbot-section">
-    <h2>Chat with ShreyasBot 🤖</h2>
-    <div id="chatbot-messages"></div>
-    <div id="chatbot-input-group">
-      <input type="text" id="chatbot-input" placeholder="Ask me anything..." autocomplete="off" />
-      <button id="chatbot-send-btn"><i class="bi bi-send"></i></button>
-    </div>
-  </section>
-
-  <!-- Login Modal -->
-  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content text-dark">
-        <div class="modal-header">
-          <h5 class="modal-title" id="loginModalLabel"><i class="bi bi-person-circle"></i> User Login</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form id="login-form">
-            <div class="mb-3">
-              <label for="inputEmail" class="form-label">Email address</label>
-              <input type="email" class="form-control" id="inputEmail" placeholder="name@example.com" required />
-            </div>
-            <div class="mb-3">
-              <label for="inputPassword" class="form-label">Password</label>
-              <input type="password" class="form-control" id="inputPassword" placeholder="Enter password" required />
-            </div>
-            <div class="d-grid gap-2">
-              <button type="submit" class="btn btn-warning">Login</button>
-            </div>
-          </form>
-          <small class="text-muted mt-2 d-block text-center">* This is a demo login form (no real backend)</small>
-        </div>
-      </div>
-    </div>
+    <nav aria-label="Primary Navigation">
+      <a href="#healthy" class="tab-link" data-tab="healthy">Healthy Lifestyle</a>
+      <a href="#motivational" class="tab-link" data-tab="motivational">Motivational Quotes</a>
+      <a href="#coding" class="tab-link" data-tab="coding">Java & Python</a>
+      <a href="#art" class="tab-link" data-tab="art">Art & Drawing</a>
+      <a href="#mocktest" class="tab-link" data-tab="mocktest">Mock Test</a>
+      <a href="#ai" class="tab-link" data-tab="ai">Smart Shreyas AI</a>
+      <a href="#games" class="tab-link" data-tab="games">Brain Booster</a>
+      <a href="#dictionary" class="tab-link" data-tab="dictionary">WORD'S Dictionary</a>
+    </nav>
   </div>
+</header>
 
-  <!-- Footer -->
-  <footer class="footer">
-    &copy; 2025 Shreyas World. All rights reserved. | <a href="https://github.com/shreyasworld" target="_blank" rel="noopener noreferrer">GitHub</a>
-  </footer>
+<section id="hero" role="banner" aria-label="Welcome to Shreyas World hero section">
+  <h1 class="en">Shreyas World</h1>
+  <h2 class="hi" lang="hi">श्रेयस वर्ल्ड</h2>
+  <p class="quote" lang="hi"> 
+    "कर्मण्येवाधिकारस्ते मा फलेषु कदाचन।  
+    मा कर्मफलहेतुर्भूर्मा ते सङ्गोऽस्त्वकर्मणि॥"  <br>  
+    — भगवद्गीता 2.47
+  </p>
+  <button class="cta" onclick="scrollToTabs()" aria-label="Explore all features">Explore Features</button>
+</section>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    // Login form demo behavior
-    document.getElementById('login-form').addEventListener('submit', e => {
-      e.preventDefault();
-      alert('Login feature coming soon! For now, just explore the website :)');
-      const modal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
-      modal.hide();
-    });
+<section id="features" role="main" aria-label="Features Section">
+  <h2>Discover Our Featured Topics</h2>
+  <div class="tabs" role="tablist" aria-label="Feature Topics">
+    <button role="tab" class="tab active" id="tab-healthy" aria-selected="true" aria-controls="panel-healthy" tabindex="0" data-tab="healthy"><i class="fas fa-apple-alt tab-icon" aria-hidden="true"></i><span class="tab-title">Healthy Lifestyle</span></button>
+    <button role="tab" class="tab" id="tab-motivational" aria-selected="false" aria-controls="panel-motivational" tabindex="-1" data-tab="motivational"><i class="fas fa-lightbulb tab-icon" aria-hidden="true"></i><span class="tab-title">Motivational Quotes</span></button>
+    <button role="tab" class="tab" id="tab-coding" aria-selected="false" aria-controls="panel-coding" tabindex="-1" data-tab="coding"><i class="fab fa-java tab-icon" aria-hidden="true" style="color:#007396"></i><i class="fab fa-python tab-icon" aria-hidden="true" style="color:#306998; margin-left:6px;"></i><span class="tab-title">Java & Python</span></button>
+    <button role="tab" class="tab" id="tab-art" aria-selected="false" aria-controls="panel-art" tabindex="-1" data-tab="art"><i class="fas fa-paint-brush tab-icon" aria-hidden="true"></i><span class="tab-title">Art & Drawing</span></button>
+    <button role="tab" class="tab" id="tab-mocktest" aria-selected="false" aria-controls="panel-mocktest" tabindex="-1" data-tab="mocktest"><i class="fas fa-file-alt tab-icon" aria-hidden="true"></i><span class="tab-title">Mock Test</span></button>
+    <button role="tab" class="tab" id="tab-ai" aria-selected="false" aria-controls="panel-ai" tabindex="-1" data-tab="ai"><i class="fas fa-robot tab-icon" aria-hidden="true"></i><span class="tab-title">Smart Shreyas AI</span></button>
+    <button role="tab" class="tab" id="tab-games" aria-selected="false" aria-controls="panel-games" tabindex="-1" data-tab="games"><i class="fas fa-brain tab-icon" aria-hidden="true"></i><span class="tab-title">Brain Booster</span></button>
+    <button role="tab" class="tab" id="tab-dictionary" aria-selected="false" aria-controls="panel-dictionary" tabindex="-1" data-tab="dictionary"><i class="fas fa-book tab-icon" aria-hidden="true"></i><span class="tab-title">WORD'S Dictionary</span></button>
+  </div>
+  <section id="panel-healthy" role="tabpanel" tabindex="0" aria-labelledby="tab-healthy" class="tab-content">
+    <div class="tab-header"><i class="fas fa-apple-alt tab-icon"></i><h3 class="tab-title">Healthy Lifestyle</h3></div>
+    <p>Discover essential advice to maintain physical and mental health including balanced nutrition, daily fitness routines, mindfulness exercises, and restorative sleep techniques. Our expert-curated content helps you build resilience and vitality for your academic journey and daily life.</p>
+    <ul>
+      <li>Nutritious meal plans tailored for students.</li>
+      <li>Simple home workouts to boost energy.</li>
+      <li>Mindfulness and breathing exercises.</li>
+      <li>Tips for a disciplined sleep schedule.</li>
+    </ul>
+  </section>
+  <section id="panel-motivational" role="tabpanel" tabindex="0" aria-labelledby="tab-motivational" hidden class="tab-content">
+    <div class="tab-header"><i class="fas fa-lightbulb tab-icon"></i><h3 class="tab-title">Motivational & Inspirational Quotes</h3></div>
+    <p>Fuel your passion and overcome obstacles with a rich catalog of motivational quotes, success stories, and personal growth mantras. Start each day inspired and empowered, embracing a positive mindset to unlock your potential.</p>
+    <ul>
+      <li>Daily featured quotes by global leaders and thinkers.</li>
+      <li>Stories of determination and perseverance.</li>
+      <li>Techniques for nurturing confidence and focus.</li>
+    </ul>
+  </section>
+  <section id="panel-coding" role="tabpanel" tabindex="0" aria-labelledby="tab-coding" hidden class="tab-content">
+    <div class="tab-header"><i class="fab fa-java tab-icon" style="color:#007396"></i><i class="fab fa-python tab-icon" style="color:#306998; margin-left:6px;"></i><h3 class="tab-title">Java & Python Learning</h3></div>
+    <p>Master coding languages with hands-on lessons, video tutorials, and mini projects designed to cultivate your programming skills from fundamentals to advanced topics. Our learning path includes debugging and real-world applications.</p>
+    <ul>
+      <li>Interactive Java basics and OOP concepts.</li>
+      <li>Python programming with data manipulation exercises.</li>
+      <li>Project-based learning: games, calculators, and web apps.</li>
+      <li>Community challenges and quizzes to test knowledge.</li>
+    </ul>
+  </section>
+  <section id="panel-art" role="tabpanel" tabindex="0" aria-labelledby="tab-art" hidden class="tab-content">
+    <div class="tab-header"><i class="fas fa-paint-brush tab-icon"></i><h3 class="tab-title">Art & Drawing Learning</h3></div>
+    <p>Unleash your creativity with structured guides on sketching, shading, color theory, and digital arts. Whether you're a beginner or building a portfolio, our lessons will help you hone your artistic skills and develop your unique style.</p>
+    <ul>
+      <li>Step-by-step tutorials from basic shapes to complex designs.</li>
+      <li>Color blending and composition tips.</li>
+      <li>Digital art tools introductions & exercises.</li>
+      <li>Inspiration galleries and art challenges.</li>
+    </ul>
+  </section>
+  <section id="panel-mocktest" role="tabpanel" tabindex="0" aria-labelledby="tab-mocktest" hidden class="tab-content">
+    <div class="tab-header"><i class="fas fa-file-alt tab-icon"></i><h3 class="tab-title">Mock Test</h3></div>
+    <p>Prepare effectively for examinations with tailored mock tests featuring multiple-choice, essay, and problem-solving questions across subjects. Instant scoring and detailed feedback highlight strengths and areas for improvement.</p>
+    <ul>
+      <li>Realistic timed test environment.</li>
+      <li>Instant score and performance analytics.</li>
+      <li>Review correct answers and explanations.</li>
+      <li>Track progress and readiness over time.</li>
+    </ul>
+  </section>
+  <section id="panel-ai" role="tabpanel" tabindex="0" aria-labelledby="tab-ai" hidden class="tab-content">
+    <div class="tab-header"><i class="fas fa-robot tab-icon"></i><h3 class="tab-title">Smart Shreyas AI Features</h3></div>
+    <p>Interact with Shreyas AI, your personal intelligent learning assistant. Get instant answers to your study queries, motivational advice, coding help, and wellness tips crafted just for you, all powered by advanced AI logic embedded in the website.</p>
+    <p>Features include:</p>
+    <ul>
+      <li>Contextual study help in multiple subjects.</li>
+      <li>Motivational guidance and quotes on demand.</li>
+      <li>Programming troubleshooting and code explanations.</li>
+      <li>Healthy lifestyle advice and mindfulness techniques.</li>
+    </ul>
+    <p>Experience responsive and human-like interaction tailored for students!</p>
+  </section>
+  <section id="panel-games" role="tabpanel" tabindex="0" aria-labelledby="tab-games" hidden class="tab-content">
+    <div class="tab-header"><i class="fas fa-brain tab-icon"></i><h3 class="tab-title">Brain Booster Games</h3></div>
+    <p>Boost cognitive skills with a collection of fun, scientifically designed games that increase memory, logical thinking, and problem-solving capabilities, all within an engaging platform to cultivate lifelong mental agility.</p>
+    <ul>
+      <li>Memory card matching games.</li>
+      <li>Logical puzzles and pattern recognition.</li>
+      <li>Speed arithmetic challenges.</li>
+      <li>Daily brain teasers with leaderboards.</li>
+    </ul>
+  </section>
+  <section id="panel-dictionary" role="tabpanel" tabindex="0" aria-labelledby="tab-dictionary" hidden class="tab-content">
+    <div class="tab-header"><i class="fas fa-book tab-icon"></i><h3 class="tab-title">WORD'S Dictionary</h3></div>
+    <p>Enhance your vocabulary and language skills with our comprehensive dictionary tool. Get instant meanings, example sentences, phonetic pronunciations, synonyms, and antonyms right within the website.</p>
+    <ul>
+      <li>Search any word instantly.</li>
+      <li>Audio pronunciations for accurate learning.</li>
+      <li>Contextual examples for better understanding.</li>
+      <li>Word of the day to expand your vocabulary.</li>
+    </ul>
+  </section>
+</section>
 
-    // Chatbot basic mock logic
-    const chatbotMessages = document.getElementById('chatbot-messages');
-    const chatbotInput = document.getElementById('chatbot-input');
-    const sendBtn = document.getElementById('chatbot-send-btn');
+<section id="shreyas-ai" aria-label="Smart Shreyas AI Assistant Section">
+  <h2>Smart Shreyas AI Assistant</h2>
+  <p class="description">Ask Shreyas AI anything related to your studies, motivational support, or healthy lifestyle tips, and get instant intelligent responses.</p>
 
-    function appendMessage(text, sender) {
-      const msgDiv = document.createElement('div');
-      msgDiv.classList.add('chat-message', sender === 'user' ? 'chat-user' : 'chat-bot');
-      msgDiv.textContent = text;
-      chatbotMessages.appendChild(msgDiv);
-      chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
-    }
+  <div id="ai-chat" role="region" aria-live="polite" aria-atomic="false" aria-label="Chat with Smart Shreyas AI">
+    <div id="messages" aria-live="polite" tabindex="0"></div>
+    <form id="ai-form" aria-label="Send message to Shreyas AI" onsubmit="return handleSubmit(event);">
+      <input type="text" id="user-input" autocomplete="off" placeholder="Type your question here..." aria-required="true" aria-label="Input your message" />
+      <button type="submit" id="send-btn" aria-label="Send message"><i class="fas fa-paper-plane"></i></button>
+    </form>
+  </div>
+</section>
 
-    function botReply(userText) {
-      // Simple canned replies for demo
-      userText = userText.toLowerCase();
-      if (userText.includes('hello') || userText.includes('hi')) {
-        return 'Hello! I\'m ShreyasBot. How can I assist you today?';
-      }
-      if (userText.includes('motivate')) {
-        return 'Remember, every great journey starts with a single step. Keep pushing!';
-      }
-      if (userText.includes('game')) {
-        return 'Try the brain booster games above to sharpen your mind!';
-      }
-      if (userText.includes('art')) {
-        return 'Art is the soul’s expression. Check out the beautiful painting above!';
-      }
-      return 'Thanks for chatting! I\'m still learning, but I\'m here to help you stay motivated and curious.';
-    }
+<footer>
+  &copy; 2025 Shreyas World. Empowering students worldwide.
+</footer>
 
-    function sendChat() {
-      const userText = chatbotInput.value.trim();
-      if (!userText) return;
-      appendMessage(userText, 'user');
-      chatbotInput.value = '';
-      // simulate bot typing delay
-      setTimeout(() => {
-        appendMessage(botReply(userText), 'bot');
-      }, 600);
-    }
+<script>
+  // Smooth scroll for hero button
+  function scrollToTabs() {
+    const features = document.getElementById('features');
+    if (features) features.scrollIntoView({ behavior: 'smooth' });
+  }
 
-    sendBtn.addEventListener('click', sendChat);
-    chatbotInput.addEventListener('keydown', e => {
-      if (e.key === 'Enter') {
-        sendChat();
-      }
-    });
-  </script>
-</body>
-</html>
+  // Tab interface logic
+  const tabs = document.querySelectorAll('.tab');
+  const panels = document.querySelectorAll('.tab-content');
