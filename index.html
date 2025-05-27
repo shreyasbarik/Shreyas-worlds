@@ -13,6 +13,7 @@
       padding: 0;
       box-sizing: border-box;
       font-family: 'Inter', sans-serif;
+      scroll-behavior: smooth;
     }
 
     body {
@@ -40,12 +41,11 @@
     }
 
     .logo {
-      font-size: 3rem;
+      font-size: 2.5rem;
       font-weight: 800;
       color: #00ffea;
-      text-shadow: 4px 4px #000;
-      letter-spacing: 3px;
-      text-transform: uppercase;
+      text-shadow: 3px 3px #000;
+      letter-spacing: 2px;
       animation: pulse 2s infinite;
     }
 
@@ -55,7 +55,7 @@
     }
 
     nav a {
-      margin: 0 1rem;
+      margin: 0 0.7rem;
       text-decoration: none;
       color: white;
       font-weight: 600;
@@ -84,25 +84,39 @@
     }
 
     .hero h1 {
-      font-size: 5rem;
+      font-size: 4rem;
       margin-bottom: 1rem;
       color: #fff;
       text-shadow: 4px 4px #000;
     }
 
-    .hero p {
-      font-size: 2rem;
-      margin-bottom: 2rem;
+    .typing {
+      font-size: 1.5rem;
+      color: #00ffea;
+      height: 40px;
+      overflow: hidden;
+      border-right: 2px solid white;
+      white-space: nowrap;
+      animation: typing 5s steps(40, end), blink 0.8s infinite;
+    }
+
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent; }
     }
 
     .btn {
-      padding: 0.9rem 2rem;
-      font-size: 1.2rem;
+      padding: 0.8rem 2rem;
+      font-size: 1.1rem;
       background-color: #00ffea;
       border: none;
       color: black;
       cursor: pointer;
-      border-radius: 8px;
+      border-radius: 10px;
       font-weight: bold;
       transition: background-color 0.3s, transform 0.3s;
     }
@@ -145,49 +159,7 @@
       background: rgba(0, 0, 0, 0.8);
     }
 
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 2000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0, 0, 0, 0.9);
-    }
-
-    .modal-content {
-      background-color: #1e1e1e;
-      margin: 10% auto;
-      padding: 2rem;
-      border: 1px solid #888;
-      width: 80%;
-      max-width: 400px;
-      color: white;
-      border-radius: 10px;
-    }
-
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    input[type="text"],
-    input[type="password"] {
-      width: 100%;
-      padding: 0.75rem;
-      margin: 1rem 0;
-      border: none;
-      border-radius: 5px;
-    }
-
-    audio {
-      display: none;
-    }
+    audio { display: none; }
   </style>
 </head>
 
@@ -195,23 +167,23 @@
   <header>
     <div class="logo">🌟 Shreyas World</div>
     <nav>
-      <a href="#">Home</a>
+      <a href="#home">Home</a>
       <a href="#features">Features</a>
-      <a href="#" onclick="alert('Coming soon!')">Welcome & Inspire</a>
-      <a href="#" onclick="alert('Coming soon!')">Upload Content</a>
-      <a href="#" onclick="alert('Coming soon!')">Blog Update</a>
-      <a href="#" onclick="alert('Coming soon!')">Interactive Pages</a>
-      <a href="#" onclick="alert('Meet your AI Assistant - ShreyasBot')">ShreyasBot</a>
-      <a href="#" onclick="alert('Drawing Pad coming soon!')">Drawing Pad</a>
-      <a href="#" onclick="alert('Mobile App version coming soon!')">Mobile App</a>
-      <a href="#" onclick="alert('Track progress - coming soon!')">Progress Dashboard</a>
-      <a href="#" onclick="openModal()">Login / Sign Up</a>
+      <a href="#">Inspire</a>
+      <a href="#">Upload</a>
+      <a href="#">Blog</a>
+      <a href="#">Pages</a>
+      <a href="#">ShreyasBot</a>
+      <a href="#">Drawing</a>
+      <a href="#">App</a>
+      <a href="#">Progress</a>
+      <a href="#signin">Login</a>
     </nav>
   </header>
 
-  <section class="hero">
+  <section class="hero" id="home">
     <h1>Welcome to Shreyas World</h1>
-    <p>Your Gateway to Motivation, Coding, Health, AI Tools, and Brain Games</p>
+    <p class="typing">Your Gateway to Motivation, Coding, Health, AI Tools, and Brain Games</p>
     <button class="btn" onclick="alert('Explore features coming soon!')">Explore Now</button>
   </section>
 
@@ -219,42 +191,27 @@
     <div class="feature">
       <i class="fas fa-lightbulb"></i>
       <h3>Welcome & Inspire</h3>
-      <p>Daily quotes and stories to kickstart your day with purpose.</p>
+      <p>Kickstart your day with purpose.</p>
     </div>
     <div class="feature">
       <i class="fas fa-upload"></i>
       <h3>Upload Content</h3>
-      <p>Share your videos, code, and thoughts with the community.</p>
+      <p>Share videos, code, and ideas.</p>
     </div>
     <div class="feature">
-      <i class="fas fa-blog"></i>
-      <h3>Blog Updates</h3>
-      <p>Fresh articles on tech, motivation, and well-being every week.</p>
+      <i class="fas fa-brain"></i>
+      <h3>AI Study Tools</h3>
+      <p>Coming soon: Notes Maker, Quiz Generator, IDE</p>
     </div>
     <div class="feature">
-      <i class="fas fa-comments"></i>
-      <h3>Interactive Pages</h3>
-      <p>Engage with quizzes, polls, and interactive learning tools.</p>
+      <i class="fas fa-gamepad"></i>
+      <h3>Games Zone</h3>
+      <p>Math, Memory, Logic Games</p>
     </div>
     <div class="feature">
       <i class="fas fa-robot"></i>
       <h3>ShreyasBot Assistant</h3>
-      <p>Your smart AI friend to guide and motivate your journey.</p>
-    </div>
-    <div class="feature">
-      <i class="fas fa-pencil-ruler"></i>
-      <h3>Drawing Pad</h3>
-      <p>Express your creativity right from your browser.</p>
-    </div>
-    <div class="feature">
-      <i class="fas fa-mobile-alt"></i>
-      <h3>Mobile App</h3>
-      <p>Experience Shreyas World on the go.</p>
-    </div>
-    <div class="feature">
-      <i class="fas fa-chart-line"></i>
-      <h3>Progress Dashboard</h3>
-      <p>Visualize and track your learning and health goals.</p>
+      <p>Smart AI Friend for Study Help</p>
     </div>
   </section>
 
@@ -262,39 +219,9 @@
     <p>&copy; 2025 Shreyas World. All rights reserved.</p>
   </footer>
 
-  <div id="signinModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal()">&times;</span>
-      <h2>Sign In / Sign Up</h2>
-      <form action="/auth" method="POST">
-        <input type="text" placeholder="Username" name="username" required />
-        <input type="password" placeholder="Password" name="password" required />
-        <button type="submit" class="btn">Continue</button>
-      </form>
-    </div>
-  </div>
-
   <audio autoplay loop>
     <source src="https://dl.sndup.net/mf58/Intro%20Music%20By%20Shreyas%20World.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
   </audio>
-
-  <script>
-    function openModal() {
-      document.getElementById("signinModal").style.display = "block";
-    }
-
-    function closeModal() {
-      document.getElementById("signinModal").style.display = "none";
-    }
-
-    window.onclick = function (event) {
-      const modal = document.getElementById("signinModal");
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
-    };
-  </script>
 </body>
 
 </html>
