@@ -1,115 +1,105 @@
 
-      <!DOCTYPE html><html lang="en">
+     <!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Shreyas World</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #0f1624;
-      color: #ffffff;
-    }
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 60px;
-      background: transparent;
-    }
-    .nav-links a {
-      color: #fff;
-      margin: 0 15px;
-      text-decoration: none;
-      font-weight: 500;
-    }
-    .hero {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 100px 60px;
-      background: url('https://images.unsplash.com/photo-1603570419988-f03f2f0c2555') no-repeat center center/cover;
-      height: 100vh;
-      color: #fff;
-    }
-    .hero h1 {
-      font-size: 60px;
-      line-height: 1.2;
-      margin-bottom: 20px;
-    }
-    .hero p {
-      font-size: 18px;
-      max-width: 600px;
-      margin-bottom: 30px;
-    }
-    .hero button {
-      padding: 10px 30px;
-      font-size: 16px;
-      background: #3f8efc;
-      border: none;
+      background-image: url('https://images.unsplash.com/photo-1557683304-673a23048d34');
+      background-size: cover;
+      background-position: center;
       color: white;
-      border-radius: 5px;
-      cursor: pointer;
     }
-    .sections {
-      padding: 60px;
-      background: #10182c;
+    .overlay {
+      background: rgba(0, 0, 0, 0.6);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
     }
-    .sections h2 {
-      font-size: 30px;
-      margin-bottom: 20px;
+    .nav-link, .navbar-brand {
+      color: white !important;
     }
-    .section-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
+    .container {
+      margin-top: 100px;
     }
-    .section-item {
-      background: #1c2a47;
-      padding: 20px;
-      border-radius: 10px;
-      transition: 0.3s;
-    }
-    .section-item:hover {
-      background: #3f8efc;
-      color: white;
+    .form-control, .btn {
+      border-radius: 0.5rem;
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="brand">
-      <h2>Shreyas World</h2>
+  <div class="overlay"></div>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-transparent">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Shreyas World</a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#">AI Tools</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Brain Booster Games</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Java & Python</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Smart Test</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Art & Drawing</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Motivation</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Skills</a>
+          </li>
+        </ul>
+      </div>
     </div>
-    <nav class="nav-links">
-      <a href="#">Home</a>
-      <a href="#">Support</a>
-      <a href="#">Portfolio</a>
-      <a href="#">Contact</a>
-    </nav>
-  </header>
-  <section class="hero">
-    <h1>WORKING <span style="text-decoration: line-through;">SPACE</span></h1>
-    <p>Welcome to Shreyas World — Learn, Build Skills, Boost Brainpower, and Stay Motivated.</p>
-    <button>Read More</button>
-  </section>
-  <section class="sections">
-    <h2>Explore Sections</h2>
-    <div class="section-list">
-      <div class="section-item">AI Tools</div>
-      <div class="section-item">Brain Booster Games</div>
-      <div class="section-item">Java & Python Learning</div>
-      <div class="section-item">Smart Test</div>
-      <div class="section-item">Art & Drawing Learning</div>
-      <div class="section-item">Motivation</div>
-      <div class="section-item">Skills</div>
+  </nav>  <div class="container text-center">
+    <h1>Welcome to Shreyas World</h1>
+    <p>Learn. Grow. Conquer.</p>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+  </div>  <!-- Login Modal -->  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content text-dark">
+        <div class="modal-header">
+          <h5 class="modal-title" id="loginModalLabel">Login</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="loginForm">
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input type="text" class="form-control" id="username" required />
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" id="password" required />
+            </div>
+            <button type="submit" class="btn btn-success">Login</button>
+          </form>
+        </div>
+      </div>
     </div>
-  </section>
-</body>
+  </div>  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      if (username === 'admin' && password === '1234') {
+        alert('Login successful!');
+        bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
+      } else {
+        alert('Invalid credentials.');
+      }
+    });
+  </script></body>
 </html>
