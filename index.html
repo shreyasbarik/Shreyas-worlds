@@ -3,251 +3,327 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Shreyas World</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
   <style>
     body {
-      background: linear-gradient(to right, #f8f9fa, #e9ecef);
+      background-image: url('https://images.unsplash.com/photo-1557683304-673a23048d34?auto=format&fit=crop&w=1470&q=80');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      min-height: 100vh;
+      position: relative;
     }
-    .navbar-brand {
-      font-weight: bold;
-      font-size: 1.8rem;
+    .overlay {
+      background: rgba(0, 0, 0, 0.75);
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: -1;
+    }
+    .navbar-brand, .nav-link {
+      color: white !important;
+    }
+    .container {
+      margin-top: 100px;
     }
     .card {
+      background: rgba(255, 255, 255, 0.1);
       border-radius: 1rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      color: white;
+      border: none;
+      transition: transform 0.3s ease;
+    }
+    .card:hover {
+      transform: scale(1.03);
+      background: rgba(255, 255, 255, 0.15);
     }
     .card i {
-      font-size: 2rem;
+      font-size: 2.5rem;
       margin-bottom: 10px;
-      color: #007bff;
+      color: #ffc107;
     }
-    h2 {
+    .btn-game {
+      color: #ffc107;
       font-weight: 600;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .btn-game:hover {
+      color: #fff;
+      text-decoration: underline;
+    }
+    .footer {
+      background-color: rgba(0, 0, 0, 0.8);
+      padding: 20px 0;
+      margin-top: 50px;
+      text-align: center;
+      color: white;
+    }
+    .footer a {
+      color: #ffc107;
+      text-decoration: none;
+    }
+    /* Book style for Motivational Stories */
+    #book {
+      width: 100%;
+      max-width: 320px;
+      min-height: 220px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 1rem;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+      perspective: 1200px;
+      margin: 0 auto 20px;
+      padding: 1rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+      color: #fff;
+    }
+    .page {
+      transition: transform 0.6s ease;
+      backface-visibility: hidden;
+    }
+    .page-flip {
+      transform: rotateY(180deg);
+    }
+    /* Art & Drawing images */
+    .art-image {
+      width: 100%;
+      border-radius: 1rem;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+    .art-image:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 30px #ffc107;
     }
   </style>
 </head>
 <body>
+  <div class="overlay"></div>
+
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-transparent fixed-top">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Shreyas World</a>
+      <a class="navbar-brand" href="#"><i class="bi bi-globe"></i> Shreyas World</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#ai-tools"><i class="bi bi-cpu"></i> AI Tools</a></li>
+          <li class="nav-item"><a class="nav-link" href="#games"><i class="bi bi-controller"></i> Brain Booster Games</a></li>
+          <li class="nav-item"><a class="nav-link" href="#java-python"><i class="bi bi-code-slash"></i> Java & Python</a></li>
+          <li class="nav-item"><a class="nav-link" href="#smart-test"><i class="bi bi-bar-chart-line"></i> Smart Test</a></li>
+          <li class="nav-item"><a class="nav-link" href="#art-drawing"><i class="bi bi-brush"></i> Art & Drawing</a></li>
+          <li class="nav-item"><a class="nav-link" href="#motivation"><i class="bi bi-lightbulb"></i> Motivation</a></li>
+          <li class="nav-item"><a class="nav-link" href="#skills"><i class="bi bi-tools"></i> Skills</a></li>
+        </ul>
+      </div>
     </div>
   </nav>
 
   <!-- Welcome Section -->
-  <div class="container mt-4 text-center">
-    <h1 class="display-5 fw-bold">Welcome to Shreyas World</h1>
-    <p class="lead">Explore the future of education, creativity, and productivity</p>
+  <div class="container text-center">
+    <h1>Welcome to Shreyas World</h1>
+    <p class="lead">Learn. Grow. Conquer.</p>
+    <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="bi bi-person-circle"></i> Login</button>
   </div>
 
-  <!-- AI Tools -->
-  <div class="container mt-5" id="ai-tools">
-    <h2 class="text-center mb-4"><i class="bi bi-cpu"></i> AI Tools</h2>
-    <div class="row g-4 justify-content-center">
-      <div class="col-md-4">
-        <div class="card p-4 text-center">
-          <i class="bi bi-file-earmark-text"></i>
-          <h5>PDF Summarizer & Question Generator</h5>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card p-4 text-center">
-          <i class="bi bi-mic"></i>
-          <h5>Voice-to-Text AI Notes Maker</h5>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card p-4 text-center">
-          <i class="bi bi-calendar3"></i>
-          <h5>Study Planner AI (Auto Timetable)</h5>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card p-4 text-center">
-          <i class="bi bi-person-badge"></i>
-          <h5>Resume/CV Builder AI</h5>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card p-4 text-center">
-          <i class="bi bi-journal-text"></i>
-          <h5>Homework Solver (Text/Image)</h5>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Brain Booster Games -->
+  <!-- Brain Booster Games Section -->
   <div class="container mt-5" id="games">
     <h2 class="text-center mb-4"><i class="bi bi-controller"></i> Brain Booster Games</h2>
     <div class="row g-4 justify-content-center">
       <div class="col-md-4">
         <div class="card p-4 text-center">
-          <i class="bi bi-lightbulb"></i>
-          <h5>Mind Games & Puzzles</h5>
+          <i class="bi bi-lightning-charge"></i>
+          <h5 class="mt-2">Reaction Time Test</h5>
+          <a class="btn-game" target="_blank" href="https://humanbenchmark.com/tests/reactiontime">Play Now</a>
         </div>
       </div>
       <div class="col-md-4">
         <div class="card p-4 text-center">
-          <i class="bi bi-trophy"></i>
-          <h5>Daily Challenge Leaderboard</h5>
+          <i class="bi bi-brain"></i>
+          <h5 class="mt-2">Memory Game</h5>
+          <a class="btn-game" target="_blank" href="https://www.memozor.com/memory-games/for-kids/online-free">Play Now</a>
         </div>
       </div>
       <div class="col-md-4">
         <div class="card p-4 text-center">
-          <i class="bi bi-people"></i>
-          <h5>Multiplayer Memory Games</h5>
+          <i class="bi bi-hourglass-split"></i>
+          <h5 class="mt-2">Number Memory</h5>
+          <a class="btn-game" target="_blank" href="https://humanbenchmark.com/tests/number-memory">Play Now</a>
         </div>
       </div>
       <div class="col-md-4">
         <div class="card p-4 text-center">
-          <i class="bi bi-stars"></i>
-          <h5>Streaks & Rewards</h5>
+          <i class="bi bi-eyeglasses"></i>
+          <h5 class="mt-2">Visual Memory</h5>
+          <a class="btn-game" target="_blank" href="https://humanbenchmark.com/tests/visual-memory">Play Now</a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card p-4 text-center">
+          <i class="bi bi-speedometer2"></i>
+          <h5 class="mt-2">Typing Speed Test</h5>
+          <a class="btn-game" target="_blank" href="https://10fastfingers.com/typing-test/english">Play Now</a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card p-4 text-center">
+          <i class="bi bi-question-circle"></i>
+          <h5 class="mt-2">Trivia Quiz</h5>
+          <a class="btn-game" target="_blank" href="https://www.funtrivia.com/">Play Now</a>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Java & Python -->
-  <div class="container mt-5" id="java-python">
-    <h2 class="text-center mb-4"><i class="bi bi-code-slash"></i> Java & Python</h2>
-    <div class="row g-4 justify-content-center">
-      <div class="col-md-4">
-        <div class="card p-4 text-center">
-          <i class="bi bi-terminal"></i>
-          <h5>Interactive Code Editor</h5>
+  <!-- Motivational Stories Section -->
+  <div class="container mt-5" id="motivation">
+    <h2 class="text-center mb-4"><i class="bi bi-lightbulb"></i> Motivational Stories</h2>
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center">
+        <div id="book" class="mb-3">
+          <div id="story-page" class="page">
+            <h5 id="story-title">🌟 From Failure to Founder</h5>
+            <p id="story-text">
+              Arjun failed three exams. Everyone gave up on him — except himself. He read daily, worked nights, and stayed silent while building. Four years later, he built a startup that solved exam stress — helping lakhs of students feel hope again.
+            </p>
+          </div>
         </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card p-4 text-center">
-          <i class="bi bi-upload"></i>
-          <h5>Mini Projects Zone</h5>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card p-4 text-center">
-          <i class="bi bi-patch-check"></i>
-          <h5>Code Challenges + Badges</h5>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card p-4 text-center">
-          <i class="bi bi-bug"></i>
-          <h5>AI Code Debugger</h5>
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+          <button class="btn btn-warning" onclick="previousStory()">⏮ Previous</button>
+          <button class="btn btn-warning" onclick="nextStory()">Next ⏭</button>
+          <button class="btn btn-success" onclick="readStory()">🔊 Read Aloud</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Smart Test -->
-  <div class="container mt-5" id="smart-test">
-    <h2 class="text-center mb-4"><i class="bi bi-bar-chart-line"></i> Smart Test</h2>
-    <div class="row g-4 justify-content-center">
-      <div class="col-md-4">
-        <div class="card p-4 text-center">
-          <i class="bi bi-journal-check"></i>
-          <h5>Chapter-wise Mock Tests</h5>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card p-4 text-center">
-          <i class="bi bi-archive"></i>
-          <h5>Board Exam Previous Papers</h5>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card p-4 text-center">
-          <i class="bi bi-sliders"></i>
-          <h5>Custom Quiz Generator</h5>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card p-4 text-center">
-          <i class="bi bi-graph-up-arrow"></i>
-          <h5>Rank Prediction AI</h5>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Art & Drawing -->
-  <div class="container mt-5" id="art">
+  <!-- Art & Drawing Section -->
+  <div class="container mt-5" id="art-drawing">
     <h2 class="text-center mb-4"><i class="bi bi-brush"></i> Art & Drawing</h2>
     <div class="row g-4 justify-content-center">
       <div class="col-md-4">
-        <div class="card p-4 text-center">
-          <i class="bi bi-palette"></i>
-          <h5>Digital Canvas Tool</h5>
+        <div class="card p-3 text-center">
+          <img class="art-image" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Drawing 1" />
+          <h5 class="mt-3">Mountain Landscape</h5>
+          <p>A calm and inspiring landscape drawing to spark creativity.</p>
         </div>
       </div>
       <div class="col-md-4">
-        <div class="card p-4 text-center">
-          <i class="bi bi-upload"></i>
-          <h5>Upload + Gallery</h5>
+        <div class="card p-3 text-center">
+          <img class="art-image" src="https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=600&q=80" alt="Drawing 2" />
+          <h5 class="mt-3">Colorful Abstract</h5>
+          <p>Bright colors blending into an abstract masterpiece.</p>
         </div>
       </div>
       <div class="col-md-4">
-        <div class="card p-4 text-center">
-          <i class="bi bi-award"></i>
-          <h5>Monthly Drawing Competitions</h5>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card p-4 text-center">
-          <i class="bi bi-stars"></i>
-          <h5>AI Image to Drawing</h5>
+        <div class="card p-3 text-center">
+          <img class="art-image" src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=600&q=80" alt="Drawing 3" />
+          <h5 class="mt-3">Sketch of Nature</h5>
+          <p>A simple pencil sketch showing the beauty of nature.</p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Motivation -->
-  <div class="container mt-5" id="motivation">
-    <h2 class="text-center mb-4"><i class="bi bi-heart"></i> Motivation</h2>
-    <div class="row g-4 justify-content-center">
-      <div class="col-md-4">
-        <div class="card p-4 text-center">
-          <i class="bi bi-emoji-smile"></i>
-          <h5>Daily Motivation Wall</h5>
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© 2025 Shreyas World. All rights reserved. | <a href="#loginModal" data-bs-toggle="modal">Login</a></p>
+  </footer>
+
+  <!-- Login Modal -->
+  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-dark text-white rounded-4">
+        <div class="modal-header border-0">
+          <h5 class="modal-title" id="loginModalLabel"><i class="bi bi-person-circle"></i> Login to Shreyas World</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
         </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card p-4 text-center">
-          <i class="bi bi-bookmark-star"></i>
-          <h5>Topper’s Study Stories</h5>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card p-4 text-center">
-          <i class="bi bi-heart-pulse"></i>
-          <h5>Mood Tracker + AI Quotes</h5>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card p-4 text-center">
-          <i class="bi bi-stars"></i>
-          <h5>Custom Affirmation Generator</h5>
+        <div class="modal-body">
+          <form id="loginForm" onsubmit="event.preventDefault(); alert('Login functionality coming soon!');">
+            <div class="mb-3">
+              <label for="phone" class="form-label">Mobile Number</label>
+              <input type="tel" class="form-control" id="phone" placeholder="+91 98765 43210" pattern="^\+?\d{10,13}$" required />
+            </div>
+            <div class="mb-3">
+              <button type="button" class="btn btn-warning w-100" onclick="alert('OTP sent! (Simulated)')">Send OTP</button>
+            </div>
+            <div class="mb-3">
+              <label for="otp" class="form-label">Enter OTP</label>
+              <input type="text" class="form-control" id="otp" placeholder="123456" pattern="^\d{6}$" required />
+            </div>
+            <button type="submit" class="btn btn-success w-100">Login</button>
+          </form>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Skills -->
-  <div class="container mt-5 mb-5" id="skills">
-    <h2 class="text-center mb-4"><i class="bi bi-tools"></i> Skills</h2>
-    <div class="row g-4 justify-content-center">
-      <div class="col-md-4">
-        <div class="card p-4 text-center">
-          <i class="bi bi-lightning"></i>
-          <h5>Free Mini Courses (Design, Finance...)</h5>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Motivational Stories Data
+    const stories = [
+      {
+        title: "🌟 From Failure to Founder",
+        text: "Arjun failed three exams. Everyone gave up on him — except himself. He read daily, worked nights, and stayed silent while building. Four years later, he built a startup that solved exam stress — helping lakhs of students feel hope again."
+      },
+      {
+        title: "🚀 Dream Big, Work Hard",
+        text: "Sneha dreamed of becoming a pilot. She woke up early, studied aviation books, and never gave up. Today, she flies planes and inspires thousands to chase their dreams."
+      },
+      {
+        title: "🌱 The Power of Persistence",
+        text: "Rajesh planted a seed of hope in his village. Despite failures and droughts, he kept nurturing it. His perseverance turned the barren land into a lush farm that feeds many."
+      },
+      {
+        title: "🔥 Rising from Ashes",
+        text: "Meera lost everything in a fire. Instead of despairing, she rebuilt her life, started a community help group, and now supports others facing hardships."
+      }
+    ];
+    let currentStoryIndex = 0;
+
+    const storyTitle = document.getElementById('story-title');
+    const storyText = document.getElementById('story-text');
+    const storyPage = document.getElementById('story-page');
+
+    function showStory(index) {
+      storyPage.classList.add('page-flip');
+      setTimeout(() => {
+        storyTitle.textContent = stories[index].title;
+        storyText.textContent = stories[index].text;
+        storyPage.classList.remove('page-flip');
+      }, 300);
+    }
+
+    function nextStory() {
+      currentStoryIndex = (currentStoryIndex + 1) % stories.length;
+      showStory(currentStoryIndex);
+    }
+
+    function previousStory() {
+      currentStoryIndex = (currentStoryIndex - 1 + stories.length) % stories.length;
+      showStory(currentStoryIndex);
+    }
+
+    function readStory() {
+      if ('speechSynthesis' in window) {
+        const msg = new SpeechSynthesisUtterance();
+        msg.text = stories[currentStoryIndex].title + ". " + stories[currentStoryIndex].text;
+        msg.lang = 'en-US';
+        msg.rate = 1;
+        msg.pitch = 1;
+        window.speechSynthesis.speak(msg);
+      } else {
+        alert("Sorry, your browser doesn't support text-to-speech.");
+      }
+    }
+  </script>
 </body>
 </html>
