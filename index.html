@@ -1,10 +1,12 @@
 
-     <!DOCTYPE html><html lang="en">
+          <!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Shreyas World</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
   <style>
     body {
       background-image: url('https://images.unsplash.com/photo-1557683304-673a23048d34');
@@ -13,7 +15,7 @@
       color: white;
     }
     .overlay {
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0, 0, 0, 0.7);
       position: fixed;
       top: 0;
       left: 0;
@@ -30,44 +32,116 @@
     .form-control, .btn {
       border-radius: 0.5rem;
     }
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: white;
+      border-radius: 1rem;
+    }
+    .card i {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+    .coming-soon {
+      font-weight: bold;
+      color: #ffc107;
+      font-size: 1.2rem;
+    }
+    a.btn-game {
+      color: #fff;
+      text-decoration: none;
+    }
   </style>
 </head>
 <body>
   <div class="overlay"></div>
+
+  <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-transparent">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Shreyas World</a>
-      <div class="collapse navbar-collapse">
+      <a class="navbar-brand" href="#"><i class="bi bi-globe"></i> Shreyas World</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="#">AI Tools</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Brain Booster Games</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Java & Python</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Smart Test</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Art & Drawing</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Motivation</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Skills</a>
-          </li>
+          <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-cpu"></i> AI Tools</a></li>
+          <li class="nav-item"><a class="nav-link" href="#games"><i class="bi bi-controller"></i> Brain Booster Games</a></li>
+          <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-code-slash"></i> Java & Python</a></li>
+          <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-bar-chart-line"></i> Smart Test</a></li>
+          <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-brush"></i> Art & Drawing</a></li>
+          <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-lightbulb"></i> Motivation</a></li>
+          <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-tools"></i> Skills</a></li>
         </ul>
       </div>
     </div>
-  </nav>  <div class="container text-center">
+  </nav>
+
+  <!-- Welcome Section -->
+  <div class="container text-center">
     <h1>Welcome to Shreyas World</h1>
-    <p>Learn. Grow. Conquer.</p>
+    <p class="lead">Learn. Grow. Conquer.</p>
     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
-  </div>  <!-- Login Modal -->  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+  </div>
+
+  <!-- Brain Booster Games Section -->
+  <div class="container mt-5" id="games">
+    <h2 class="text-center mb-4"><i class="bi bi-controller"></i> Brain Booster Games</h2>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card p-4 text-center">
+          <i class="bi bi-lightning-charge"></i>
+          <h5 class="mt-2">Reaction Time Test</h5>
+          <a class="btn-game" target="_blank" href="https://humanbenchmark.com/tests/reactiontime">Play Now</a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card p-4 text-center">
+          <i class="bi bi-brain"></i>
+          <h5 class="mt-2">Memory Game</h5>
+          <a class="btn-game" target="_blank" href="https://www.memozor.com/memory-games/for-kids/online-free">Play Now</a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card p-4 text-center">
+          <i class="bi bi-hourglass-split"></i>
+          <h5 class="mt-2">Number Memory</h5>
+          <a class="btn-game" target="_blank" href="https://humanbenchmark.com/tests/number-memory">Play Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Coming Soon Section -->
+  <div class="container mt-5">
+    <h2 class="text-center"><i class="bi bi-tools"></i> More Features</h2>
+    <div class="row g-4 mt-3">
+      <div class="col-md-4 text-center">
+        <div class="card p-4">
+          <i class="bi bi-code-square"></i>
+          <h5>Java & Python</h5>
+          <p class="coming-soon">COMING SOON</p>
+        </div>
+      </div>
+      <div class="col-md-4 text-center">
+        <div class="card p-4">
+          <i class="bi bi-lightbulb"></i>
+          <h5>Motivational Stories</h5>
+          <p class="coming-soon">COMING SOON</p>
+        </div>
+      </div>
+      <div class="col-md-4 text-center">
+        <div class="card p-4">
+          <i class="bi bi-palette"></i>
+          <h5>Art & Drawing</h5>
+          <p class="coming-soon">COMING SOON</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Login Modal -->
+  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content text-dark">
         <div class="modal-header">
@@ -89,7 +163,11 @@
         </div>
       </div>
     </div>
-  </div>  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>  <script>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
     document.getElementById('loginForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const username = document.getElementById('username').value;
@@ -101,5 +179,6 @@
         alert('Invalid credentials.');
       }
     });
-  </script></body>
+  </script>
+</body>
 </html>
