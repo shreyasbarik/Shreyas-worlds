@@ -1,157 +1,129 @@
 
-     !DOCTYPE html>
-<html lang="en">
-<head>
+    <!DOCTYPE html><html lang="en"><head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shreyas World</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-    }
+      font-family: 'Roboto', sans-serif;
+    }body {
+  background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb') no-repeat center center/cover;
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
 
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #f5f7fa;
-      color: #333;
-    }
+header {
+  background: rgba(0, 0, 0, 0.6);
+  width: 100%;
+  padding: 20px;
+}
 
-    header {
-      background-color: #111;
-      color: white;
-      padding: 20px 40px;
-      text-align: center;
-    }
+header h1 {
+  font-size: 2.5rem;
+}
 
-    nav {
-      background-color: #222;
-      display: flex;
-      justify-content: center;
-      padding: 10px 0;
-    }
+nav {
+  margin-top: 20px;
+}
 
-    nav a {
-      color: white;
-      margin: 0 15px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: color 0.3s ease;
-    }
+nav a {
+  margin: 0 15px;
+  color: #00ffcc;
+  text-decoration: none;
+  font-weight: bold;
+}
 
-    nav a:hover {
-      color: #ffa500;
-    }
+section {
+  background-color: rgba(0, 0, 0, 0.6);
+  margin: 30px;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 800px;
+}
 
-    .hero {
-      background-image: url('https://via.placeholder.com/1200x600.png?text=Welcome+to+Shreyas+World');
-      background-size: cover;
-      background-position: center;
-      height: 70vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      color: white;
-      text-shadow: 2px 2px 5px #000;
-      text-align: center;
-      padding: 20px;
-    }
+.coming-soon {
+  font-size: 1.5rem;
+  margin: 15px 0;
+  color: #ffe600;
+}
 
-    .hero h1 {
-      font-size: 3.5em;
-    }
+form {
+  margin-top: 20px;
+}
 
-    .hero p {
-      font-size: 1.2em;
-      margin-top: 10px;
-    }
+input[type="email"], input[type="password"] {
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
+  border: none;
+  width: 80%;
+}
 
-    .section {
-      padding: 50px 20px;
-      text-align: center;
-    }
+input[type="submit"] {
+  padding: 10px 20px;
+  background-color: #00ffcc;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-    .section h2 {
-      color: #e67e22;
-      margin-bottom: 20px;
-    }
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 2rem;
+  }
 
-    .topics {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 15px;
-      margin-top: 20px;
-    }
+  nav a {
+    display: block;
+    margin: 10px 0;
+  }
+}
 
-    .topics div {
-      background-color: white;
-      padding: 15px 25px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #ccc;
-      transition: transform 0.3s ease;
-    }
-
-    .topics div:hover {
-      transform: translateY(-5px);
-    }
-
-    footer {
-      background-color: #333;
-      color: white;
-      text-align: center;
-      padding: 20px;
-      margin-top: 40px;
-    }
-
-    @media (max-width: 600px) {
-      .hero h1 {
-        font-size: 2em;
-      }
-    }
   </style>
-</head>
-<body>
-
-  <!-- Header -->
+</head><body>
   <header>
-    <h1>Shreyas World</h1>
-    <p>Your daily dose of motivation & skills</p>
-  </header>
-
-  <!-- Navigation -->
-  <nav>
-    <a href="#">Home</a>
-    <a href="#">About</a>
-    <a href="#">Videos</a>
-    <a href="#">Contact</a>
-  </nav>
-
-  <!-- Hero Section -->
-  <div class="hero">
     <h1>Welcome to Shreyas World</h1>
-    <p>Created with passion, failures & dreams</p>
-  </div>
-
-  <!-- Content Section -->
-  <div class="section">
-    <h2>What's Inside?</h2>
-    <div class="topics">
-      <div>Motivational Talks</div>
-      <div>Java & Python Codes</div>
-      <div>Healthy Habits</div>
-      <div>Skill Building</div>
-      <div>Life Success Stories</div>
-    </div>
-  </div>
-
-  <!-- Footer -->
-  <footer>
-    Launched by Shreyas | Full version coming by June 22  
-    <br>Join me on this journey!
-  </footer>
-
-</body>
-</html>
+    <nav>
+      <a href="#ai-tools">AI Tools</a>
+      <a href="#games">Brain Games</a>
+      <a href="#coding">Java & Python</a>
+      <a href="#notes">AI Notes Maker</a>
+      <a href="#mock-tests">Mock Tests</a>
+      <a href="#art">Art & Drawing</a>
+      <a href="#signin">Sign In</a>
+    </nav>
+  </header>  <section id="ai-tools">
+    <h2>AI Study Tools</h2>
+    <p class="coming-soon">Coming Soon - Real AI tools like ChatGPT to help you study smarter!</p>
+  </section>  <section id="games">
+    <h2>Brain Booster Games</h2>
+    <p class="coming-soon">Coming Soon - Play games to boost focus, logic, and memory!</p>
+  </section>  <section id="coding">
+    <h2>Learn Java & Python</h2>
+    <p class="coming-soon">Coming Soon - Step-by-step tutorials and live code playgrounds!</p>
+  </section>  <section id="notes">
+    <h2>AI Notes Maker</h2>
+    <p class="coming-soon">Coming Soon - Upload text and get smart notes instantly!</p>
+  </section>  <section id="mock-tests">
+    <h2>Mock Tests (Class 1-10)</h2>
+    <p class="coming-soon">Coming Soon - Full subject-wise tests with instant results.</p>
+  </section>  <section id="art">
+    <h2>Art & Drawing Classes</h2>
+    <p class="coming-soon">Coming Soon - Learn creative drawing with step-by-step guides!</p>
+  </section>  <section id="signin">
+    <h2>Sign In</h2>
+    <form action="#">
+      <input type="email" placeholder="Email">
+      <input type="password" placeholder="Password">
+      <input type="submit" value="Sign In">
+    </form>
+  </section></body></html>
