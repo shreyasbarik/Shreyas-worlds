@@ -1,7 +1,8 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Shreyas World - Smart Study Hub</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
@@ -17,7 +18,7 @@
       overflow-x: hidden;
     }
     .hero {
-      background-image: url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b');
+      background-image: url('https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0'); /* New background */
       background-size: cover;
       background-position: center;
       height: 100vh;
@@ -33,6 +34,16 @@
       top: 0; left: 0;
       width: 100%; height: 100%;
       background: rgba(0, 0, 0, 0.5);
+    }
+    .top-left-title {
+      position: absolute;
+      top: 20px;
+      left: 30px;
+      z-index: 10;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: white;
+      text-shadow: 2px 2px 4px #000;
     }
     .hero-content {
       position: relative;
@@ -98,11 +109,14 @@
 <body>
   <div class="hero">
     <div class="overlay"></div>
+    <div class="top-left-title">Shreyas World</div>
     <div class="hero-content">
       <h1>Welcome to Shreyas World</h1>
       <p>Smart Study, AI Tools, Brain Games & More</p>
     </div>
-  </div>  <section class="features">
+  </div>
+
+  <section class="features">
     <div class="feature-box">
       <i class="fas fa-brain"></i>
       <h3>Brain Booster Games</h3>
@@ -123,14 +137,18 @@
       <h3>Art & Drawing Lessons</h3>
       <p>Creative tutorials for beginners to advanced.</p>
     </div>
-  </section>  <section class="auth-section">
+  </section>
+
+  <section class="auth-section">
     <h2>Sign Up Now</h2>
     <form onsubmit="event.preventDefault(); alert('OTP sent! (Simulation)');">
       <input type="text" placeholder="Your Name" required><br>
       <input type="email" placeholder="Email" required><br>
       <button class="btn">Send OTP</button>
     </form>
-  </section>  <footer>
+  </section>
+
+  <footer>
     &copy; 2025 Shreyas World. Built with passion.
   </footer>
 </body>
