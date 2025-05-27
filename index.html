@@ -1,5 +1,5 @@
 
-```html
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -70,6 +70,7 @@
   nav {
     display: flex;
     gap: 18px;
+    flex-wrap: wrap;
   }
   nav a {
     color: #bbd1ff;
@@ -90,50 +91,51 @@
     background: radial-gradient(circle at center top, #1c40b2 0%, #3258e5 85%);
     color: white;
     clip-path: ellipse(100% 220% at 50% 0);
+    user-select: none;
   }
   #hero h1.en {
     font-family: 'Georgia', serif;
     font-weight: 900;
-    font-size: clamp(2.6rem,5vw,4.2rem);
+    font-size: clamp(3rem,6vw,5rem);
     line-height: 1.1;
-    text-shadow: 2px 3px 12px rgba(0,0,0,0.5);
-    margin-bottom: 8px;
+    text-shadow: 2px 4px 16px rgba(0,0,0,0.6);
+    margin-bottom: 12px;
   }
   #hero h2.hi {
     font-family: 'Noto Sans Devanagari', serif;
-    font-size: clamp(1.5rem,3vw,2.4rem);
+    font-size: clamp(1.7rem,3vw,2.8rem);
     font-weight: 700;
-    color: #fdd835cc;
-    margin-bottom: 26px;
-    text-shadow: 0 1px 12px rgba(0,0,0,0.45);
+    color: #fdd835dd;
+    margin-bottom: 36px;
+    text-shadow: 0 2px 18px rgba(0,0,0,0.55);
   }
   #hero p.quote {
-    margin: 0 auto 48px;
+    margin: 0 auto 54px;
     font-family: 'Noto Serif Devanagari', serif;
     font-style: italic;
     font-weight: 600;
-    font-size: clamp(1.1rem, 2vw, 1.5rem);
-    max-width: 680px;
-    line-height: 1.6;
-    color: #f5e97dcc;
-    text-shadow: 0 2px 14px rgba(0,0,0,0.45);
+    font-size: clamp(1.2rem, 2.5vw, 1.7rem);
+    max-width: 700px;
+    line-height: 1.7;
+    color: #f8eaa9cc;
+    text-shadow: 0 3px 20px rgba(0,0,0,0.55);
   }
   #hero button.cta {
     background-color: #fdd835;
     color: #0a237b;
-    padding: 16px 48px;
+    padding: 18px 56px;
     font-weight: 700;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     border: none;
     border-radius: 50px;
-    box-shadow: 0 6px 25px rgb(253 216 53 / 0.7);
+    box-shadow: 0 8px 30px rgb(253 216 53 / 0.8);
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.25s ease;
   }
   #hero button.cta:hover, #hero button.cta:focus {
     background-color: #e6c230;
     outline: none;
-    transform: scale(1.05);
+    transform: scale(1.1);
   }
 
   /* Features Section: Tabs */
@@ -173,6 +175,7 @@
     flex-grow: 1;
     max-width: 200px;
     text-align: center;
+    white-space: nowrap;
   }
   .tab:hover, .tab:focus {
     box-shadow: inset 0 0 0 1.5px #1c40b2;
@@ -186,29 +189,29 @@
   }
   /* Tab content */
   .tab-content {
-    max-width: 760px;
+    max-width: 780px;
     margin: 0 auto;
-    box-shadow: 0 3px 15px rgb(0 0 0 / 0.08);
+    box-shadow: 0 3px 15px rgb(0 0 0 / 0.1);
     background: #f7faff;
-    padding: 28px 32px;
-    border-radius: 16px;
-    font-size: 1.1rem;
-    line-height: 1.52;
+    padding: 32px 36px;
+    border-radius: 20px;
+    font-size: 1.15rem;
+    line-height: 1.58;
     color: #112244;
     font-weight: 500;
-    min-height: 220px;
+    min-height: 250px;
     user-select: text;
     box-sizing: border-box;
     position: relative;
   }
   .tab-icon {
-    font-size: 38px;
-    margin-right: 14px;
+    font-size: 40px;
+    margin-right: 16px;
     vertical-align: middle;
     color: #1c40b2cc;
   }
   .tab-title {
-    font-size: 1.6rem;
+    font-size: 1.7rem;
     vertical-align: middle;
     color: #1c40b2;
     font-weight: 700;
@@ -217,56 +220,66 @@
   .tab-header {
     display: flex;
     align-items: center;
-    margin-bottom: 14px;
+    margin-bottom: 18px;
+  }
+  ul {
+    margin-top: 15px;
+    list-style: disc inside;
+    color: #334466;
+    font-weight: 500;
+  }
+  ul li {
+    margin-bottom: 8px;
   }
   /* Smart AI Section */
   #shreyas-ai {
     background: #f0f5ff;
-    padding: 60px 24px 80px;
+    padding: 60px 24px 84px;
     text-align: center;
-    border-radius: 18px;
-    box-shadow: 0 6px 25px rgb(0 0 0 / 0.12);
+    border-radius: 22px;
+    box-shadow: 0 6px 28px rgb(0 0 0 / 0.14);
     max-width: 1140px;
-    margin: 0 auto 48px;
+    margin: 0 auto 56px;
   }
   #shreyas-ai h2 {
     font-weight: 700;
     color: #1c40b2;
-    font-size: 2.8rem;
-    margin-bottom: 22px;
+    font-size: 3rem;
+    margin-bottom: 28px;
+    user-select: none;
   }
   #shreyas-ai p.description {
     font-weight: 500;
-    font-size: 1.15rem;
+    font-size: 1.2rem;
     color: #3b4c7f;
-    max-width: 620px;
-    margin: 0 auto 36px;
+    max-width: 640px;
+    margin: 0 auto 40px;
   }
   #ai-chat {
-    max-width: 680px;
-    height: 440px;
+    max-width: 720px;
+    height: 460px;
     margin: 0 auto;
     background: white;
-    border-radius: 20px;
-    box-shadow: 0 10px 35px rgb(0 0 0 / 0.12);
+    border-radius: 22px;
+    box-shadow: 0 10px 40px rgb(0 0 0 / 0.15);
     display: flex;
     flex-direction: column;
     overflow: hidden;
   }
   #messages {
     flex-grow: 1;
-    padding: 20px 24px;
+    padding: 24px 28px;
     overflow-y: auto;
     font-size: 1rem;
     line-height: 1.5;
   }
   .message {
     max-width: 75%;
-    margin-bottom: 16px;
-    padding: 14px 20px;
-    border-radius: 30px;
+    margin-bottom: 18px;
+    padding: 16px 24px;
+    border-radius: 34px;
     font-weight: 500;
-    box-shadow: 0 3px 13px rgb(0 0 0 / 0.07);
+    box-shadow: 0 4px 16px rgb(0 0 0 / 0.07);
     word-wrap: break-word;
     word-break: break-word;
   }
@@ -274,26 +287,26 @@
     background: #1c40b2;
     color: #fff;
     margin-left: auto;
-    border-bottom-right-radius: 4px;
+    border-bottom-right-radius: 8px;
   }
   .message.ai {
     background: #e2ebff;
     color: #223344;
     margin-right: auto;
-    border-bottom-left-radius: 4px;
+    border-bottom-left-radius: 8px;
   }
   #ai-form {
     display: flex;
     border-top: 1px solid #d4d9e2;
     background: #f7faff;
-    padding: 14px 20px;
+    padding: 16px 22px;
   }
   #user-input {
     flex-grow: 1;
     border: 2px solid #1c40b2;
-    border-radius: 30px;
-    padding: 10px 20px;
-    font-size: 1rem;
+    border-radius: 34px;
+    padding: 14px 26px;
+    font-size: 1.1rem;
     transition: border-color 0.3s ease;
     outline: none;
   }
@@ -303,11 +316,11 @@
   #send-btn {
     background-color: #fdd835;
     border: none;
-    margin-left: 16px;
-    padding: 12px 28px;
+    margin-left: 18px;
+    padding: 14px 34px;
     font-weight: 700;
-    font-size: 1.1rem;
-    border-radius: 30px;
+    font-size: 1.2rem;
+    border-radius: 34px;
     color: #0a237b;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -322,7 +335,7 @@
     background: #1c40b2;
     color: white;
     text-align: center;
-    padding: 24px 16px;
+    padding: 28px 18px;
     font-weight: 600;
     letter-spacing: 0.6px;
     box-shadow: inset 0 8px 15px rgb(0 0 0 / 0.3);
@@ -358,42 +371,42 @@
       text-align: center;
     }
     #hero {
-      padding: 100px 20px 70px;
+      padding: 110px 20px 80px;
     }
     #hero h1.en {
-      font-size: 2.8rem;
+      font-size: 3rem;
     }
     #hero h2.hi {
-      font-size: 1.7rem;
+      font-size: 1.8rem;
     }
     #hero p.quote {
-      font-size: 1.1rem;
-      max-width: 90vw;
+      font-size: 1.2rem;
+      max-width: 92vw;
     }
     #features {
-      margin: 20px 0 50px;
-      border-radius: 12px;
-      padding: 40px 20px 60px;
+      margin: 25px 10px 60px;
+      border-radius: 14px;
+      padding: 48px 16px 64px;
     }
     #features h2 {
-      font-size: 2.1rem;
-      margin-bottom: 30px;
+      font-size: 2.3rem;
+      margin-bottom: 36px;
     }
     .tab {
       max-width: 100%;
-      font-size: 0.95rem;
+      font-size: 1rem;
     }
     #shreyas-ai {
-      padding: 40px 20px 60px;
-      border-radius: 12px;
-      max-width: 100%;
+      padding: 48px 20px 70px;
+      border-radius: 14px;
+      max-width: 98%;
     }
     #shreyas-ai h2 {
-      font-size: 2.3rem;
+      font-size: 2.6rem;
     }
     #ai-chat {
-      height: 380px;
-      border-radius: 16px;
+      height: 400px;
+      border-radius: 20px;
     }
   }
 </style>
@@ -410,14 +423,14 @@
       <span class="hi" lang="hi">श्रेयस वर्ल्ड</span>
     </div>
     <nav aria-label="Primary Navigation">
-      <a href="#healthy" class="tab-link" data-tab="healthy">Healthy Lifestyle</a>
-      <a href="#motivational" class="tab-link" data-tab="motivational">Motivational Quotes</a>
-      <a href="#coding" class="tab-link" data-tab="coding">Java & Python</a>
-      <a href="#art" class="tab-link" data-tab="art">Art & Drawing</a>
-      <a href="#mocktest" class="tab-link" data-tab="mocktest">Mock Test</a>
-      <a href="#ai" class="tab-link" data-tab="ai">Smart Shreyas AI</a>
-      <a href="#games" class="tab-link" data-tab="games">Brain Booster</a>
-      <a href="#dictionary" class="tab-link" data-tab="dictionary">WORD'S Dictionary</a>
+      <a href="#panel-healthy" class="tab-link" data-tab="healthy">Healthy Lifestyle</a>
+      <a href="#panel-motivational" class="tab-link" data-tab="motivational">Motivational Quotes</a>
+      <a href="#panel-coding" class="tab-link" data-tab="coding">Java & Python</a>
+      <a href="#panel-art" class="tab-link" data-tab="art">Art & Drawing</a>
+      <a href="#panel-mocktest" class="tab-link" data-tab="mocktest">Mock Test</a>
+      <a href="#panel-ai" class="tab-link" data-tab="ai">Smart Shreyas AI</a>
+      <a href="#panel-games" class="tab-link" data-tab="games">Brain Booster</a>
+      <a href="#panel-dictionary" class="tab-link" data-tab="dictionary">WORD'S Dictionary</a>
     </nav>
   </div>
 </header>
@@ -449,109 +462,79 @@
     <div class="tab-header"><i class="fas fa-apple-alt tab-icon"></i><h3 class="tab-title">Healthy Lifestyle</h3></div>
     <p>Discover essential advice to maintain physical and mental health including balanced nutrition, daily fitness routines, mindfulness exercises, and restorative sleep techniques. Our expert-curated content helps you build resilience and vitality for your academic journey and daily life.</p>
     <ul>
-      <li>Nutritious meal plans tailored for students.</li>
-      <li>Simple home workouts to boost energy.</li>
-      <li>Mindfulness and breathing exercises.</li>
-      <li>Tips for a disciplined sleep schedule.</li>
+      <li><strong>Tip:</strong> Start your day with a glass of warm lemon water to detoxify and boost metabolism.</li>
+      <li><strong>Exercise:</strong> Simple 20-minute home workouts like jumping jacks, squats, and planks to improve stamina.</li>
+      <li><strong>Mindfulness:</strong> Practice deep breathing for 5 minutes daily to reduce stress and improve focus.</li>
+      <li><strong>Sleep:</strong> Maintain a 7-8 hour sleep schedule for optimal brain function and recovery.</li>
     </ul>
   </section>
   <section id="panel-motivational" role="tabpanel" tabindex="0" aria-labelledby="tab-motivational" hidden class="tab-content">
     <div class="tab-header"><i class="fas fa-lightbulb tab-icon"></i><h3 class="tab-title">Motivational & Inspirational Quotes</h3></div>
     <p>Fuel your passion and overcome obstacles with a rich catalog of motivational quotes, success stories, and personal growth mantras. Start each day inspired and empowered, embracing a positive mindset to unlock your potential.</p>
     <ul>
-      <li>Daily featured quotes by global leaders and thinkers.</li>
-      <li>Stories of determination and perseverance.</li>
-      <li>Techniques for nurturing confidence and focus.</li>
+      <li>"Don't watch the clock; do what it does. Keep going." — Sam Levenson</li>
+      <li>"Believe you can and you're halfway there." — Theodore Roosevelt</li>
+      <li>"Success usually comes to those who are too busy to be looking for it." — Henry David Thoreau</li>
+      <li>"The only limit to our realization of tomorrow is our doubts of today." — Franklin D. Roosevelt</li>
     </ul>
   </section>
   <section id="panel-coding" role="tabpanel" tabindex="0" aria-labelledby="tab-coding" hidden class="tab-content">
     <div class="tab-header"><i class="fab fa-java tab-icon" style="color:#007396"></i><i class="fab fa-python tab-icon" style="color:#306998; margin-left:6px;"></i><h3 class="tab-title">Java & Python Learning</h3></div>
     <p>Master coding languages with hands-on lessons, video tutorials, and mini projects designed to cultivate your programming skills from fundamentals to advanced topics. Our learning path includes debugging and real-world applications.</p>
     <ul>
-      <li>Interactive Java basics and OOP concepts.</li>
-      <li>Python programming with data manipulation exercises.</li>
-      <li>Project-based learning: games, calculators, and web apps.</li>
-      <li>Community challenges and quizzes to test knowledge.</li>
+      <li>Variables and Data Types in Java and Python</li>
+      <li>Control Structures: Loops and Conditionals</li>
+      <li>Functions and Object-Oriented Programming Concepts</li>
+      <li>Project Practice: Creating a To-Do List App</li>
+      <li>Debugging and Error Handling Techniques</li>
     </ul>
   </section>
   <section id="panel-art" role="tabpanel" tabindex="0" aria-labelledby="tab-art" hidden class="tab-content">
     <div class="tab-header"><i class="fas fa-paint-brush tab-icon"></i><h3 class="tab-title">Art & Drawing Learning</h3></div>
     <p>Unleash your creativity with structured guides on sketching, shading, color theory, and digital arts. Whether you're a beginner or building a portfolio, our lessons will help you hone your artistic skills and develop your unique style.</p>
     <ul>
-      <li>Step-by-step tutorials from basic shapes to complex designs.</li>
-      <li>Color blending and composition tips.</li>
-      <li>Digital art tools introductions & exercises.</li>
-      <li>Inspiration galleries and art challenges.</li>
+      <li>Drawing Basics: Shapes, Lines, and Forms</li>
+      <li>Light and Shadow: Shading Techniques</li>
+      <li>Color Theory and Palette Choices</li>
+      <li>Introduction to Digital Painting Tools</li>
     </ul>
   </section>
   <section id="panel-mocktest" role="tabpanel" tabindex="0" aria-labelledby="tab-mocktest" hidden class="tab-content">
     <div class="tab-header"><i class="fas fa-file-alt tab-icon"></i><h3 class="tab-title">Mock Test</h3></div>
     <p>Prepare effectively for examinations with tailored mock tests featuring multiple-choice, essay, and problem-solving questions across subjects. Instant scoring and detailed feedback highlight strengths and areas for improvement.</p>
     <ul>
-      <li>Realistic timed test environment.</li>
-      <li>Instant score and performance analytics.</li>
-      <li>Review correct answers and explanations.</li>
-      <li>Track progress and readiness over time.</li>
+      <li>Timed tests simulating real exam environments</li>
+      <li>Instant results with detailed explanations</li>
+      <li>Track your progress with performance charts</li>
+      <li>Subjects: Mathematics, Science, Programming, and more</li>
     </ul>
   </section>
   <section id="panel-ai" role="tabpanel" tabindex="0" aria-labelledby="tab-ai" hidden class="tab-content">
     <div class="tab-header"><i class="fas fa-robot tab-icon"></i><h3 class="tab-title">Smart Shreyas AI Features</h3></div>
     <p>Interact with Shreyas AI, your personal intelligent learning assistant. Get instant answers to your study queries, motivational advice, coding help, and wellness tips crafted just for you, all powered by advanced AI logic embedded in the website.</p>
-    <p>Features include:</p>
     <ul>
-      <li>Contextual study help in multiple subjects.</li>
-      <li>Motivational guidance and quotes on demand.</li>
-      <li>Programming troubleshooting and code explanations.</li>
-      <li>Healthy lifestyle advice and mindfulness techniques.</li>
+      <li>Contextual study help in multiple subjects</li>
+      <li>Motivational guidance and quotes on demand</li>
+      <li>Programming troubleshooting and code explanations</li>
+      <li>Healthy lifestyle advice and mindfulness techniques</li>
     </ul>
     <p>Experience responsive and human-like interaction tailored for students!</p>
   </section>
   <section id="panel-games" role="tabpanel" tabindex="0" aria-labelledby="tab-games" hidden class="tab-content">
     <div class="tab-header"><i class="fas fa-brain tab-icon"></i><h3 class="tab-title">Brain Booster Games</h3></div>
-    <p>Boost cognitive skills with a collection of fun, scientifically designed games that increase memory, logical thinking, and problem-solving capabilities, all within an engaging platform to cultivate lifelong mental agility.</p>
+    <p>Boost cognitive skills with a collection of fun, scientifically designed games that increase memory, logical thinking, and problem-solving capabilities. Perfect for exam preparation and cognitive development.</p>
     <ul>
-      <li>Memory card matching games.</li>
-      <li>Logical puzzles and pattern recognition.</li>
-      <li>Speed arithmetic challenges.</li>
-      <li>Daily brain teasers with leaderboards.</li>
+      <li><strong>Memory Matrix:</strong> Recall tiles on a grid with increasing difficulty levels.</li>
+      <li><strong>Logical Sequence:</strong> Find the next number in patterns and progressions.</li>
+      <li><strong>Speed Math:</strong> Solve arithmetic problems quickly under time pressure.</li>
+      <li><strong>Word Puzzle:</strong> Build vocabulary by solving word jumbles and crosswords.</li>
     </ul>
   </section>
   <section id="panel-dictionary" role="tabpanel" tabindex="0" aria-labelledby="tab-dictionary" hidden class="tab-content">
     <div class="tab-header"><i class="fas fa-book tab-icon"></i><h3 class="tab-title">WORD'S Dictionary</h3></div>
     <p>Enhance your vocabulary and language skills with our comprehensive dictionary tool. Get instant meanings, example sentences, phonetic pronunciations, synonyms, and antonyms right within the website.</p>
     <ul>
-      <li>Search any word instantly.</li>
-      <li>Audio pronunciations for accurate learning.</li>
-      <li>Contextual examples for better understanding.</li>
-      <li>Word of the day to expand your vocabulary.</li>
-    </ul>
-  </section>
-</section>
-
-<section id="shreyas-ai" aria-label="Smart Shreyas AI Assistant Section">
-  <h2>Smart Shreyas AI Assistant</h2>
-  <p class="description">Ask Shreyas AI anything related to your studies, motivational support, or healthy lifestyle tips, and get instant intelligent responses.</p>
-
-  <div id="ai-chat" role="region" aria-live="polite" aria-atomic="false" aria-label="Chat with Smart Shreyas AI">
-    <div id="messages" aria-live="polite" tabindex="0"></div>
-    <form id="ai-form" aria-label="Send message to Shreyas AI" onsubmit="return handleSubmit(event);">
-      <input type="text" id="user-input" autocomplete="off" placeholder="Type your question here..." aria-required="true" aria-label="Input your message" />
-      <button type="submit" id="send-btn" aria-label="Send message"><i class="fas fa-paper-plane"></i></button>
-    </form>
-  </div>
-</section>
-
-<footer>
-  &copy; 2025 Shreyas World. Empowering students worldwide.
-</footer>
-
-<script>
-  // Smooth scroll for hero button
-  function scrollToTabs() {
-    const features = document.getElementById('features');
-    if (features) features.scrollIntoView({ behavior: 'smooth' });
-  }
-
-  // Tab interface logic
-  const tabs = document.querySelectorAll('.tab');
-  const panels = document.querySelectorAll('.tab-content');
+      <li><strong>Abundant:</strong> (adj.) Existing or available in large quantities; plentiful.<br><em>"The region is abundant in natural resources."</em></li>
+      <li><strong>Bellicose:</strong> (adj.) Demonstrating aggression or willingness to fight.<br><em>"His bellicose behavior made negotiations difficult."</em></li>
+      <li><strong>Candor:</strong> (n.) The quality of being open and honest in expression; frankness.<br><em>"She spoke with candor during the interview."</em></li>
+      <li><strong>Diligent:</strong> (adj.) Having or showing care and conscientiousness in one's work or duties.<br><em>"He was diligent in
