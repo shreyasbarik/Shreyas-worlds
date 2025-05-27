@@ -1,5 +1,4 @@
-
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -9,93 +8,95 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
   <style>
     body {
-      background-image: url('https://images.unsplash.com/photo-1557683304-673a23048d34');
+      background-image: url('https://images.unsplash.com/photo-1557683304-673a23048d34?auto=format&fit=crop&w=1470&q=80');
       background-size: cover;
       background-position: center;
       color: white;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+      position: relative;
     }
     .overlay {
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.75);
       position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0; right: 0; bottom: 0;
       z-index: -1;
     }
-    .nav-link, .navbar-brand {
+    .navbar-brand, .nav-link {
       color: white !important;
     }
     .container {
       margin-top: 100px;
-      max-width: 1200px;
-    }
-    .form-control, .btn {
-      border-radius: 0.5rem;
     }
     .card {
       background: rgba(255, 255, 255, 0.1);
-      border: none;
-      color: white;
       border-radius: 1rem;
+      color: white;
+      border: none;
+      transition: transform 0.3s ease;
+    }
+    .card:hover {
+      transform: scale(1.03);
+      background: rgba(255, 255, 255, 0.15);
     }
     .card i {
-      font-size: 2rem;
+      font-size: 2.5rem;
       margin-bottom: 10px;
-    }
-    .coming-soon {
-      font-weight: bold;
       color: #ffc107;
-      font-size: 1.2rem;
     }
-    a.btn-game {
-      color: #fff;
+    .btn-game {
+      color: #ffc107;
+      font-weight: 600;
       text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .btn-game:hover {
+      color: #fff;
+      text-decoration: underline;
     }
     .footer {
-      background-color: rgba(0, 0, 0, 0.7);
+      background-color: rgba(0, 0, 0, 0.8);
       padding: 20px 0;
       margin-top: 50px;
       text-align: center;
       color: white;
-      flex-shrink: 0;
     }
     .footer a {
       color: #ffc107;
       text-decoration: none;
     }
-
     /* Book style for Motivational Stories */
-    .book {
+    #book {
       width: 100%;
-      max-width: 270px;
-      height: 250px;
+      max-width: 320px;
+      min-height: 220px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 1rem;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
       perspective: 1200px;
-      margin: 10px auto;
+      margin: 0 auto 20px;
+      padding: 1rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+      color: #fff;
     }
-
     .page {
-      background: rgba(255, 255, 255, 0.07);
-      border-radius: 0.5rem;
-      color: white;
-      padding: 1rem;
-      height: 100%;
-      width: 100%;
-      transform-style: preserve-3d;
-      transition: transform 0.8s ease;
+      transition: transform 0.6s ease;
       backface-visibility: hidden;
-      font-size: 0.95rem;
-      overflow-y: auto;
-      box-shadow: 0 0 10px rgba(255,255,255,0.1);
     }
     .page-flip {
-      animation: flipPage 0.8s forwards;
+      transform: rotateY(180deg);
     }
-    @keyframes flipPage {
-      0% { transform: rotateY(0deg); }
-      100% { transform: rotateY(-180deg); }
+    /* Art & Drawing images */
+    .art-image {
+      width: 100%;
+      border-radius: 1rem;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+    .art-image:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 30px #ffc107;
     }
   </style>
 </head>
@@ -111,13 +112,13 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-cpu"></i> AI Tools</a></li>
+          <li class="nav-item"><a class="nav-link" href="#ai-tools"><i class="bi bi-cpu"></i> AI Tools</a></li>
           <li class="nav-item"><a class="nav-link" href="#games"><i class="bi bi-controller"></i> Brain Booster Games</a></li>
           <li class="nav-item"><a class="nav-link" href="#java-python"><i class="bi bi-code-slash"></i> Java & Python</a></li>
-          <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-bar-chart-line"></i> Smart Test</a></li>
+          <li class="nav-item"><a class="nav-link" href="#smart-test"><i class="bi bi-bar-chart-line"></i> Smart Test</a></li>
           <li class="nav-item"><a class="nav-link" href="#art-drawing"><i class="bi bi-brush"></i> Art & Drawing</a></li>
-          <li class="nav-item"><a class="nav-link" href="#motivational-stories"><i class="bi bi-lightbulb"></i> Motivation</a></li>
-          <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-tools"></i> Skills</a></li>
+          <li class="nav-item"><a class="nav-link" href="#motivation"><i class="bi bi-lightbulb"></i> Motivation</a></li>
+          <li class="nav-item"><a class="nav-link" href="#skills"><i class="bi bi-tools"></i> Skills</a></li>
         </ul>
       </div>
     </div>
@@ -127,13 +128,13 @@
   <div class="container text-center">
     <h1>Welcome to Shreyas World</h1>
     <p class="lead">Learn. Grow. Conquer.</p>
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+    <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="bi bi-person-circle"></i> Login</button>
   </div>
 
   <!-- Brain Booster Games Section -->
   <div class="container mt-5" id="games">
     <h2 class="text-center mb-4"><i class="bi bi-controller"></i> Brain Booster Games</h2>
-    <div class="row g-4">
+    <div class="row g-4 justify-content-center">
       <div class="col-md-4">
         <div class="card p-4 text-center">
           <i class="bi bi-lightning-charge"></i>
@@ -179,43 +180,23 @@
     </div>
   </div>
 
-  <!-- Java & Python Section (coming soon but with anchors) -->
-  <div class="container mt-5" id="java-python">
-    <h2 class="text-center mb-4"><i class="bi bi-code-slash"></i> Java & Python</h2>
-    <div class="row g-4">
-      <div class="col-md-12 text-center">
-        <div class="card p-4">
-          <i class="bi bi-code-square"></i>
-          <h5>Java & Python</h5>
-          <p class="coming-soon">COMING SOON</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- Motivational Stories Section -->
-  <div class="container mt-5" id="motivational-stories">
-    <h2 class="text-center"><i class="bi bi-lightbulb"></i> Motivational Stories</h2>
-    <div class="row g-4 mt-3 justify-content-center">
-      <div class="col-md-4 text-center">
-        <div class="card p-0 overflow-hidden position-relative" style="perspective: 1200px;">
-          <i class="bi bi-lightbulb mt-3"></i>
-          <h5 class="mt-1">Motivational Stories 📖</h5>
-
-          <div id="book" class="book mx-auto my-3">
-            <div id="story-page" class="page px-3 py-2">
-              <h6 id="story-title">🌟 From Failure to Founder</h6>
-              <p id="story-text">
-                Arjun failed three exams. Everyone gave up on him — except himself. He read daily, worked nights, and stayed silent while building. Four years later, he built a startup that solved exam stress — helping lakhs of students feel hope again.
-              </p>
-            </div>
+  <div class="container mt-5" id="motivation">
+    <h2 class="text-center mb-4"><i class="bi bi-lightbulb"></i> Motivational Stories</h2>
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center">
+        <div id="book" class="mb-3">
+          <div id="story-page" class="page">
+            <h5 id="story-title">🌟 From Failure to Founder</h5>
+            <p id="story-text">
+              Arjun failed three exams. Everyone gave up on him — except himself. He read daily, worked nights, and stayed silent while building. Four years later, he built a startup that solved exam stress — helping lakhs of students feel hope again.
+            </p>
           </div>
-
-          <div class="mb-3 d-flex justify-content-center flex-wrap gap-2">
-            <button class="btn btn-warning btn-sm" onclick="previousStory()">⏮ Previous</button>
-            <button class="btn btn-warning btn-sm" onclick="nextStory()">Next ⏭</button>
-            <button class="btn btn-success btn-sm" onclick="readStory()">🔊 Read Aloud</button>
-          </div>
+        </div>
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+          <button class="btn btn-warning" onclick="previousStory()">⏮ Previous</button>
+          <button class="btn btn-warning" onclick="nextStory()">Next ⏭</button>
+          <button class="btn btn-success" onclick="readStory()">🔊 Read Aloud</button>
         </div>
       </div>
     </div>
@@ -223,126 +204,125 @@
 
   <!-- Art & Drawing Section -->
   <div class="container mt-5" id="art-drawing">
-    <h2 class="text-center"><i class="bi bi-palette"></i> Art & Drawing</h2>
-    <div class="row g-4 mt-3">
-      <div class="col-md-4 text-center">
-        <div class="card p-4">
-          <i class="bi bi-brush"></i>
-          <h5>Dream City Skyline in Watercolor</h5>
-          <p>Explore the vibrant colors and intricate brush strokes that bring the city skyline to life.</p>
+    <h2 class="text-center mb-4"><i class="bi bi-brush"></i> Art & Drawing</h2>
+    <div class="row g-4 justify-content-center">
+      <div class="col-md-4">
+        <div class="card p-3 text-center">
+          <img class="art-image" src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Drawing 1" />
+          <h5 class="mt-3">Mountain Landscape</h5>
+          <p>A calm and inspiring landscape drawing to spark creativity.</p>
         </div>
       </div>
-      <div class="col-md-4 text-center">
-        <div class="card p-4">
-          <i class="bi bi-brush"></i>
-          <h5>Abstract Emotions on Canvas</h5>
-          <p>Discover the power of abstract art to convey deep emotions without words.</p>
+      <div class="col-md-4">
+        <div class="card p-3 text-center">
+          <img class="art-image" src="https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=600&q=80" alt="Drawing 2" />
+          <h5 class="mt-3">Colorful Abstract</h5>
+          <p>Bright colors blending into an abstract masterpiece.</p>
         </div>
       </div>
-      <div class="col-md-4 text-center">
-        <div class="card p-4">
-          <i class="bi bi-brush"></i>
-          <h5>Universe Inside a Jar (Acrylic Art)</h5>
-          <p>Acrylic painting that captures the vastness of the universe contained within a small jar.</p>
+      <div class="col-md-4">
+        <div class="card p-3 text-center">
+          <img class="art-image" src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=600&q=80" alt="Drawing 3" />
+          <h5 class="mt-3">Sketch of Nature</h5>
+          <p>A simple pencil sketch showing the beauty of nature.</p>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Footer -->
-  <div class="footer">
-    <div class="container">
-      <p>&copy; 2025 Shreyas World. All rights reserved.</p>
-      <p>Contact: <a href="mailto:shreyasworld@example.com">shreyasworld@example.com</a></p>
-      <p>Follow us on <a href="#">Instagram</a> | <a href="#">YouTube</a></p>
-    </div>
-  </div>
+  <footer class="footer">
+    <p>© 2025 Shreyas World. All rights reserved. | <a href="#loginModal" data-bs-toggle="modal">Login</a></p>
+  </footer>
 
   <!-- Login Modal -->
   <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <form class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="loginModalLabel"><i class="bi bi-person-circle"></i> Login</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-dark text-white rounded-4">
+        <div class="modal-header border-0">
+          <h5 class="modal-title" id="loginModalLabel"><i class="bi bi-person-circle"></i> Login to Shreyas World</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
         </div>
-        <div class="modal-body text-dark">
-          <div class="mb-3">
-            <label for="phoneInput" class="form-label">Mobile Number</label>
-            <input type="tel" class="form-control" id="phoneInput" placeholder="+91 12345 67890" pattern="[+0-9 ]{10,15}" required>
-          </div>
-          <div id="otpSection" style="display:none;">
-            <label for="otpInput" class="form-label">Enter OTP</label>
-            <input type="text" class="form-control" id="otpInput" maxlength="6" placeholder="123456">
-          </div>
-          <button type="submit" class="btn btn-primary w-100 mt-3">Send OTP</button>
+        <div class="modal-body">
+          <form id="loginForm" onsubmit="event.preventDefault(); alert('Login functionality coming soon!');">
+            <div class="mb-3">
+              <label for="phone" class="form-label">Mobile Number</label>
+              <input type="tel" class="form-control" id="phone" placeholder="+91 98765 43210" pattern="^\+?\d{10,13}$" required />
+            </div>
+            <div class="mb-3">
+              <button type="button" class="btn btn-warning w-100" onclick="alert('OTP sent! (Simulated)')">Send OTP</button>
+            </div>
+            <div class="mb-3">
+              <label for="otp" class="form-label">Enter OTP</label>
+              <input type="text" class="form-control" id="otp" placeholder="123456" pattern="^\d{6}$" required />
+            </div>
+            <button type="submit" class="btn btn-success w-100">Login</button>
+          </form>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 
+  <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
-    // Motivational Stories Data & Functions
+    // Motivational Stories Data
     const stories = [
       {
         title: "🌟 From Failure to Founder",
         text: "Arjun failed three exams. Everyone gave up on him — except himself. He read daily, worked nights, and stayed silent while building. Four years later, he built a startup that solved exam stress — helping lakhs of students feel hope again."
       },
       {
-        title: "💔 The Last Gift: A Son's Letter",
-        text: "A poor boy left his dying mother a letter and a promise — that one day the world would know her sacrifice. Years later, he became a bestselling author. The first page of his book? That letter."
+        title: "🚀 Dream Big, Work Hard",
+        text: "Sneha dreamed of becoming a pilot. She woke up early, studied aviation books, and never gave up. Today, she flies planes and inspires thousands to chase their dreams."
       },
       {
-        title: "💡 The Candle That Lit 1,000 Minds",
-        text: "Ms. Renu taught in a village with no electricity. She lit a candle every night to teach 10 students. 20 years later, her students lit the world — one became a scientist, one a teacher, one a policymaker."
+        title: "🌱 The Power of Persistence",
+        text: "Rajesh planted a seed of hope in his village. Despite failures and droughts, he kept nurturing it. His perseverance turned the barren land into a lush farm that feeds many."
+      },
+      {
+        title: "🔥 Rising from Ashes",
+        text: "Meera lost everything in a fire. Instead of despairing, she rebuilt her life, started a community help group, and now supports others facing hardships."
       }
     ];
+    let currentStoryIndex = 0;
 
-    let currentStory = 0;
+    const storyTitle = document.getElementById('story-title');
+    const storyText = document.getElementById('story-text');
+    const storyPage = document.getElementById('story-page');
 
-    function updateStory() {
-      const title = document.getElementById('story-title');
-      const text = document.getElementById('story-text');
-      const page = document.getElementById('story-page');
-
-      page.classList.remove('page-flip');
-      void page.offsetWidth; // trigger reflow
-      page.classList.add('page-flip');
-
+    function showStory(index) {
+      storyPage.classList.add('page-flip');
       setTimeout(() => {
-        title.innerText = stories[currentStory].title;
-        text.innerText = stories[currentStory].text;
+        storyTitle.textContent = stories[index].title;
+        storyText.textContent = stories[index].text;
+        storyPage.classList.remove('page-flip');
       }, 300);
     }
 
     function nextStory() {
-      currentStory = (currentStory + 1) % stories.length;
-      updateStory();
+      currentStoryIndex = (currentStoryIndex + 1) % stories.length;
+      showStory(currentStoryIndex);
     }
 
     function previousStory() {
-      currentStory = (currentStory - 1 + stories.length) % stories.length;
-      updateStory();
+      currentStoryIndex = (currentStoryIndex - 1 + stories.length) % stories.length;
+      showStory(currentStoryIndex);
     }
 
     function readStory() {
-      const msg = new SpeechSynthesisUtterance();
-      msg.text = stories[currentStory].text;
-      msg.lang = 'en-IN';
-      msg.pitch = 1.2;
-      msg.rate = 0.95;
-      const voices = speechSynthesis.getVoices();
-      msg.voice = voices.find(v => v.name.includes('Google') || v.lang === 'en-IN') || voices[0];
-      speechSynthesis.speak(msg);
+      if ('speechSynthesis' in window) {
+        const msg = new SpeechSynthesisUtterance();
+        msg.text = stories[currentStoryIndex].title + ". " + stories[currentStoryIndex].text;
+        msg.lang = 'en-US';
+        msg.rate = 1;
+        msg.pitch = 1;
+        window.speechSynthesis.speak(msg);
+      } else {
+        alert("Sorry, your browser doesn't support text-to-speech.");
+      }
     }
-
-    // Prevent form submission for demo
-    document.querySelector('form.modal-content').addEventListener('submit', e => {
-      e.preventDefault();
-      alert('OTP sending feature coming soon!');
-    });
   </script>
 </body>
 </html>
