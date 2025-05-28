@@ -1,643 +1,201 @@
 
-<!DOCTYPE html><html lang="en">
+   <!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shreyas World</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>Shreyas World - Welcome</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
   <style>
+    :root {
+      --main-bg: #f9f9f9;
+      --main-text: #333;
+      --primary: #3498db;
+      --highlight: #f39c12;
+      --dark: #111;
+    }
     body {
-      background-image: url('https://images.unsplash.com/photo-1557683304-673a23048d34');
-      background-size: cover;
-      background-position: center;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: var(--main-bg);
+      color: var(--main-text);
+      transition: background 0.3s, color 0.3s;
+    }
+    nav {
+      background-color: var(--dark);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    nav h1 {
+      color: #fff;
+      font-size: 1.8rem;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    nav ul li a:hover {
+      color: var(--highlight);
+    }
+    .hero {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 4rem 2rem;
+      text-align: center;
+      background: linear-gradient(to right, #f6d365, #fda085);
+      color: #2c3e50;
+    }
+    .hero h2 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+      text-shadow: 2px 2px 4px #ffffff;
+      animation: fadeInDown 1s ease;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+    .sections {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      padding: 3rem 2rem;
+    }
+    .card {
+      background-color: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+    .card i {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+    .card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      color: #2c3e50;
+    }
+    .card p {
+      font-size: 1rem;
+      color: #666;
+    }
+    .download-app {
+      margin-top: 3rem;
+      text-align: center;
+    }
+    .download-btn {
+      background-color: var(--primary);
       color: white;
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
     }
-    .overlay {
-      background: rgba(0, 0, 0, 0.6);
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
+    .download-btn:hover {
+      background-color: #2980b9;
     }
-    .nav-link, .navbar-brand {
-      color: white !important;
+    .dark-mode {
+      background: #1e1e1e;
+      color: #eee;
     }
-    .container {
-      margin-top: 100px;
+    .toggle-mode {
+      background: none;
+      border: 1px solid #fff;
+      padding: 0.4rem 1rem;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
     }
-    .form-control, .btn {
-      border-radius: 0.5rem;
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 600px) {
+      .hero h2 {
+        font-size: 2.2rem;
+      }
+      nav ul {
+        flex-direction: column;
+        width: 100%;
+        text-align: right;
+        display: none;
+      }
+      nav ul.show {
+        display: flex;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="overlay"></div>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-transparent">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Shreyas World</a>
-      <div class="collapse navbar-collapse">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="#">AI Tools</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Brain Booster Games</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Java & Python</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Smart Test</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Art & Drawing</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Motivation</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Skills</a>
-          </li>
-        </ul>
-      </div>
+  <nav>
+    <h1>Shreyas World</h1>
+    <ul>
+      <li><a href="#examfear">ExamFear</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#games">Brain Games</a></li>
+      <li><a href="#health">Lifestyle</a></li>
+    </ul>
+    <button class="toggle-mode" onclick="toggleDarkMode()">Dark Mode</button>
+  </nav>  <section class="hero">
+    <h2>Welcome to Ayodhya</h2>
+    <p>Discover, Learn, and Level Up with Shreyas World</p>
+  </section>  <section class="sections">
+    <div class="card" onclick="showComingSoon()">
+      <i class="fas fa-laptop-code"></i>
+      <h3>ExamFear</h3>
+      <p>Attempt smart online tests and track your exam readiness.</p>
     </div>
-  </nav>  <div class="container text-center">
-    <h1>Welcome to Shreyas World</h1>
-    <p>Learn. Grow. Conquer.</p>
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
-  </div>  <!-- Login Modal -->  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content text-dark">
-        <div class="modal-header">
-          <h5 class="modal-title" id="loginModalLabel">Login</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form id="loginForm">
-            <div class="mb-3">
-              <label for="username" class="form-label">Username</label>
-              <input type="text" class="form-control" id="username" required />
-            </div>
-            <div class="mb-3">
-              <label for="password" class="form-label">Password</label>
-              <input type="password" class="form-control" id="password" required />
-            </div>
-            <button type="submit" class="btn btn-success">Login</button>
-          </form>
-        </div>
-      </div>
+    <div class="card" onclick="showComingSoon()">
+      <i class="fas fa-lightbulb"></i>
+      <h3>Skills & Development</h3>
+      <p>Learn tech, creative, and soft skills to grow your future.</p>
     </div>
-  </div>  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>  <script>
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
-      if (username === 'admin' && password === '1234') {
-        alert('Login successful!');
-        bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
-      } else {
-        alert('Invalid credentials.');
+    <div class="card" onclick="showComingSoon()">
+      <i class="fas fa-gamepad"></i>
+      <h3>Brain Booster Games</h3>
+      <p>Play puzzles, memory, and IQ games to sharpen your mind.</p>
+    </div>
+    <div class="card" onclick="showComingSoon()">
+      <i class="fas fa-heartbeat"></i>
+      <h3>Healthcare & Lifestyle</h3>
+      <p>Improve your health and daily life with easy tips.</p>
+    </div>
+  </section>  <div class="download-app">
+    <button class="download-btn" onclick="showComingSoon()">Download Shreyas World App</button>
+  </div>  <script>
+    function showComingSoon() {
+      const message = "Coming Soon!\n\nDownload Shreyas World App?";
+      if (confirm(message)) {
+        alert("Your device is not supported.");
       }
-    });
+    }
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark-mode");
+    }
   </script></body>
 </html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Shreyas World - Premium Learning Platform</title>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" rel="stylesheet" />
-<style>
-  /* Reset */
-  * {
-    margin: 0; padding: 0; box-sizing: border-box;
-  }
-  body {
-    font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg,#f8f9fa,#dbe4ff);
-    color: #222;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    scroll-behavior: smooth;
-  }
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
-  /* Container */
-  .container {
-    max-width: 1140px;
-    margin: 0 auto;
-    padding: 0 24px;
-    width: 100%;
-  }
-  /* Header */
-  header {
-    position: sticky;
-    top: 0;
-    background: #1c40b2;
-    box-shadow: 0 6px 13px rgb(28 64 178 / 0.4);
-    padding: 18px 0;
-    z-index: 1000;
-  }
-  header .container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .logo {
-    font-weight: 900;
-    font-size: 1.85rem;
-    color: #fff;
-    font-family: 'Georgia', serif;
-    letter-spacing: 2px;
-    user-select: none;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  .logo .en {
-    text-shadow: 0 2px 8px #09172d;
-  }
-  .logo .hi {
-    font-family: 'Noto Sans Devanagari', 'Mangal', 'Arial Unicode MS', sans-serif;
-    font-size: 1.3rem;
-    color: #a6c8ff;
-    text-shadow: 0 1px 5px #09172d;
-    user-select: none;
-  }
-  nav {
-    display: flex;
-    gap: 18px;
-    flex-wrap: wrap;
-  }
-  nav a {
-    color: #bbd1ff;
-    font-weight: 600;
-    padding: 10px 12px;
-    border-radius: 6px;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  nav a:hover, nav a:focus {
-    background: #fdd835;
-    color: #0a237b;
-    outline: none;
-  }
-  /* Hero Section */
-  #hero {
-    padding: 140px 24px 90px;
-    text-align: center;
-    background: radial-gradient(circle at center top, #1c40b2 0%, #3258e5 85%);
-    color: white;
-    clip-path: ellipse(100% 220% at 50% 0);
-    user-select: none;
-  }
-  #hero h1.en {
-    font-family: 'Georgia', serif;
-    font-weight: 900;
-    font-size: clamp(3rem,6vw,5rem);
-    line-height: 1.1;
-    text-shadow: 2px 4px 16px rgba(0,0,0,0.6);
-    margin-bottom: 12px;
-  }
-  #hero h2.hi {
-    font-family: 'Noto Sans Devanagari', serif;
-    font-size: clamp(1.7rem,3vw,2.8rem);
-    font-weight: 700;
-    color: #fdd835dd;
-    margin-bottom: 36px;
-    text-shadow: 0 2px 18px rgba(0,0,0,0.55);
-  }
-  #hero p.quote {
-    margin: 0 auto 54px;
-    font-family: 'Noto Serif Devanagari', serif;
-    font-style: italic;
-    font-weight: 600;
-    font-size: clamp(1.2rem, 2.5vw, 1.7rem);
-    max-width: 700px;
-    line-height: 1.7;
-    color: #f8eaa9cc;
-    text-shadow: 0 3px 20px rgba(0,0,0,0.55);
-  }
-  #hero button.cta {
-    background-color: #fdd835;
-    color: #0a237b;
-    padding: 18px 56px;
-    font-weight: 700;
-    font-size: 1.3rem;
-    border: none;
-    border-radius: 50px;
-    box-shadow: 0 8px 30px rgb(253 216 53 / 0.8);
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.25s ease;
-  }
-  #hero button.cta:hover, #hero button.cta:focus {
-    background-color: #e6c230;
-    outline: none;
-    transform: scale(1.1);
-  }
-
-  /* Features Section: Tabs */
-  #features {
-    background: #fff;
-    padding: 60px 24px 80px;
-    box-shadow: 0 6px 25px rgb(0 0 0 / 0.1);
-    border-radius: 18px;
-    margin: 40px auto;
-    max-width: 1140px;
-  }
-  #features h2 {
-    text-align: center;
-    font-weight: 700;
-    font-size: 2.8rem;
-    margin-bottom: 38px;
-    color: #1c40b2;
-    user-select: none;
-  }
-  .tabs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    justify-content: center;
-    margin-bottom: 36px;
-  }
-  .tab {
-    background: #e1eaff;
-    border-radius: 40px;
-    padding: 14px 24px;
-    font-weight: 700;
-    color: #1c40b2cc;
-    cursor: pointer;
-    box-shadow: inset 0 0 0 1.5px transparent;
-    user-select: none;
-    transition: all 0.3s ease;
-    flex-grow: 1;
-    max-width: 200px;
-    text-align: center;
-    white-space: nowrap;
-  }
-  .tab:hover, .tab:focus {
-    box-shadow: inset 0 0 0 1.5px #1c40b2;
-    outline: none;
-  }
-  .tab.active {
-    background: #fdd835;
-    color: #0a237b;
-    box-shadow: inset 0 0 0 3px #0a237b;
-    cursor: default;
-  }
-  /* Tab content */
-  .tab-content {
-    max-width: 780px;
-    margin: 0 auto;
-    box-shadow: 0 3px 15px rgb(0 0 0 / 0.1);
-    background: #f7faff;
-    padding: 32px 36px;
-    border-radius: 20px;
-    font-size: 1.15rem;
-    line-height: 1.58;
-    color: #112244;
-    font-weight: 500;
-    min-height: 250px;
-    user-select: text;
-    box-sizing: border-box;
-    position: relative;
-  }
-  .tab-icon {
-    font-size: 40px;
-    margin-right: 16px;
-    vertical-align: middle;
-    color: #1c40b2cc;
-  }
-  .tab-title {
-    font-size: 1.7rem;
-    vertical-align: middle;
-    color: #1c40b2;
-    font-weight: 700;
-    user-select: none;
-  }
-  .tab-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 18px;
-  }
-  ul {
-    margin-top: 15px;
-    list-style: disc inside;
-    color: #334466;
-    font-weight: 500;
-  }
-  ul li {
-    margin-bottom: 8px;
-  }
-  /* Smart AI Section */
-  #shreyas-ai {
-    background: #f0f5ff;
-    padding: 60px 24px 84px;
-    text-align: center;
-    border-radius: 22px;
-    box-shadow: 0 6px 28px rgb(0 0 0 / 0.14);
-    max-width: 1140px;
-    margin: 0 auto 56px;
-  }
-  #shreyas-ai h2 {
-    font-weight: 700;
-    color: #1c40b2;
-    font-size: 3rem;
-    margin-bottom: 28px;
-    user-select: none;
-  }
-  #shreyas-ai p.description {
-    font-weight: 500;
-    font-size: 1.2rem;
-    color: #3b4c7f;
-    max-width: 640px;
-    margin: 0 auto 40px;
-  }
-  #ai-chat {
-    max-width: 720px;
-    height: 460px;
-    margin: 0 auto;
-    background: white;
-    border-radius: 22px;
-    box-shadow: 0 10px 40px rgb(0 0 0 / 0.15);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-  #messages {
-    flex-grow: 1;
-    padding: 24px 28px;
-    overflow-y: auto;
-    font-size: 1rem;
-    line-height: 1.5;
-  }
-  .message {
-    max-width: 75%;
-    margin-bottom: 18px;
-    padding: 16px 24px;
-    border-radius: 34px;
-    font-weight: 500;
-    box-shadow: 0 4px 16px rgb(0 0 0 / 0.07);
-    word-wrap: break-word;
-    word-break: break-word;
-  }
-  .message.user {
-    background: #1c40b2;
-    color: #fff;
-    margin-left: auto;
-    border-bottom-right-radius: 8px;
-  }
-  .message.ai {
-    background: #e2ebff;
-    color: #223344;
-    margin-right: auto;
-    border-bottom-left-radius: 8px;
-  }
-  #ai-form {
-    display: flex;
-    border-top: 1px solid #d4d9e2;
-    background: #f7faff;
-    padding: 16px 22px;
-  }
-  #user-input {
-    flex-grow: 1;
-    border: 2px solid #1c40b2;
-    border-radius: 34px;
-    padding: 14px 26px;
-    font-size: 1.1rem;
-    transition: border-color 0.3s ease;
-    outline: none;
-  }
-  #user-input:focus {
-    border-color: #fdd835;
-  }
-  #send-btn {
-    background-color: #fdd835;
-    border: none;
-    margin-left: 18px;
-    padding: 14px 34px;
-    font-weight: 700;
-    font-size: 1.2rem;
-    border-radius: 34px;
-    color: #0a237b;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  #send-btn:hover, #send-btn:focus {
-    background-color: #e6c230;
-    outline: none;
-  }
-
-  /* Footer */
-  footer {
-    background: #1c40b2;
-    color: white;
-    text-align: center;
-    padding: 28px 18px;
-    font-weight: 600;
-    letter-spacing: 0.6px;
-    box-shadow: inset 0 8px 15px rgb(0 0 0 / 0.3);
-    user-select: none;
-  }
-  /* Responsive */
-  @media (max-width: 950px) {
-    .tabs {
-      justify-content: center;
-    }
-    .tab {
-      max-width: 48%;
-    }
-    .tab-content {
-      max-width: 100%;
-    }
-  }
-  @media (max-width: 600px) {
-    header .container {
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 14px;
-    }
-    nav {
-      width: 100%;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    nav a {
-      font-size: 0.9rem;
-      padding: 8px 11px;
-      max-width: 140px;
-      text-align: center;
-    }
-    #hero {
-      padding: 110px 20px 80px;
-    }
-    #hero h1.en {
-      font-size: 3rem;
-    }
-    #hero h2.hi {
-      font-size: 1.8rem;
-    }
-    #hero p.quote {
-      font-size: 1.2rem;
-      max-width: 92vw;
-    }
-    #features {
-      margin: 25px 10px 60px;
-      border-radius: 14px;
-      padding: 48px 16px 64px;
-    }
-    #features h2 {
-      font-size: 2.3rem;
-      margin-bottom: 36px;
-    }
-    .tab {
-      max-width: 100%;
-      font-size: 1rem;
-    }
-    #shreyas-ai {
-      padding: 48px 20px 70px;
-      border-radius: 14px;
-      max-width: 98%;
-    }
-    #shreyas-ai h2 {
-      font-size: 2.6rem;
-    }
-    #ai-chat {
-      height: 400px;
-      border-radius: 20px;
-    }
-  }
-</style>
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari&display=swap" rel="stylesheet" />
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet" />
-</head>
-<body>
-
-<header>
-  <div class="container">
-    <div class="logo" aria-label="Shreyas World Brand">
-      <span class="en" lang="en">Shreyas World</span>
-      <span class="hi" lang="hi">श्रेयस वर्ल्ड</span>
-    </div>
-    <nav aria-label="Primary Navigation">
-      <a href="#panel-healthy" class="tab-link" data-tab="healthy">Healthy Lifestyle</a>
-      <a href="#panel-motivational" class="tab-link" data-tab="motivational">Motivational Quotes</a>
-      <a href="#panel-coding" class="tab-link" data-tab="coding">Java & Python</a>
-      <a href="#panel-art" class="tab-link" data-tab="art">Art & Drawing</a>
-      <a href="#panel-mocktest" class="tab-link" data-tab="mocktest">Mock Test</a>
-      <a href="#panel-ai" class="tab-link" data-tab="ai">Smart Shreyas AI</a>
-      <a href="#panel-games" class="tab-link" data-tab="games">Brain Booster</a>
-      <a href="#panel-dictionary" class="tab-link" data-tab="dictionary">WORD'S Dictionary</a>
-    </nav>
-  </div>
-</header>
-
-<section id="hero" role="banner" aria-label="Welcome to Shreyas World hero section">
-  <h1 class="en">Shreyas World</h1>
-  <h2 class="hi" lang="hi">श्रेयस वर्ल्ड</h2>
-  <p class="quote" lang="hi"> 
-    "कर्मण्येवाधिकारस्ते मा फलेषु कदाचन।  
-    मा कर्मफलहेतुर्भूर्मा ते सङ्गोऽस्त्वकर्मणि॥"  <br>  
-    — भगवद्गीता 2.47
-  </p>
-  <button class="cta" onclick="scrollToTabs()" aria-label="Explore all features">Explore Features</button>
-</section>
-
-<section id="features" role="main" aria-label="Features Section">
-  <h2>Discover Our Featured Topics</h2>
-  <div class="tabs" role="tablist" aria-label="Feature Topics">
-    <button role="tab" class="tab active" id="tab-healthy" aria-selected="true" aria-controls="panel-healthy" tabindex="0" data-tab="healthy"><i class="fas fa-apple-alt tab-icon" aria-hidden="true"></i><span class="tab-title">Healthy Lifestyle</span></button>
-    <button role="tab" class="tab" id="tab-motivational" aria-selected="false" aria-controls="panel-motivational" tabindex="-1" data-tab="motivational"><i class="fas fa-lightbulb tab-icon" aria-hidden="true"></i><span class="tab-title">Motivational Quotes</span></button>
-    <button role="tab" class="tab" id="tab-coding" aria-selected="false" aria-controls="panel-coding" tabindex="-1" data-tab="coding"><i class="fab fa-java tab-icon" aria-hidden="true" style="color:#007396"></i><i class="fab fa-python tab-icon" aria-hidden="true" style="color:#306998; margin-left:6px;"></i><span class="tab-title">Java & Python</span></button>
-    <button role="tab" class="tab" id="tab-art" aria-selected="false" aria-controls="panel-art" tabindex="-1" data-tab="art"><i class="fas fa-paint-brush tab-icon" aria-hidden="true"></i><span class="tab-title">Art & Drawing</span></button>
-    <button role="tab" class="tab" id="tab-mocktest" aria-selected="false" aria-controls="panel-mocktest" tabindex="-1" data-tab="mocktest"><i class="fas fa-file-alt tab-icon" aria-hidden="true"></i><span class="tab-title">Mock Test</span></button>
-    <button role="tab" class="tab" id="tab-ai" aria-selected="false" aria-controls="panel-ai" tabindex="-1" data-tab="ai"><i class="fas fa-robot tab-icon" aria-hidden="true"></i><span class="tab-title">Smart Shreyas AI</span></button>
-    <button role="tab" class="tab" id="tab-games" aria-selected="false" aria-controls="panel-games" tabindex="-1" data-tab="games"><i class="fas fa-brain tab-icon" aria-hidden="true"></i><span class="tab-title">Brain Booster</span></button>
-    <button role="tab" class="tab" id="tab-dictionary" aria-selected="false" aria-controls="panel-dictionary" tabindex="-1" data-tab="dictionary"><i class="fas fa-book tab-icon" aria-hidden="true"></i><span class="tab-title">WORD'S Dictionary</span></button>
-  </div>
-  <section id="panel-healthy" role="tabpanel" tabindex="0" aria-labelledby="tab-healthy" class="tab-content">
-    <div class="tab-header"><i class="fas fa-apple-alt tab-icon"></i><h3 class="tab-title">Healthy Lifestyle</h3></div>
-    <p>Discover essential advice to maintain physical and mental health including balanced nutrition, daily fitness routines, mindfulness exercises, and restorative sleep techniques. Our expert-curated content helps you build resilience and vitality for your academic journey and daily life.</p>
-    <ul>
-      <li><strong>Tip:</strong> Start your day with a glass of warm lemon water to detoxify and boost metabolism.</li>
-      <li><strong>Exercise:</strong> Simple 20-minute home workouts like jumping jacks, squats, and planks to improve stamina.</li>
-      <li><strong>Mindfulness:</strong> Practice deep breathing for 5 minutes daily to reduce stress and improve focus.</li>
-      <li><strong>Sleep:</strong> Maintain a 7-8 hour sleep schedule for optimal brain function and recovery.</li>
-    </ul>
-  </section>
-  <section id="panel-motivational" role="tabpanel" tabindex="0" aria-labelledby="tab-motivational" hidden class="tab-content">
-    <div class="tab-header"><i class="fas fa-lightbulb tab-icon"></i><h3 class="tab-title">Motivational & Inspirational Quotes</h3></div>
-    <p>Fuel your passion and overcome obstacles with a rich catalog of motivational quotes, success stories, and personal growth mantras. Start each day inspired and empowered, embracing a positive mindset to unlock your potential.</p>
-    <ul>
-      <li>"Don't watch the clock; do what it does. Keep going." — Sam Levenson</li>
-      <li>"Believe you can and you're halfway there." — Theodore Roosevelt</li>
-      <li>"Success usually comes to those who are too busy to be looking for it." — Henry David Thoreau</li>
-      <li>"The only limit to our realization of tomorrow is our doubts of today." — Franklin D. Roosevelt</li>
-    </ul>
-  </section>
-  <section id="panel-coding" role="tabpanel" tabindex="0" aria-labelledby="tab-coding" hidden class="tab-content">
-    <div class="tab-header"><i class="fab fa-java tab-icon" style="color:#007396"></i><i class="fab fa-python tab-icon" style="color:#306998; margin-left:6px;"></i><h3 class="tab-title">Java & Python Learning</h3></div>
-    <p>Master coding languages with hands-on lessons, video tutorials, and mini projects designed to cultivate your programming skills from fundamentals to advanced topics. Our learning path includes debugging and real-world applications.</p>
-    <ul>
-      <li>Variables and Data Types in Java and Python</li>
-      <li>Control Structures: Loops and Conditionals</li>
-      <li>Functions and Object-Oriented Programming Concepts</li>
-      <li>Project Practice: Creating a To-Do List App</li>
-      <li>Debugging and Error Handling Techniques</li>
-    </ul>
-  </section>
-  <section id="panel-art" role="tabpanel" tabindex="0" aria-labelledby="tab-art" hidden class="tab-content">
-    <div class="tab-header"><i class="fas fa-paint-brush tab-icon"></i><h3 class="tab-title">Art & Drawing Learning</h3></div>
-    <p>Unleash your creativity with structured guides on sketching, shading, color theory, and digital arts. Whether you're a beginner or building a portfolio, our lessons will help you hone your artistic skills and develop your unique style.</p>
-    <ul>
-      <li>Drawing Basics: Shapes, Lines, and Forms</li>
-      <li>Light and Shadow: Shading Techniques</li>
-      <li>Color Theory and Palette Choices</li>
-      <li>Introduction to Digital Painting Tools</li>
-    </ul>
-  </section>
-  <section id="panel-mocktest" role="tabpanel" tabindex="0" aria-labelledby="tab-mocktest" hidden class="tab-content">
-    <div class="tab-header"><i class="fas fa-file-alt tab-icon"></i><h3 class="tab-title">Mock Test</h3></div>
-    <p>Prepare effectively for examinations with tailored mock tests featuring multiple-choice, essay, and problem-solving questions across subjects. Instant scoring and detailed feedback highlight strengths and areas for improvement.</p>
-    <ul>
-      <li>Timed tests simulating real exam environments</li>
-      <li>Instant results with detailed explanations</li>
-      <li>Track your progress with performance charts</li>
-      <li>Subjects: Mathematics, Science, Programming, and more</li>
-    </ul>
-  </section>
-  <section id="panel-ai" role="tabpanel" tabindex="0" aria-labelledby="tab-ai" hidden class="tab-content">
-    <div class="tab-header"><i class="fas fa-robot tab-icon"></i><h3 class="tab-title">Smart Shreyas AI Features</h3></div>
-    <p>Interact with Shreyas AI, your personal intelligent learning assistant. Get instant answers to your study queries, motivational advice, coding help, and wellness tips crafted just for you, all powered by advanced AI logic embedded in the website.</p>
-    <ul>
-      <li>Contextual study help in multiple subjects</li>
-      <li>Motivational guidance and quotes on demand</li>
-      <li>Programming troubleshooting and code explanations</li>
-      <li>Healthy lifestyle advice and mindfulness techniques</li>
-    </ul>
-    <p>Experience responsive and human-like interaction tailored for students!</p>
-  </section>
-  <section id="panel-games" role="tabpanel" tabindex="0" aria-labelledby="tab-games" hidden class="tab-content">
-    <div class="tab-header"><i class="fas fa-brain tab-icon"></i><h3 class="tab-title">Brain Booster Games</h3></div>
-    <p>Boost cognitive skills with a collection of fun, scientifically designed games that increase memory, logical thinking, and problem-solving capabilities. Perfect for exam preparation and cognitive development.</p>
-    <ul>
-      <li><strong>Memory Matrix:</strong> Recall tiles on a grid with increasing difficulty levels.</li>
-      <li><strong>Logical Sequence:</strong> Find the next number in patterns and progressions.</li>
-      <li><strong>Speed Math:</strong> Solve arithmetic problems quickly under time pressure.</li>
-      <li><strong>Word Puzzle:</strong> Build vocabulary by solving word jumbles and crosswords.</li>
-    </ul>
-  </section>
-  <section id="panel-dictionary" role="tabpanel" tabindex="0" aria-labelledby="tab-dictionary" hidden class="tab-content">
-    <div class="tab-header"><i class="fas fa-book tab-icon"></i><h3 class="tab-title">WORD'S Dictionary</h3></div>
-    <p>Enhance your vocabulary and language skills with our comprehensive dictionary tool. Get instant meanings, example sentences, phonetic pronunciations, synonyms, and antonyms right within the website.</p>
-    <ul>
-      <li><strong>Abundant:</strong> (adj.) Existing or available in large quantities; plentiful.<br><em>"The region is abundant in natural resources."</em></li>
-      <li><strong>Bellicose:</strong> (adj.) Demonstrating aggression or willingness to fight.<br><em>"His bellicose behavior made negotiations difficult."</em></li>
-      <li><strong>Candor:</strong> (n.) The quality of being open and honest in expression; frankness.<br><em>"She spoke with candor during the interview."</em></li>
-      <li><strong>Diligent:</strong> (adj.) Having or showing care and conscientiousness in one's work or duties.<br><em>"He was diligent in
