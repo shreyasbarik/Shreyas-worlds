@@ -1,56 +1,263 @@
 
 
   
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ayodhya Education Learning</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Shreyas World</title>
+<style>
+  /* Reset */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f4f8;
+    color: #222;
+    line-height: 1.6;
+  }
+
+  header {
+    background: #023e8a;
+    color: #fff;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+
+  header .branding {
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+  }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+  }
+
+  nav ul li {
+    cursor: pointer;
+  }
+
+  nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+  }
+
+  nav ul li a:hover {
+    color: #90e0ef;
+  }
+
+  .login-btn {
+    background: #48cae4;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #023e8a;
+    transition: background 0.3s ease;
+  }
+
+  .login-btn:hover {
+    background: #00b4d8;
+    color: #fff;
+  }
+
+  .hero {
+    height: 70vh;
+    background: linear-gradient(135deg, #0077b6, #00b4d8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    padding: 0 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero h1 {
+    font-size: 3rem;
+    font-weight: 900;
+    margin-bottom: 10px;
+    animation: slideInDown 1s ease forwards;
+  }
+
+  .hero p {
+    font-size: 1.3rem;
+    font-weight: 500;
+    max-width: 600px;
+    animation: fadeInUp 1.5s ease forwards;
+  }
+
+  @keyframes slideInDown {
+    0% {
+      opacity: 0;
+      transform: translateY(-50px);
     }
-    .icon:hover {
-      transform: scale(1.05);
-      transition: all 0.3s ease-in-out;
+    100% {
+      opacity: 1;
+      transform: translateY(0);
     }
-    .fade-in {
-      animation: fadeIn 2s ease-in;
+  }
+
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(30px);
     }
-    @keyframes fadeIn {
-      0% { opacity: 0; }
-      100% { opacity: 1; }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
     }
-  </style>
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+  }
+
+  .icons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+    gap: 25px;
+  }
+
+  .icon-card {
+    background: white;
+    padding: 25px 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #0077b6;
+    user-select: none;
+  }
+
+  .icon-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    color: #023e8a;
+  }
+
+  footer {
+    background: #023e8a;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .contact-info {
+    margin-top: 10px;
+    font-size: 0.9rem;
+  }
+
+  .complaint-box {
+    margin-top: 20px;
+  }
+
+  .complaint-box textarea {
+    width: 100%;
+    max-width: 600px;
+    height: 90px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 1rem;
+    resize: vertical;
+  }
+
+  .complaint-box button {
+    margin-top: 8px;
+    background: #48cae4;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #023e8a;
+    transition: background 0.3s ease;
+  }
+
+  .complaint-box button:hover {
+    background: #00b4d8;
+    color: white;
+  }
+</style>
 </head>
-<body class="bg-gray-100">
-  <nav class="bg-white shadow p-4 flex justify-between items-center">
-    <h1 class="text-2xl font-bold text-blue-600">Ayodhya Education</h1>
-    <div>
-      <a href="#" class="mx-3 text-gray-700 hover:text-blue-600">Home</a>
-      <a href="#" class="mx-3 text-gray-700 hover:text-blue-600">Login</a>
-      <a href="#" class="mx-3 text-gray-700 hover:text-blue-600">Complaint Box</a>
-    </div>
-  </nav>  <header class="bg-blue-500 text-white text-center py-20 fade-in">
-    <h2 class="text-4xl font-bold mb-4">Welcome to Ayodhya Education Learning</h2>
-    <p class="text-lg">Empowering Students with Knowledge, Creativity, and Motivation</p>
-  </header>  <main class="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-    <button class="bg-white shadow p-6 rounded icon" onclick="comingSoon()">Skills and Development</button>
-    <button class="bg-white shadow p-6 rounded icon" onclick="comingSoon()">Art and Drawing Ideas</button>
-    <button class="bg-white shadow p-6 rounded icon" onclick="comingSoon()">Motivation and Inspiration</button>
-    <button class="bg-white shadow p-6 rounded icon" onclick="comingSoon()">Brain Booster Games</button>
-    <button class="bg-white shadow p-6 rounded icon" onclick="comingSoon()">Exam Fear (Online Test)</button>
-    <button class="bg-white shadow p-6 rounded icon" onclick="comingSoon()">Ayodhya AI</button>
-    <button class="bg-white shadow p-6 rounded icon" onclick="comingSoon()">Funny Jokes and Comedy</button>
-    <button class="bg-white shadow p-6 rounded icon" onclick="comingSoon()">Project Manager</button>
-    <button class="bg-white shadow p-6 rounded icon" onclick="comingSoon()">Download Shreyas World App</button>
-  </main>  <footer class="bg-white text-center p-4 shadow mt-6">
-    <p>Contact us: <a href="mailto:ShreyasWorld12@gmail.com" class="text-blue-500">ShreyasWorld12@gmail.com</a> | Discord: Shreyasworld Helplineteam@91</p>
-  </footer>  <script>
-    function comingSoon() {
-      alert("In Progress - Coming Soon");
-    }
-  </script></body>
+<body>
+
+<header>
+  <div class="branding">Shreyas World</div>
+  <nav>
+    <ul>
+      <li><a href="#skills">Skills & Development</a></li>
+      <li><a href="#art">Art & Drawing Ideas</a></li>
+      <li><a href="#motivation">Motivation & Inspiration</a></li>
+      <li><a href="#brain">Brain Booster Games</a></li>
+      <li><a href="#exam">Exam Fear Test</a></li>
+      <li><a href="#ayodhya-ai">Ayodhya AI</a></li>
+      <li><a href="#jokes">Funny Jokes & Comedy</a></li>
+      <li><a href="#project-manager">Project Manager</a></li>
+      <li><a href="#download-app">Download App</a></li>
+    </ul>
+  </nav>
+  <button class="login-btn" onclick="alert('Login feature coming soon!')">Login</button>
+</header>
+
+<section class="hero">
+  <h1>Welcome to Shreyas World</h1>
+  <p>Ayodhya Education Learning — Empowering Students to Grow and Excel</p>
+</section>
+
+<div class="container">
+  <div class="icons-grid">
+    <div class="icon-card" onclick="alert('Skills & Development - In Progress, Coming Soon!')" id="skills">Skills & Development</div>
+    <div class="icon-card" onclick="alert('Art & Drawing Ideas - In Progress, Coming Soon!')" id="art">Art & Drawing Ideas</div>
+    <div class="icon-card" onclick="alert('Motivation & Inspiration - In Progress, Coming Soon!')" id="motivation">Motivation & Inspiration</div>
+    <div class="icon-card" onclick="alert('Brain Booster Games - In Progress, Coming Soon!')" id="brain">Brain Booster Games</div>
+    <div class="icon-card" onclick="alert('Exam Fear Test - In Progress, Coming Soon!')" id="exam">Exam Fear Test</div>
+    <div class="icon-card" onclick="alert('Ayodhya AI - In Progress, Coming Soon!')" id="ayodhya-ai">Ayodhya AI</div>
+    <div class="icon-card" onclick="alert('Funny Jokes & Comedy - In Progress, Coming Soon!')" id="jokes">Funny Jokes & Comedy</div>
+    <div class="icon-card" onclick="alert('Project Manager - In Progress, Coming Soon!')" id="project-manager">Project Manager</div>
+    <div class="icon-card" onclick="alert('Download Shreyas World App - In Progress, Coming Very Soon!')" id="download-app">Download Shreyas World App</div>
+  </div>
+
+  <div class="complaint-box">
+    <h2>Complaint Box</h2>
+    <textarea placeholder="Write your complaint or feedback here..."></textarea><br />
+    <button onclick="alert('Thank you for your feedback! We will look into it soon.')">Submit</button>
+  </div>
+
+  <div class="contact-info">
+    <p><strong>Contact Helpline Service:</strong></p>
+    <p>Email: <a href="mailto:ShreyasWorld12@gmail.com">ShreyasWorld12@gmail.com</a></p>
+    <p>Discord: Shreyasworld Helplineteam@91</p>
+  </div>
+</div>
+
+<footer>
+  &copy; 2025 Shreyas World. All rights reserved.
+</footer>
+
+</body>
 </html>
