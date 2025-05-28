@@ -3,158 +3,78 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Shreyas World - Ayodhya Disney</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      background: linear-gradient(to bottom, #e0f7fa, #ffffff);
-      color: #333;
-    }
-    header {
-      background-color: #1a237e;
-      color: white;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-    header h1 {
-      font-size: 1.8rem;
-      font-weight: bold;
-    }
-    nav a {
-      color: white;
-      margin-left: 20px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    nav a:hover {
-      text-decoration: underline;
-    }
-    .hero {
-      text-align: center;
-      padding: 80px 20px;
-      background: url('https://img.freepik.com/free-vector/abstract-technology-banner_23-2148862046.jpg') no-repeat center center/cover;
-      color: white;
-      animation: fadeIn 2s ease-in;
-    }
-    .hero h2 {
-      font-size: 3rem;
-      margin-bottom: 0.5rem;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
-      padding: 2rem;
-    }
-    .card {
-      background: #f1f1f1;
-      padding: 20px;
-      border-radius: 15px;
-      text-align: center;
-      cursor: pointer;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      transition: transform 0.2s ease-in-out;
-    }
-    .card:hover {
-      transform: translateY(-5px);
-    }
-    .card i {
-      font-size: 2rem;
-      margin-bottom: 10px;
-    }
-    .footer {
-      text-align: center;
-      padding: 1rem;
-      background-color: #1a237e;
-      color: white;
-      margin-top: 2rem;
-    }
-    .form-popup {
-      display: none;
-      position: fixed;
-      z-index: 9999;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #ffffff;
-      padding: 30px;
-      border: 2px solid #1a237e;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
-    .form-popup input[type="text"],
-    .form-popup input[type="email"] {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-    .form-popup button {
-      background-color: #1a237e;
-      color: white;
-      border: none;
-      padding: 10px;
-      cursor: pointer;
-      border-radius: 5px;
-      margin-top: 10px;
-    }
-    @keyframes fadeIn {
-      0% { opacity: 0; transform: translateY(-20px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>Shreyas World</h1>
-    <nav>
-      <a href="#">Home</a>
-      <a href="#">Contact Us</a>
-      <a href="#" onclick="openForm()">Login</a>
-    </nav>
-  </header>  <section class="hero">
-    <h2>Welcome to Ayodhya Disney</h2>
-    <p>Education, Fun & AI All In One Place!</p>
-  </section>  <section class="grid">
-    <div class="card" onclick="alertLogin()"><i class="fas fa-cogs"></i><p>Skills and Development</p></div>
-    <div class="card" onclick="alertLogin()"><i class="fas fa-paint-brush"></i><p>Art and Drawing Ideas</p></div>
-    <div class="card" onclick="alertLogin()"><i class="fas fa-bolt"></i><p>Motivation and Inspiration</p></div>
-    <div class="card" onclick="alertLogin()"><i class="fas fa-brain"></i><p>Brain Booster Games</p></div>
-    <div class="card" onclick="alertLogin()"><i class="fas fa-book"></i><p>Exam Fear Test</p></div>
-    <div class="card" onclick="alertLogin()"><i class="fas fa-robot"></i><p>Ayodhya AI</p></div>
-    <div class="card" onclick="alertLogin()"><i class="fas fa-laugh"></i><p>Funny Jokes & Comedy</p></div>
-    <div class="card" onclick="alertLogin()"><i class="fas fa-project-diagram"></i><p>Project Manager</p></div>
-    <div class="card" onclick="alert('In Progress. Coming Very Soon!')"><i class="fas fa-download"></i><p>Shreyas World App</p></div>
-  </section>  <section class="grid">
-    <div class="card" onclick="alert('Message sent! Thank you.')"><i class="fas fa-comment"></i><p>Suggestions Box</p></div>
-    <div class="card" onclick="alert('Complaint received! Our team will reach you soon.')"><i class="fas fa-exclamation-circle"></i><p>Complaint Box</p></div>
-  </section>  <div id="loginForm" class="form-popup">
-    <h3>Login to Shreyas World</h3>
-    <input type="text" placeholder="Full Name" required />
-    <input type="email" placeholder="Email Address" required />
-    <button onclick="alert('Server Is Down. Try Again Later')">Login</button>
-  </div>  <footer class="footer">
-    <p>Contact: <a href="mailto:ShreyasWorld12@gmail.com">ShreyasWorld12@gmail.com</a> | Discord: Shreyasworld Helplineteam@91</p>
-    <p>&copy; 2025 Shreyas World. All rights reserved.</p>
-  </footer>  <script>
-    function alertLogin() {
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script>
+    function handleIconClick() {
       alert("Login In To Shreyas World To Visit the Pages. Thank you.");
-    }
-    function openForm() {
-      document.getElementById("loginForm").style.display = "block";
-    }
-    window.onclick = function(event) {
-      const form = document.getElementById("loginForm");
-      if (event.target !== form && !form.contains(event.target)) {
-        form.style.display = "none";
-      }
-    }
-  </script></body>
+    }function handleAppClick() {
+  alert("In Progress. Coming Very Soon!");
+}
+
+function handleFormSubmit(event) {
+  event.preventDefault();
+  alert("Server Is Down. Try Again Later");
+}
+
+function handleSuggestionSubmit(event) {
+  event.preventDefault();
+  alert("Thank you for your suggestion. We will review it shortly.");
+}
+
+function handleComplaintSubmit(event) {
+  event.preventDefault();
+  alert("Your complaint has been received. Our team will contact you soon.");
+}
+
+  </script>
+</head>
+<body class="bg-white text-gray-800">
+  <!-- Navbar -->
+  <nav class="bg-blue-700 p-4 flex justify-between items-center shadow-lg">
+    <div class="text-white text-2xl font-bold">Shreyas World</div>
+    <div class="space-x-4">
+      <a href="#" class="text-white hover:underline">Home</a>
+      <a href="#contact" class="text-white hover:underline">Contact Us</a>
+      <button onclick="document.getElementById('loginForm').classList.toggle('hidden')" class="text-white hover:underline">Login</button>
+    </div>
+  </nav>  <!-- Hero Section -->  <section class="text-center py-16">
+    <h1 class="text-4xl font-bold mb-4">Welcome to Ayodhya Disney</h1>
+    <p class="text-lg">Empowering Learning Through Fun and Innovation</p>
+  </section>  <!-- Icons Section -->  <section class="grid grid-cols-2 md:grid-cols-4 gap-6 p-6">
+    <button onclick="handleIconClick()" class="bg-blue-100 p-4 rounded-xl shadow">Skills and Development</button>
+    <button onclick="handleIconClick()" class="bg-green-100 p-4 rounded-xl shadow">Art and Drawing Ideas</button>
+    <button onclick="handleIconClick()" class="bg-yellow-100 p-4 rounded-xl shadow">Motivation and Inspiration</button>
+    <button onclick="handleIconClick()" class="bg-pink-100 p-4 rounded-xl shadow">Brain Booster Games</button>
+    <button onclick="handleIconClick()" class="bg-purple-100 p-4 rounded-xl shadow">Exam Fear</button>
+    <button onclick="handleIconClick()" class="bg-indigo-100 p-4 rounded-xl shadow">Ayodhya AI</button>
+    <button onclick="handleIconClick()" class="bg-red-100 p-4 rounded-xl shadow">Funny Jokes and Comedy</button>
+    <button onclick="handleIconClick()" class="bg-teal-100 p-4 rounded-xl shadow">Project Manager</button>
+    <button onclick="handleAppClick()" class="bg-gray-100 p-4 rounded-xl shadow">Shreyas World App</button>
+  </section>  <!-- Login Form -->  <div id="loginForm" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
+    <form onsubmit="handleFormSubmit(event)" class="bg-white p-6 rounded-lg shadow-lg w-80">
+      <h2 class="text-xl font-bold mb-4">Login to Shreyas World</h2>
+      <label class="block mb-2">Name:</label>
+      <input type="text" required class="w-full border px-3 py-2 mb-4 rounded" />
+      <label class="block mb-2">Email:</label>
+      <input type="email" required class="w-full border px-3 py-2 mb-4 rounded" />
+      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Login</button>
+    </form>
+  </div>  <!-- Contact Section -->  <section id="contact" class="p-6">
+    <h2 class="text-2xl font-bold mb-4">Contact Us</h2>
+    <p>Email: <a href="mailto:ShreyasWorld12@gmail.com" class="text-blue-600">ShreyasWorld12@gmail.com</a></p>
+    <p>Discord: Shreyasworld Helplineteam@91</p>
+  </section>  <!-- Suggestions Box -->  <section class="p-6">
+    <h3 class="text-xl font-semibold mb-2">Suggestions</h3>
+    <form onsubmit="handleSuggestionSubmit(event)">
+      <textarea required class="w-full border p-2 rounded mb-2" placeholder="Write your suggestion here..."></textarea>
+      <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Submit Suggestion</button>
+    </form>
+  </section>  <!-- Complaint Box -->  <section class="p-6">
+    <h3 class="text-xl font-semibold mb-2">Complaint Box</h3>
+    <form onsubmit="handleComplaintSubmit(event)">
+      <textarea required class="w-full border p-2 rounded mb-2" placeholder="Write your complaint here..."></textarea>
+      <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Submit Complaint</button>
+    </form>
+  </section>
+</body>
 </html>
