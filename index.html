@@ -1,5 +1,108 @@
 
-
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shreyas World</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-image: url('https://images.unsplash.com/photo-1557683304-673a23048d34');
+      background-size: cover;
+      background-position: center;
+      color: white;
+    }
+    .overlay {
+      background: rgba(0, 0, 0, 0.6);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+    .nav-link, .navbar-brand {
+      color: white !important;
+    }
+    .container {
+      margin-top: 100px;
+    }
+    .form-control, .btn {
+      border-radius: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-transparent">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Shreyas World</a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#">AI Tools</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Brain Booster Games</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Java & Python</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Smart Test</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Art & Drawing</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Motivation</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Skills</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>  <div class="container text-center">
+    <h1>Welcome to Shreyas World</h1>
+    <p>Learn. Grow. Conquer.</p>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+  </div>  <!-- Login Modal -->  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content text-dark">
+        <div class="modal-header">
+          <h5 class="modal-title" id="loginModalLabel">Login</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="loginForm">
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input type="text" class="form-control" id="username" required />
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" id="password" required />
+            </div>
+            <button type="submit" class="btn btn-success">Login</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      if (username === 'admin' && password === '1234') {
+        alert('Login successful!');
+        bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
+      } else {
+        alert('Invalid credentials.');
+      }
+    });
+  </script></body>
+</html>
 <!DOCTYPE html>
 <html lang="en">
 <head>
