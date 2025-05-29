@@ -1,0 +1,2 @@
+This folder will contain your video files.
+(Note: For videos, upload from your laptop using Git for better file size handling.)
