@@ -1,69 +1,115 @@
 
-
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Skills and Development - Shreyas World</title>
-  <style>
-    body {
-      background: #f0f4f8;
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 20px;
-    }
-    h1 {
-      text-align: center;
-      color: #222;
-    }
-    .video-box {
-      max-width: 900px;
-      margin: 40px auto;
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    }
-    video {
-      width: 100%;
-      border-radius: 10px;
-      margin-bottom: 10px;
-    }
-    h2 {
-      margin-top: 0;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Shreyas World - We'll Be Back Soon</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+  html, body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: #f0f0f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .container {
+    text-align: center;
+    max-width: 480px;
+    background: rgba(0,0,0,0.35);
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  }
+
+  h1 {
+    font-weight: 600;
+    font-size: 2.8rem;
+    margin-bottom: 1rem;
+    letter-spacing: 1.2px;
+  }
+
+  p {
+    font-weight: 400;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 12px 0;
+  }
+
+  .timer {
+    margin: 30px auto 15px;
+    font-size: 2.5rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    font-variant-numeric: tabular-nums;
+    background: rgba(255,255,255,0.15);
+    padding: 12px 25px;
+    border-radius: 8px;
+    display: inline-block;
+    min-width: 280px;
+    user-select: none;
+  }
+
+  .footer {
+    margin-top: 24px;
+    font-style: italic;
+    font-weight: 500;
+    color: #dcdcdccc;
+  }
+</style>
 </head>
 <body>
-
-  <h1>🎓 Skills and Development - Watch & Learn</h1>
-
-  <div class="video-box">
-    <h2>🚀 Time for Productivity</h2>
-    <video controls>
-      <source src="productivity.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-    <p>Boost your productivity with simple habits and better time use.</p>
+  <div class="container" role="main" aria-labelledby="main-title">
+    <h1 id="main-title">Shreyas World</h1>
+    <p>We’ll Be Back Soon</p>
+    <p>Our website is currently under maintenance to serve you better.<br>
+    We’re working hard to bring everything back online as quickly as possible.</p>
+    <p>Thank you for your patience and understanding.<br>
+    Please check back later.</p>
+    <div aria-live="polite" aria-atomic="true">
+      <div class="timer" id="countdown" aria-label="Countdown Timer"></div>
+    </div>
+    <div class="footer">— Team Shreyas World</div>
   </div>
 
-  <div class="video-box">
-    <h2>🗣️ Improve Communication Skills</h2>
-    <video controls>
-      <source src="communication.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-    <p>Learn to speak and listen effectively in any situation.</p>
-  </div>
+  <script>
+    (function(){
+      const countdownEl = document.getElementById('countdown');
 
-  <div class="video-box">
-    <h2>🎯 Goal Setting and Achievement</h2>
-    <video controls>
-      <source src="goal.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-    <p>Discover how to set realistic goals and achieve them step-by-step.</p>
-  </div>
+      // Total seconds = 72 hours * 3600 + 30 minutes * 60 + 30 seconds
+      let totalSeconds = 72 * 3600 + 30 * 60 + 30;
 
+      function formatTime(seconds) {
+        const hrs = Math.floor(seconds / 3600);
+        const mins = Math.floor((seconds % 3600) / 60);
+        const secs = seconds % 60;
+        return [
+          hrs.toString().padStart(2, '0'),
+          mins.toString().padStart(2, '0'),
+          secs.toString().padStart(2, '0')
+        ].join(' : ');
+      }
+
+      function updateTimer() {
+        if (totalSeconds < 0) {
+          countdownEl.textContent = "We're back online!";
+          clearInterval(timerInterval);
+          return;
+        }
+
+        countdownEl.textContent = formatTime(totalSeconds);
+        totalSeconds--;
+      }
+
+      updateTimer();
+      const timerInterval = setInterval(updateTimer, 1000);
+    })();
+  </script>
 </body>
 </html>
