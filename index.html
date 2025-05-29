@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,15 +16,19 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 15px;
+    box-sizing: border-box;
   }
 
   .container {
     text-align: center;
     max-width: 480px;
+    width: 100%;
     background: rgba(0,0,0,0.35);
     padding: 40px 30px;
     border-radius: 12px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    box-sizing: border-box;
   }
 
   h1 {
@@ -62,6 +65,45 @@
     font-weight: 500;
     color: #dcdcdccc;
   }
+
+  /* Responsive for smaller screens */
+  @media (max-width: 480px) {
+    .container {
+      padding: 30px 20px;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+
+    .timer {
+      font-size: 2rem;
+      min-width: 220px;
+      padding: 10px 18px;
+      letter-spacing: 1.5px;
+    }
+  }
+
+  @media (max-width: 320px) {
+    h1 {
+      font-size: 1.8rem;
+    }
+
+    p {
+      font-size: 0.9rem;
+    }
+
+    .timer {
+      font-size: 1.5rem;
+      min-width: 180px;
+      padding: 8px 15px;
+      letter-spacing: 1px;
+    }
+  }
 </style>
 </head>
 <body>
@@ -79,11 +121,20 @@
   </div>
 
   <script>
-    (function(){
+    (function() {
       const countdownEl = document.getElementById('countdown');
 
-      // Total seconds = 72 hours * 3600 + 30 minutes * 60 + 30 seconds
-      let totalSeconds = 72 * 3600 + 30 * 60 + 30;
+      // Compute today at 17:00:00 local time
+      function getTodayAtHour(hour, minute = 0, second = 0) {
+        const now = new Date();
+        return new Date(now.getFullYear(), now.getMonth(), now.getDate(), hour, minute, second);
+      }
+
+      const START_HOUR = 17; // 5pm
+      const DURATION_MS = 72 * 3600 * 1000; // 72 hours in ms
+
+      const startTime = getTodayAtHour(START_HOUR);
+      const endTime = new Date(startTime.getTime() + DURATION_MS);
 
       function formatTime(seconds) {
         const hrs = Math.floor(seconds / 3600);
@@ -97,19 +148,26 @@
       }
 
       function updateTimer() {
-        if (totalSeconds < 0) {
+        const now = new Date();
+
+        if (now < startTime) {
+          // Show countdown to start time
+          const diffToStart = Math.floor((startTime - now) / 1000);
+          countdownEl.textContent = "Starting Soon: " + formatTime(diffToStart);
+        } else if (now >= startTime && now <= endTime) {
+          // Show countdown to end time
+          const diff = Math.floor((endTime - now) / 1000);
+          countdownEl.textContent = formatTime(diff);
+        } else {
           countdownEl.textContent = "We're back online!";
           clearInterval(timerInterval);
-          return;
         }
-
-        countdownEl.textContent = formatTime(totalSeconds);
-        totalSeconds--;
       }
 
       updateTimer();
       const timerInterval = setInterval(updateTimer, 1000);
     })();
   </script>
+
 </body>
 </html>
