@@ -1,130 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shreyas World - Ayodhya Disney</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <script>
-    function handleIconClick() {
-      alert("Login In To Shreyas World To Visit the Pages. Thank you.");
+  <meta charset="UTF-8">
+  <title>Video Test</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 50px;
     }
-
-    function handleAppClick() {
-      alert("In Progress. Coming Very Soon!");
+    video {
+      border: 2px solid white;
+      border-radius: 10px;
     }
-
-    function handleFormSubmit(event) {
-      event.preventDefault();
-      alert("Server Is Down. Try Again Later");
-    }
-
-    function handleSuggestionSubmit(event) {
-      event.preventDefault();
-      alert("Thank you for your suggestion. We will review it shortly.");
-    }
-
-    function handleComplaintSubmit(event) {
-      event.preventDefault();
-      alert("Your complaint has been received. Our team will contact you soon.");
-    }
-
-    function openMotivationVideo() {
-      const section = document.getElementById("motivationPage");
-      section.classList.remove("hidden");
-      window.scrollTo({ top: section.offsetTop, behavior: 'smooth' });
-    }
-  </script>
+  </style>
 </head>
-<body class="bg-white text-gray-800">
-
-  <!-- Navbar -->
-  <nav class="bg-blue-700 p-4 flex justify-between items-center shadow-lg">
-    <div class="text-white text-2xl font-bold">Shreyas World</div>
-    <div class="space-x-4">
-      <a href="#" class="text-white hover:underline">Home</a>
-      <a href="#contact" class="text-white hover:underline">Contact Us</a>
-      <button onclick="document.getElementById('loginForm').classList.toggle('hidden')" class="text-white hover:underline">Login</button>
-    </div>
-  </nav>
-
-  <!-- Hero Section -->
-  <section class="text-center py-16">
-    <h1 class="text-4xl font-bold mb-4">Welcome to Ayodhya Disney</h1>
-    <p class="text-lg">Empowering Learning Through Fun and Innovation</p>
-  </section>
-
-  <!-- Icons Section -->
-  <section class="grid grid-cols-2 md:grid-cols-4 gap-6 p-6">
-    <button onclick="handleIconClick()" class="bg-blue-100 p-4 rounded-xl shadow">Skills and Development</button>
-    <button onclick="handleIconClick()" class="bg-green-100 p-4 rounded-xl shadow">Art and Drawing Ideas</button>
-    <button onclick="openMotivationVideo()" class="bg-yellow-100 p-4 rounded-xl shadow">Motivation and Inspiration</button>
-    <button onclick="handleIconClick()" class="bg-pink-100 p-4 rounded-xl shadow">Brain Booster Games</button>
-    <button onclick="handleIconClick()" class="bg-purple-100 p-4 rounded-xl shadow">Exam Fear</button>
-    <button onclick="handleIconClick()" class="bg-indigo-100 p-4 rounded-xl shadow">Ayodhya AI</button>
-    <button onclick="handleIconClick()" class="bg-red-100 p-4 rounded-xl shadow">Funny Jokes and Comedy</button>
-    <button onclick="handleIconClick()" class="bg-teal-100 p-4 rounded-xl shadow">Project Manager</button>
-    <button onclick="handleAppClick()" class="bg-gray-100 p-4 rounded-xl shadow">Shreyas World App</button>
-  </section>
-
-  <!-- Motivation Video Section -->
-  <section id="motivationPage" class="hidden p-6 bg-yellow-50">
-    <h2 class="text-2xl font-bold mb-4 text-center">Motivation and Inspiration</h2>
-    <div class="flex justify-center mb-4">
-      <video id="myVideo" class="w-full max-w-3xl rounded shadow-lg" controls>
-        <!-- Replace the video URL below with your own file if uploaded -->
-        <source src="video/myvideo.mp4" type="video/mp4" />
-        <!-- To test without uploading, uncomment the line below and comment the one above -->
-        <!-- <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" /> -->
-        Your browser does not support the video tag.
-      </video>
-    </div>
-
-    <div class="flex justify-center gap-4 flex-wrap">
-      <button onclick="document.getElementById('myVideo').play()" class="bg-green-500 text-white px-4 py-2 rounded">Play</button>
-      <button onclick="document.getElementById('myVideo').pause()" class="bg-red-500 text-white px-4 py-2 rounded">Pause</button>
-      <button onclick="document.getElementById('myVideo').playbackRate = 1" class="bg-blue-500 text-white px-4 py-2 rounded">1x</button>
-      <button onclick="document.getElementById('myVideo').playbackRate = 1.5" class="bg-blue-600 text-white px-4 py-2 rounded">1.5x</button>
-      <button onclick="document.getElementById('myVideo').playbackRate = 2" class="bg-blue-700 text-white px-4 py-2 rounded">2x</button>
-    </div>
-  </section>
-
-  <!-- Login Form -->
-  <div id="loginForm" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
-    <form onsubmit="handleFormSubmit(event)" class="bg-white p-6 rounded-lg shadow-lg w-80">
-      <h2 class="text-xl font-bold mb-4">Login to Shreyas World</h2>
-      <label class="block mb-2">Name:</label>
-      <input type="text" required class="w-full border px-3 py-2 mb-4 rounded" />
-      <label class="block mb-2">Email:</label>
-      <input type="email" required class="w-full border px-3 py-2 mb-4 rounded" />
-      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Login</button>
-    </form>
-  </div>
-
-  <!-- Contact Section -->
-  <section id="contact" class="p-6">
-    <h2 class="text-2xl font-bold mb-4">Contact Us</h2>
-    <p>Email: <a href="mailto:ShreyasWorld12@gmail.com" class="text-blue-600">ShreyasWorld12@gmail.com</a></p>
-    <p>Discord: Shreyasworld Helplineteam@91</p>
-  </section>
-
-  <!-- Suggestions -->
-  <section class="p-6">
-    <h3 class="text-xl font-semibold mb-2">Suggestions</h3>
-    <form onsubmit="handleSuggestionSubmit(event)">
-      <textarea required class="w-full border p-2 rounded mb-2" placeholder="Write your suggestion here..."></textarea>
-      <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Submit Suggestion</button>
-    </form>
-  </section>
-
-  <!-- Complaint Box -->
-  <section class="p-6">
-    <h3 class="text-xl font-semibold mb-2">Complaint Box</h3>
-    <form onsubmit="handleComplaintSubmit(event)">
-      <textarea required class="w-full border p-2 rounded mb-2" placeholder="Write your complaint here..."></textarea>
-      <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Submit Complaint</button>
-    </form>
-  </section>
-
+<body>
+  <h1>🎬 Testing Video Playback</h1>
+  <video width="640" height="360" controls>
+    <source src="video/myvideo.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
 </body>
 </html>
