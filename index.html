@@ -30,8 +30,9 @@
     }
 
     function openMotivationVideo() {
-      document.getElementById("motivationPage").classList.remove("hidden");
-      window.scrollTo({ top: document.getElementById("motivationPage").offsetTop, behavior: 'smooth' });
+      const section = document.getElementById("motivationPage");
+      section.classList.remove("hidden");
+      window.scrollTo({ top: section.offsetTop, behavior: 'smooth' });
     }
   </script>
 </head>
@@ -66,18 +67,20 @@
     <button onclick="handleAppClick()" class="bg-gray-100 p-4 rounded-xl shadow">Shreyas World App</button>
   </section>
 
-  <!-- Hidden Video Section -->
+  <!-- Motivation Video Section -->
   <section id="motivationPage" class="hidden p-6 bg-yellow-50">
     <h2 class="text-2xl font-bold mb-4 text-center">Motivation and Inspiration</h2>
-
     <div class="flex justify-center mb-4">
       <video id="myVideo" class="w-full max-w-3xl rounded shadow-lg" controls>
-        <source src="video/myvideo.mp4" type="video/mp4">
+        <!-- Replace the video URL below with your own file if uploaded -->
+        <source src="video/myvideo.mp4" type="video/mp4" />
+        <!-- To test without uploading, uncomment the line below and comment the one above -->
+        <!-- <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" /> -->
         Your browser does not support the video tag.
       </video>
     </div>
 
-    <div class="flex justify-center gap-4">
+    <div class="flex justify-center gap-4 flex-wrap">
       <button onclick="document.getElementById('myVideo').play()" class="bg-green-500 text-white px-4 py-2 rounded">Play</button>
       <button onclick="document.getElementById('myVideo').pause()" class="bg-red-500 text-white px-4 py-2 rounded">Pause</button>
       <button onclick="document.getElementById('myVideo').playbackRate = 1" class="bg-blue-500 text-white px-4 py-2 rounded">1x</button>
