@@ -1,14 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>My Video Page</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>🚧 Website Under Maintenance 🚧</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+  body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    font-family: 'Montserrat', sans-serif;
+    color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  .container {
+    background: rgba(30, 60, 114, 0.85);
+    border-radius: 15px;
+    padding: 40px 30px;
+    max-width: 450px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  }
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+  }
+  p.message {
+    font-size: 1.2rem;
+    margin: 20px 0;
+    line-height: 1.5;
+  }
+  .timer {
+    margin-top: 30px;
+    font-size: 3rem;
+    font-weight: 700;
+    background: #ffffff22;
+    border-radius: 10px;
+    padding: 10px 25px;
+    letter-spacing: 3px;
+    user-select: none;
+    font-feature-settings: "tnum";
+    font-variant-numeric: tabular-nums;
+  }
+  footer {
+    margin-top: 30px;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: #cfd8dc;
+  }
+</style>
 </head>
 <body>
-  <h1>Welcome to My Video</h1>
-  <video width="640" height="360" controls autoplay muted loop>
-    <source src="videos/myvideo.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
+  <div class="container">
+    <h1>🚧 Website Under Maintenance 🚧</h1>
+    <p class="message">Our website is currently undergoing scheduled maintenance to improve your experience.<br />Please check back soon!</p>
+    <div id="countdown" class="timer">24:00:00</div>
+    <footer>Thank you for your patience.<br>— Team Shreyas World</footer>
+  </div>
+
+<script>
+  (function(){
+    const countdownElem = document.getElementById('countdown');
+    const HOURS_TOTAL = 24;
+    const MS_IN_HOUR = 3600 * 1000;
+    const MS_IN_MIN = 60 * 1000;
+    const MS_IN_SEC = 1000;
+
+    // Get start time from localStorage or set now if not present
+    let startTime = localStorage.getItem('maintenanceStartTime');
+    if (!startTime) {
+      startTime = Date.now();
+      localStorage.setItem('maintenanceStartTime', startTime);
+    } else {
+      startTime = parseInt(startTime, 10);
+      // Safety check: if startTime is in the future for some reason, reset it to now
+      if (startTime > Date.now()) {
+        startTime = Date.now();
+        localStorage.setItem('maintenanceStartTime', startTime);
+      }
+    }
+
+    function padZero(num) {
+      return num.toString().padStart(2, '0');
+    }
+
+    function updateTimer() {
+      let elapsed = Date.now() - startTime;
+      let remainingMs = HOURS_TOTAL * MS_IN_HOUR - elapsed;
+
+      if (remainingMs <= 0) {
+        countdownElem.textContent = "00:00:00";
+        clearInterval(timerInterval);
+        return;
+      }
+
+      let hours = Math.floor(remainingMs / MS_IN_HOUR);
+      remainingMs %= MS_IN_HOUR;
+      let minutes = Math.floor(remainingMs / MS_IN_MIN);
+      remainingMs %= MS_IN_MIN;
+      let seconds = Math.floor(remainingMs / MS_IN_SEC);
+
+      countdownElem.textContent = `${padZero(hours)}:${padZero(minutes)}:${padZero(seconds)}`;
+    }
+
+    // Update immediately and then each second
+    updateTimer();
+    let timerInterval = setInterval(updateTimer, 1000);
+  })();
+</script>
 </body>
 </html>
