@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Motivation & Inspiration | Shreyas World</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f1f5f9;
+      text-align: center;
+    }
+    header {
+      background-color: #0f172a;
+      color: white;
+      padding: 15px;
+      font-size: 1.2rem;
+    }
+    video {
+      width: 95%;
+      max-width: 600px;
+      height: auto;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+    .note {
+      padding: 10px 20px;
+      max-width: 600px;
+      margin: 10px auto;
+      background: #e2e8f0;
+      border-radius: 8px;
+      color: #1e293b;
+    }
+    .back {
+      margin-top: 20px;
+      display: inline-block;
+      text-decoration: none;
+      color: #2563eb;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<header>Motivation & Inspiration</header>
+
+<video id="motivationVideo" controls autoplay></video>
+<div class="note" id="noteBox"></div>
+
+<a href="index.html" class="back">← Back to Home</a>
+
+<script>
+  const videos = [
+    { file: "Motivation.Inspiration video/Motivation1.mp4", note: "Start your journey with discipline. Small steps daily create greatness." },
+    { file: "Motivation.Inspiration video/Motivation2.mp4", note: "Success begins in your mind. Think big, act smart." },
+    { file: "Motivation.Inspiration video/Motivation3.mp4", note: "Every failure is a lesson. Learn, improve, repeat." },
+    { file: "Motivation.Inspiration video/Motivation4.mp4", note: "Dreams don't work unless you do. Stay consistent." },
+    { file: "Motivation.Inspiration video/Motivation5.mp4", note: "You are stronger than you think. Keep going!" },
+    { file: "Motivation.Inspiration video/Motivation6.mp4", note: "Hard work beats talent when talent doesn’t work hard." },
+    { file: "Motivation.Inspiration video/Motivation7.mp4", note: "Don’t watch the clock. Do what it does. Keep moving." },
+    { file: "Motivation.Inspiration video/Motivation8.mp4", note: "Your only limit is your mindset. Upgrade it." }
+  ];
+
+  let currentIndex = 0;
+  const videoEl = document.getElementById("motivationVideo");
+  const noteBox = document.getElementById("noteBox");
+
+  function loadVideo(index) {
+    if (index >= videos.length) {
+      noteBox.innerText = "You've completed all motivational videos. Keep going strong!";
+      videoEl.style.display = "none";
+      return;
+    }
+    videoEl.src = videos[index].file;
+    noteBox.innerText = videos[index].note;
+    videoEl.play();
+  }
+
+  videoEl.addEventListener("ended", () => {
+    currentIndex++;
+    loadVideo(currentIndex);
+  });
+
+  loadVideo(currentIndex);
+</script>
+
+</body>
+</html>

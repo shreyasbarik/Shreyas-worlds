@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Comedy & Jokes | Shreyas World</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #e0f2fe;
+      text-align: center;
+    }
+    header {
+      background-color: #0369a1;
+      color: white;
+      padding: 15px;
+      font-size: 1.2rem;
+    }
+    video {
+      width: 95%;
+      max-width: 600px;
+      height: auto;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+    .note {
+      padding: 10px 20px;
+      max-width: 600px;
+      margin: 10px auto;
+      background: #bae6fd;
+      border-radius: 8px;
+      color: #0369a1;
+    }
+    .back {
+      margin-top: 20px;
+      display: inline-block;
+      text-decoration: none;
+      color: #0284c7;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<header>Comedy & Jokes</header>
+
+<video id="comedyVideo" controls></video>
+<div class="note" id="noteBox"></div>
+
+<a href="index.html" class="back">← Back to Home</a>
+
+<script>
+  const videos = [
+    { file: "Comedy.Jokes video/Jokes1.mp4", note: "Laughter reduces stress and boosts your immune system. Enjoy the fun!" },
+    { file: "Comedy.Jokes video/Jokes2.mp4", note: "Laughing improves mood and strengthens social bonds. Keep smiling!" }
+  ];
+
+  let currentIndex = 0;
+  const videoEl = document.getElementById("comedyVideo");
+  const noteBox = document.getElementById("noteBox");
+
+  function loadVideo(index) {
+    if (index >= videos.length) {
+      noteBox.innerText = "Hope you had a good laugh! Keep spreading joy.";
+      videoEl.style.display = "none";
+      return;
+    }
+    videoEl.src = videos[index].file;
+    noteBox.innerText = videos[index].note;
+  }
+
+  loadVideo(currentIndex);
+</script>
+
+</body>
+</html>

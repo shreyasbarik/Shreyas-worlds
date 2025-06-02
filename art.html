@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Art & Drawing | Shreyas World</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #fff7ed;
+      text-align: center;
+    }
+    header {
+      background-color: #78350f;
+      color: white;
+      padding: 15px;
+      font-size: 1.2rem;
+    }
+    video {
+      width: 95%;
+      max-width: 600px;
+      height: auto;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+    .note {
+      padding: 10px 20px;
+      max-width: 600px;
+      margin: 10px auto;
+      background: #ffedd5;
+      border-radius: 8px;
+      color: #78350f;
+    }
+    .back {
+      margin-top: 20px;
+      display: inline-block;
+      text-decoration: none;
+      color: #b45309;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<header>Art & Drawing</header>
+
+<video id="artVideo" controls></video>
+<div class="note" id="noteBox"></div>
+
+<a href="index.html" class="back">← Back to Home</a>
+
+<script>
+  const videos = [
+    { file: "Art.Drawing video/Art1.mp4", note: "Art is the journey of a free soul. Practice regularly to improve your creativity." },
+    { file: "Art.Drawing video/Art2.mp4", note: "Drawing sharpens your mind and enhances your observation skills. Keep experimenting!" }
+  ];
+
+  let currentIndex = 0;
+  const videoEl = document.getElementById("artVideo");
+  const noteBox = document.getElementById("noteBox");
+
+  function loadVideo(index) {
+    if (index >= videos.length) {
+      noteBox.innerText = "You've finished the art videos. Keep creating amazing artwork!";
+      videoEl.style.display = "none";
+      return;
+    }
+    videoEl.src = videos[index].file;
+    noteBox.innerText = videos[index].note;
+  }
+
+  loadVideo(currentIndex);
+</script>
+
+</body>
+</html>
