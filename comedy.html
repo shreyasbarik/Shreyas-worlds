@@ -3,76 +3,92 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Comedy & Jokes | Shreyas World</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Comedy & Jokes - Shreyas World</title>
   <style>
     body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: #e0f2fe;
-      text-align: center;
-    }
-    header {
-      background-color: #0369a1;
+      background: #000;
       color: white;
-      padding: 15px;
-      font-size: 1.2rem;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 20px;
+      margin: 0;
     }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2em;
+    }
+
+    .video-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .video-box {
+      background: #111;
+      padding: 20px;
+      border-radius: 20px;
+      margin-bottom: 40px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    }
+
     video {
-      width: 95%;
-      max-width: 600px;
+      width: 100%;
       height: auto;
-      border-radius: 10px;
-      margin-top: 20px;
+      border-radius: 12px;
+      margin-bottom: 15px;
     }
-    .note {
-      padding: 10px 20px;
-      max-width: 600px;
-      margin: 10px auto;
-      background: #bae6fd;
+
+    .message {
+      font-size: 1.05em;
+      padding: 10px;
+      background-color: #222;
+      border-left: 4px solid #ff9800;
+      margin-bottom: 10px;
       border-radius: 8px;
-      color: #0369a1;
     }
-    .back {
-      margin-top: 20px;
-      display: inline-block;
+
+    .btn-back {
+      display: block;
+      width: fit-content;
+      margin: 40px auto 0;
+      padding: 12px 25px;
+      background: white;
+      color: black;
       text-decoration: none;
-      color: #0284c7;
+      border-radius: 30px;
       font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .btn-back:hover {
+      background: #ddd;
+    }
+
+    @media screen and (max-width: 600px) {
+      h1 {
+        font-size: 1.5em;
+      }
     }
   </style>
 </head>
 <body>
 
-<header>Comedy & Jokes</header>
+  <h1>Comedy & Jokes</h1>
 
-<video id="comedyVideo" controls></video>
-<div class="note" id="noteBox"></div>
+  <div class="video-container">
+    <div class="video-box">
+      <video controls src="../Comedy.Jokes video/Jokes1.mp4"></video>
+      <div class="message">😂 Laughing reduces stress, boosts your immune system, and makes life happier!</div>
+    </div>
 
-<a href="index.html" class="back">← Back to Home</a>
+    <div class="video-box">
+      <video controls src="../Comedy.Jokes video/Jokes2.mp4"></video>
+      <div class="message">🤣 Laughter connects people, improves relationships, and brings joy even on tough days.</div>
+    </div>
+  </div>
 
-<script>
-  const videos = [
-    { file: "Comedy.Jokes video/Jokes1.mp4", note: "Laughter reduces stress and boosts your immune system. Enjoy the fun!" },
-    { file: "Comedy.Jokes video/Jokes2.mp4", note: "Laughing improves mood and strengthens social bonds. Keep smiling!" }
-  ];
-
-  let currentIndex = 0;
-  const videoEl = document.getElementById("comedyVideo");
-  const noteBox = document.getElementById("noteBox");
-
-  function loadVideo(index) {
-    if (index >= videos.length) {
-      noteBox.innerText = "Hope you had a good laugh! Keep spreading joy.";
-      videoEl.style.display = "none";
-      return;
-    }
-    videoEl.src = videos[index].file;
-    noteBox.innerText = videos[index].note;
-  }
-
-  loadVideo(currentIndex);
-</script>
+  <a class="btn-back" href="../index.html">⬅ Back to Home</a>
 
 </body>
 </html>

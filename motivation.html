@@ -3,88 +3,102 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Motivation & Inspiration | Shreyas World</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Motivation & Inspiration - Shreyas World</title>
   <style>
     body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: #f1f5f9;
-      text-align: center;
-    }
-    header {
-      background-color: #0f172a;
+      background: #000;
       color: white;
-      padding: 15px;
-      font-size: 1.2rem;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 20px;
+      margin: 0;
     }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2em;
+    }
+
+    .video-container {
+      max-width: 900px;
+      margin: 0 auto 40px;
+      background: #111;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    }
+
     video {
-      width: 95%;
-      max-width: 600px;
+      width: 100%;
       height: auto;
-      border-radius: 10px;
-      margin-top: 20px;
+      border-radius: 12px;
+      margin-bottom: 15px;
     }
-    .note {
-      padding: 10px 20px;
-      max-width: 600px;
-      margin: 10px auto;
-      background: #e2e8f0;
+
+    .message {
+      font-size: 1.05em;
+      padding: 10px;
+      background-color: #222;
+      border-left: 4px solid #0f0;
+      margin-bottom: 10px;
       border-radius: 8px;
-      color: #1e293b;
     }
-    .back {
-      margin-top: 20px;
-      display: inline-block;
+
+    .btn-back {
+      display: block;
+      width: fit-content;
+      margin: 40px auto 0;
+      padding: 12px 25px;
+      background: white;
+      color: black;
       text-decoration: none;
-      color: #2563eb;
+      border-radius: 30px;
       font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .btn-back:hover {
+      background: #ddd;
+    }
+
+    @media screen and (max-width: 600px) {
+      h1 {
+        font-size: 1.5em;
+      }
     }
   </style>
 </head>
 <body>
 
-<header>Motivation & Inspiration</header>
+  <h1>Motivation & Inspiration</h1>
 
-<video id="motivationVideo" controls autoplay></video>
-<div class="note" id="noteBox"></div>
+  <div class="video-container">
+    <video controls src="../Motivation.Inspiration video/Motivation1.mp4"></video>
+    <div class="message">🌟 Believe in yourself! Every expert was once a beginner.</div>
 
-<a href="index.html" class="back">← Back to Home</a>
+    <video controls src="../Motivation.Inspiration video/Motivation2.mp4"></video>
+    <div class="message">💪 Push your limits – growth lives outside your comfort zone.</div>
 
-<script>
-  const videos = [
-    { file: "Motivation.Inspiration video/Motivation1.mp4", note: "Start your journey with discipline. Small steps daily create greatness." },
-    { file: "Motivation.Inspiration video/Motivation2.mp4", note: "Success begins in your mind. Think big, act smart." },
-    { file: "Motivation.Inspiration video/Motivation3.mp4", note: "Every failure is a lesson. Learn, improve, repeat." },
-    { file: "Motivation.Inspiration video/Motivation4.mp4", note: "Dreams don't work unless you do. Stay consistent." },
-    { file: "Motivation.Inspiration video/Motivation5.mp4", note: "You are stronger than you think. Keep going!" },
-    { file: "Motivation.Inspiration video/Motivation6.mp4", note: "Hard work beats talent when talent doesn’t work hard." },
-    { file: "Motivation.Inspiration video/Motivation7.mp4", note: "Don’t watch the clock. Do what it does. Keep moving." },
-    { file: "Motivation.Inspiration video/Motivation8.mp4", note: "Your only limit is your mindset. Upgrade it." }
-  ];
+    <video controls src="../Motivation.Inspiration video/Motivation3.mp4"></video>
+    <div class="message">🔥 Discipline beats motivation. Show up every day.</div>
 
-  let currentIndex = 0;
-  const videoEl = document.getElementById("motivationVideo");
-  const noteBox = document.getElementById("noteBox");
+    <video controls src="../Motivation.Inspiration video/Motivation4.mp4"></video>
+    <div class="message">🏆 Dreams don’t work unless you do. Stay consistent.</div>
 
-  function loadVideo(index) {
-    if (index >= videos.length) {
-      noteBox.innerText = "You've completed all motivational videos. Keep going strong!";
-      videoEl.style.display = "none";
-      return;
-    }
-    videoEl.src = videos[index].file;
-    noteBox.innerText = videos[index].note;
-    videoEl.play();
-  }
+    <video controls src="../Motivation.Inspiration video/Motivation5.mp4"></video>
+    <div class="message">🚀 Small steps every day lead to big results.</div>
 
-  videoEl.addEventListener("ended", () => {
-    currentIndex++;
-    loadVideo(currentIndex);
-  });
+    <video controls src="../Motivation.Inspiration video/Motivation6.mp4"></video>
+    <div class="message">📚 Knowledge is power – keep learning, keep growing.</div>
 
-  loadVideo(currentIndex);
-</script>
+    <video controls src="../Motivation.Inspiration video/Motivation7.mp4"></video>
+    <div class="message">🌈 Hard times teach you lessons that good times don't.</div>
+
+    <video controls src="../Motivation.Inspiration video/Motivation8.mp4"></video>
+    <div class="message">🎯 Success is not final, failure is not fatal – it’s the courage to continue that counts.</div>
+  </div>
+
+  <a class="btn-back" href="../index.html">⬅ Back to Home</a>
 
 </body>
 </html>

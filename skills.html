@@ -3,80 +3,97 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Skills & Development | Shreyas World</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Skills & Development - Shreyas World</title>
   <style>
     body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: #f0f4f8;
-      text-align: center;
-    }
-    header {
-      background-color: #1e293b;
+      background: #000;
       color: white;
-      padding: 15px;
-      font-size: 1.2rem;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 20px;
+      margin: 0;
     }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2em;
+    }
+
+    .video-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .video-box {
+      background: #111;
+      padding: 20px;
+      border-radius: 20px;
+      margin-bottom: 40px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    }
+
     video {
-      width: 95%;
-      max-width: 600px;
+      width: 100%;
       height: auto;
-      border-radius: 10px;
-      margin-top: 20px;
+      border-radius: 12px;
+      margin-bottom: 15px;
     }
-    .note {
-      padding: 10px 20px;
-      max-width: 600px;
-      margin: 10px auto;
-      background: #e0f2fe;
+
+    .message {
+      font-size: 1.05em;
+      padding: 10px;
+      background-color: #222;
+      border-left: 4px solid #1e90ff;
+      margin-bottom: 10px;
       border-radius: 8px;
-      color: #0f172a;
     }
-    .back {
-      margin-top: 20px;
-      display: inline-block;
+
+    .btn-back {
+      display: block;
+      width: fit-content;
+      margin: 40px auto 0;
+      padding: 12px 25px;
+      background: white;
+      color: black;
       text-decoration: none;
-      color: #2563eb;
+      border-radius: 30px;
       font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .btn-back:hover {
+      background: #ddd;
+    }
+
+    @media screen and (max-width: 600px) {
+      h1 {
+        font-size: 1.5em;
+      }
     }
   </style>
 </head>
 <body>
 
-<header>Skills & Development</header>
+  <h1>Skills & Development</h1>
 
-<video id="skillsVideo" controls></video>
-<div class="note" id="noteBox"></div>
+  <div class="video-container">
+    <div class="video-box">
+      <video controls src="../Skills.Development video/Skills1.mp4"></video>
+      <div class="message">🔧 Learn a new skill, and you’ll unlock new opportunities.</div>
+    </div>
 
-<a href="index.html" class="back">← Back to Home</a>
+    <div class="video-box">
+      <video controls src="../Skills.Development video/Skills2.mp4"></video>
+      <div class="message">💡 Smart work + consistent effort = mastery in any skill.</div>
+    </div>
 
-<script>
-  const videos = [
-    { file: "Skills.Development video/Skills1.mp4", note: "Learn time management: Organize your tasks daily to increase productivity." },
-    { file: "Skills.Development video/Skills2.mp4", note: "Communication is key: Practice clear and effective speaking." },
-    { file: "Skills.Development video/Skills3.mp4", note: "Problem solving: Always think of multiple solutions before acting." }
-  ];
+    <div class="video-box">
+      <video controls src="../Skills.Development video/Skills3.mp4"></video>
+      <div class="message">📈 Keep practicing – skill improvement is a journey, not a race.</div>
+    </div>
+  </div>
 
-  let currentIndex = 0;
-  const videoEl = document.getElementById("skillsVideo");
-  const noteBox = document.getElementById("noteBox");
-
-  // Load first video and note on page load
-  function loadVideo(index) {
-    if (index >= videos.length) {
-      noteBox.innerText = "You've completed all skill videos. Now apply them in real life!";
-      videoEl.style.display = "none";
-      return;
-    }
-    videoEl.src = videos[index].file;
-    noteBox.innerText = videos[index].note;
-  }
-
-  loadVideo(currentIndex);
-
-  // Listen to manual video ended event - user can press "Next" button to go next video (optional)
-</script>
+  <a class="btn-back" href="../index.html">⬅ Back to Home</a>
 
 </body>
 </html>

@@ -3,76 +3,92 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Art & Drawing | Shreyas World</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Art & Drawing - Shreyas World</title>
   <style>
     body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: #fff7ed;
-      text-align: center;
-    }
-    header {
-      background-color: #78350f;
+      background: #000;
       color: white;
-      padding: 15px;
-      font-size: 1.2rem;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 20px;
+      margin: 0;
     }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2em;
+    }
+
+    .video-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .video-box {
+      background: #111;
+      padding: 20px;
+      border-radius: 20px;
+      margin-bottom: 40px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    }
+
     video {
-      width: 95%;
-      max-width: 600px;
+      width: 100%;
       height: auto;
-      border-radius: 10px;
-      margin-top: 20px;
+      border-radius: 12px;
+      margin-bottom: 15px;
     }
-    .note {
-      padding: 10px 20px;
-      max-width: 600px;
-      margin: 10px auto;
-      background: #ffedd5;
+
+    .message {
+      font-size: 1.05em;
+      padding: 10px;
+      background-color: #222;
+      border-left: 4px solid #e91e63;
+      margin-bottom: 10px;
       border-radius: 8px;
-      color: #78350f;
     }
-    .back {
-      margin-top: 20px;
-      display: inline-block;
+
+    .btn-back {
+      display: block;
+      width: fit-content;
+      margin: 40px auto 0;
+      padding: 12px 25px;
+      background: white;
+      color: black;
       text-decoration: none;
-      color: #b45309;
+      border-radius: 30px;
       font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .btn-back:hover {
+      background: #ddd;
+    }
+
+    @media screen and (max-width: 600px) {
+      h1 {
+        font-size: 1.5em;
+      }
     }
   </style>
 </head>
 <body>
 
-<header>Art & Drawing</header>
+  <h1>Art & Drawing</h1>
 
-<video id="artVideo" controls></video>
-<div class="note" id="noteBox"></div>
+  <div class="video-container">
+    <div class="video-box">
+      <video controls src="../Art.Drawing video/Art1.mp4"></video>
+      <div class="message">🎨 Art helps you express your imagination and feelings without words. Start with simple shapes and grow into mastery.</div>
+    </div>
 
-<a href="index.html" class="back">← Back to Home</a>
+    <div class="video-box">
+      <video controls src="../Art.Drawing video/Art2.mp4"></video>
+      <div class="message">🖌 Drawing improves focus, observation, and patience — skills that help in every area of life.</div>
+    </div>
+  </div>
 
-<script>
-  const videos = [
-    { file: "Art.Drawing video/Art1.mp4", note: "Art is the journey of a free soul. Practice regularly to improve your creativity." },
-    { file: "Art.Drawing video/Art2.mp4", note: "Drawing sharpens your mind and enhances your observation skills. Keep experimenting!" }
-  ];
-
-  let currentIndex = 0;
-  const videoEl = document.getElementById("artVideo");
-  const noteBox = document.getElementById("noteBox");
-
-  function loadVideo(index) {
-    if (index >= videos.length) {
-      noteBox.innerText = "You've finished the art videos. Keep creating amazing artwork!";
-      videoEl.style.display = "none";
-      return;
-    }
-    videoEl.src = videos[index].file;
-    noteBox.innerText = videos[index].note;
-  }
-
-  loadVideo(currentIndex);
-</script>
+  <a class="btn-back" href="../index.html">⬅ Back to Home</a>
 
 </body>
 </html>
