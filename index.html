@@ -1,72 +1,613 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shreyas World</title>
-  <link rel="stylesheet" href="style.css" />
-  <script defer src="script.js"></script>
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Shreyas World</title>
+<style>
+  /* Reset & Base */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0; padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    background: #fff;
+    color: #1d1d1f;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyBYEol3wDIUihPTLaM1EjqVkpvjvJ-1_O4",
-      authDomain: "my-website-backend-957db.firebaseapp.com",
-      projectId: "my-website-backend-957db",
-      storageBucket: "my-website-backend-957db.firebasestorage.app",
-      messagingSenderId: "75667291929",
-      appId: "1:75667291929:web:10878882c9c30574144f88",
-      measurementId: "G-8H93W7QZGT"
-    };
+  /* Header */
+  header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 60px;
+    background: rgba(255 255 255 / 0.85);
+    backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid #d2d2d7;
+    display: flex;
+    align-items: center;
+    padding: 0 48px;
+    z-index: 9999;
+  }
+  header .branding {
+    font-weight: 700;
+    font-size: 28px;
+    color: #000;
+    letter-spacing: 1.5px;
+    user-select: none;
+    cursor: default;
+  }
+  nav {
+    margin-left: auto;
+    display: flex;
+    gap: 30px;
+    align-items: center;
+  }
+  nav a {
+    text-decoration: none;
+    color: #1d1d1f;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 8px 0;
+    position: relative;
+    cursor: pointer;
+  }
+  nav a:hover,
+  nav a:focus {
+    color: #0071e3;
+  }
+  nav a::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: -4px;
+    height: 2px;
+    background: #0071e3;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    transform-origin: center;
+  }
+  nav a:hover::after,
+  nav a:focus::after {
+    transform: scaleX(1);
+  }
 
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-  </script>
+  /* Search Input */
+  #searchInput {
+    padding: 6px 10px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    outline: none;
+    width: 160px;
+    transition: border-color 0.3s ease;
+  }
+  #searchInput:focus {
+    border-color: #0071e3;
+  }
+
+  /* Hero slideshow */
+  .hero {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    text-align: center;
+  }
+  .hero video {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
+  .hero video.active {
+    opacity: 1;
+  }
+
+  .hero .quote, .hero .welcome {
+    color: white;
+    font-weight: 600;
+    font-size: 2.8rem;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.7);
+    max-width: 800px;
+    margin: 0 12px;
+    user-select: none;
+  }
+
+  /* Pages container */
+  #pageContent {
+    padding: 90px 20px 40px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  /* Video list style */
+  .video-list {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+  .video-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .video-item video {
+    width: 100%;
+    max-height: 360px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  }
+  .video-quote {
+    font-size: 1.1rem;
+    color: #333;
+    font-weight: 500;
+    user-select: none;
+  }
+
+  /* Blog Exam Free page */
+  .exam-feature {
+    background: #f7f7f8;
+    border: 1px solid #ccc;
+    padding: 24px 32px;
+    margin: 20px 0;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: #0071e3;
+    text-align: center;
+    user-select: none;
+    transition: background-color 0.3s ease;
+  }
+  .exam-feature:hover {
+    background-color: #e6f0ff;
+  }
+
+  /* Login page */
+  #loginPage {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #f2f2f5;
+  }
+  #loginPage h2 {
+    margin-bottom: 20px;
+    font-weight: 700;
+    font-size: 2rem;
+  }
+  #phoneInput {
+    padding: 12px;
+    font-size: 1.2rem;
+    width: 250px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    outline: none;
+  }
+  #sendOtpBtn, #verifyOtpBtn {
+    padding: 12px 24px;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 8px;
+    background-color: #0071e3;
+    color: white;
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+  #otpInput {
+    padding: 12px;
+    font-size: 1.2rem;
+    width: 150px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    outline: none;
+  }
+  #recaptcha-container {
+    margin-bottom: 20px;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    nav {
+      gap: 12px;
+    }
+    header {
+      padding: 0 16px;
+    }
+    #searchInput {
+      width: 120px;
+    }
+    .hero .quote, .hero .welcome {
+      font-size: 1.7rem;
+    }
+    #pageContent {
+      padding: 80px 12px 20px;
+      max-width: 100%;
+    }
+  }
+</style>
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <div class="branding">Shreyas <span>World</span></div>
-    <nav>
-      <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#services">Service</a></li>
-        <li><a href="#blogs">Blog</a></li>
-        <li><a href="#contacts">Contact</a></li>
-        <li><a href="login.html">Login</a></li>
-        <li><a href="signup.html">Sign Up</a></li>
-      </ul>
-    </nav>
-    <input type="text" id="searchBox" placeholder="Search..." />
-  </header>
 
-  <!-- Slideshow Background -->
-  <div class="slideshow">
-    <video src="Slide Design/Slide1.mp4" autoplay muted loop class="slide" id="slide1"></video>
-    <video src="Slide Design/Slide2.mp4" autoplay muted loop class="slide hidden" id="slide2"></video>
-    <video src="Slide Design/Slide3.mp4" autoplay muted loop class="slide hidden" id="slide3"></video>
-    <div class="overlay">
-      <h1 id="slideMessage">Welcome to PulseCraft</h1>
-    </div>
-  </div>
+<!-- LOGIN PAGE -->
+<div id="loginPage" style="display:none;">
+  <h2>Login to Shreyas World</h2>
+  <input type="tel" id="phoneInput" placeholder="+91 12345 67890" />
+  <div id="recaptcha-container"></div>
+  <button id="sendOtpBtn">Send OTP</button>
 
-  <!-- Scripts to Control Slideshow Messages -->
-  <script>
-    const slides = ["slide1", "slide2", "slide3"];
-    const messages = [
-      ""Life is what happens when you're busy making other plans."",
-      "Welcome to PulseCraft",
-      ""Success is not final; failure is not fatal: It is the courage to continue that counts.""
+  <input type="text" id="otpInput" placeholder="Enter OTP" style="display:none;" />
+  <button id="verifyOtpBtn" style="display:none;">Verify OTP</button>
+</div>
+
+<!-- MAIN SITE -->
+<div id="mainSite" style="display:none;">
+
+<header>
+  <div class="branding">Shreyas World</div>
+  <nav>
+    <a href="#" data-page="home">Home</a>
+    <a href="#" data-page="motivation">Motivation & Inspiration</a>
+    <a href="#" data-page="skills">Skills & Development</a>
+    <a href="#" data-page="art">Art & Drawing</a>
+    <a href="#" data-page="comedy">Comedy & Jokes</a>
+    <a href="#" data-page="blog">Blog</a>
+    <a href="#" id="logoutBtn">Logout</a>
+    <input type="search" id="searchInput" placeholder="Search..." />
+  </nav>
+</header>
+
+<section class="hero" id="heroSection" aria-label="Homepage Hero">
+  <video autoplay muted loop playsinline class="active" id="slide1">
+    <source src="Slide Design video/Slide1.mp4" type="video/mp4" />
+  </video>
+  <video muted loop playsinline id="slide2">
+    <source src="Slide Design video/Slide2.mp4" type="video/mp4" />
+  </video>
+  <video muted loop playsinline id="slide3">
+    <source src="Slide Design video/Slide3.mp4" type="video/mp4" />
+  </video>
+
+  <div class="quote" id="quoteText1">"Push harder than yesterday if you want a different tomorrow."</div>
+  <div class="welcome" id="welcomeText" style="display:none;">Welcome to PulseCraft</div>
+  <div class="quote" id="quoteText3" style="display:none;">"Dream it. Believe it. Achieve it."</div>
+</section>
+
+<div id="pageContent"></div>
+
+</div>
+
+<script type="module">
+  // Firebase imports
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+  import { getAuth, RecaptchaVerifier, signInWithPhoneNumber, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+  // Your Firebase config
+  const firebaseConfig = {
+    apiKey: "AIzaSyBYEol3wDIUihPTLaM1EjqVkpvjvJ-1_O4",
+    authDomain: "my-website-backend-957db.firebaseapp.com",
+    projectId: "my-website-backend-957db",
+    storageBucket: "my-website-backend-957db.appspot.com",
+    messagingSenderId: "75667291929",
+    appId: "1:75667291929:web:10878882c9c30574144f88",
+    measurementId: "G-8H93W7QZGT"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // Elements
+  const loginPage = document.getElementById("loginPage");
+  const mainSite = document.getElementById("mainSite");
+
+  const phoneInput = document.getElementById("phoneInput");
+  const sendOtpBtn = document.getElementById("sendOtpBtn");
+  const otpInput = document.getElementById("otpInput");
+  const verifyOtpBtn = document.getElementById("verifyOtpBtn");
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  const recaptchaContainer = document.getElementById("recaptcha-container");
+
+  // Setup recaptcha
+  let recaptchaVerifier;
+  function setupRecaptcha() {
+    recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
+      'size': 'invisible',
+      'callback': (response) => {
+        // reCAPTCHA solved, allow signInWithPhoneNumber.
+        console.log("Recaptcha resolved");
+      }
+    }, auth);
+    recaptchaVerifier.render();
+  }
+
+  setupRecaptcha();
+
+  let confirmationResult = null;
+
+  sendOtpBtn.onclick = () => {
+    const phoneNumber = phoneInput.value.trim();
+    if (!phoneNumber) {
+      alert("Please enter your phone number with country code!");
+      return;
+    }
+    sendOtpBtn.disabled = true;
+    signInWithPhoneNumber(auth, phoneNumber, recaptchaVerifier)
+      .then((result) => {
+        confirmationResult = result;
+        alert("OTP sent!");
+        otpInput.style.display = "block";
+        verifyOtpBtn.style.display = "block";
+        sendOtpBtn.style.display = "none";
+        phoneInput.style.display = "none";
+      })
+      .catch((error) => {
+        alert("Error sending OTP: " + error.message);
+        sendOtpBtn.disabled = false;
+      });
+  };
+
+  verifyOtpBtn.onclick = () => {
+    const otp = otpInput.value.trim();
+    if (!otp) {
+      alert("Please enter the OTP!");
+      return;
+    }
+    verifyOtpBtn.disabled = true;
+    confirmationResult.confirm(otp)
+      .then((result) => {
+        alert("Login successful!");
+      })
+      .catch((error) => {
+        alert("Invalid OTP, please try again.");
+        verifyOtpBtn.disabled = false;
+      });
+  };
+
+  logoutBtn.onclick = () => {
+    signOut(auth).then(() => {
+      location.reload();
+    });
+  };
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // Show main site, hide login
+      loginPage.style.display = "none";
+      mainSite.style.display = "block";
+    } else {
+      // Show login, hide main site
+      loginPage.style.display = "flex";
+      mainSite.style.display = "none";
+    }
+  });
+
+  // Navigation and pages
+
+  const navLinks = document.querySelectorAll("nav a[data-page]");
+  const pageContent = document.getElementById("pageContent");
+
+  // Quotes for videos by section
+  const quotes = {
+    motivation: [
+      "Believe you can and you're halfway there.",
+      "Your limitation—it's only your imagination.",
+      "Push yourself, because no one else is going to do it for you.",
+      "Sometimes later becomes never. Do it now.",
+      "Great things never come from comfort zones.",
+      "Dream it. Wish it. Do it.",
+      "Success doesn’t just find you. You have to go out and get it.",
+      "Don’t stop when you’re tired. Stop when you’re done.",
+      "Wake up with determination. Go to bed with satisfaction."
+    ],
+    skills: [
+      "Skills are the currency of the 21st century.",
+      "Develop a passion for learning.",
+      "Education is the most powerful weapon to change the world."
+    ],
+    art: [
+      "Creativity takes courage.",
+      "Art enables us to find ourselves and lose ourselves at the same time."
+    ],
+    comedy: [
+      "Laughter is timeless, imagination has no age.",
+      "A day without laughter is a day wasted."
+    ]
+  };
+
+  function createVideoList(videos, section) {
+    const container = document.createElement("div");
+    container.className = "video-list";
+    videos.forEach((video, i) => {
+      const item = document.createElement("div");
+      item.className = "video-item";
+
+      const vid = document.createElement("video");
+      vid.controls = true;
+      vid.src = `${video.path}`;
+      vid.setAttribute("playsinline", "true");
+
+      const quote = document.createElement("div");
+      quote.className = "video-quote";
+      quote.textContent = quotes[section][i] || "";
+
+      item.appendChild(vid);
+      item.appendChild(quote);
+
+      container.appendChild(item);
+    });
+    return container;
+  }
+
+  function loadHome() {
+    // Show hero slideshow, hide pageContent
+    document.getElementById("heroSection").style.display = "flex";
+    pageContent.innerHTML = "";
+  }
+
+  function loadMotivation() {
+    document.getElementById("heroSection").style.display = "none";
+    pageContent.innerHTML = "";
+    // Videos list
+    const vids = [
+      { path: "Motivation.Inspiration video/Motivation1.mp4" },
+      { path: "Motivation.Inspiration video/Motivation2.mp4" },
+      { path: "Motivation.Inspiration video/Motivation3.mp4" },
+      { path: "Motivation.Inspiration video/Motivation4.mp4" },
+      { path: "Motivation.Inspiration video/Motivation5.mp4" },
+      { path: "Motivation.Inspiration video/Motivation6.mp4" },
+      { path: "Motivation.Inspiration video/Motivation7.mp4" },
+      { path: "Motivation.Inspiration video/Motivation8.mp4" },
+      { path: "Motivation.Inspiration video/Motivation4.mp4" } // you listed twice, added both
+    ];
+    const videoList = createVideoList(vids, "motivation");
+    pageContent.appendChild(videoList);
+  }
+
+  function loadSkills() {
+    document.getElementById("heroSection").style.display = "none";
+    pageContent.innerHTML = "";
+    const vids = [
+      { path: "Skills.Development video/Skills1.mp4" },
+      { path: "Skills.Development video/Skills2.mp4" },
+      { path: "Skills.Development video/Skills3.mp4" }
+    ];
+    const videoList = createVideoList(vids, "skills");
+    pageContent.appendChild(videoList);
+  }
+
+  function loadArt() {
+    document.getElementById("heroSection").style.display = "none";
+    pageContent.innerHTML = "";
+    const vids = [
+      { path: "Art.Drawing video/Art1.mp4" },
+      { path: "Art.Drawing video/Art2.mp4" }
+    ];
+    const videoList = createVideoList(vids, "art");
+    pageContent.appendChild(videoList);
+  }
+
+  function loadComedy() {
+    document.getElementById("heroSection").style.display = "none";
+    pageContent.innerHTML = "";
+    const vids = [
+      { path: "Comedy.Jokes video/Jokes1.mp4" },
+      { path: "Comedy.Jokes video/Jokes2.mp4" }
+    ];
+    const videoList = createVideoList(vids, "comedy");
+    pageContent.appendChild(videoList);
+  }
+
+  function loadBlog() {
+    document.getElementById("heroSection").style.display = "none";
+    pageContent.innerHTML = "";
+
+    const examFreeTitle = document.createElement("h2");
+    examFreeTitle.textContent = "Exam Free";
+    examFreeTitle.style.marginBottom = "20px";
+    pageContent.appendChild(examFreeTitle);
+
+    const features = [
+      { name: "Quiz Me" },
+      { name: "Master Mind" },
+      { name: "Exam Zone" }
     ];
 
-    let current = 0;
-    setInterval(() => {
-      document.getElementById(slides[current]).classList.add("hidden");
-      current = (current + 1) % slides.length;
-      document.getElementById(slides[current]).classList.remove("hidden");
-      document.getElementById("slideMessage").textContent = messages[current];
-    }, 8000);
-  </script>
+    features.forEach(f => {
+      const div = document.createElement("div");
+      div.className = "exam-feature";
+      div.textContent = f.name;
+      div.onclick = () => alert("Coming Soon");
+      pageContent.appendChild(div);
+    });
+  }
+
+  function handleNavClick(event) {
+    event.preventDefault();
+    const page = event.target.getAttribute("data-page");
+    if (!page) return;
+
+    switch(page) {
+      case "home": loadHome(); break;
+      case "motivation": loadMotivation(); break;
+      case "skills": loadSkills(); break;
+      case "art": loadArt(); break;
+      case "comedy": loadComedy(); break;
+      case "blog": loadBlog(); break;
+      default: loadHome();
+    }
+  }
+
+  navLinks.forEach(link => {
+    link.addEventListener("click", handleNavClick);
+  });
+
+  // Initial load home page
+  loadHome();
+
+  // Hero Slideshow logic
+  const slides = [
+    document.getElementById("slide1"),
+    document.getElementById("slide2"),
+    document.getElementById("slide3"),
+  ];
+  const quoteText1 = document.getElementById("quoteText1");
+  const welcomeText = document.getElementById("welcomeText");
+  const quoteText3 = document.getElementById("quoteText3");
+
+  let currentSlide = 0;
+  function showSlide(index) {
+    slides.forEach((vid, i) => {
+      if(i === index){
+        vid.style.display = "block";
+      } else {
+        vid.style.display = "none";
+      }
+    });
+
+    // Manage quotes and welcome text
+    if(index === 1){
+      welcomeText.style.display = "block";
+      quoteText1.style.display = "none";
+      quoteText3.style.display = "none";
+    } else if(index === 0){
+      welcomeText.style.display = "none";
+      quoteText1.style.display = "block";
+      quoteText3.style.display = "none";
+    } else if(index === 2){
+      welcomeText.style.display = "none";
+      quoteText1.style.display = "none";
+      quoteText3.style.display = "block";
+    }
+  }
+
+  function nextSlide() {
+    currentSlide = (currentSlide + 1) % slides.length;
+    showSlide(currentSlide);
+  }
+
+  showSlide(currentSlide);
+  setInterval(nextSlide, 15000); // 15 seconds each slide
+
+</script>
+
 </body>
 </html>
