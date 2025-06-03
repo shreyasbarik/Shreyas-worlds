@@ -1,41 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Login to Shreyas World</title>
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/ui/6.0.2/firebase-ui-auth.js"></script>
-  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.2/firebase-ui-auth.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - Shreyas World</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="script.js" defer></script>
 </head>
 <body>
-  <h2>Welcome to Shreyas World</h2>
-  <div id="firebaseui-auth-container"></div>
-
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyBYEol3wDIUihPTLaM1EjqVkpvjvJ-1_O4",
-      authDomain: "my-website-backend-957db.firebaseapp.com",
-      projectId: "my-website-backend-957db",
-      storageBucket: "my-website-backend-957db.appspot.com",
-      messagingSenderId: "75667291929",
-      appId: "1:75667291929:web:10878882c9c30574144f88",
-      measurementId: "G-8H93W7QZGT"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-
-    const ui = new firebaseui.auth.AuthUI(firebase.auth());
-    const uiConfig = {
-      signInSuccessUrl: 'index.html', // Go to homepage after login
-      signInOptions: [
-        firebase.auth.PhoneAuthProvider.PROVIDER_ID,
-        firebase.auth.GoogleAuthProvider.PROVIDER_ID
-      ],
-      tosUrl: '',
-      privacyPolicyUrl: ''
-    };
-
-    ui.start('#firebaseui-auth-container', uiConfig);
-  </script>
+  <header>
+    <h1>Sign Up for Shreyas World</h1>
+  </header>
+  <main class="signup-form">
+    <input type="email" id="signupEmail" placeholder="Email">
+    <input type="password" id="signupPassword" placeholder="Password">
+    <button onclick="signupEmailPassword()">Sign Up</button>
+    <div class="divider">or</div>
+    <button onclick="loginWithGoogle()">Sign Up with Google</button>
+    <p>Already have an account? <a href="login.html">Login</a></p>
+  </main>
 </body>
 </html>

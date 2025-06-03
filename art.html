@@ -1,94 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Art & Drawing - Shreyas World</title>
-  <style>
-    body {
-      background: #000;
-      color: white;
-      font-family: 'Segoe UI', sans-serif;
-      padding: 20px;
-      margin: 0;
-    }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 30px;
-      font-size: 2em;
-    }
-
-    .video-container {
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    .video-box {
-      background: #111;
-      padding: 20px;
-      border-radius: 20px;
-      margin-bottom: 40px;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-    }
-
-    video {
-      width: 100%;
-      height: auto;
-      border-radius: 12px;
-      margin-bottom: 15px;
-    }
-
-    .message {
-      font-size: 1.05em;
-      padding: 10px;
-      background-color: #222;
-      border-left: 4px solid #e91e63;
-      margin-bottom: 10px;
-      border-radius: 8px;
-    }
-
-    .btn-back {
-      display: block;
-      width: fit-content;
-      margin: 40px auto 0;
-      padding: 12px 25px;
-      background: white;
-      color: black;
-      text-decoration: none;
-      border-radius: 30px;
-      font-weight: bold;
-      transition: background 0.3s;
-    }
-
-    .btn-back:hover {
-      background: #ddd;
-    }
-
-    @media screen and (max-width: 600px) {
-      h1 {
-        font-size: 1.5em;
-      }
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Art and Drawing - Shreyas World</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-  <h1>Art & Drawing</h1>
-
-  <div class="video-container">
-    <div class="video-box">
-      <video controls src="../Art.Drawing video/Art1.mp4"></video>
-      <div class="message">🎨 Art helps you express your imagination and feelings without words. Start with simple shapes and grow into mastery.</div>
+  <header>
+    <h1>Art and Drawing</h1>
+    <a href="index.html">⬅ Back to Home</a>
+  </header>
+  <main class="video-list">
+    <div class="video-item">
+      <video src="Art.Drawing/Art1.mp4" controls></video>
+      <p>"Every artist was first an amateur."</p>
     </div>
-
-    <div class="video-box">
-      <video controls src="../Art.Drawing video/Art2.mp4"></video>
-      <div class="message">🖌 Drawing improves focus, observation, and patience — skills that help in every area of life.</div>
+    <div class="video-item">
+      <video src="Art.Drawing/Art2.mp4" controls></video>
+      <p>"Creativity takes courage."</p>
     </div>
-  </div>
-
-  <a class="btn-back" href="../index.html">⬅ Back to Home</a>
-
+  </main>
 </body>
 </html>

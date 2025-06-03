@@ -2,135 +2,71 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Shreyas World</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+  <script defer src="script.js"></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
 
-    body, html {
-      height: 100%;
-      font-family: 'Segoe UI', sans-serif;
-      color: white;
-      overflow: hidden;
-    }
+    const firebaseConfig = {
+      apiKey: "AIzaSyBYEol3wDIUihPTLaM1EjqVkpvjvJ-1_O4",
+      authDomain: "my-website-backend-957db.firebaseapp.com",
+      projectId: "my-website-backend-957db",
+      storageBucket: "my-website-backend-957db.firebasestorage.app",
+      messagingSenderId: "75667291929",
+      appId: "1:75667291929:web:10878882c9c30574144f88",
+      measurementId: "G-8H93W7QZGT"
+    };
 
-    header {
-      position: absolute;
-      top: 0;
-      width: 100%;
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.5);
-      text-align: center;
-      font-size: 2em;
-      font-weight: bold;
-      z-index: 2;
-    }
-
-    video.bg-video {
-      position: fixed;
-      right: 0;
-      bottom: 0;
-      min-width: 100%;
-      min-height: 100%;
-      object-fit: cover;
-      z-index: -1;
-    }
-
-    .content {
-      position: relative;
-      top: 20%;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
-      z-index: 2;
-    }
-
-    .btn {
-      background: rgba(0, 0, 0, 0.6);
-      color: white;
-      border: 2px solid white;
-      padding: 15px 30px;
-      border-radius: 30px;
-      font-size: 1.2em;
-      cursor: pointer;
-      transition: all 0.3s;
-      width: 80%;
-      max-width: 400px;
-      text-align: center;
-    }
-
-    .btn:hover {
-      background: white;
-      color: black;
-    }
-
-    footer {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      text-align: center;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 10px;
-      font-size: 0.9em;
-      z-index: 2;
-    }
-
-    @media screen and (max-width: 600px) {
-      .btn {
-        font-size: 1em;
-        padding: 12px 20px;
-      }
-
-      header {
-        font-size: 1.5em;
-      }
-    }
-  </style>
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
 </head>
 <body>
-
-  <!-- Background Video Slideshow -->
-  <video class="bg-video" id="bgVideo" autoplay muted loop>
-    <source src="Slide Show Design/Slide1.mp4" type="video/mp4">
-  </video>
-
   <!-- Header -->
-  <header>Shreyas World</header>
+  <header>
+    <div class="branding">Shreyas <span>World</span></div>
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#services">Service</a></li>
+        <li><a href="#blogs">Blog</a></li>
+        <li><a href="#contacts">Contact</a></li>
+        <li><a href="login.html">Login</a></li>
+        <li><a href="signup.html">Sign Up</a></li>
+      </ul>
+    </nav>
+    <input type="text" id="searchBox" placeholder="Search..." />
+  </header>
 
-  <!-- Buttons -->
-  <div class="content">
-    <div class="btn" onclick="location.href='pages/motivation.html'">Motivation And Inspiration</div>
-    <div class="btn" onclick="location.href='pages/skills.html'">Skills And Development</div>
-    <div class="btn" onclick="location.href='pages/art.html'">Art And Drawing</div>
-    <div class="btn" onclick="location.href='pages/comedy.html'">Comedy And Jokes</div>
-    <div class="btn" onclick="location.href='quiz.html'">Quiz Free</div>
-    <div class="btn" onclick="location.href='pages/comingsoon.html'">Shreyas World App (Coming Soon)</div>
+  <!-- Slideshow Background -->
+  <div class="slideshow">
+    <video src="Slide Design/Slide1.mp4" autoplay muted loop class="slide" id="slide1"></video>
+    <video src="Slide Design/Slide2.mp4" autoplay muted loop class="slide hidden" id="slide2"></video>
+    <video src="Slide Design/Slide3.mp4" autoplay muted loop class="slide hidden" id="slide3"></video>
+    <div class="overlay">
+      <h1 id="slideMessage">Welcome to PulseCraft</h1>
+    </div>
   </div>
 
-  <!-- Footer -->
-  <footer>© 2025 Shreyas World | All Rights Reserved</footer>
-
+  <!-- Scripts to Control Slideshow Messages -->
   <script>
-    const videos = [
-      "Slide Show Design/Slide1.mp4",
-      "Slide Show Design/Slide2.mp4",
-      "Slide Show Design/Slide3.mp4"
+    const slides = ["slide1", "slide2", "slide3"];
+    const messages = [
+      ""Life is what happens when you're busy making other plans."",
+      "Welcome to PulseCraft",
+      ""Success is not final; failure is not fatal: It is the courage to continue that counts.""
     ];
-    let currentVideo = 0;
-    const bgVideo = document.getElementById("bgVideo");
 
-    bgVideo.addEventListener("ended", () => {
-      currentVideo = (currentVideo + 1) % videos.length;
-      bgVideo.src = videos[currentVideo];
-      bgVideo.play();
-    });
+    let current = 0;
+    setInterval(() => {
+      document.getElementById(slides[current]).classList.add("hidden");
+      current = (current + 1) % slides.length;
+      document.getElementById(slides[current]).classList.remove("hidden");
+      document.getElementById("slideMessage").textContent = messages[current];
+    }, 8000);
   </script>
 </body>
 </html>
