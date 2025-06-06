@@ -1,0 +1,268 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  background: #fff;
+  color: #111;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+body.dark {
+  background: #000;
+  color: #f5f5f7;
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 1rem;
+}
+
+/* Header */
+.header {
+  background: #f5f5f7;
+  border-bottom: 1px solid #d2d2d7;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+body.dark .header {
+  background: #1c1c1e;
+  border-bottom: 1px solid #3a3a3c;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: #000;
+  text-decoration: none;
+}
+
+body.dark .logo {
+  color: #fff;
+}
+
+/* Nav Links */
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-links li {
+  position: relative;
+}
+
+.nav-links a, .exam-toggle {
+  text-decoration: none;
+  font-weight: 500;
+  color: #000;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 1rem;
+}
+
+body.dark .nav-links a, body.dark .exam-toggle {
+  color: #f5f5f7;
+}
+
+/* Exam Free submenu */
+.exam-submenu {
+  display: none;
+  position: absolute;
+  background: #f5f5f7;
+  top: 100%;
+  left: 0;
+  box-shadow: 0 6px 12px rgb(0 0 0 / 0.1);
+  border-radius: 8px;
+  padding: 0.5rem 0;
+  min-width: 180px;
+  z-index: 10;
+}
+
+.exam-free-menu:hover .exam-submenu,
+.exam-free-menu:focus-within .exam-submenu {
+  display: block;
+}
+
+.exam-submenu li {
+  padding: 0.5rem 1rem;
+}
+
+.exam-submenu a {
+  color: #000;
+  font-weight: 500;
+}
+
+body.dark .exam-submenu {
+  background: #1c1c1e;
+  box-shadow: 0 6px 12px rgb(255 255 255 / 0.1);
+}
+
+body.dark .exam-submenu a {
+  color: #f5f5f7;
+}
+
+/* Auth Buttons */
+.auth-buttons a {
+  margin-left: 1rem;
+  padding: 0.4rem 1rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.btn-login {
+  color: #0071e3;
+  border: 1px solid #0071e3;
+  background: transparent;
+}
+
+.btn-login:hover {
+  background: #0071e3;
+  color: #fff;
+}
+
+.btn-signup {
+  background: #0071e3;
+  color: #fff;
+}
+
+.btn-signup:hover {
+  background: #005bb5;
+  color: #fff;
+}
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #000;
+}
+
+body.dark .hamburger {
+  color: #f5f5f7;
+}
+
+/* Slideshow Section */
+.slideshow {
+  position: relative;
+  width: 100%;
+  height: 85vh;
+  overflow: hidden;
+}
+
+.slide {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.slide.active {
+  opacity: 1;
+  z-index: 1;
+}
+
+.slide-btn {
+  position: absolute;
+  top: 50%;
+  background: rgba(0,0,0,0.4);
+  border: none;
+  color: white;
+  font-size: 2rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  transition: background 0.3s ease;
+  z-index: 10;
+}
+
+.slide-btn:hover {
+  background: rgba(0,0,0,0.7);
+}
+
+.slide-btn.prev {
+  left: 10px;
+}
+
+.slide-btn.next {
+  right: 10px;
+}
+
+/* Footer */
+.footer {
+  background: #f5f5f7;
+  padding: 2rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 2rem;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+body.dark .footer {
+  background: #1c1c1e;
+  color: #999;
+}
+
+.footer-section h4 {
+  margin-bottom: 0.8rem;
+  font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .nav-links {
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-links, .auth-buttons {
+    display: none;
+  }
+  .hamburger {
+    display: block;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
