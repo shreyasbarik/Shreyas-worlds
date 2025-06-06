@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz Me - Shreyas World</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="nav-header">
+    <a href="index.html" class="logo">Shreyas World</a>
+  </header>
+
+  <main class="quiz-container">
+    <h1>Class 10 Science Quiz</h1>
+    <select id="quizSelector">
+      <option value="physics">Physics Quiz</option>
+      <option value="chemistry">Chemistry Quiz</option>
+      <option value="biology">Biology Quiz</option>
+    </select>
+    <button onclick="startQuiz()">Start Quiz</button>
+
+    <div id="quizBox" style="display: none;">
+      <div id="questionCounter">Question <span id="qNum">1</span>/15</div>
+      <div id="timer">Time left: <span id="time">60</span>s</div>
+      <div id="question"></div>
+      <div id="options"></div>
+      <button id="nextBtn" onclick="nextQuestion()">Next</button>
+    </div>
+
+    <div id="resultBox" style="display: none;">
+      <h2>Your Score: <span id="scoreText"></span> / 15</h2>
+      <button onclick="location.reload()">Try Another Quiz</button>
+    </div>
+  </main>
+
+  <script type="module" src="quiz.js"></script>
+</body>
+</html>

@@ -1,74 +1,67 @@
+
 <!DOCTYPE html>
-<html lang="en" class="light">
+<html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Shreyas World - Apple Style Clone</title>
-<link rel="stylesheet" href="css/style.css" />
-<!-- SF Pro font substitute from Google Fonts (Open Sans + SF Pro lookalike) -->
-<link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;600;700&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shreyas World</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
+  <script defer type="module" src="firebase-config.js"></script>
+  <link rel="icon" href="logo.png" type="image/png" />
 </head>
 <body>
-<header class="header">
-  <nav class="nav container">
-    <a href="index.html" class="logo">Shreyas World</a>
-    <ul class="nav-links">
-      <li><a href="skills.html">Skills and Development</a></li>
-      <li><a href="motivation.html">Motivation and Inspiration</a></li>
-      <li><a href="art.html">Art and Drawing</a></li>
-      <li><a href="comedy.html">Comedy and Jokes</a></li>
-      <li class="exam-free-menu">
-        <button class="exam-toggle">Exam Free &#x25BC;</button>
-        <ul class="exam-submenu">
-          <li><a href="quiz.html">Quiz Me</a></li>
-          <li><a href="exam-info.html">Exam Info</a></li>
-          <li><a href="study-material.html">Study Material</a></li>
-        </ul>
-      </li>
-    </ul>
-    <div class="auth-buttons">
-      <a href="login.html" class="btn-login">Login</a>
-      <a href="signup.html" class="btn-signup">Signup</a>
+  <header>
+    <nav class="navbar">
+      <div class="logo">Shreyas World</div>
+      <ul class="nav-links desktop">
+        <li><a href="skills.html">Skills</a></li>
+        <li><a href="motivation.html">Motivation</a></li>
+        <li><a href="art.html">Art</a></li>
+        <li><a href="comedy.html">Comedy</a></li>
+        <li class="dropdown">
+          <a href="#">Exam Free</a>
+          <div class="dropdown-content">
+            <a href="quiz.html">Quiz Me</a>
+            <a href="examinfo.html">Exam Info</a>
+            <a href="studymaterial.html">Study Material</a>
+          </div>
+        </li>
+      </ul>
+      <div class="hamburger" onclick="toggleMenu()">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+      </div>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="skills.html">Skills</a>
+      <a href="motivation.html">Motivation</a>
+      <a href="art.html">Art</a>
+      <a href="comedy.html">Comedy</a>
+      <div class="mobile-dropdown">
+        <p>Exam Free</p>
+        <a href="quiz.html">Quiz Me</a>
+        <a href="examinfo.html">Exam Info</a>
+        <a href="studymaterial.html">Study Material</a>
+      </div>
     </div>
-    <button class="hamburger" aria-label="Menu">&#9776;</button>
-  </nav>
-</header>
+  </header>
 
-<main>
-  <section class="slideshow">
-    <video src="videos/Slide1.mp4" muted loop autoplay playsinline class="slide active"></video>
-    <video src="videos/Slide2.mp4" muted loop autoplay playsinline class="slide"></video>
-    <video src="videos/Slide3.mp4" muted loop autoplay playsinline class="slide"></video>
-    <video src="videos/Slide4.mp4" muted loop autoplay playsinline class="slide"></video>
-    <video src="videos/Slide5.mp4" muted loop autoplay playsinline class="slide"></video>
-    <video src="videos/Slide6.mp4" muted loop autoplay playsinline class="slide"></video>
+  <main>
+    <section class="hero-slider">
+      <video src="Slide Show Design/Slide1.mp4" autoplay muted loop></video>
+    </section>
+  </main>
 
-    <button class="slide-btn prev">&#10094;</button>
-    <button class="slide-btn next">&#10095;</button>
-  </section>
-</main>
-
-<footer class="footer container">
-  <div class="footer-section">
-    <h4>Support</h4>
-    <p>Email: <a href="mailto:shreyascreative59@gmail.com">shreyascreative59@gmail.com</a></p>
-    <p>Discord: <br>1. ShreyasWorld<br>2. ShreyasWorldTeam12</p>
-  </div>
-  <div class="footer-section">
-    <h4>Legal</h4>
-    <p>© 2025 Shreyas World. All rights reserved.</p>
-  </div>
-  <div class="footer-section">
-    <h4>Services</h4>
-    <p>All contents and tools are provided for personal use and learning. No guarantees are made. Use at your own discretion.</p>
-  </div>
-  <div class="footer-section">
-    <h4>Social</h4>
-    <p>Connect Beyond the Screen.</p>
-  </div>
-</footer>
-
-<script src="js/firebase-config.js"></script>
-<script src="js/script.js"></script>
+  <footer>
+    <div class="footer-content">
+      <p>Support: <a href="mailto:shreyascreative59@gmil.com">shreyascreative59@gmil.com</a></p>
+      <p>Discord: Shreyas World12, ShreyasWorldTeam12</p>
+      <p>2025 Shreyas World. All Rights Reserved.</p>
+      <p>Services: For learning purposes only. No guarantees. Use responsibly.</p>
+      <p>Social: Connect Beyond the Screen</p>
+    </div>
+  </footer>
 </body>
 </html>
