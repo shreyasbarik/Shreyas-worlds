@@ -1,0 +1,163 @@
+/* style.css – Apple-style UI for Shreyas World */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+:root {
+  --bg-color: #000;
+  --text-color: #fff;
+  --accent-color: #0071e3;
+  --font-family: 'Inter', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  overflow-x: hidden;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+}
+
+header .brand {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+nav.desktop-nav {
+  display: flex;
+  gap: 1rem;
+}
+
+nav.desktop-nav a {
+  color: var(--text-color);
+  text-decoration: none;
+  font-weight: 400;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+nav.desktop-nav a:hover {
+  color: var(--accent-color);
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  background-color: #111;
+  padding: 0.5rem;
+  border-radius: 4px;
+  z-index: 999;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-content a {
+  display: block;
+  color: white;
+  padding: 0.25rem 0;
+  text-decoration: none;
+}
+
+main {
+  padding-top: 80px;
+}
+
+.hero {
+  height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.video-background video {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.hero-text {
+  z-index: 10;
+  color: white;
+  text-shadow: 0 0 20px rgba(0,0,0,0.6);
+}
+
+.hero-text h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.hero-text p {
+  font-size: 1.25rem;
+}
+
+footer {
+  background-color: #111;
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  text-align: left;
+  color: #aaa;
+}
+
+footer h4 {
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  nav.desktop-nav {
+    display: none;
+  }
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .hero-text h1 {
+    font-size: 2rem;
+  }
+  .hero-text p {
+    font-size: 1rem;
+  }
+}
+
+/* Smooth scroll + transition */
+html {
+  scroll-behavior: smooth;
+}
+
+[data-scroll-container] {
+  will-change: transform;
+}
