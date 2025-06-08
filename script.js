@@ -1,40 +1,68 @@
+// =============== VIDEO SLIDESHOW LOGIC ===============
+const videos = document.querySelectorAll('.hero-slider video');
+const dots = document.querySelectorAll('.dot');
 
-
-// Hamburger menu toggle
-const hamburger = document.querySelector(".hamburger");
-const mobileMenu = document.querySelector(".mobile-menu");
-
-hamburger.addEventListener("click", () => {
-  mobileMenu.classList.toggle("active");
-  hamburger.classList.toggle("open");
-});
-
-// Dark mode toggle
-const darkModeToggle = document.getElementById("darkModeToggle");
-darkModeToggle?.addEventListener("click", () => {
-  document.body.classList.toggle("dark-mode");
-});
-
-// Auto-playing video slider
-let slideIndex = 0;
-const slides = document.querySelectorAll(".hero-slider video");
+let currentIndex = 0;
+let slideInterval;
 
 function showSlide(index) {
-  slides.forEach((slide, i) => {
-    slide.style.display = i === index ? "block" : "none";
-    slide.pause();
+  videos.forEach((vid, i) => {
+    vid.classList.toggle('hidden', i !== index);
   });
-  slides[index].play();
+
+  dots.forEach((dot, i) => {
+    dot.classList.toggle('active', i === index);
+  });
+
+  currentIndex = index;
 }
 
 function nextSlide() {
-  slideIndex = (slideIndex + 1) % slides.length;
-  showSlide(slideIndex);
+  let next = (currentIndex + 1) % videos.length;
+  showSlide(next);
 }
 
-if (slides.length > 0) {
-  showSlide(slideIndex);
-  setInterval(nextSlide, 5000);
+function startSlideShow() {
+  slideInterval = setInterval(nextSlide, 5000);
 }
 
-// Optional scroll-based parallax or animations (GSAP, Locomotive Scroll) can go here
+function stopSlideShow() {
+  clearInterval(slideInterval);
+}
+
+dots.forEach((dot, i) => {
+  dot.addEventListener('click', () => {
+    stopSlideShow();
+    showSlide(i);
+    startSlideShow();
+  });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  showSlide(0);
+  startSlideShow();
+});
+
+
+// =============== MOBILE MENU LOGIC ===============
+const mobileMenu = document.querySelector('.mobile-menu');
+const openBtn = document.querySelector('.mobile-only');
+const closeBtn = document.querySelector('.close-btn');
+
+openBtn.addEventListener('click', () => {
+  mobileMenu.classList.add('open');
+});
+
+closeBtn.addEventListener('click', () => {
+  mobileMenu.classList.remove('open');
+});
+
+document.addEventListener('click', (e) => {
+  if (
+    mobileMenu.classList.contains('open') &&
+    !mobileMenu.contains(e.target) &&
+    !openBtn.contains(e.target)
+  ) {
+    mobileMenu.classList.remove('open');
+  }
+});

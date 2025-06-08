@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,61 +6,75 @@
   <title>Shreyas World</title>
   <link rel="stylesheet" href="style.css" />
   <script defer src="script.js"></script>
-  <script defer type="module" src="firebase-config.js"></script>
-  <link rel="icon" href="logo.png" type="image/png" />
+  <script defer src="firebase-config.js" type="module"></script>
+  <link rel="icon" href="logo.png" type="image/png">
 </head>
 <body>
-  <header>
-    <nav class="navbar">
-      <div class="logo">Shreyas World</div>
-      <ul class="nav-links desktop">
-        <li><a href="skills.html">Skills</a></li>
-        <li><a href="motivation.html">Motivation</a></li>
-        <li><a href="art.html">Art</a></li>
-        <li><a href="comedy.html">Comedy</a></li>
-        <li class="dropdown">
-          <a href="#">Exam Free</a>
-          <div class="dropdown-content">
-            <a href="quiz.html">Quiz Me</a>
-            <a href="examinfo.html">Exam Info</a>
-            <a href="studymaterial.html">Study Material</a>
-          </div>
-        </li>
-      </ul>
-      <div class="hamburger" onclick="toggleMenu()">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-      </div>
-    </nav>
-    <div class="mobile-menu" id="mobileMenu">
-      <a href="skills.html">Skills</a>
-      <a href="motivation.html">Motivation</a>
-      <a href="art.html">Art</a>
-      <a href="comedy.html">Comedy</a>
-      <div class="mobile-dropdown">
-        <p>Exam Free</p>
-        <a href="quiz.html">Quiz Me</a>
-        <a href="examinfo.html">Exam Info</a>
-        <a href="studymaterial.html">Study Material</a>
-      </div>
+
+  <!-- 🌟 Apple-Style Navigation -->
+  <header class="navbar">
+    <div class="nav-left">
+      <div class="logo">🍎 Shreyas World</div>
+      <nav class="nav-links desktop-only">
+        <a href="craftvibe.html">CraftVibe</a>
+        <a href="ignitestream.html">IgniteStream</a>
+        <a href="examquote.html">Exam Quote</a>
+        <a href="chakragallery.html">Chakra Gallery</a>
+        <a href="healthyquite.html">Healthy Quite</a>
+        <a href="quitestrange.html">Quite Strange</a>
+        <a href="musicmentor.html">Music Mentor</a>
+        <a href="childishhub.html">Childish Hub</a>
+        <a href="experimentsize.html">Experiment Size</a>
+        <a href="quizme.html">Quize Me</a>
+        <a href="funcube.html">Fun Cube</a>
+      </nav>
+      <div class="hamburger mobile-only" id="hamburger">&#9776;</div>
+    </div>
+    <div class="nav-right">
+      <a href="index.html">Home</a>
+      <a href="signup.html">Sign Up</a>
+      <a href="login.html">Login</a>
     </div>
   </header>
 
-  <main>
-    <section class="hero-slider">
-      <video src="Slide Show Design/Slide1.mp4" autoplay muted loop></video>
-    </section>
-  </main>
+  <!-- 🍔 Mobile Slide Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <span class="close-btn" id="closeMenu">&times;</span>
+    <a href="craftvibe.html">CraftVibe</a>
+    <a href="ignitestream.html">IgniteStream</a>
+    <a href="examquote.html">Exam Quote</a>
+    <a href="chakragallery.html">Chakra Gallery</a>
+    <a href="healthyquite.html">Healthy Quite</a>
+    <a href="quitestrange.html">Quite Strange</a>
+    <a href="musicmentor.html">Music Mentor</a>
+    <a href="childishhub.html">Childish Hub</a>
+    <a href="experimentsize.html">Experiment Size</a>
+    <a href="quizme.html">Quize Me</a>
+    <a href="funcube.html">Fun Cube</a>
+  </div>
 
-  <footer>
-    <div class="footer-content">
-      <p>Support: <a href="mailto:shreyascreative59@gmil.com">shreyascreative59@gmil.com</a></p>
-      <p>Discord: Shreyas World12, ShreyasWorldTeam12</p>
-      <p>2025 Shreyas World. All Rights Reserved.</p>
-      <p>Services: For learning purposes only. No guarantees. Use responsibly.</p>
-      <p>Social: Connect Beyond the Screen</p>
+  <!-- 🎥 Artistic Parallax Slideshow -->
+  <section class="hero-slider" id="heroSlider">
+    <video class="slide" src="Slide Show Design/Slide5.mp4" autoplay muted loop></video>
+    <video class="slide hidden" src="Slide Show Design/Slide3.mp4" autoplay muted loop></video>
+    <video class="slide hidden" src="Slide Show Design/Slide2.mp4" autoplay muted loop></video>
+    <video class="slide hidden" src="Slide Show Design/Slide4.mp4" autoplay muted loop></video>
+
+    <!-- Navigation Dots -->
+    <div class="dots" id="dots">
+      <span class="dot active" data-index="0"></span>
+      <span class="dot" data-index="1"></span>
+      <span class="dot" data-index="2"></span>
+      <span class="dot" data-index="3"></span>
     </div>
+  </section>
+
+  <!-- 📍 Footer -->
+  <footer class="footer">
+    <p>© 2025 Shreyas World. All Rights Reserved.</p>
+    <p>Support: <a href="mailto:shreyascreative59@gmil.com">shreyascreative59@gmil.com</a> | Discord: Shreyas World12, ShreyasWorldTeam12</p>
+    <p>Connect Beyond the Screen | For learning purposes only. Use responsibly.</p>
   </footer>
+
 </body>
 </html>

@@ -1,66 +1,25 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sign Up - Shreyas World</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up | Shreyas World</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    .auth-container {
-      max-width: 400px;
-      margin: 5% auto;
-      background: #fff;
-      padding: 2rem;
-      border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-    .auth-container h2 {
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-    .auth-container input {
-      width: 100%;
-      padding: 0.75rem;
-      margin: 0.5rem 0;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 1rem;
-    }
-    .auth-container button {
-      width: 100%;
-      padding: 0.75rem;
-      background: #007aff;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: 0.3s ease;
-    }
-    .auth-container button:hover {
-      background: #005bb5;
-    }
-    .auth-container p {
-      text-align: center;
-      margin-top: 1rem;
-    }
-    .auth-container a {
-      color: #007aff;
-      text-decoration: none;
-    }
-  </style>
+  <link rel="icon" href="apple-icon.png" />
 </head>
-<body>
+<body class="auth-page">
+
   <div class="auth-container">
-    <h2>Create Account</h2>
-    <form id="signupForm">
-      <input type="email" id="signupEmail" placeholder="Email" required />
-      <input type="password" id="signupPassword" placeholder="Password" required />
+    <h1>🆕 Create Your Account</h1>
+    <form id="signup-form">
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password (min 6 chars)" required />
       <button type="submit">Sign Up</button>
+      <p class="auth-error" id="signup-error"></p>
     </form>
-    <p>Already have an account? <a href="login.html">Login</a></p>
+    <p class="auth-footer">Already have an account? <a href="login.html">Login here</a></p>
   </div>
+
   <script type="module" src="firebase-config.js"></script>
   <script type="module" src="auth.js"></script>
 </body>

@@ -1,8 +1,10 @@
+// Import Firebase modules
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-analytics.js";
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
+// Your Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyBYEol3wDIUihPTLaM1EjqVkpvjvJ-1_O4",
   authDomain: "my-website-backend-957db.firebaseapp.com",
@@ -13,8 +15,11 @@ const firebaseConfig = {
   measurementId: "G-8H93W7QZGT"
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const analytics = getAnalytics(app);
 
+// Export for use in other files
 export { app, auth, db };
