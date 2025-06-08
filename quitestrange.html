@@ -3,77 +3,164 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Quite Strange - Shreyas World</title>
+  <title>Quite Strange | Shreyas World</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
+  <style>
+    /* Page specific styles */
+    body {
+      background: #f5f5f7;
+      font-family: 'SF Pro', sans-serif;
+      margin: 0;
+      padding: 2rem;
+      color: #000;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: #fff;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    header .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #000;
+      user-select: none;
+    }
+
+    header nav a {
+      margin-left: 1.5rem;
+      text-decoration: none;
+      color: #000;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+
+    header nav a:hover {
+      color: #0071e3; /* Apple Blue */
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 2rem auto;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+
+    .video-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill,minmax(320px,1fr));
+      gap: 2rem;
+    }
+
+    .video-card {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgb(0 0 0 / 0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .video-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 16px 50px rgb(0 0 0 / 0.15);
+    }
+
+    video {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      background: #000;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .video-desc {
+      padding: 1rem 1.5rem 1.5rem;
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: #111;
+      flex-grow: 1;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 1rem;
+      }
+
+      h1 {
+        font-size: 2rem;
+        text-align: center;
+      }
+
+      .video-list {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header class="top-nav">
-    <nav>
-      <a href="index.html" class="logo">Shreyas World</a>
-      <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="login.html">Login</a></li>
-        <li><a href="signup.html">Sign Up</a></li>
-      </ul>
-    </nav>
-  </header>
 
-  <main class="video-section">
-    <h1>Quite Strange - Kindhearted Quotes</h1>
-    <section class="video-list">
+<header>
+  <div class="logo">🍎 Shreyas World</div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="login.html">Login</a>
+    <a href="signup.html">Sign Up</a>
+  </nav>
+</header>
 
-      <article class="video-card">
-        <video controls muted playsinline preload="metadata" poster="Quite Strange/strange1-poster.jpg" class="video-player">
-          <source src="Quite Strange/strange1.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        <div class="video-desc">
-          <h2>Kindhearted Quote 1</h2>
-          <p>Inspirational quotes with heartfelt speech in Hindi & English.</p>
-        </div>
-      </article>
+<main>
+  <h1>Quite Strange Videos</h1>
+  <div class="video-list" id="videoList">
+    <!-- Video cards inserted by JS -->
+  </div>
+</main>
 
-      <article class="video-card">
-        <video controls muted playsinline preload="metadata" poster="Quite Strange/strange2-poster.jpg" class="video-player">
-          <source src="Quite Strange/strange2.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        <div class="video-desc">
-          <h2>Kindhearted Quote 2</h2>
-          <p>Motivational quotes to uplift your spirit in Hindi & English.</p>
-        </div>
-      </article>
+<script>
+  const videos = [
+    {
+      src: "Quite Strange/strange1.mp4",
+      description: "Dive into strange and unusual phenomena captured on video."
+    },
+    {
+      src: "Quite Strange/strange2.mp4",
+      description: "Explore bizarre and intriguing occurrences."
+    },
+    {
+      src: "Quite Strange/strange3.mp4",
+      description: "Uncover mysteries that challenge the ordinary."
+    }
+  ];
 
-      <article class="video-card">
-        <video controls muted playsinline preload="metadata" poster="Quite Strange/strange3-poster.jpg" class="video-player">
-          <source src="Quite Strange/strange3.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        <div class="video-desc">
-          <h2>Kindhearted Quote 3</h2>
-          <p>Encouraging messages with bilingual narration for motivation.</p>
-        </div>
-      </article>
+  const videoList = document.getElementById('videoList');
 
-    </section>
-  </main>
+  videos.forEach(({src, description}) => {
+    const card = document.createElement('div');
+    card.className = 'video-card';
 
-  <script>
-    // GSAP fade-in animation on scroll for video cards
-    gsap.utils.toArray('.video-card').forEach(card => {
-      gsap.from(card, {
-        scrollTrigger: {
-          trigger: card,
-          start: "top 80%",
-          toggleActions: "play none none none"
-        },
-        opacity: 0,
-        y: 40,
-        duration: 0.8,
-        ease: "power2.out"
-      });
-    });
-  </script>
+    card.innerHTML = `
+      <video src="${src}" muted autoplay loop playsinline controls></video>
+      <div class="video-desc">${description}</div>
+    `;
+
+    videoList.appendChild(card);
+  });
+</script>
+
 </body>
 </html>

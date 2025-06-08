@@ -1,116 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CraftVibe - Shreyas World</title>
-  <link rel="stylesheet" href="style.css" />
-  <script type="module" src="firebase-config.js"></script>
-  <script type="module" src="auth.js"></script>
-  <script type="module" src="video-reactions.js"></script>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CraftVibe | Shreyas World</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
-<body>
-  <header class="top-nav">
-    <nav>
-      <a href="index.html" class="logo">Shreyas World</a>
-      <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="login.html">Login</a></li>
-        <li><a href="signup.html">Sign Up</a></li>
-      </ul>
+<body class="page-body">
+
+  <header class="header">
+    <div class="logo">🍀 Shreyas World</div>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="login.html">Login</a>
+      <a href="signup.html">Sign Up</a>
     </nav>
   </header>
 
-  <main class="video-page">
-    <h1>CraftVibe Motivational Videos</h1>
-    <section class="video-list">
-      <!-- Video #1 -->
-      <article class="video-item" data-videoid="craftvibe_skills1">
-        <video
-          controls
-          muted
-          autoplay
-          loop
-          playsinline
-          preload="auto"
-          src="CraftVibe video/Skills1.mp4"
-          class="video-player"
-        ></video>
-        <div class="video-description">
-          <h2>Skills Motivation 1</h2>
-          <p>Motivational speech in Hindi & English.</p>
-        </div>
-        <div class="emoji-reactions">
-          <button class="emoji-btn" data-reaction="like" aria-label="Like">👍</button>
-          <button class="emoji-btn" data-reaction="dislike" aria-label="Dislike">👎</button>
-          <button class="emoji-btn" data-reaction="heart" aria-label="Heart">❤️</button>
-          <span class="reaction-count" data-reaction="like">0</span>
-          <span class="reaction-count" data-reaction="dislike">0</span>
-          <span class="reaction-count" data-reaction="heart">0</span>
-        </div>
-      </article>
+  <main class="video-section">
+    <h1 class="section-title">🎨 CraftVibe</h1>
+    <p class="section-subtitle">Skill-building & creativity videos to inspire you!</p>
 
-      <!-- Video #2 -->
-      <article class="video-item" data-videoid="craftvibe_skills2">
-        <video
-          controls
-          muted
-          autoplay
-          loop
-          playsinline
-          preload="auto"
-          src="CraftVibe video/Skills2.mp4"
-          class="video-player"
-        ></video>
-        <div class="video-description">
-          <h2>Skills Motivation 2</h2>
-          <p>Motivational speech in Hindi & English.</p>
-        </div>
-        <div class="emoji-reactions">
-          <button class="emoji-btn" data-reaction="like" aria-label="Like">👍</button>
-          <button class="emoji-btn" data-reaction="dislike" aria-label="Dislike">👎</button>
-          <button class="emoji-btn" data-reaction="heart" aria-label="Heart">❤️</button>
-          <span class="reaction-count" data-reaction="like">0</span>
-          <span class="reaction-count" data-reaction="dislike">0</span>
-          <span class="reaction-count" data-reaction="heart">0</span>
-        </div>
-      </article>
+    <!-- Video 1 -->
+    <div class="video-card">
+      <video src="CraftVibe video/Skills1.mp4" controls muted autoplay loop></video>
+      <p class="video-quote">"Create something today—even if it sucks."</p>
+      <div class="emoji-bar" data-video-id="skills1">
+        <span class="emoji-btn" data-type="like">👍</span>
+        <span class="emoji-btn" data-type="dislike">👎</span>
+        <span class="emoji-btn" data-type="heart">❤️</span>
+      </div>
+    </div>
 
-      <!-- Video #3 -->
-      <article class="video-item" data-videoid="craftvibe_skills3">
-        <video
-          controls
-          muted
-          autoplay
-          loop
-          playsinline
-          preload="auto"
-          src="CraftVibe video/Skills3.mp4"
-          class="video-player"
-        ></video>
-        <div class="video-description">
-          <h2>Skills Motivation 3</h2>
-          <p>Motivational speech in Hindi & English.</p>
-        </div>
-        <div class="emoji-reactions">
-          <button class="emoji-btn" data-reaction="like" aria-label="Like">👍</button>
-          <button class="emoji-btn" data-reaction="dislike" aria-label="Dislike">👎</button>
-          <button class="emoji-btn" data-reaction="heart" aria-label="Heart">❤️</button>
-          <span class="reaction-count" data-reaction="like">0</span>
-          <span class="reaction-count" data-reaction="dislike">0</span>
-          <span class="reaction-count" data-reaction="heart">0</span>
-        </div>
-      </article>
-    </section>
+    <!-- Video 2 -->
+    <div class="video-card">
+      <video src="CraftVibe video/Skills2.mp4" controls muted autoplay loop></video>
+      <p class="video-quote">"Great skills are forged in calm and sharpened in chaos."</p>
+      <div class="emoji-bar" data-video-id="skills2">
+        <span class="emoji-btn" data-type="like">👍</span>
+        <span class="emoji-btn" data-type="dislike">👎</span>
+        <span class="emoji-btn" data-type="heart">❤️</span>
+      </div>
+    </div>
+
+    <!-- Video 3 -->
+    <div class="video-card">
+      <video src="CraftVibe video/Skills3.mp4" controls muted autoplay loop></video>
+      <p class="video-quote">"Let your hands speak louder than your words."</p>
+      <div class="emoji-bar" data-video-id="skills3">
+        <span class="emoji-btn" data-type="like">👍</span>
+        <span class="emoji-btn" data-type="dislike">👎</span>
+        <span class="emoji-btn" data-type="heart">❤️</span>
+      </div>
+    </div>
   </main>
 
-  <script>
-    // Initialize emoji reactions for all videos on this page
-    document.addEventListener('DOMContentLoaded', () => {
-      import('./video-reactions.js').then(module => {
-        module.initVideoReactions();
+  <footer class="footer">
+    <p>© 2025 Shreyas World. All Rights Reserved. | 🍎 Designed like Apple | Email: <a href="mailto:shreyascreative59@gmil.com">shreyascreative59@gmil.com</a></p>
+  </footer>
+
+  <script type="module">
+    import { auth, db } from './firebase-config.js';
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+    import { doc, setDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+    const emojiBars = document.querySelectorAll('.emoji-bar');
+
+    emojiBars.forEach(bar => {
+      const videoId = bar.getAttribute('data-video-id');
+      const emojis = bar.querySelectorAll('.emoji-btn');
+
+      emojis.forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const type = btn.getAttribute('data-type');
+
+          onAuthStateChanged(auth, async (user) => {
+            if (user) {
+              const uid = user.uid;
+              const docRef = doc(db, `videos/${videoId}/reactions`, uid);
+              await setDoc(docRef, { [type]: true }, { merge: true });
+              btn.classList.add('clicked');
+              alert(`✅ You reacted with ${type}!`);
+            } else {
+              alert("🔒 Login required to react.");
+            }
+          });
+        });
       });
     });
   </script>
+
 </body>
 </html>

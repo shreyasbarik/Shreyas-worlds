@@ -1,51 +1,61 @@
-// 🌐 DOM Elements
-const slides = document.querySelectorAll(".slide");
-const dots = document.querySelectorAll(".dot");
-const menu = document.querySelector(".mobile-menu");
-const hamburger = document.querySelector(".hamburger");
-const closeBtn = document.querySelector(".close-btn");
+// ✅ Mobile Hamburger Menu Logic
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.querySelector('.mobile-menu');
+const closeMenu = document.getElementById('closeMenu');
 
-// 📱 Hamburger Menu Logic
-hamburger?.addEventListener("click", () => {
-  menu?.classList.add("show");
+hamburger.addEventListener('click', () => {
+  mobileMenu.classList.add('show');
 });
-closeBtn?.addEventListener("click", () => {
-  menu?.classList.remove("show");
+
+closeMenu.addEventListener('click', () => {
+  mobileMenu.classList.remove('show');
 });
-window.addEventListener("click", (e) => {
-  if (!menu.contains(e.target) && !hamburger.contains(e.target)) {
-    menu?.classList.remove("show");
+
+window.addEventListener('click', (e) => {
+  if (!mobileMenu.contains(e.target) && !hamburger.contains(e.target)) {
+    mobileMenu.classList.remove('show');
   }
 });
 
-// 🎥 Slideshow Logic
+// ✅ Parallax Slideshow Logic
+let slides = document.querySelectorAll('.slide');
+let dots = document.querySelectorAll('.dot');
 let currentSlide = 0;
-const totalSlides = slides.length;
 
 function showSlide(index) {
   slides.forEach((slide, i) => {
-    slide.classList.remove("active");
-    dots[i]?.classList.remove("active");
+    slide.classList.remove('active');
+    dots[i].classList.remove('active-dot');
+    if (i === index) {
+      slide.classList.add('active');
+      dots[i].classList.add('active-dot');
+    }
   });
-  slides[index]?.classList.add("active");
-  dots[index]?.classList.add("active");
 }
 
 function nextSlide() {
-  currentSlide = (currentSlide + 1) % totalSlides;
+  currentSlide = (currentSlide + 1) % slides.length;
   showSlide(currentSlide);
 }
 
-// Auto slideshow every 5 seconds
+// Auto Slide every 5 seconds
 setInterval(nextSlide, 5000);
 
-// Manual dot navigation
+// Dot click handler
 dots.forEach((dot, index) => {
-  dot.addEventListener("click", () => {
+  dot.addEventListener('click', () => {
     currentSlide = index;
     showSlide(currentSlide);
   });
 });
 
-// 🎯 Initial Slide
-showSlide(currentSlide);
+// Optional: GSAP Scroll Reveal (expandable)
+if (typeof gsap !== 'undefined') {
+  gsap.from(".footer", {
+    scrollTrigger: ".footer",
+    y: 50,
+    opacity: 0,
+    duration: 1,
+    ease: "power2.out"
+  });
+}
