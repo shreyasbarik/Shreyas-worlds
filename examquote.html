@@ -2,36 +2,89 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Exam Quote | Shreyas World</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Exam Quote - Shreyas World</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="apple-icon.png" />
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
 </head>
 <body>
-
-  <header class="site-header">
-    <h1>📚 Exam Quote: PDF Resources</h1>
-    <a href="index.html" class="back-home">← Home</a>
+  <header class="top-nav">
+    <nav>
+      <a href="index.html" class="logo">Shreyas World</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="login.html">Login</a></li>
+        <li><a href="signup.html">Sign Up</a></li>
+      </ul>
+    </nav>
   </header>
 
-  <main class="pdf-gallery">
-    <div class="pdf-card">
-      <embed src="Exam Quote/pdf1.pdf" type="application/pdf" width="100%" height="400px" />
-      <a href="Exam Quote/pdf1.pdf" download class="pdf-download">⬇️ Download PDF 1</a>
-    </div>
-    <div class="pdf-card">
-      <embed src="Exam Quote/pdf2.pdf" type="application/pdf" width="100%" height="400px" />
-      <a href="Exam Quote/pdf2.pdf" download class="pdf-download">⬇️ Download PDF 2</a>
-    </div>
-    <div class="pdf-card">
-      <embed src="Exam Quote/pdf3.pdf" type="application/pdf" width="100%" height="400px" />
-      <a href="Exam Quote/pdf3.pdf" download class="pdf-download">⬇️ Download PDF 3</a>
-    </div>
-    <div class="pdf-card">
-      <embed src="Exam Quote/pdf4.pdf" type="application/pdf" width="100%" height="400px" />
-      <a href="Exam Quote/pdf4.pdf" download class="pdf-download">⬇️ Download PDF 4</a>
-    </div>
+  <main class="resource-board">
+    <h1>Exam Quote Resources</h1>
+    <section class="pdf-gallery">
+
+      <!-- PDF card 1 -->
+      <article class="pdf-card" tabindex="0">
+        <div class="pdf-thumbnail">
+          <embed src="Exam Quote/pdf1.pdf#page=1&zoom=100" type="application/pdf" />
+        </div>
+        <div class="pdf-info">
+          <h2>Exam Quote PDF 1</h2>
+          <a href="Exam Quote/pdf1.pdf" download="ExamQuote1.pdf" class="btn-download">Download PDF</a>
+        </div>
+      </article>
+
+      <!-- PDF card 2 -->
+      <article class="pdf-card" tabindex="0">
+        <div class="pdf-thumbnail">
+          <embed src="Exam Quote/pdf2.pdf#page=1&zoom=100" type="application/pdf" />
+        </div>
+        <div class="pdf-info">
+          <h2>Exam Quote PDF 2</h2>
+          <a href="Exam Quote/pdf2.pdf" download="ExamQuote2.pdf" class="btn-download">Download PDF</a>
+        </div>
+      </article>
+
+      <!-- PDF card 3 -->
+      <article class="pdf-card" tabindex="0">
+        <div class="pdf-thumbnail">
+          <embed src="Exam Quote/pdf3.pdf#page=1&zoom=100" type="application/pdf" />
+        </div>
+        <div class="pdf-info">
+          <h2>Exam Quote PDF 3</h2>
+          <a href="Exam Quote/pdf3.pdf" download="ExamQuote3.pdf" class="btn-download">Download PDF</a>
+        </div>
+      </article>
+
+      <!-- PDF card 4 -->
+      <article class="pdf-card" tabindex="0">
+        <div class="pdf-thumbnail">
+          <embed src="Exam Quote/pdf4.pdf#page=1&zoom=100" type="application/pdf" />
+        </div>
+        <div class="pdf-info">
+          <h2>Exam Quote PDF 4</h2>
+          <a href="Exam Quote/pdf4.pdf" download="ExamQuote4.pdf" class="btn-download">Download PDF</a>
+        </div>
+      </article>
+
+    </section>
   </main>
 
+  <script>
+    // GSAP scroll animation for PDF cards
+    gsap.utils.toArray('.pdf-card').forEach(card => {
+      gsap.from(card, {
+        scrollTrigger: {
+          trigger: card,
+          start: "top 80%",
+          toggleActions: "play none none none"
+        },
+        opacity: 0,
+        y: 50,
+        duration: 0.8,
+        ease: "power2.out"
+      });
+    });
+  </script>
 </body>
 </html>

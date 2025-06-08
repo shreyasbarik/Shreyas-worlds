@@ -1,67 +1,79 @@
-import { auth } from "./firebase-config.js";
+// Import Firebase Auth functions
+import { auth } from './firebase-config.js';
 import {
-  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+} from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js';
 
-// 🔄 Redirect if user is already logged in
-onAuthStateChanged(auth, (user) => {
-  if (user && window.location.pathname.includes("login")) {
-    window.location.href = "index.html";
+// DOM Elements
+const loginForm = document.getElementById('login-form');
+const signupForm = document.getElementById('signup-form');
+const loginError = document.getElementById('login-error');
+const signupError = document.getElementById('signup-error');
+
+// Redirect logged-in users to homepage (or dashboard)
+onAuthStateChanged(auth, user => {
+  if (user) {
+    window.location.href = 'index.html'; // Redirect after login/signup success
   }
 });
 
-// ✅ SIGNUP FUNCTION
-const signupForm = document.querySelector("#signup-form");
-if (signupForm) {
-  signupForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const email = signupForm["email"].value;
-    const password = signupForm["password"].value;
-
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        alert("✅ Signup successful!");
-        window.location.href = "index.html";
-      })
-      .catch((error) => {
-        document.querySelector("#signup-error").textContent = error.message;
-      });
-  });
-}
-
-// ✅ LOGIN FUNCTION
-const loginForm = document.querySelector("#login-form");
+// Login form submit handler
 if (loginForm) {
-  loginForm.addEventListener("submit", (e) => {
+  loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const email = loginForm["email"].value;
-    const password = loginForm["password"].value;
+    loginError.textContent = '';
+    const email = loginForm['login-email'].value.trim();
+    const password = loginForm['login-password'].value.trim();
 
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        alert("✅ Login successful!");
-        window.location.href = "index.html";
-      })
-      .catch((error) => {
-        document.querySelector("#login-error").textContent = error.message;
-      });
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      // On success, redirect handled by onAuthStateChanged
+    } catch (error) {
+      loginError.textContent = getErrorMessage(error.code);
+    }
   });
 }
 
-// ✅ LOGOUT FUNCTION
-const logoutBtn = document.querySelector("#logout-btn");
-if (logoutBtn) {
-  logoutBtn.addEventListener("click", () => {
-    signOut(auth)
-      .then(() => {
-        alert("👋 Logged out!");
-        window.location.href = "login.html";
-      })
-      .catch((error) => {
-        alert("Logout Error: " + error.message);
-      });
+// Signup form submit handler
+if (signupForm) {
+  signupForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    signupError.textContent = '';
+    const email = signupForm['signup-email'].value.trim();
+    const password = signupForm['signup-password'].value.trim();
+
+    if (password.length < 6) {
+      signupError.textContent = 'Password should be at least 6 characters.';
+      return;
+    }
+
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      // On success, redirect handled by onAuthStateChanged
+    } catch (error) {
+      signupError.textContent = getErrorMessage(error.code);
+    }
   });
+}
+
+// Friendly error messages
+function getErrorMessage(code) {
+  switch (code) {
+    case 'auth/invalid-email':
+      return 'Invalid email address.';
+    case 'auth/user-disabled':
+      return 'User account disabled.';
+    case 'auth/user-not-found':
+      return 'User not found.';
+    case 'auth/wrong-password':
+      return 'Incorrect password.';
+    case 'auth/email-already-in-use':
+      return 'Email already in use.';
+    case 'auth/weak-password':
+      return 'Weak password.';
+    default:
+      return 'Authentication error. Please try again.';
+  }
 }

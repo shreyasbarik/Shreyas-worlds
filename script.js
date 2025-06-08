@@ -1,68 +1,51 @@
-// =============== VIDEO SLIDESHOW LOGIC ===============
-const videos = document.querySelectorAll('.hero-slider video');
-const dots = document.querySelectorAll('.dot');
+// 🌐 DOM Elements
+const slides = document.querySelectorAll(".slide");
+const dots = document.querySelectorAll(".dot");
+const menu = document.querySelector(".mobile-menu");
+const hamburger = document.querySelector(".hamburger");
+const closeBtn = document.querySelector(".close-btn");
 
-let currentIndex = 0;
-let slideInterval;
+// 📱 Hamburger Menu Logic
+hamburger?.addEventListener("click", () => {
+  menu?.classList.add("show");
+});
+closeBtn?.addEventListener("click", () => {
+  menu?.classList.remove("show");
+});
+window.addEventListener("click", (e) => {
+  if (!menu.contains(e.target) && !hamburger.contains(e.target)) {
+    menu?.classList.remove("show");
+  }
+});
+
+// 🎥 Slideshow Logic
+let currentSlide = 0;
+const totalSlides = slides.length;
 
 function showSlide(index) {
-  videos.forEach((vid, i) => {
-    vid.classList.toggle('hidden', i !== index);
+  slides.forEach((slide, i) => {
+    slide.classList.remove("active");
+    dots[i]?.classList.remove("active");
   });
-
-  dots.forEach((dot, i) => {
-    dot.classList.toggle('active', i === index);
-  });
-
-  currentIndex = index;
+  slides[index]?.classList.add("active");
+  dots[index]?.classList.add("active");
 }
 
 function nextSlide() {
-  let next = (currentIndex + 1) % videos.length;
-  showSlide(next);
+  currentSlide = (currentSlide + 1) % totalSlides;
+  showSlide(currentSlide);
 }
 
-function startSlideShow() {
-  slideInterval = setInterval(nextSlide, 5000);
-}
+// Auto slideshow every 5 seconds
+setInterval(nextSlide, 5000);
 
-function stopSlideShow() {
-  clearInterval(slideInterval);
-}
-
-dots.forEach((dot, i) => {
-  dot.addEventListener('click', () => {
-    stopSlideShow();
-    showSlide(i);
-    startSlideShow();
+// Manual dot navigation
+dots.forEach((dot, index) => {
+  dot.addEventListener("click", () => {
+    currentSlide = index;
+    showSlide(currentSlide);
   });
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-  showSlide(0);
-  startSlideShow();
-});
-
-
-// =============== MOBILE MENU LOGIC ===============
-const mobileMenu = document.querySelector('.mobile-menu');
-const openBtn = document.querySelector('.mobile-only');
-const closeBtn = document.querySelector('.close-btn');
-
-openBtn.addEventListener('click', () => {
-  mobileMenu.classList.add('open');
-});
-
-closeBtn.addEventListener('click', () => {
-  mobileMenu.classList.remove('open');
-});
-
-document.addEventListener('click', (e) => {
-  if (
-    mobileMenu.classList.contains('open') &&
-    !mobileMenu.contains(e.target) &&
-    !openBtn.contains(e.target)
-  ) {
-    mobileMenu.classList.remove('open');
-  }
-});
+// 🎯 Initial Slide
+showSlide(currentSlide);

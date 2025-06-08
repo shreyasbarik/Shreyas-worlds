@@ -2,146 +2,78 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Healthy Quite | Shreyas World</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Healthy Quite - Shreyas World</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="apple-icon.png" />
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
 </head>
 <body>
-
-  <header class="site-header">
-    <h1>🍏 Healthy Quite: Health Tips & Tricks</h1>
-    <a href="index.html" class="back-home">← Home</a>
+  <header class="top-nav">
+    <nav>
+      <a href="index.html" class="logo">Shreyas World</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="login.html">Login</a></li>
+        <li><a href="signup.html">Sign Up</a></li>
+      </ul>
+    </nav>
   </header>
 
-  <main id="video-list" class="video-section">
-    <!-- Videos will be dynamically injected here -->
+  <main class="video-section">
+    <h1>Healthy Quite - Health Tips and Tricks</h1>
+    <section class="video-list">
+
+      <article class="video-card">
+        <video controls muted playsinline preload="metadata" poster="Healthy Quite/tip1-poster.jpg" class="video-player">
+          <source src="Healthy Quite/tip1.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <div class="video-desc">
+          <h2>Health Tip 1</h2>
+          <p>Get motivated with useful health tips in Hindi & English.</p>
+        </div>
+      </article>
+
+      <article class="video-card">
+        <video controls muted playsinline preload="metadata" poster="Healthy Quite/tip2-poster.jpg" class="video-player">
+          <source src="Healthy Quite/tip2.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <div class="video-desc">
+          <h2>Health Tip 2</h2>
+          <p>Learn practical health tricks with bilingual motivational speeches.</p>
+        </div>
+      </article>
+
+      <article class="video-card">
+        <video controls muted playsinline preload="metadata" poster="Healthy Quite/tip3-poster.jpg" class="video-player">
+          <source src="Healthy Quite/tip3.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <div class="video-desc">
+          <h2>Health Tip 3</h2>
+          <p>Improve your wellbeing with tips narrated in Hindi & English.</p>
+        </div>
+      </article>
+
+    </section>
   </main>
 
-  <script type="module" src="firebase-config.js"></script>
-  <script type="module">
-    import { db, auth } from './firebase-config.js';
-    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
-    import {
-      doc, getDoc, setDoc, updateDoc, increment
-    } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-
-    const videoList = document.getElementById('video-list');
-
-    const videos = [
-      {
-        id: 'tip1',
-        file: 'tip1.mp4',
-        title: 'Health Tip 1',
-        lang: 'English & Hindi',
-        speechEn: "Drink plenty of water daily to keep your body hydrated.",
-        speechHi: "अपने शरीर को हाइड्रेटेड रखने के लिए रोजाना पर्याप्त पानी पिएं।"
-      },
-      {
-        id: 'tip2',
-        file: 'tip2.mp4',
-        title: 'Health Tip 2',
-        lang: 'English & Hindi',
-        speechEn: "Regular exercise helps maintain a healthy body and mind.",
-        speechHi: "नियमित व्यायाम से शरीर और मन दोनों स्वस्थ रहते हैं।"
-      },
-      {
-        id: 'tip3',
-        file: 'tip3.mp4',
-        title: 'Health Tip 3',
-        lang: 'English & Hindi',
-        speechEn: "Eat a balanced diet rich in fruits and vegetables.",
-        speechHi: "फल और सब्जियों से भरपूर संतुलित आहार लें।"
-      }
-    ];
-
-    let currentUser = null;
-
-    onAuthStateChanged(auth, (user) => {
-      currentUser = user;
-      renderVideos();
+  <script>
+    // GSAP animation for fade-in on scroll
+    gsap.utils.toArray('.video-card').forEach(card => {
+      gsap.from(card, {
+        scrollTrigger: {
+          trigger: card,
+          start: "top 80%",
+          toggleActions: "play none none none"
+        },
+        opacity: 0,
+        y: 40,
+        duration: 0.8,
+        ease: "power2.out"
+      });
     });
-
-    function renderVideos() {
-      videoList.innerHTML = '';
-
-      videos.forEach((video) => {
-        const container = document.createElement('div');
-        container.className = 'video-card';
-
-        container.innerHTML = `
-          <video src="Healthy Quite/${video.file}" controls muted loop></video>
-          <h2>${video.title}</h2>
-          <p class="video-lang">🔊 ${video.lang} Speech</p>
-          <p><strong>English:</strong> ${video.speechEn}</p>
-          <p><strong>Hindi:</strong> ${video.speechHi}</p>
-          <div class="reactions">
-            <button data-video="${video.id}" data-reaction="like">👍</button>
-            <button data-video="${video.id}" data-reaction="heart">❤️</button>
-            <button data-video="${video.id}" data-reaction="dislike">👎</button>
-            <div class="admin-reactions" id="counts-${video.id}"></div>
-          </div>
-        `;
-
-        videoList.appendChild(container);
-      });
-
-      document.querySelectorAll('.reactions button').forEach((btn) => {
-        btn.addEventListener('click', async (e) => {
-          const vid = e.target.dataset.video;
-          const reaction = e.target.dataset.reaction;
-
-          if (!currentUser) {
-            alert('Please log in to react.');
-            return;
-          }
-
-          const userReactionRef = doc(db, `videos/${vid}/reactions`, currentUser.uid);
-          const userSnap = await getDoc(userReactionRef);
-
-          if (!userSnap.exists()) {
-            await setDoc(userReactionRef, { [reaction]: true });
-
-            const countRef = doc(db, `videos/${vid}/reactionCounts`);
-            await updateDoc(countRef, {
-              [reaction]: increment(1)
-            }).catch(async () => {
-              await setDoc(countRef, { like: 0, heart: 0, dislike: 0, [reaction]: 1 });
-            });
-            updateReactionCounts();
-          } else {
-            alert('You already reacted to this video!');
-          }
-        });
-      });
-
-      if (currentUser?.email === "shreyascreative59@gmil.com") {
-        videos.forEach(async (v) => {
-          const countRef = doc(db, `videos/${v.id}/reactionCounts`);
-          const snap = await getDoc(countRef);
-          const el = document.getElementById(`counts-${v.id}`);
-          if (snap.exists()) {
-            const data = snap.data();
-            el.innerHTML = `👍 ${data.like || 0} ❤️ ${data.heart || 0} 👎 ${data.dislike || 0}`;
-          }
-        });
-      }
-    }
-
-    async function updateReactionCounts() {
-      if (currentUser?.email === "shreyascreative59@gmil.com") {
-        for (const video of videos) {
-          const countRef = doc(db, `videos/${video.id}/reactionCounts`);
-          const snap = await getDoc(countRef);
-          const el = document.getElementById(`counts-${video.id}`);
-          if (snap.exists()) {
-            const data = snap.data();
-            el.innerHTML = `👍 ${data.like || 0} ❤️ ${data.heart || 0} 👎 ${data.dislike || 0}`;
-          }
-        }
-      }
-    }
   </script>
-
 </body>
 </html>

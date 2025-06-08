@@ -3,154 +3,138 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Fun Cube | Shreyas World</title>
+  <title>Fun Cube - Shreyas World</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="logo.png" type="image/png" />
   <style>
-    /* Fun Cube page specific styles */
-    body {
-      background: #f5f5f7;
-      color: #1d1d1f;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-      padding: 2rem;
+    /* Additional styles specific to funcube */
+    main {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
     }
-    header.site-header {
-      margin-bottom: 2rem;
+    h1 {
+      font-weight: 600;
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
       text-align: center;
     }
-    header.site-header h1 {
-      font-weight: 600;
-      font-size: 2.5rem;
-      letter-spacing: -0.02em;
-      color: #111;
-      margin-bottom: 0.2rem;
-    }
-    header.site-header a.back-home {
-      color: #0071e3;
-      font-weight: 500;
-      text-decoration: none;
-      font-size: 1rem;
-      transition: color 0.3s ease;
-    }
-    header.site-header a.back-home:hover {
-      color: #004bbd;
-    }
-
     .games-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
       gap: 1.5rem;
-      max-width: 1100px;
-      margin: 0 auto;
     }
-
     .game-card {
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 8px 24px rgb(0 0 0 / 0.1);
-      padding: 1.8rem 1.5rem;
+      background: #f8f8f8;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 1.5rem;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      cursor: pointer;
-      border: 1px solid transparent;
+      transition: box-shadow 0.3s ease;
     }
-    .game-card:hover, .game-card:focus-within {
-      transform: translateY(-6px);
-      box-shadow: 0 14px 30px rgb(0 0 0 / 0.15);
-      border-color: #0071e3;
+    .game-card:hover {
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
     }
-    .game-title {
-      font-weight: 600;
+    .game-name {
+      font-weight: 700;
       font-size: 1.25rem;
-      margin-bottom: 0.4rem;
-      color: #111;
+      margin-bottom: 0.5rem;
+      color: #333;
     }
     .game-desc {
-      font-size: 1rem;
-      color: #444;
-      margin-bottom: 1.2rem;
       flex-grow: 1;
+      color: #555;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      line-height: 1.4;
     }
     .game-link {
       background-color: #0071e3;
-      color: white;
-      padding: 0.6rem 1.2rem;
-      font-weight: 600;
+      color: #fff;
       border: none;
-      border-radius: 10px;
-      text-align: center;
-      text-decoration: none;
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      font-weight: 600;
       font-size: 1rem;
+      text-align: center;
+      cursor: pointer;
+      text-decoration: none;
       user-select: none;
       transition: background-color 0.3s ease;
     }
-    .game-link:hover, .game-link:focus {
-      background-color: #004bbd;
+    .game-link:hover,
+    .game-link:focus {
+      background-color: #005bb5;
       outline: none;
     }
   </style>
 </head>
 <body>
-
-  <header class="site-header">
-    <h1>🧩 Fun Cube: Brain & Educational Games</h1>
-    <a href="index.html" class="back-home">← Home</a>
+  <header class="top-nav">
+    <nav>
+      <a href="index.html" class="logo">Shreyas World</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="login.html">Login</a></li>
+        <li><a href="signup.html">Sign Up</a></li>
+      </ul>
+    </nav>
   </header>
 
-  <main class="games-grid" role="list">
+  <main>
+    <h1>Fun Cube - Brain & Educational Games</h1>
+    <div class="games-grid">
 
-    <article class="game-card" role="listitem" tabindex="0">
-      <h2 class="game-title">Cool Math Games</h2>
-      <p class="game-desc">Fun math puzzles and logic games</p>
-      <a class="game-link" href="https://www.coolmathgames.com" target="_blank" rel="noopener noreferrer">Play Now</a>
-    </article>
+      <article class="game-card">
+        <h2 class="game-name">Cool Math Games</h2>
+        <p class="game-desc">Fun math puzzles and logic games to sharpen your mind.</p>
+        <a href="https://www.coolmathgames.com" target="_blank" rel="noopener" class="game-link" aria-label="Play Cool Math Games">Play Now</a>
+      </article>
 
-    <article class="game-card" role="listitem" tabindex="0">
-      <h2 class="game-title">Lumosity</h2>
-      <p class="game-desc">Brain training and memory games</p>
-      <a class="game-link" href="https://www.lumosity.com" target="_blank" rel="noopener noreferrer">Play Now</a>
-    </article>
+      <article class="game-card">
+        <h2 class="game-name">Lumosity</h2>
+        <p class="game-desc">Brain training and memory games designed to boost your cognitive skills.</p>
+        <a href="https://www.lumosity.com" target="_blank" rel="noopener" class="game-link" aria-label="Play Lumosity">Play Now</a>
+      </article>
 
-    <article class="game-card" role="listitem" tabindex="0">
-      <h2 class="game-title">BrainPOP</h2>
-      <p class="game-desc">Educational videos and quizzes</p>
-      <a class="game-link" href="https://www.brainpop.com" target="_blank" rel="noopener noreferrer">Play Now</a>
-    </article>
+      <article class="game-card">
+        <h2 class="game-name">BrainPOP</h2>
+        <p class="game-desc">Educational videos and quizzes covering a wide variety of topics.</p>
+        <a href="https://www.brainpop.com" target="_blank" rel="noopener" class="game-link" aria-label="Explore BrainPOP">Explore</a>
+      </article>
 
-    <article class="game-card" role="listitem" tabindex="0">
-      <h2 class="game-title">Math Playground</h2>
-      <p class="game-desc">Math challenges and problem solving</p>
-      <a class="game-link" href="https://www.mathplayground.com" target="_blank" rel="noopener noreferrer">Play Now</a>
-    </article>
+      <article class="game-card">
+        <h2 class="game-name">Math Playground</h2>
+        <p class="game-desc">Engaging math challenges and problem-solving games for all ages.</p>
+        <a href="https://www.mathplayground.com" target="_blank" rel="noopener" class="game-link" aria-label="Play Math Playground">Play Now</a>
+      </article>
 
-    <article class="game-card" role="listitem" tabindex="0">
-      <h2 class="game-title">Sporcle</h2>
-      <p class="game-desc">Quiz-based brain games and trivia</p>
-      <a class="game-link" href="https://www.sporcle.com" target="_blank" rel="noopener noreferrer">Play Now</a>
-    </article>
+      <article class="game-card">
+        <h2 class="game-name">Sporcle</h2>
+        <p class="game-desc">Quiz-based brain games and trivia to test your knowledge.</p>
+        <a href="https://www.sporcle.com" target="_blank" rel="noopener" class="game-link" aria-label="Play Sporcle">Play Now</a>
+      </article>
 
-    <article class="game-card" role="listitem" tabindex="0">
-      <h2 class="game-title">Funbrain</h2>
-      <p class="game-desc">Educational games and reading</p>
-      <a class="game-link" href="https://www.funbrain.com" target="_blank" rel="noopener noreferrer">Play Now</a>
-    </article>
+      <article class="game-card">
+        <h2 class="game-name">Funbrain</h2>
+        <p class="game-desc">Educational games and reading materials for children and teens.</p>
+        <a href="https://www.funbrain.com" target="_blank" rel="noopener" class="game-link" aria-label="Explore Funbrain">Explore</a>
+      </article>
 
-    <article class="game-card" role="listitem" tabindex="0">
-      <h2 class="game-title">Prodigy</h2>
-      <p class="game-desc">Math adventure game for kids</p>
-      <a class="game-link" href="https://www.prodigygame.com" target="_blank" rel="noopener noreferrer">Play Now</a>
-    </article>
+      <article class="game-card">
+        <h2 class="game-name">Prodigy</h2>
+        <p class="game-desc">Math adventure game that makes learning fun for kids.</p>
+        <a href="https://www.prodigygame.com" target="_blank" rel="noopener" class="game-link" aria-label="Play Prodigy">Play Now</a>
+      </article>
 
-    <article class="game-card" role="listitem" tabindex="0">
-      <h2 class="game-title">National Geographic Kids</h2>
-      <p class="game-desc">Educational games about nature and science</p>
-      <a class="game-link" href="https://kids.nationalgeographic.com/games/" target="_blank" rel="noopener noreferrer">Play Now</a>
-    </article>
+      <article class="game-card">
+        <h2 class="game-name">National Geographic Kids</h2>
+        <p class="game-desc">Educational games about nature, science, and the world around us.</p>
+        <a href="https://kids.nationalgeographic.com/games/" target="_blank" rel="noopener" class="game-link" aria-label="Explore National Geographic Kids Games">Explore</a>
+      </article>
 
+    </div>
   </main>
-
 </body>
 </html>
