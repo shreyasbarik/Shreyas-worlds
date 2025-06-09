@@ -24,10 +24,10 @@ dots.forEach((dot, index) => {
   });
 });
 
-// ✅ HAMBURGER MENU TOGGLE
-const hamburger = document.getElementById("hamburger");
+// ✅ FIXED HAMBURGER MENU TOGGLE
+const hamburger = document.getElementById("menuToggle");
 const sideMenu = document.getElementById("sideMenu");
-const closeBtn = document.getElementById("closeBtn");
+const closeBtn = document.getElementById("menuClose");
 
 hamburger.addEventListener("click", () => {
   sideMenu.classList.add("open");
