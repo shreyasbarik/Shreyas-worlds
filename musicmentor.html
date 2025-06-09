@@ -5,72 +5,57 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Music Mentor - Shreyas World</title>
   <link rel="stylesheet" href="style.css" />
-  <script type="module" src="firebase-config.js" defer></script>
-  <script type="module" src="script.js" defer></script>
+  <script defer src="script.js"></script>
 </head>
-<body>
+<body class="page-body">
   <header class="header">
     <div class="logo">Shreyas World</div>
-    <nav class="desktop-nav">
+    <nav class="nav">
       <a href="index.html">Home</a>
       <a href="signup.html">Sign Up</a>
       <a href="login.html">Login</a>
     </nav>
-    <div class="menu-icon">☰</div>
   </header>
 
-  <div class="mobile-menu">
-    <div class="close-menu">×</div>
-    <ul>
-      <li><a href="craftvibe.html">CraftVibe</a></li>
-      <li><a href="ignitestream.html">IgniteStream</a></li>
-      <li><a href="examquote.html">Exam Quote</a></li>
-      <li><a href="chakragallery.html">Chakra Gallery</a></li>
-      <li><a href="healthyquite.html">Healthy Quite</a></li>
-      <li><a href="quitestrange.html">Quite Strange</a></li>
-      <li><a href="musicmentor.html">Music Mentor</a></li>
-      <li><a href="childishhub.html">Childish Hub</a></li>
-      <li><a href="experimentsize.html">Experiment Size</a></li>
-      <li><a href="quizme.html">Quize Me</a></li>
-      <li><a href="funcube.html">Fun Cube</a></li>
-    </ul>
-  </div>
+  <main class="content">
+    <h1 class="section-title">Music Mentor 🎵</h1>
 
-  <main class="video-page fade-in">
-    <h1 class="page-title">🎵 Music Mentor</h1>
-    <div class="video-grid">
+    <section class="video-section">
       <div class="video-card">
-        <video src="Music Mentor/mentor1.mp4" controls muted loop></video>
-        <p class="video-desc">Learn the basics of rhythm and melody with our expert tips.</p>
-        <div class="emoji-bar" data-video-id="mentor1">
+        <video src="Music Mentor/video1.mp4" controls muted loop class="video"></video>
+        <p class="description">“Music is the universal language of the soul.”</p>
+        <div class="emoji-reactions" data-video-id="mentor1">
           <button class="emoji-btn" data-reaction="like">👍</button>
           <button class="emoji-btn" data-reaction="dislike">👎</button>
           <button class="emoji-btn" data-reaction="heart">❤️</button>
         </div>
       </div>
+
       <div class="video-card">
-        <video src="Music Mentor/mentor2.mp4" controls muted loop></video>
-        <p class="video-desc">Master your favorite instruments with step-by-step guidance.</p>
-        <div class="emoji-bar" data-video-id="mentor2">
+        <video src="Music Mentor/video2.mp4" controls muted loop class="video"></video>
+        <p class="description">“Let the rhythm guide your journey.”</p>
+        <div class="emoji-reactions" data-video-id="mentor2">
           <button class="emoji-btn" data-reaction="like">👍</button>
           <button class="emoji-btn" data-reaction="dislike">👎</button>
           <button class="emoji-btn" data-reaction="heart">❤️</button>
         </div>
       </div>
+
       <div class="video-card">
-        <video src="Music Mentor/mentor3.mp4" controls muted loop></video>
-        <p class="video-desc">Tips on music theory and composition to elevate your skills.</p>
-        <div class="emoji-bar" data-video-id="mentor3">
+        <video src="Music Mentor/video3.mp4" controls muted loop class="video"></video>
+        <p class="description">“Practice, passion, and persistence make the perfect melody.”</p>
+        <div class="emoji-reactions" data-video-id="mentor3">
           <button class="emoji-btn" data-reaction="like">👍</button>
           <button class="emoji-btn" data-reaction="dislike">👎</button>
           <button class="emoji-btn" data-reaction="heart">❤️</button>
         </div>
       </div>
-    </div>
+    </section>
   </main>
 
   <footer class="footer">
-    <p>2025 Shreyas World. All Rights Reserved. For learning purposes only.</p>
+    <p>© 2025 Shreyas World. All Rights Reserved</p>
+    <p>Support: <a href="mailto:shreyascreative59@gmail.com">shreyascreative59@gmail.com</a></p>
   </footer>
 </body>
 </html>

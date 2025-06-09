@@ -1,85 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>IgniteStream - Shreyas World</title>
-  <link rel="stylesheet" href="style.css">
-  <script type="module" src="firebase-config.js" defer></script>
-  <script type="module" src="script.js" defer></script>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="firebase-config.js"></script>
+  <script defer src="script.js"></script>
 </head>
-<body>
+<body class="page-body">
   <header class="header">
     <div class="logo">Shreyas World</div>
-    <nav class="desktop-nav">
+    <nav class="nav-links">
       <a href="index.html">Home</a>
       <a href="signup.html">Sign Up</a>
       <a href="login.html">Login</a>
     </nav>
-    <div class="menu-icon">☰</div>
   </header>
 
-  <div class="mobile-menu">
-    <div class="close-menu">×</div>
-    <ul>
-      <li><a href="craftvibe.html">CraftVibe</a></li>
-      <li><a href="ignitestream.html">IgniteStream</a></li>
-      <li><a href="examquote.html">Exam Quote</a></li>
-      <li><a href="chakragallery.html">Chakra Gallery</a></li>
-      <li><a href="healthyquite.html">Healthy Quite</a></li>
-      <li><a href="quitestrange.html">Quite Strange</a></li>
-      <li><a href="musicmentor.html">Music Mentor</a></li>
-      <li><a href="childishhub.html">Childish Hub</a></li>
-      <li><a href="experimentsize.html">Experiment Size</a></li>
-      <li><a href="quizme.html">Quize Me</a></li>
-      <li><a href="funcube.html">Fun Cube</a></li>
-    </ul>
-  </div>
+  <main class="content">
+    <section class="video-gallery">
+      <h1>🔥 IgniteStream</h1>
+      
+      <div class="video-card">
+        <video src="IgniteStream videos/video1.mp4" controls muted playsinline></video>
+        <p>"Push yourself, because no one else is going to do it for you."</p>
+        <div class="emoji-reactions" data-video-id="video1">
+          <button class="emoji-btn" data-reaction="like">👍</button>
+          <button class="emoji-btn" data-reaction="dislike">👎</button>
+          <button class="emoji-btn" data-reaction="heart">❤️</button>
+        </div>
+      </div>
 
-  <main class="video-page fade-in">
-    <h1 class="page-title">🔥 IgniteStream</h1>
-    <div class="video-grid">
       <div class="video-card">
-        <video src="IgniteStream videos/Motivation1.mp4" controls muted loop></video>
-        <p class="video-desc">Push yourself, because no one else is going to do it for you.</p>
-        <div class="emoji-bar" data-video-id="motivation1">
+        <video src="IgniteStream videos/video2.mp4" controls muted playsinline></video>
+        <p>"Dream big. Start small. Act now."</p>
+        <div class="emoji-reactions" data-video-id="video2">
           <button class="emoji-btn" data-reaction="like">👍</button>
           <button class="emoji-btn" data-reaction="dislike">👎</button>
           <button class="emoji-btn" data-reaction="heart">❤️</button>
         </div>
       </div>
+
       <div class="video-card">
-        <video src="IgniteStream videos/Motivation2.mp4" controls muted loop></video>
-        <p class="video-desc">Success doesn’t come from what you do occasionally, it comes from what you do consistently.</p>
-        <div class="emoji-bar" data-video-id="motivation2">
+        <video src="IgniteStream videos/video3.mp4" controls muted playsinline></video>
+        <p>"Success is not final, failure is not fatal."</p>
+        <div class="emoji-reactions" data-video-id="video3">
           <button class="emoji-btn" data-reaction="like">👍</button>
           <button class="emoji-btn" data-reaction="dislike">👎</button>
           <button class="emoji-btn" data-reaction="heart">❤️</button>
         </div>
       </div>
+
       <div class="video-card">
-        <video src="IgniteStream videos/Motivation3.mp4" controls muted loop></video>
-        <p class="video-desc">Dream it. Wish it. Do it.</p>
-        <div class="emoji-bar" data-video-id="motivation3">
+        <video src="IgniteStream videos/video4.mp4" controls muted playsinline></video>
+        <p>"Great things never come from comfort zones."</p>
+        <div class="emoji-reactions" data-video-id="video4">
           <button class="emoji-btn" data-reaction="like">👍</button>
           <button class="emoji-btn" data-reaction="dislike">👎</button>
           <button class="emoji-btn" data-reaction="heart">❤️</button>
         </div>
       </div>
-      <div class="video-card">
-        <video src="IgniteStream videos/Motivation4.mp4" controls muted loop></video>
-        <p class="video-desc">Do something today that your future self will thank you for.</p>
-        <div class="emoji-bar" data-video-id="motivation4">
-          <button class="emoji-btn" data-reaction="like">👍</button>
-          <button class="emoji-btn" data-reaction="dislike">👎</button>
-          <button class="emoji-btn" data-reaction="heart">❤️</button>
-        </div>
-      </div>
-    </div>
+    </section>
   </main>
 
   <footer class="footer">
-    <p>2025 Shreyas World. All Rights Reserved. For learning purposes only.</p>
+    <p>© 2025 Shreyas World. All Rights Reserved.<br />
+    Connect Beyond the Screen</p>
+    <p>Email: <a href="mailto:shreyascreative59@gmail.com">shreyascreative59@gmail.com</a></p>
+    <p>Discord: Shreyas World12, ShreyasWorldTeam12</p>
   </footer>
 </body>
 </html>

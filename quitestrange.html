@@ -5,44 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Quite Strange - Shreyas World</title>
   <link rel="stylesheet" href="style.css" />
-  <script type="module" src="firebase-config.js" defer></script>
-  <script type="module" src="script.js" defer></script>
+  <script defer src="script.js"></script>
 </head>
-<body>
+<body class="page-body">
   <header class="header">
     <div class="logo">Shreyas World</div>
-    <nav class="desktop-nav">
+    <nav class="nav">
       <a href="index.html">Home</a>
       <a href="signup.html">Sign Up</a>
       <a href="login.html">Login</a>
     </nav>
-    <div class="menu-icon">☰</div>
   </header>
 
-  <div class="mobile-menu">
-    <div class="close-menu">×</div>
-    <ul>
-      <li><a href="craftvibe.html">CraftVibe</a></li>
-      <li><a href="ignitestream.html">IgniteStream</a></li>
-      <li><a href="examquote.html">Exam Quote</a></li>
-      <li><a href="chakragallery.html">Chakra Gallery</a></li>
-      <li><a href="healthyquite.html">Healthy Quite</a></li>
-      <li><a href="quitestrange.html">Quite Strange</a></li>
-      <li><a href="musicmentor.html">Music Mentor</a></li>
-      <li><a href="childishhub.html">Childish Hub</a></li>
-      <li><a href="experimentsize.html">Experiment Size</a></li>
-      <li><a href="quizme.html">Quize Me</a></li>
-      <li><a href="funcube.html">Fun Cube</a></li>
-    </ul>
-  </div>
+  <main class="content">
+    <h1 class="section-title">Quite Strange 🌀</h1>
 
-  <main class="video-page fade-in">
-    <h1 class="page-title">🤯 Quite Strange</h1>
-    <div class="video-grid">
+    <section class="video-section">
       <div class="video-card">
-        <video src="Quite Strange/strange1.mp4" controls muted loop></video>
-        <p class="video-desc">Discover the unexplained mysteries around us.</p>
-        <div class="emoji-bar" data-video-id="strange1">
+        <video src="Quite Strange/video1.mp4" controls muted loop class="video"></video>
+        <p class="description">“Sometimes strange is just what you need to see things clearly.”</p>
+        <div class="emoji-reactions" data-video-id="strange1">
           <button class="emoji-btn" data-reaction="like">👍</button>
           <button class="emoji-btn" data-reaction="dislike">👎</button>
           <button class="emoji-btn" data-reaction="heart">❤️</button>
@@ -50,9 +32,9 @@
       </div>
 
       <div class="video-card">
-        <video src="Quite Strange/strange2.mp4" controls muted loop></video>
-        <p class="video-desc">Explore bizarre facts that will blow your mind.</p>
-        <div class="emoji-bar" data-video-id="strange2">
+        <video src="Quite Strange/video2.mp4" controls muted loop class="video"></video>
+        <p class="description">“Embrace the weirdness and find your own path.”</p>
+        <div class="emoji-reactions" data-video-id="strange2">
           <button class="emoji-btn" data-reaction="like">👍</button>
           <button class="emoji-btn" data-reaction="dislike">👎</button>
           <button class="emoji-btn" data-reaction="heart">❤️</button>
@@ -60,19 +42,20 @@
       </div>
 
       <div class="video-card">
-        <video src="Quite Strange/strange3.mp4" controls muted loop></video>
-        <p class="video-desc">Unveil strange phenomena and curiosities.</p>
-        <div class="emoji-bar" data-video-id="strange3">
+        <video src="Quite Strange/video3.mp4" controls muted loop class="video"></video>
+        <p class="description">“The strangest moments make the best stories.”</p>
+        <div class="emoji-reactions" data-video-id="strange3">
           <button class="emoji-btn" data-reaction="like">👍</button>
           <button class="emoji-btn" data-reaction="dislike">👎</button>
           <button class="emoji-btn" data-reaction="heart">❤️</button>
         </div>
       </div>
-    </div>
+    </section>
   </main>
 
   <footer class="footer">
-    <p>2025 Shreyas World. All Rights Reserved. For learning purposes only.</p>
+    <p>© 2025 Shreyas World. All Rights Reserved</p>
+    <p>Support: <a href="mailto:shreyascreative59@gmail.com">shreyascreative59@gmail.com</a></p>
   </footer>
 </body>
 </html>

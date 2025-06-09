@@ -1,28 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sign Up - Shreyas World</title>
-  <link rel="stylesheet" href="style.css" />
-  <script type="module" src="auth.js" defer></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sign Up - Shreyas World</title>
+<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" />
 </head>
-<body class="login-body">
-  <div class="auth-container">
-    <div class="auth-card fade-in">
-      <h1 class="auth-title">Sign up for Shreyas World</h1>
-      <form id="signup-form" class="auth-form">
-        <label>Email</label>
-        <input type="email" id="signup-email" required />
+<body>
+  <main class="auth-container">
+    <section class="auth-form-container">
+      <h1 class="auth-title">Sign Up</h1>
+      <form id="signup-form" novalidate>
+        <label for="signup-email">Email</label>
+        <input
+          type="email"
+          id="signup-email"
+          name="email"
+          placeholder="you@example.com"
+          autocomplete="email"
+          required
+        />
+        <span class="error-msg" id="signup-email-error"></span>
 
-        <label>Password</label>
-        <input type="password" id="signup-password" required />
+        <label for="signup-password">Password
+          <button type="button" id="toggle-signup-password" class="password-toggle" aria-label="Show password">👁️</button>
+        </label>
+        <input
+          type="password"
+          id="signup-password"
+          name="password"
+          placeholder="••••••••"
+          autocomplete="new-password"
+          required
+          minlength="6"
+        />
+        <span class="error-msg" id="signup-password-error"></span>
 
-        <button type="submit" class="auth-button">Sign Up</button>
+        <label for="signup-confirm-password">Confirm Password
+          <button type="button" id="toggle-signup-confirm-password" class="password-toggle" aria-label="Show password">👁️</button>
+        </label>
+        <input
+          type="password"
+          id="signup-confirm-password"
+          name="confirm-password"
+          placeholder="••••••••"
+          autocomplete="new-password"
+          required
+          minlength="6"
+        />
+        <span class="error-msg" id="signup-confirm-password-error"></span>
 
-        <p class="auth-switch">Already have an account? <a href="login.html">Log in</a></p>
+        <button type="submit" id="signup-submit" class="btn-primary">
+          Sign Up
+          <span class="spinner" id="signup-spinner" aria-hidden="true"></span>
+        </button>
+        <p class="auth-switch">Already have an account? <a href="login.html">Login</a></p>
+        <p class="firebase-error" id="signup-firebase-error"></p>
       </form>
-    </div>
-  </div>
+    </section>
+  </main>
+
+<script src="firebase-config.js" type="module"></script>
+<script src="auth.js" type="module"></script>
+<script src="script.js"></script>
 </body>
 </html>
