@@ -2,91 +2,157 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quize Me - Shreyas World</title>
-  <link rel="stylesheet" href="style.css" />
-  <script defer src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-  <script defer src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
-  <script defer src="quizme.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+ <title>Quiz Me | Shreyas World</title>
   <style>
+    /* Basic reset and styling */
     body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      background: #f5f7fa;
       margin: 0;
-      font-family: 'SF Pro Display', sans-serif;
-      background: #f9f9f9;
-      color: #000;
-    }
-    .container {
-      max-width: 600px;
-      margin: 50px auto;
+      padding: 0;
+      color: #111;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      align-items: center;
+      justify-content: center;
       padding: 20px;
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     }
-    .question-box, .result-box, .quiz-selector {
-      display: none;
+    h1 {
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 10px;
     }
-    .active {
-      display: block;
-      animation: fadeIn 0.5s ease;
-    }
-    @keyframes fadeIn {
-      from {opacity: 0; transform: translateY(10px);}
-      to {opacity: 1; transform: translateY(0);}
-    }
-    .option {
-      padding: 10px;
-      margin: 10px 0;
-      border: 2px solid #ccc;
-      border-radius: 10px;
+    select, button {
+      font-size: 1rem;
+      padding: 10px 15px;
+      border-radius: 8px;
+      border: 1.5px solid #ccc;
+      outline: none;
       cursor: pointer;
-      transition: 0.3s;
+      transition: all 0.3s ease;
     }
-    .option:hover {
-      background: #efefef;
+    select:focus, button:focus {
+      border-color: #0071e3;
+      box-shadow: 0 0 8px rgba(0, 113, 227, 0.3);
     }
-    .option.correct { border-color: green; background: #eaffea; }
-    .option.wrong { border-color: red; background: #ffeaea; }
-    .timer { font-size: 20px; text-align: right; }
-    .btn { background: black; color: white; padding: 10px 20px; border: none; border-radius: 10px; cursor: pointer; }
-    .score-card {
-      font-size: 24px;
-      text-align: center;
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+    #quiz-container {
+      max-width: 600px;
+      width: 100%;
+      background: white;
+      padding: 20px 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
       margin-top: 20px;
     }
-    .motivation {
-      font-style: italic;
+    #question {
+      font-weight: 600;
+      font-size: 1.25rem;
+      margin-bottom: 20px;
+      min-height: 70px;
+    }
+    .option {
+      background: #f0f3f7;
+      margin-bottom: 12px;
+      padding: 12px 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+      user-select: none;
+    }
+    .option:hover {
+      background: #e6f0ff;
+    }
+    .option.selected {
+      border-color: #0071e3;
+      background: #d6e5ff;
+      font-weight: 700;
+    }
+    .option.correct {
+      background: #c8f7c5;
+      border-color: #2ecc40;
+      font-weight: 700;
+    }
+    .option.wrong {
+      background: #f7c5c5;
+      border-color: #e74c3c;
+      font-weight: 700;
+    }
+    #timer {
+      font-weight: 600;
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 15px;
+    }
+    #next-btn {
+      background-color: #0071e3;
+      color: white;
+      border: none;
+      width: 100%;
+      font-weight: 700;
+      font-size: 1.1rem;
       margin-top: 10px;
+    }
+    #next-btn:hover:not(:disabled) {
+      background-color: #005bb5;
+    }
+    #score-container {
+      text-align: center;
+    }
+    #score-container h2 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+    #restart-btn {
+      background-color: #0071e3;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    #restart-btn:hover {
+      background-color: #005bb5;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="quiz-selector active">
-      <h2>🎯 Choose a Quiz</h2>
-      <select id="quiz-select">
-        <option value="">-- Select Quiz --</option>
-        <option value="physics1">Physics Quiz 1</option>
-        <option value="physics2">Physics Quiz 2</option>
-        <option value="chemistry1">Chemistry Quiz 1</option>
-        <option value="chemistry2">Chemistry Quiz 2</option>
-        <option value="biology1">Biology Quiz 1</option>
-      </select>
-      <br><br>
-      <button class="btn" onclick="startQuiz()">Start Quiz</button>
-    </div>
+  <h1>Quize Me - Shreyas World</h1>
 
-    <div class="question-box">
-      <div class="timer" id="timer">60</div>
-      <h3 id="question"></h3>
-      <div id="options"></div>
-    </div>
+  <label for="quiz-select" style="font-weight:600;">Select Quiz:</label>
+  <select id="quiz-select" aria-label="Select Quiz">
+    <option value="">-- Choose a Quiz --</option>
+    <option value="Physics Quiz 1">Physics Quiz 1</option>
+    <option value="Physics Quiz 2">Physics Quiz 2</option>
+    <option value="Chemistry Quiz 1">Chemistry Quiz 1</option>
+    <option value="Chemistry Quiz 2">Chemistry Quiz 2</option>
+    <option value="Biology Quiz 1">Biology Quiz 1</option>
+  </select>
 
-    <div class="result-box">
-      <div class="score-card" id="score"></div>
-      <div class="motivation" id="message"></div>
-      <button class="btn" onclick="location.reload()">🔁 Take Another Quiz</button>
-    </div>
+  <button id="start-btn" disabled>Start Quiz</button>
+
+  <div id="quiz-container" style="display:none;">
+    <div id="timer">Time left: <span id="time-left">60</span> seconds</div>
+    <div id="question"></div>
+    <div id="options-container"></div>
+    <button id="next-btn" disabled>Next</button>
   </div>
+
+  <div id="score-container" style="display:none;">
+    <h2>Your Score: <span id="score"></span> / <span id="total"></span></h2>
+    <button id="restart-btn">Restart Quiz</button>
+  </div>
+
+  <script src="quizme.js"></script>
 </body>
 </html>
