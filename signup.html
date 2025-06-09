@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up | Shreyas World</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: 'SF Pro', sans-serif;
+      background: #f5f5f7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .form-container {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      transition: 0.3s ease;
+    }
+
+    .form-container h2 {
+      margin-bottom: 1.5rem;
+      font-size: 1.6rem;
+    }
+
+    input[type="email"], input[type="password"] {
+      width: 100%;
+      padding: 0.8rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      font-size: 1rem;
+      outline: none;
+      transition: border 0.3s;
+    }
+
+    input:focus {
+      border-color: #0071e3;
+    }
+
+    .btn {
+      background: #0071e3;
+      color: #fff;
+      padding: 0.9rem 2rem;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+      width: 100%;
+    }
+
+    .btn:hover {
+      background: #005bb5;
+    }
+
+    .toggle-link {
+      display: block;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      color: #0071e3;
+      text-decoration: none;
+    }
+
+    .error-message {
+      color: red;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
+
+    .spinner {
+      display: none;
+      margin: 1rem auto 0;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #0071e3;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Create Your Account ✨</h2>
+    <form id="signupForm">
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
+      <button type="submit" class="btn">Sign Up</button>
+      <div class="spinner" id="spinner"></div>
+      <div class="error-message" id="errorMsg"></div>
+    </form>
+    <a class="toggle-link" href="login.html">Already have an account? Login</a>
+  </div>
+
+  <!-- Firebase App (required) -->
+  <script type="module">
+    import { auth } from './firebase-config.js';
+    import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+
+    const signupForm = document.getElementById("signupForm");
+    const errorMsg = document.getElementById("errorMsg");
+    const spinner = document.getElementById("spinner");
+
+    signupForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      errorMsg.textContent = "";
+      spinner.style.display = "block";
+
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+
+      if (password !== confirmPassword) {
+        errorMsg.textContent = "Passwords do not match.";
+        spinner.style.display = "none";
+        return;
+      }
+
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        window.location.href = "index.html"; // Redirect to home page
+      } catch (error) {
+        spinner.style.display = "none";
+        errorMsg.textContent = error.message.replace("Firebase:", "");
+      }
+    });
+  </script>
+</body>
+</html>

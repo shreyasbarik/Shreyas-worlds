@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz Me | Shreyas World</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="quizme.js"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro", sans-serif;
+      background-color: #f5f5f7;
+      margin: 0;
+      padding: 0;
+      color: #000;
+    }
+    header {
+      background-color: #fff;
+      padding: 1.5rem;
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 700;
+      border-bottom: 1px solid #ddd;
+    }
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+    .selector {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    select, button {
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      margin: 0.5rem;
+      border-radius: 12px;
+      border: none;
+      background-color: #0071e3;
+      color: white;
+      cursor: pointer;
+    }
+    .quiz-box {
+      display: none;
+      background: #fff;
+      border-radius: 18px;
+      padding: 2rem;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    }
+    .question {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    .options button {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin: 0.5rem 0;
+      background: #eee;
+      color: #000;
+      transition: all 0.3s ease;
+    }
+    .options button:hover {
+      background-color: #ccc;
+    }
+    .options button.correct {
+      background-color: #4caf50;
+      color: white;
+    }
+    .options button.wrong {
+      background-color: #f44336;
+      color: white;
+    }
+    .timer {
+      text-align: right;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+    .result-box {
+      display: none;
+      text-align: center;
+      background: #fff;
+      border-radius: 18px;
+      padding: 2rem;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+      margin-top: 2rem;
+    }
+    .score {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+    .message {
+      font-size: 1.1rem;
+      color: #0071e3;
+    }
+  </style>
+</head>
+<body>
+  <header>🎓 Quiz Me</header>
+  <div class="container">
+    <div class="selector">
+      <select id="subjectSelect">
+        <option value="">Select Quiz</option>
+        <option value="Physics-1">Physics Quiz 1</option>
+        <option value="Physics-2">Physics Quiz 2</option>
+        <option value="Chemistry-1">Chemistry Quiz 1</option>
+        <option value="Chemistry-2">Chemistry Quiz 2</option>
+        <option value="Biology-1">Biology Quiz 1</option>
+      </select>
+      <button onclick="startQuiz()">Start Quiz</button>
+    </div>
+
+    <div class="quiz-box" id="quizBox">
+      <div class="timer" id="timer">Time: 60s</div>
+      <div class="question" id="questionText">Question text</div>
+      <div class="options" id="optionButtons"></div>
+    </div>
+
+    <div class="result-box" id="resultBox">
+      <div class="score" id="finalScore">You scored 0/15</div>
+      <div class="message">🚀 Keep going! You're improving every time!</div>
+    </div>
+  </div>
+</body>
+</html>
