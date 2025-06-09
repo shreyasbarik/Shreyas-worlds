@@ -1,63 +1,35 @@
-// script.js
 
-// Mobile menu toggle
-const menuIcon = document.querySelector('.menu-icon');
-const mobileMenu = document.querySelector('.mobile-menu');
-const closeMenu = document.querySelector('.close-menu');
+document.addEventListener("DOMContentLoaded", () => {
+  const hamburger = document.getElementById("hamburger");
+  const mobileMenu = document.getElementById("mobileMenu");
+  const closeMenu = document.getElementById("closeMenu");
 
-menuIcon.addEventListener('click', () => {
-  mobileMenu.classList.add('active');
-});
-
-closeMenu.addEventListener('click', () => {
-  mobileMenu.classList.remove('active');
-});
-
-document.addEventListener('click', (e) => {
-  if (!mobileMenu.contains(e.target) && !menuIcon.contains(e.target)) {
-    mobileMenu.classList.remove('active');
-  }
-});
-
-// Slideshow logic
-const slides = document.querySelectorAll('.slide');
-const dots = document.querySelectorAll('.dot');
-let currentSlide = 0;
-let slideInterval = setInterval(nextSlide, 5000);
-
-function showSlide(index) {
-  slides.forEach((slide, i) => {
-    slide.classList.toggle('active', i === index);
-    dots[i].classList.toggle('active', i === index);
+  // Open mobile menu
+  hamburger.addEventListener("click", () => {
+    mobileMenu.classList.add("active");
   });
-  currentSlide = index;
-}
 
-function nextSlide() {
-  let next = (currentSlide + 1) % slides.length;
-  showSlide(next);
-}
-
-dots.forEach((dot, index) => {
-  dot.addEventListener('click', () => {
-    clearInterval(slideInterval);
-    showSlide(index);
-    slideInterval = setInterval(nextSlide, 5000);
+  // Close mobile menu
+  closeMenu.addEventListener("click", () => {
+    mobileMenu.classList.remove("active");
   });
-});
 
-// Scroll-based fade-in animation
-const faders = document.querySelectorAll('.fade-in');
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('appear');
+  // Close on outside click
+  document.addEventListener("click", (e) => {
+    if (!mobileMenu.contains(e.target) && !hamburger.contains(e.target)) {
+      mobileMenu.classList.remove("active");
     }
   });
-}, {
-  threshold: 0.2
-});
 
-faders.forEach(fader => {
-  observer.observe(fader);
+  // GSAP Parallax Scroll Animation
+  gsap.to("#parallaxBg", {
+    yPercent: 20,
+    ease: "none",
+    scrollTrigger: {
+      trigger: ".parallax-container",
+      start: "top top",
+      end: "bottom top",
+      scrub: true
+    }
+  });
 });
