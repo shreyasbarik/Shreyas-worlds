@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>IgniteStream Videos | Shreyas World</title>
+  <title>IgniteStream | Shreyas World</title>
   <link rel="stylesheet" href="style.css" />
   <style>
     body {
@@ -12,14 +12,13 @@
       margin: 0;
       padding: 0 1rem 4rem;
       color: #000;
-      min-height: 100vh;
     }
 
     header {
       padding: 1rem 0;
       text-align: center;
-      font-weight: 600;
-      font-size: 1.8rem;
+      font-weight: 700;
+      font-size: 2rem;
       border-bottom: 1px solid #ddd;
       background: #fff;
       position: sticky;
@@ -27,34 +26,35 @@
       z-index: 100;
     }
 
-    .video-container {
-      max-width: 720px;
+    .video-section {
+      max-width: 700px;
       margin: 2rem auto;
       background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
       padding: 1rem 1.5rem 2rem;
     }
 
     video {
       width: 100%;
-      border-radius: 12px;
+      border-radius: 14px;
       background: #000;
       outline: none;
     }
 
     .description {
-      margin-top: 0.8rem;
-      font-size: 1rem;
+      margin-top: 1rem;
+      font-size: 1.1rem;
       font-weight: 500;
-      color: #333;
-      user-select: none;
+      line-height: 1.6;
+      color: #444;
+      text-align: center;
     }
 
     .emoji-reactions {
       margin-top: 1rem;
       display: flex;
-      gap: 2rem;
+      gap: 1.5rem;
       justify-content: center;
     }
 
@@ -62,56 +62,15 @@
       font-size: 2rem;
       cursor: pointer;
       user-select: none;
-      transition: transform 0.15s ease, color 0.25s ease;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      color: #666;
-      border-radius: 12px;
-      padding: 0.3rem 0.8rem;
-      box-shadow: 0 0 5px transparent;
-      user-select: none;
-    }
-    .emoji-btn:hover {
-      color: #0071e3;
-      transform: scale(1.2);
-      box-shadow: 0 0 12px #0071e3;
+      transition: transform 0.3s ease;
     }
 
-    .emoji-btn.active {
-      color: #0071e3;
-      font-weight: 700;
+    .emoji-btn:active {
       transform: scale(1.3);
-      box-shadow: 0 0 15px #0071e3;
     }
 
-    .reaction-count {
-      font-size: 1.1rem;
-      user-select: none;
-      color: #222;
-    }
-
-    /* Loader */
-    .loader {
-      border: 4px solid #f3f3f3;
-      border-top: 4px solid #0071e3;
-      border-radius: 50%;
-      width: 24px;
-      height: 24px;
-      animation: spin 1s linear infinite;
-      margin: auto;
-      margin-top: 1rem;
-      display: none;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    /* Responsive */
-    @media (max-width: 480px) {
-      .video-container {
+    @media (max-width: 500px) {
+      .video-section {
         margin: 1rem 0.5rem;
         padding: 1rem;
       }
@@ -119,228 +78,56 @@
   </style>
 </head>
 <body>
-  <header>IgniteStream Videos 🔥</header>
+  <header>IgniteStream 🔥</header>
 
-  <main id="videos-list">
-    <!-- Video cards will be inserted here dynamically -->
+  <main>
+    <section class="video-section">
+      <video controls muted playsinline src="IgniteStream videos/video1.mp4"></video>
+      <div class="description">
+        "Every spark starts with a thought. Ignite yours today."
+      </div>
+      <div class="emoji-reactions">
+        <div class="emoji-btn">👍</div>
+        <div class="emoji-btn">👎</div>
+        <div class="emoji-btn">❤️</div>
+      </div>
+    </section>
+
+    <section class="video-section">
+      <video controls muted playsinline src="IgniteStream videos/video2.mp4"></video>
+      <div class="description">
+        "Push boundaries. Light your passion."
+      </div>
+      <div class="emoji-reactions">
+        <div class="emoji-btn">👍</div>
+        <div class="emoji-btn">👎</div>
+        <div class="emoji-btn">❤️</div>
+      </div>
+    </section>
+
+    <section class="video-section">
+      <video controls muted playsinline src="IgniteStream videos/video3.mp4"></video>
+      <div class="description">
+        "Consistency is fire. Feed it daily."
+      </div>
+      <div class="emoji-reactions">
+        <div class="emoji-btn">👍</div>
+        <div class="emoji-btn">👎</div>
+        <div class="emoji-btn">❤️</div>
+      </div>
+    </section>
+
+    <section class="video-section">
+      <video controls muted playsinline src="IgniteStream videos/video4.mp4"></video>
+      <div class="description">
+        "Burn with curiosity. Shine with confidence."
+      </div>
+      <div class="emoji-reactions">
+        <div class="emoji-btn">👍</div>
+        <div class="emoji-btn">👎</div>
+        <div class="emoji-btn">❤️</div>
+      </div>
+    </section>
   </main>
-
-  <script type="module">
-    import { auth, db } from './firebase-config.js';
-    import {
-      collection,
-      doc,
-      getDoc,
-      getDocs,
-      setDoc,
-      updateDoc,
-      query,
-      where,
-      onSnapshot,
-      serverTimestamp,
-    } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
-
-    import {
-      onAuthStateChanged
-    } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
-
-    // Videos data - matching files inside "IgniteStream videos" folder
-    const videos = [
-      { id: 'video1', file: 'IgniteStream videos/video1.mp4', desc: "Ignite your passion with this amazing video 1." },
-      { id: 'video2', file: 'IgniteStream videos/video2.mp4', desc: "Explore new ideas in video 2 of IgniteStream." },
-      { id: 'video3', file: 'IgniteStream videos/video3.mp4', desc: "Dive deep with IgniteStream video 3 insights." },
-      { id: 'video4', file: 'IgniteStream videos/video4.mp4', desc: "End your journey with the inspiring video 4." },
-    ];
-
-    const videosList = document.getElementById('videos-list');
-    let currentUser = null;
-    let userReactions = {}; // { videoId: reactionType }
-
-    // Render video cards
-    function renderVideos() {
-      videosList.innerHTML = '';
-      videos.forEach(({id, file, desc}) => {
-        const container = document.createElement('section');
-        container.className = 'video-container';
-        container.id = `container-${id}`;
-        container.innerHTML = `
-          <video controls muted playsinline preload="metadata" src="${file}" type="video/mp4"></video>
-          <p class="description">${desc}</p>
-          <div class="emoji-reactions">
-            <button aria-label="Like" class="emoji-btn" data-video-id="${id}" data-reaction="like">👍 <span class="reaction-count" id="${id}-like-count">0</span></button>
-            <button aria-label="Dislike" class="emoji-btn" data-video-id="${id}" data-reaction="dislike">👎 <span class="reaction-count" id="${id}-dislike-count">0</span></button>
-            <button aria-label="Heart" class="emoji-btn" data-video-id="${id}" data-reaction="heart">❤️ <span class="reaction-count" id="${id}-heart-count">0</span></button>
-          </div>
-          <div class="loader" id="loader-${id}"></div>
-        `;
-        videosList.appendChild(container);
-      });
-    }
-
-    // Update reaction counts for a video
-    async function updateReactionCounts(videoId) {
-      const docRef = doc(db, "videos", videoId);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        document.getElementById(`${videoId}-like-count`).textContent = data.likes || 0;
-        document.getElementById(`${videoId}-dislike-count`).textContent = data.dislikes || 0;
-        document.getElementById(`${videoId}-heart-count`).textContent = data.hearts || 0;
-      } else {
-        // Initialize counts if not present
-        await setDoc(doc(db, "videos", videoId), {
-          likes: 0,
-          dislikes: 0,
-          hearts: 0,
-          createdAt: serverTimestamp()
-        });
-        document.getElementById(`${videoId}-like-count`).textContent = 0;
-        document.getElementById(`${videoId}-dislike-count`).textContent = 0;
-        document.getElementById(`${videoId}-heart-count`).textContent = 0;
-      }
-    }
-
-    // Listen for realtime updates on reaction counts
-    function listenToReactions(videoId) {
-      const docRef = doc(db, "videos", videoId);
-      return onSnapshot(docRef, (docSnap) => {
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          document.getElementById(`${videoId}-like-count`).textContent = data.likes || 0;
-          document.getElementById(`${videoId}-dislike-count`).textContent = data.dislikes || 0;
-          document.getElementById(`${videoId}-heart-count`).textContent = data.hearts || 0;
-        }
-      });
-    }
-
-    // Load user's previous reactions to highlight buttons
-    async function loadUserReactions(uid) {
-      userReactions = {};
-      for (const {id} of videos) {
-        const userReactionDoc = doc(db, "videos", id, "userReactions", uid);
-        const userSnap = await getDoc(userReactionDoc);
-        if (userSnap.exists()) {
-          userReactions[id] = userSnap.data().reaction;
-        }
-      }
-      updateActiveButtons();
-    }
-
-    // Update buttons style based on user reactions
-    function updateActiveButtons() {
-      document.querySelectorAll('.emoji-btn').forEach(btn => {
-        const vid = btn.dataset.videoId;
-        const reaction = btn.dataset.reaction;
-        if (userReactions[vid] === reaction) {
-          btn.classList.add('active');
-        } else {
-          btn.classList.remove('active');
-        }
-      });
-    }
-
-    // Handle reaction click
-    async function handleReactionClick(e) {
-      if (!currentUser) {
-        alert("Please log in to react.");
-        return;
-      }
-
-      const btn = e.currentTarget;
-      const videoId = btn.dataset.videoId;
-      const reaction = btn.dataset.reaction;
-      const currentReaction = userReactions[videoId];
-
-      // Show loader for this video
-      const loader = document.getElementById(`loader-${videoId}`);
-      loader.style.display = "inline-block";
-
-      const videoDocRef = doc(db, "videos", videoId);
-      const userReactionDocRef = doc(db, "videos", videoId, "userReactions", currentUser.uid);
-
-      try {
-        // Start transaction to update reaction counts safely
-        // For simplicity, just get doc then update counts accordingly
-
-        // Fetch current counts
-        const videoSnap = await getDoc(videoDocRef);
-        if (!videoSnap.exists()) {
-          await setDoc(videoDocRef, {
-            likes: 0,
-            dislikes: 0,
-            hearts: 0,
-            createdAt: serverTimestamp()
-          });
-        }
-        const counts = (await getDoc(videoDocRef)).data();
-
-        // Adjust counts according to old & new reaction
-        let likes = counts.likes || 0;
-        let dislikes = counts.dislikes || 0;
-        let hearts = counts.hearts || 0;
-
-        // If clicking same reaction again, toggle off
-        if (currentReaction === reaction) {
-          // Remove reaction
-          if (reaction === "like") likes = Math.max(0, likes - 1);
-          else if (reaction === "dislike") dislikes = Math.max(0, dislikes - 1);
-          else if (reaction === "heart") hearts = Math.max(0, hearts - 1);
-          await updateDoc(videoDocRef, { likes, dislikes, hearts });
-          await setDoc(userReactionDocRef, { reaction: null }, { merge: true });
-          userReactions[videoId] = null;
-        } else {
-          // New or changed reaction
-          // Decrement old reaction count if any
-          if (currentReaction === "like") likes = Math.max(0, likes - 1);
-          else if (currentReaction === "dislike") dislikes = Math.max(0, dislikes - 1);
-          else if (currentReaction === "heart") hearts = Math.max(0, hearts - 1);
-
-          // Increment new reaction count
-          if (reaction === "like") likes++;
-          else if (reaction === "dislike") dislikes++;
-          else if (reaction === "heart") hearts++;
-
-          await updateDoc(videoDocRef, { likes, dislikes, hearts });
-          await setDoc(userReactionDocRef, { reaction }, { merge: true });
-          userReactions[videoId] = reaction;
-        }
-
-        updateActiveButtons();
-      } catch (err) {
-        console.error("Error updating reaction:", err);
-        alert("Error updating reaction, try again.");
-      } finally {
-        loader.style.display = "none";
-      }
-    }
-
-    // Initialize
-    function init() {
-      renderVideos();
-
-      // Setup listeners for realtime updates
-      videos.forEach(({id}) => listenToReactions(id));
-
-      // Add event listeners on emoji buttons
-      document.addEventListener('click', (e) => {
-        if (e.target.matches('.emoji-btn')) {
-          handleReactionClick(e);
-        }
-      });
-
-      // Firebase Auth listener
-      onAuthStateChanged(auth, async (user) => {
-        currentUser = user;
-        if (user) {
-          await loadUserReactions(user.uid);
-        } else {
-          userReactions = {};
-          updateActiveButtons();
-        }
-      });
-    }
-
-    window.onload = init;
-  </script>
 </body>
 </html>

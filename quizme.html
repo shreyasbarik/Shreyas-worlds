@@ -3,124 +3,89 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quiz Me | Shreyas World</title>
+  <title>Quize Me - Shreyas World</title>
   <link rel="stylesheet" href="style.css" />
+  <script defer src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
   <script defer src="quizme.js"></script>
   <style>
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro", sans-serif;
-      background-color: #f5f5f7;
       margin: 0;
-      padding: 0;
+      font-family: 'SF Pro Display', sans-serif;
+      background: #f9f9f9;
       color: #000;
-    }
-    header {
-      background-color: #fff;
-      padding: 1.5rem;
-      text-align: center;
-      font-size: 2rem;
-      font-weight: 700;
-      border-bottom: 1px solid #ddd;
     }
     .container {
-      max-width: 800px;
-      margin: 2rem auto;
-      padding: 1rem;
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     }
-    .selector {
-      text-align: center;
-      margin-bottom: 1.5rem;
-    }
-    select, button {
-      padding: 0.75rem 1rem;
-      font-size: 1rem;
-      margin: 0.5rem;
-      border-radius: 12px;
-      border: none;
-      background-color: #0071e3;
-      color: white;
-      cursor: pointer;
-    }
-    .quiz-box {
+    .question-box, .result-box, .quiz-selector {
       display: none;
-      background: #fff;
-      border-radius: 18px;
-      padding: 2rem;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
     }
-    .question {
-      font-size: 1.2rem;
-      margin-bottom: 1rem;
-    }
-    .options button {
+    .active {
       display: block;
-      width: 100%;
-      text-align: left;
-      margin: 0.5rem 0;
-      background: #eee;
-      color: #000;
-      transition: all 0.3s ease;
+      animation: fadeIn 0.5s ease;
     }
-    .options button:hover {
-      background-color: #ccc;
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(10px);}
+      to {opacity: 1; transform: translateY(0);}
     }
-    .options button.correct {
-      background-color: #4caf50;
-      color: white;
+    .option {
+      padding: 10px;
+      margin: 10px 0;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
     }
-    .options button.wrong {
-      background-color: #f44336;
-      color: white;
+    .option:hover {
+      background: #efefef;
     }
-    .timer {
-      text-align: right;
-      font-size: 1rem;
-      margin-bottom: 1rem;
-    }
-    .result-box {
-      display: none;
+    .option.correct { border-color: green; background: #eaffea; }
+    .option.wrong { border-color: red; background: #ffeaea; }
+    .timer { font-size: 20px; text-align: right; }
+    .btn { background: black; color: white; padding: 10px 20px; border: none; border-radius: 10px; cursor: pointer; }
+    .score-card {
+      font-size: 24px;
       text-align: center;
-      background: #fff;
-      border-radius: 18px;
-      padding: 2rem;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-      margin-top: 2rem;
+      margin-top: 20px;
     }
-    .score {
-      font-size: 1.5rem;
-      font-weight: bold;
-      margin-bottom: 1rem;
-    }
-    .message {
-      font-size: 1.1rem;
-      color: #0071e3;
+    .motivation {
+      font-style: italic;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
-  <header>🎓 Quiz Me</header>
   <div class="container">
-    <div class="selector">
-      <select id="subjectSelect">
-        <option value="">Select Quiz</option>
-        <option value="Physics-1">Physics Quiz 1</option>
-        <option value="Physics-2">Physics Quiz 2</option>
-        <option value="Chemistry-1">Chemistry Quiz 1</option>
-        <option value="Chemistry-2">Chemistry Quiz 2</option>
-        <option value="Biology-1">Biology Quiz 1</option>
+    <div class="quiz-selector active">
+      <h2>🎯 Choose a Quiz</h2>
+      <select id="quiz-select">
+        <option value="">-- Select Quiz --</option>
+        <option value="physics1">Physics Quiz 1</option>
+        <option value="physics2">Physics Quiz 2</option>
+        <option value="chemistry1">Chemistry Quiz 1</option>
+        <option value="chemistry2">Chemistry Quiz 2</option>
+        <option value="biology1">Biology Quiz 1</option>
       </select>
-      <button onclick="startQuiz()">Start Quiz</button>
+      <br><br>
+      <button class="btn" onclick="startQuiz()">Start Quiz</button>
     </div>
 
-    <div class="quiz-box" id="quizBox">
-      <div class="timer" id="timer">Time: 60s</div>
-      <div class="question" id="questionText">Question text</div>
-      <div class="options" id="optionButtons"></div>
+    <div class="question-box">
+      <div class="timer" id="timer">60</div>
+      <h3 id="question"></h3>
+      <div id="options"></div>
     </div>
 
-    <div class="result-box" id="resultBox">
-      <div class="score" id="finalScore">You scored 0/15</div>
-      <div class="message">🚀 Keep going! You're improving every time!</div>
+    <div class="result-box">
+      <div class="score-card" id="score"></div>
+      <div class="motivation" id="message"></div>
+      <button class="btn" onclick="location.reload()">🔁 Take Another Quiz</button>
     </div>
   </div>
 </body>
