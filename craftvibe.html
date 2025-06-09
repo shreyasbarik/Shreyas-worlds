@@ -1,76 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CraftVibe - Shreyas World</title>
-  <link rel="stylesheet" href="style.css">
-  <script type="module" src="firebase-config.js" defer></script>
-  <script type="module" src="script.js" defer></script>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
 </head>
-<body>
+<body class="page-body">
   <header class="header">
     <div class="logo">Shreyas World</div>
-    <nav class="desktop-nav">
+    <nav class="nav">
       <a href="index.html">Home</a>
       <a href="signup.html">Sign Up</a>
       <a href="login.html">Login</a>
     </nav>
-    <div class="menu-icon">☰</div>
   </header>
 
-  <div class="mobile-menu">
-    <div class="close-menu">×</div>
-    <ul>
-      <li><a href="craftvibe.html">CraftVibe</a></li>
-      <li><a href="ignitestream.html">IgniteStream</a></li>
-      <li><a href="examquote.html">Exam Quote</a></li>
-      <li><a href="chakragallery.html">Chakra Gallery</a></li>
-      <li><a href="healthyquite.html">Healthy Quite</a></li>
-      <li><a href="quitestrange.html">Quite Strange</a></li>
-      <li><a href="musicmentor.html">Music Mentor</a></li>
-      <li><a href="childishhub.html">Childish Hub</a></li>
-      <li><a href="experimentsize.html">Experiment Size</a></li>
-      <li><a href="quizme.html">Quize Me</a></li>
-      <li><a href="funcube.html">Fun Cube</a></li>
-    </ul>
-  </div>
+  <main class="content">
+    <h1 class="section-title">CraftVibe 🎨</h1>
 
-  <main class="video-page fade-in">
-    <h1 class="page-title">🎨 CraftVibe</h1>
-    <div class="video-grid">
+    <section class="video-section">
       <div class="video-card">
-        <video src="CraftVibe video/Skills1.mp4" controls muted loop></video>
-        <p class="video-desc">Unleash your creativity through skillful hands.</p>
-        <div class="emoji-bar" data-video-id="skills1">
+        <video src="CraftVibe video/video1.mp4" controls muted loop class="video"></video>
+        <p class="description">“Creativity takes courage.” – Henri Matisse</p>
+        <div class="emoji-reactions" data-video-id="craft1">
           <button class="emoji-btn" data-reaction="like">👍</button>
           <button class="emoji-btn" data-reaction="dislike">👎</button>
           <button class="emoji-btn" data-reaction="heart">❤️</button>
         </div>
       </div>
+
       <div class="video-card">
-        <video src="CraftVibe video/Skills2.mp4" controls muted loop></video>
-        <p class="video-desc">Building small things with passion makes big things happen.</p>
-        <div class="emoji-bar" data-video-id="skills2">
+        <video src="CraftVibe video/video2.mp4" controls muted loop class="video"></video>
+        <p class="description">“You can’t use up creativity. The more you use, the more you have.” – Maya Angelou</p>
+        <div class="emoji-reactions" data-video-id="craft2">
           <button class="emoji-btn" data-reaction="like">👍</button>
           <button class="emoji-btn" data-reaction="dislike">👎</button>
           <button class="emoji-btn" data-reaction="heart">❤️</button>
         </div>
       </div>
+
       <div class="video-card">
-        <video src="CraftVibe video/Skills3.mp4" controls muted loop></video>
-        <p class="video-desc">Creativity is intelligence having fun.</p>
-        <div class="emoji-bar" data-video-id="skills3">
+        <video src="CraftVibe video/video3.mp4" controls muted loop class="video"></video>
+        <p class="description">“Every artist was first an amateur.” – Ralph Waldo Emerson</p>
+        <div class="emoji-reactions" data-video-id="craft3">
           <button class="emoji-btn" data-reaction="like">👍</button>
           <button class="emoji-btn" data-reaction="dislike">👎</button>
           <button class="emoji-btn" data-reaction="heart">❤️</button>
         </div>
       </div>
-    </div>
+    </section>
   </main>
 
   <footer class="footer">
-    <p>2025 Shreyas World. All Rights Reserved. For learning purposes only.</p>
+    <p>© 2025 Shreyas World. All Rights Reserved</p>
+    <p>Support: <a href="mailto:shreyascreative59@gmail.com">shreyascreative59@gmail.com</a></p>
   </footer>
 </body>
 </html>
