@@ -1,94 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CraftVibe | Shreyas World</title>
-  <link rel="stylesheet" href="style.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CraftVibe - Shreyas World</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="firebase-config.js" defer></script>
+  <script type="module" src="script.js" defer></script>
 </head>
-<body class="page-body">
-
+<body>
   <header class="header">
-    <div class="logo">🍀 Shreyas World</div>
-    <nav class="nav">
+    <div class="logo">Shreyas World</div>
+    <nav class="desktop-nav">
       <a href="index.html">Home</a>
-      <a href="login.html">Login</a>
       <a href="signup.html">Sign Up</a>
+      <a href="login.html">Login</a>
     </nav>
+    <div class="menu-icon">☰</div>
   </header>
 
-  <main class="video-section">
-    <h1 class="section-title">🎨 CraftVibe</h1>
-    <p class="section-subtitle">Skill-building & creativity videos to inspire you!</p>
+  <div class="mobile-menu">
+    <div class="close-menu">×</div>
+    <ul>
+      <li><a href="craftvibe.html">CraftVibe</a></li>
+      <li><a href="ignitestream.html">IgniteStream</a></li>
+      <li><a href="examquote.html">Exam Quote</a></li>
+      <li><a href="chakragallery.html">Chakra Gallery</a></li>
+      <li><a href="healthyquite.html">Healthy Quite</a></li>
+      <li><a href="quitestrange.html">Quite Strange</a></li>
+      <li><a href="musicmentor.html">Music Mentor</a></li>
+      <li><a href="childishhub.html">Childish Hub</a></li>
+      <li><a href="experimentsize.html">Experiment Size</a></li>
+      <li><a href="quizme.html">Quize Me</a></li>
+      <li><a href="funcube.html">Fun Cube</a></li>
+    </ul>
+  </div>
 
-    <!-- Video 1 -->
-    <div class="video-card">
-      <video src="CraftVibe video/Skills1.mp4" controls muted autoplay loop></video>
-      <p class="video-quote">"Create something today—even if it sucks."</p>
-      <div class="emoji-bar" data-video-id="skills1">
-        <span class="emoji-btn" data-type="like">👍</span>
-        <span class="emoji-btn" data-type="dislike">👎</span>
-        <span class="emoji-btn" data-type="heart">❤️</span>
+  <main class="video-page fade-in">
+    <h1 class="page-title">🎨 CraftVibe</h1>
+    <div class="video-grid">
+      <div class="video-card">
+        <video src="CraftVibe video/Skills1.mp4" controls muted loop></video>
+        <p class="video-desc">Unleash your creativity through skillful hands.</p>
+        <div class="emoji-bar" data-video-id="skills1">
+          <button class="emoji-btn" data-reaction="like">👍</button>
+          <button class="emoji-btn" data-reaction="dislike">👎</button>
+          <button class="emoji-btn" data-reaction="heart">❤️</button>
+        </div>
       </div>
-    </div>
-
-    <!-- Video 2 -->
-    <div class="video-card">
-      <video src="CraftVibe video/Skills2.mp4" controls muted autoplay loop></video>
-      <p class="video-quote">"Great skills are forged in calm and sharpened in chaos."</p>
-      <div class="emoji-bar" data-video-id="skills2">
-        <span class="emoji-btn" data-type="like">👍</span>
-        <span class="emoji-btn" data-type="dislike">👎</span>
-        <span class="emoji-btn" data-type="heart">❤️</span>
+      <div class="video-card">
+        <video src="CraftVibe video/Skills2.mp4" controls muted loop></video>
+        <p class="video-desc">Building small things with passion makes big things happen.</p>
+        <div class="emoji-bar" data-video-id="skills2">
+          <button class="emoji-btn" data-reaction="like">👍</button>
+          <button class="emoji-btn" data-reaction="dislike">👎</button>
+          <button class="emoji-btn" data-reaction="heart">❤️</button>
+        </div>
       </div>
-    </div>
-
-    <!-- Video 3 -->
-    <div class="video-card">
-      <video src="CraftVibe video/Skills3.mp4" controls muted autoplay loop></video>
-      <p class="video-quote">"Let your hands speak louder than your words."</p>
-      <div class="emoji-bar" data-video-id="skills3">
-        <span class="emoji-btn" data-type="like">👍</span>
-        <span class="emoji-btn" data-type="dislike">👎</span>
-        <span class="emoji-btn" data-type="heart">❤️</span>
+      <div class="video-card">
+        <video src="CraftVibe video/Skills3.mp4" controls muted loop></video>
+        <p class="video-desc">Creativity is intelligence having fun.</p>
+        <div class="emoji-bar" data-video-id="skills3">
+          <button class="emoji-btn" data-reaction="like">👍</button>
+          <button class="emoji-btn" data-reaction="dislike">👎</button>
+          <button class="emoji-btn" data-reaction="heart">❤️</button>
+        </div>
       </div>
     </div>
   </main>
 
   <footer class="footer">
-    <p>© 2025 Shreyas World. All Rights Reserved. | 🍎 Designed like Apple | Email: <a href="mailto:shreyascreative59@gmil.com">shreyascreative59@gmil.com</a></p>
+    <p>2025 Shreyas World. All Rights Reserved. For learning purposes only.</p>
   </footer>
-
-  <script type="module">
-    import { auth, db } from './firebase-config.js';
-    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-    import { doc, setDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
-
-    const emojiBars = document.querySelectorAll('.emoji-bar');
-
-    emojiBars.forEach(bar => {
-      const videoId = bar.getAttribute('data-video-id');
-      const emojis = bar.querySelectorAll('.emoji-btn');
-
-      emojis.forEach(btn => {
-        btn.addEventListener('click', async () => {
-          const type = btn.getAttribute('data-type');
-
-          onAuthStateChanged(auth, async (user) => {
-            if (user) {
-              const uid = user.uid;
-              const docRef = doc(db, `videos/${videoId}/reactions`, uid);
-              await setDoc(docRef, { [type]: true }, { merge: true });
-              btn.classList.add('clicked');
-              alert(`✅ You reacted with ${type}!`);
-            } else {
-              alert("🔒 Login required to react.");
-            }
-          });
-        });
-      });
-    });
-  </script>
-
 </body>
 </html>

@@ -1,237 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>QuizMe | Shreyas World</title>
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    body {
-      font-family: 'SF Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-      background: #f5f5f7;
-      margin: 0;
-      padding: 2rem;
-      color: #000;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #fff;
-      padding: 1rem 2rem;
-      box-shadow: 0 1px 6px rgba(0,0,0,0.1);
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      user-select: none;
-    }
-
-    header .logo {
-      font-weight: 700;
-      font-size: 1.5rem;
-      color: #000;
-    }
-
-    header nav a {
-      margin-left: 1.5rem;
-      color: #000;
-      text-decoration: none;
-      font-weight: 600;
-      transition: color 0.3s ease;
-    }
-
-    header nav a:hover {
-      color: #0071e3;
-    }
-
-    main {
-      flex-grow: 1;
-      max-width: 700px;
-      margin: 2rem auto 0 auto;
-      background: white;
-      padding: 2rem;
-      border-radius: 16px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-    }
-
-    h1 {
-      font-weight: 700;
-      text-align: center;
-      margin-bottom: 1.5rem;
-    }
-
-    #quiz-selector {
-      margin-bottom: 1.5rem;
-      text-align: center;
-    }
-
-    select {
-      font-size: 1rem;
-      padding: 0.6rem 1rem;
-      border-radius: 12px;
-      border: 1px solid #ccc;
-      outline: none;
-      cursor: pointer;
-      width: 100%;
-      max-width: 300px;
-    }
-
-    #quiz-container {
-      display: none;
-      margin-top: 1rem;
-    }
-
-    #question-number {
-      font-weight: 600;
-      margin-bottom: 0.4rem;
-      font-size: 1.1rem;
-    }
-
-    #question-text {
-      font-size: 1.25rem;
-      margin-bottom: 1.2rem;
-      min-height: 80px;
-    }
-
-    .choices {
-      list-style: none;
-      padding: 0;
-      margin: 0 0 1.5rem 0;
-    }
-
-    .choices li {
-      background: #f0f0f5;
-      border-radius: 10px;
-      margin-bottom: 0.8rem;
-      padding: 0.8rem 1rem;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      user-select: none;
-    }
-
-    .choices li:hover {
-      background: #dceeff;
-    }
-
-    .choices li.selected {
-      background: #0071e3;
-      color: white;
-      pointer-events: none;
-    }
-
-    #timer {
-      font-weight: 700;
-      font-size: 1.1rem;
-      color: #0071e3;
-      margin-bottom: 1.5rem;
-      text-align: right;
-      user-select: none;
-    }
-
-    #next-btn {
-      background: #0071e3;
-      color: white;
-      border: none;
-      padding: 0.8rem 1.5rem;
-      font-weight: 700;
-      font-size: 1rem;
-      border-radius: 12px;
-      cursor: pointer;
-      float: right;
-      user-select: none;
-      transition: background-color 0.3s ease;
-      display: none;
-    }
-
-    #next-btn:hover:not(:disabled) {
-      background: #005bb5;
-    }
-
-    #next-btn:disabled {
-      background: #aac8f5;
-      cursor: not-allowed;
-    }
-
-    #result {
-      font-size: 1.3rem;
-      font-weight: 700;
-      text-align: center;
-      margin-top: 2rem;
-      user-select: none;
-    }
-
-    #restart-btn {
-      margin-top: 2rem;
-      display: block;
-      background: #0071e3;
-      color: white;
-      border: none;
-      padding: 0.8rem 1.5rem;
-      font-weight: 700;
-      font-size: 1rem;
-      border-radius: 12px;
-      cursor: pointer;
-      user-select: none;
-      margin-left: auto;
-      margin-right: auto;
-      transition: background-color 0.3s ease;
-    }
-
-    #restart-btn:hover {
-      background: #005bb5;
-    }
-
-    @media (max-width: 600px) {
-      main {
-        padding: 1rem 1rem 2rem 1rem;
-      }
-      #next-btn {
-        width: 100%;
-        float: none;
-        margin-top: 1rem;
-      }
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Shreyas World QuizMe</title>
+<style>
+  /* Apple-style clean UI */
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    margin: 0;
+    background: #f5f5f7;
+    color: #1d1d1f;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 1rem;
+  }
+  .container {
+    max-width: 600px;
+    margin: 2rem auto;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgb(0 0 0 / 0.1);
+    padding: 2rem;
+  }
+  h1 {
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  select, button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    transition: border-color 0.3s ease;
+  }
+  select:focus, button:focus {
+    outline: none;
+    border-color: #0071e3;
+  }
+  button {
+    background: #0071e3;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    user-select: none;
+  }
+  button:disabled {
+    background: #b0b0b5;
+    cursor: not-allowed;
+  }
+  .question-box {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    min-height: 4.5rem;
+  }
+  .options {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .option {
+    padding: 12px;
+    margin-bottom: 0.75rem;
+    background: #f0f0f5;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    user-select: none;
+  }
+  .option:hover {
+    background: #e5e5ff;
+  }
+  .option.selected {
+    background: #cce0ff;
+    border-color: #0071e3;
+  }
+  .option.correct {
+    background: #d1f7d1;
+    border-color: #2d9b2d;
+    color: #2d9b2d;
+  }
+  .option.wrong {
+    background: #f9d6d5;
+    border-color: #e04e4e;
+    color: #e04e4e;
+  }
+  .timer {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    text-align: right;
+    color: #0071e3;
+  }
+  .score-card {
+    text-align: center;
+    font-size: 1.3rem;
+    margin-top: 2rem;
+    color: #333;
+  }
+  .score-card .score {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #0071e3;
+    margin-bottom: 0.5rem;
+  }
+  .motivational-msg {
+    font-style: italic;
+    color: #555;
+    margin-top: 1rem;
+  }
+  .fade-in {
+    animation: fadeIn 0.5s ease forwards;
+  }
+  @keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+  }
+</style>
 </head>
 <body>
-<header>
-  <div class="logo">🍎 Shreyas World</div>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="login.html">Login</a>
-    <a href="signup.html">Sign Up</a>
-  </nav>
-</header>
+  <div class="container">
+    <h1>🧪 Shreyas World QuizMe</h1>
 
-<main>
-  <h1>QuizMe - Test Your Knowledge</h1>
-  <div id="quiz-selector">
-    <label for="quiz-select"><strong>Select a Quiz:</strong></label><br />
-    <select id="quiz-select" aria-label="Select Quiz">
-      <option value="">-- Choose a Quiz --</option>
-      <option value="quiz1">Science Quiz</option>
-      <option value="quiz2">Mathematics Quiz</option>
-      <option value="quiz3">General Knowledge Quiz</option>
+    <label for="subjectSelector">Select Subject & Quiz:</label>
+    <select id="subjectSelector">
+      <option value="" disabled selected>Choose a quiz</option>
+      <option value="physics-1">Physics Quiz 1</option>
+      <option value="physics-2">Physics Quiz 2</option>
+      <option value="chemistry-1">Chemistry Quiz 1</option>
+      <option value="chemistry-2">Chemistry Quiz 2</option>
+      <option value="biology-1">Biology Quiz 1</option>
     </select>
+
+    <button id="startBtn" disabled>Start Quiz</button>
+
+    <div id="quizArea" style="display:none;">
+      <div class="timer" id="timer">Time Left: 60s</div>
+      <div class="question-box" id="question"></div>
+      <ul class="options" id="optionsList"></ul>
+      <button id="nextBtn" disabled>Next Question</button>
+    </div>
+
+    <div id="resultArea" style="display:none;">
+      <div class="score-card">
+        <div>Your Score: <span id="score"></span>/15</div>
+        <div id="motivationalMsg" class="motivational-msg"></div>
+      </div>
+      <button id="restartBtn">Take Another Quiz</button>
+    </div>
   </div>
 
-  <div id="quiz-container" aria-live="polite" aria-atomic="true">
-    <div id="question-number"></div>
-    <div id="timer" aria-live="polite" aria-atomic="true">Time Left: 60s</div>
-    <div id="question-text"></div>
-    <ul class="choices" role="listbox" tabindex="0"></ul>
-    <button id="next-btn" disabled>Next</button>
-  </div>
-
-  <div id="result" role="region" aria-live="polite"></div>
-  <button id="restart-btn" style="display:none;">Restart Quiz</button>
-</main>
-
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 <script src="quizme.js"></script>
 </body>
 </html>

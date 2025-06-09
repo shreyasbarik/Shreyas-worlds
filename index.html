@@ -2,70 +2,62 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Shreyas World – Apple Style</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shreyas World</title>
   <link rel="stylesheet" href="style.css" />
   <script defer src="script.js"></script>
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script type="module" src="firebase-config.js"></script>
 </head>
-<body>
-
-  <!-- 🔝 Apple-Style Navbar -->
-  <header class="navbar">
-    <div class="nav-left">
-      <button id="hamburger">&#9776;</button>
-      <div id="mobileMenu" class="mobile-menu hidden">
-        <span id="closeMenu">&times;</span>
-        <ul>
-          <li><a href="craftvibe.html">CraftVibe</a></li>
-          <li><a href="ignitestream.html">IgniteStream</a></li>
-          <li><a href="examquote.html">Exam Quote</a></li>
-          <li><a href="chakragallery.html">Chakra Gallery</a></li>
-          <li><a href="healthyquite.html">Healthy Quite</a></li>
-          <li><a href="quitestrange.html">Quite Strange</a></li>
-          <li><a href="musicmentor.html">Music Mentor</a></li>
-          <li><a href="childishhub.html">Childish Hub</a></li>
-          <li><a href="experimentsize.html">Experiment Size</a></li>
-          <li><a href="quizme.html">Quize Me</a></li>
-          <li><a href="funcube.html">Fun Cube</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="nav-right">
-      <a href="index.html">Home</a>
+<body class="page-body">
+  <!-- Header -->
+  <header class="header">
+    <div class="menu-icon" id="menu-icon">☰</div>
+    <nav class="desktop-nav">
+      <a href="/">Home</a>
       <a href="signup.html">Sign Up</a>
       <a href="login.html">Login</a>
-    </div>
+    </nav>
   </header>
 
-  <!-- 🎥 Parallax Slideshow -->
-  <section class="slideshow">
-    <div class="slide video-slide active">
-      <video src="SlideShowDesign/Slide5.mp4" autoplay muted loop></video>
-    </div>
-    <div class="slide video-slide">
-      <video src="SlideShowDesign/Slide3.mp4" autoplay muted loop></video>
-    </div>
-    <div class="slide video-slide">
-      <video src="SlideShowDesign/Slide2.mp4" autoplay muted loop></video>
-    </div>
-    <div class="slide video-slide">
-      <video src="SlideShowDesign/Slide4.mp4" autoplay muted loop></video>
-    </div>
-    <div class="dots">
-      <span class="dot active-dot"></span>
-      <span class="dot"></span>
-      <span class="dot"></span>
-      <span class="dot"></span>
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobile-menu">
+    <div class="close-menu" id="close-menu">&times;</div>
+    <ul>
+      <li><a href="craftvibe.html">CraftVibe</a></li>
+      <li><a href="ignitestream.html">IgniteStream</a></li>
+      <li><a href="examquote.html">Exam Quote</a></li>
+      <li><a href="chakragallery.html">Chakra Gallery</a></li>
+      <li><a href="healthyquite.html">Healthy Quite</a></li>
+      <li><a href="quitestrange.html">Quite Strange</a></li>
+      <li><a href="musicmentor.html">Music Mentor</a></li>
+      <li><a href="childishhub.html">Childish Hub</a></li>
+      <li><a href="experimentsize.html">Experiment Size</a></li>
+      <li><a href="quizme.html">Quize Me</a></li>
+      <li><a href="funcube.html">Fun Cube</a></li>
+    </ul>
+  </div>
+
+  <!-- Hero Parallax Slideshow -->
+  <section class="slideshow-container">
+    <video class="slide" src="Slide Show Design/Slide2.mp4" autoplay loop muted></video>
+    <video class="slide" src="Slide Show Design/Slide3.mp4" autoplay loop muted></video>
+    <video class="slide" src="Slide Show Design/Slide4.mp4" autoplay loop muted></video>
+    <video class="slide" src="Slide Show Design/Slide5.mp4" autoplay loop muted></video>
+    <div class="dot-nav">
+      <span class="dot" data-slide="0"></span>
+      <span class="dot" data-slide="1"></span>
+      <span class="dot" data-slide="2"></span>
+      <span class="dot" data-slide="3"></span>
     </div>
   </section>
 
-  <!-- 📍 Footer -->
+  <!-- Footer -->
   <footer class="footer">
-    <p>📧 Support: <a href="mailto:shreyascreative59@gmil.com">shreyascreative59@gmil.com</a></p>
-    <p>💬 Discord: Shreyas World12, ShreyasWorldTeam12</p>
-    <p>© 2025 Shreyas World. All Rights Reserved</p>
-    <p><em>Connect Beyond the Screen – For learning purposes only.</em></p>
+    <p>Support: <a href="mailto:shreyascreative59@gmil.com">shreyascreative59@gmil.com</a></p>
+    <p>Discord: Shreyas World12, ShreyasWorldTeam12</p>
+    <p>&copy; 2025 Shreyas World. All Rights Reserved</p>
+    <p>For learning purposes only. No guarantees. Use responsibly.</p>
+    <p>"Connect Beyond the Screen"</p>
   </footer>
 </body>
 </html>

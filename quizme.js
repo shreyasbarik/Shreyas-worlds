@@ -1,208 +1,594 @@
-const quizSelect = document.getElementById('quiz-select');
-const quizContainer = document.getElementById('quiz-container');
-const questionNumber = document.getElementById('question-number');
-const questionText = document.getElementById('question-text');
-const choicesList = document.querySelector('.choices');
-const timerDisplay = document.getElementById('timer');
-const nextBtn = document.getElementById('next-btn');
-const resultDiv = document.getElementById('result');
-const restartBtn = document.getElementById('restart-btn');
-
-let currentQuiz = null;
-let currentQuestionIndex = 0;
-let score = 0;
-let timer = null;
-let timeLeft = 60;
-let answered = false;
-
-const quizzes = {
-  quiz1: {
-    name: "Science Quiz",
-    questions: [
-      {q: "What is the chemical symbol for water?", options: ["O2", "H2O", "CO2", "HO"], answer: 1},
-      {q: "What planet is known as the Red Planet?", options: ["Earth", "Venus", "Mars", "Jupiter"], answer: 2},
-      {q: "What gas do plants absorb from the atmosphere?", options: ["Oxygen", "Nitrogen", "Carbon Dioxide", "Hydrogen"], answer: 2},
-      {q: "What part of the cell contains DNA?", options: ["Cytoplasm", "Nucleus", "Cell Membrane", "Mitochondria"], answer: 1},
-      {q: "What force keeps us on the ground?", options: ["Magnetism", "Gravity", "Friction", "Electricity"], answer: 1},
-      {q: "What organ pumps blood through the body?", options: ["Brain", "Heart", "Lungs", "Liver"], answer: 1},
-      {q: "What is the boiling point of water?", options: ["100°C", "90°C", "80°C", "110°C"], answer: 0},
-      {q: "Which vitamin is produced when skin is exposed to sunlight?", options: ["Vitamin A", "Vitamin C", "Vitamin D", "Vitamin B12"], answer: 2},
-      {q: "What is the hardest natural substance?", options: ["Gold", "Diamond", "Iron", "Quartz"], answer: 1},
-      {q: "What gas do humans breathe in?", options: ["Oxygen", "Carbon Dioxide", "Nitrogen", "Helium"], answer: 0},
-      {q: "Which planet has rings?", options: ["Venus", "Mars", "Saturn", "Mercury"], answer: 2},
-      {q: "What do bees collect from flowers?", options: ["Nectar", "Pollen", "Water", "Leaves"], answer: 0},
-      {q: "What is the main source of energy for the Earth?", options: ["Moon", "Sun", "Stars", "Volcanoes"], answer: 1},
-      {q: "What type of energy comes from the sun?", options: ["Thermal", "Solar", "Kinetic", "Electric"], answer: 1},
-      {q: "What is the chemical formula for table salt?", options: ["NaCl", "KCl", "Na2SO4", "CaCl2"], answer: 0}
-    ]
-  },
-  quiz2: {
-    name: "Mathematics Quiz",
-    questions: [
-      {q: "What is 12 × 12?", options: ["144", "124", "134", "142"], answer: 0},
-      {q: "What is the square root of 81?", options: ["7", "8", "9", "10"], answer: 2},
-      {q: "What is 15% of 200?", options: ["25", "30", "35", "40"], answer: 1},
-      {q: "What is the next prime number after 7?", options: ["9", "10", "11", "13"], answer: 2},
-      {q: "What is 9 + 10?", options: ["18", "19", "20", "21"], answer: 1},
-      {q: "What is the value of π (pi) approximately?", options: ["3.12", "3.14", "3.15", "3.13"], answer: 1},
-      {q: "What is the perimeter of a square with side 5?", options: ["10", "15", "20", "25"], answer: 2},
-      {q: "If x + 5 = 12, what is x?", options: ["5", "6", "7", "8"], answer: 2},
-      {q: "What is 7 × 8?", options: ["54", "56", "58", "60"], answer: 1},
-      {q: "What is 100 ÷ 4?", options: ["20", "25", "30", "35"], answer: 1},
-      {q: "What is the sum of angles in a triangle?", options: ["90°", "180°", "270°", "360°"], answer: 1},
-      {q: "What is 2³?", options: ["6", "8", "10", "12"], answer: 1},
-      {q: "What is 0.5 as a fraction?", options: ["1/4", "1/3", "1/2", "2/3"], answer: 2},
-      {q: "What is the area of a rectangle with length 8 and width 3?", options: ["24", "22", "26", "30"], answer: 0},
-      {q: "What is 5 squared?", options: ["10", "20", "25", "30"], answer: 2}
-    ]
-  },
-  quiz3: {
-    name: "General Knowledge Quiz",
-    questions: [
-      {q: "What is the capital of India?", options: ["Mumbai", "New Delhi", "Kolkata", "Chennai"], answer: 1},
-      {q: "Who wrote 'Harry Potter'?", options: ["J.K. Rowling", "Tolkien", "C.S. Lewis", "Roald Dahl"], answer: 0},
-      {q: "Which ocean is the largest?", options: ["Atlantic", "Indian", "Pacific", "Arctic"], answer: 2},
-      {q: "What is the tallest mountain in the world?", options: ["K2", "Everest", "Kangchenjunga", "Lhotse"], answer: 1},
-      {q: "Who was the first President of the USA?", options: ["Abraham Lincoln", "George Washington", "Thomas Jefferson", "John Adams"], answer: 1},
-      {q: "Which country is known as the Land of the Rising Sun?", options: ["China", "South Korea", "Japan", "Thailand"], answer: 2},
-      {q: "What is the smallest continent?", options: ["Europe", "Australia", "Antarctica", "South America"], answer: 1},
-      {q: "Who discovered gravity?", options: ["Einstein", "Newton", "Galileo", "Tesla"], answer: 1},
-      {q: "Which language is primarily spoken in Brazil?", options: ["Spanish", "Portuguese", "French", "English"], answer: 1},
-      {q: "What is the main ingredient in sushi?", options: ["Chicken", "Fish", "Beef", "Pork"], answer: 1},
-      {q: "How many continents are there?", options: ["5", "6", "7", "8"], answer: 2},
-      {q: "Which planet is closest to the sun?", options: ["Earth", "Mercury", "Venus", "Mars"], answer: 1},
-      {q: "What color do you get by mixing red and white?", options: ["Pink", "Purple", "Orange", "Brown"], answer: 0},
-      {q: "What is the currency of Japan?", options: ["Yen", "Won", "Dollar", "Euro"], answer: 0},
-      {q: "Which animal is known as the King of the Jungle?", options: ["Tiger", "Elephant", "Lion", "Cheetah"], answer: 2}
-    ]
-  }
+// Firebase config - replace with your config if different
+const firebaseConfig = {
+  apiKey: "AIzaSyBYEol3wDIUihPTLaM1EjqVkpvjvJ-1_O4",
+  authDomain: "my-website-backend-957db.firebaseapp.com",
+  projectId: "my-website-backend-957db",
+  storageBucket: "my-website-backend-957db.appspot.com",
+  messagingSenderId: "75667291929",
+  appId: "1:75667291929:web:10878882c9c30574144f88",
+  measurementId: "G-8H93W7QZGT"
 };
 
-function shuffleArray(arr) {
-  // Fisher-Yates shuffle
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-}
+// Initialize Firebase Firestore
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
-function startQuiz(quizKey) {
-  if (!quizzes[quizKey]) return;
-  currentQuiz = quizzes[quizKey];
+const quizzes = {
+  "physics-1": [
+    {
+      question: "What is the unit of force?",
+      options: ["Newton", "Joule", "Watt", "Pascal"],
+      answer: 0,
+    },
+    {
+      question: "Which law explains inertia?",
+      options: ["Newton's First Law", "Newton's Second Law", "Newton's Third Law", "Law of Gravitation"],
+      answer: 0,
+    },
+    {
+      question: "Speed of light is approximately?",
+      options: ["3 x 10^8 m/s", "3 x 10^6 m/s", "3 x 10^4 m/s", "3 x 10^3 m/s"],
+      answer: 0,
+    },
+    {
+      question: "Which device measures electric current?",
+      options: ["Voltmeter", "Ammeter", "Ohmmeter", "Galvanometer"],
+      answer: 1,
+    },
+    {
+      question: "Energy is measured in?",
+      options: ["Joule", "Watt", "Newton", "Pascal"],
+      answer: 0,
+    },
+    {
+      question: "The acceleration due to gravity on earth is?",
+      options: ["9.8 m/s²", "10 m/s²", "8.9 m/s²", "9.2 m/s²"],
+      answer: 0,
+    },
+    {
+      question: "The formula for kinetic energy is?",
+      options: ["1/2 mv²", "mv", "mgh", "F = ma"],
+      answer: 0,
+    },
+    {
+      question: "Which of the following is scalar quantity?",
+      options: ["Velocity", "Acceleration", "Speed", "Force"],
+      answer: 2,
+    },
+    {
+      question: "A device that converts chemical energy into electrical energy is?",
+      options: ["Generator", "Battery", "Transformer", "Motor"],
+      answer: 1,
+    },
+    {
+      question: "Unit of pressure is?",
+      options: ["Pascal", "Newton", "Joule", "Watt"],
+      answer: 0,
+    },
+    {
+      question: "Light year is a unit of?",
+      options: ["Time", "Speed", "Distance", "Energy"],
+      answer: 2,
+    },
+    {
+      question: "Which law explains action and reaction?",
+      options: ["Newton's First Law", "Newton's Second Law", "Newton's Third Law", "Law of Gravitation"],
+      answer: 2,
+    },
+    {
+      question: "The speed of sound in air is approx?",
+      options: ["340 m/s", "300 m/s", "150 m/s", "1000 m/s"],
+      answer: 0,
+    },
+    {
+      question: "Which is a vector quantity?",
+      options: ["Distance", "Speed", "Velocity", "Time"],
+      answer: 2,
+    },
+    {
+      question: "An object thrown upwards will come down due to?",
+      options: ["Friction", "Gravity", "Magnetism", "Air resistance"],
+      answer: 1,
+    },
+  ],
+
+  "physics-2": [
+    {
+      question: "What is the formula for work done?",
+      options: ["Force x Distance", "Mass x Velocity", "Force / Distance", "Mass / Velocity"],
+      answer: 0,
+    },
+    {
+      question: "The SI unit of power is?",
+      options: ["Watt", "Newton", "Joule", "Pascal"],
+      answer: 0,
+    },
+    {
+      question: "Which one is renewable energy source?",
+      options: ["Coal", "Petroleum", "Solar", "Natural gas"],
+      answer: 2,
+    },
+    {
+      question: "The device used to measure temperature is?",
+      options: ["Thermometer", "Barometer", "Hygrometer", "Speedometer"],
+      answer: 0,
+    },
+    {
+      question: "Speed is defined as?",
+      options: ["Distance/Time", "Displacement/Time", "Force/Time", "Mass/Time"],
+      answer: 0,
+    },
+    {
+      question: "Energy cannot be created or destroyed is which law?",
+      options: ["Law of Conservation of Energy", "Newton's First Law", "Law of Thermodynamics", "Law of Motion"],
+      answer: 0,
+    },
+    {
+      question: "Which one is a conductor?",
+      options: ["Copper", "Rubber", "Glass", "Plastic"],
+      answer: 0,
+    },
+    {
+      question: "Which is the fastest planet?",
+      options: ["Earth", "Mercury", "Venus", "Mars"],
+      answer: 1,
+    },
+    {
+      question: "The unit of electric resistance is?",
+      options: ["Ohm", "Volt", "Ampere", "Watt"],
+      answer: 0,
+    },
+    {
+      question: "Light bends when it passes from one medium to another called?",
+      options: ["Reflection", "Refraction", "Diffraction", "Absorption"],
+      answer: 1,
+    },
+    {
+      question: "The phenomenon of splitting of light into colors is called?",
+      options: ["Reflection", "Refraction", "Dispersion", "Diffraction"],
+      answer: 2,
+    },
+    {
+      question: "Which gas is most abundant in Earth's atmosphere?",
+      options: ["Oxygen", "Nitrogen", "Carbon dioxide", "Hydrogen"],
+      answer: 1,
+    },
+    {
+      question: "Sound needs a medium to travel. True or False?",
+      options: ["True", "False", "Sometimes", "None"],
+      answer: 0,
+    },
+    {
+      question: "A ray of light falling on a mirror is called?",
+      options: ["Incident ray", "Reflected ray", "Refracted ray", "Diffused ray"],
+      answer: 0,
+    },
+    {
+      question: "Force = Mass x ?",
+      options: ["Velocity", "Acceleration", "Speed", "Time"],
+      answer: 1,
+    },
+  ],
+
+  "chemistry-1": [
+    {
+      question: "What is the chemical symbol for water?",
+      options: ["H2O", "CO2", "NaCl", "O2"],
+      answer: 0,
+    },
+    {
+      question: "Which gas is released when an acid reacts with metal?",
+      options: ["Oxygen", "Hydrogen", "Nitrogen", "Carbon dioxide"],
+      answer: 1,
+    },
+    {
+      question: "pH of pure water is?",
+      options: ["7", "1", "14", "0"],
+      answer: 0,
+    },
+    {
+      question: "Which element is a noble gas?",
+      options: ["Helium", "Oxygen", "Hydrogen", "Nitrogen"],
+      answer: 0,
+    },
+    {
+      question: "Salt is formed when an acid reacts with?",
+      options: ["Base", "Metal", "Water", "Gas"],
+      answer: 0,
+    },
+    {
+      question: "The process of converting solid directly into gas is called?",
+      options: ["Sublimation", "Condensation", "Evaporation", "Melting"],
+      answer: 0,
+    },
+    {
+      question: "What is the atomic number of Carbon?",
+      options: ["6", "12", "14", "8"],
+      answer: 0,
+    },
+    {
+      question: "Which of these is an alkali?",
+      options: ["Sodium hydroxide", "Hydrochloric acid", "Carbon dioxide", "Water"],
+      answer: 0,
+    },
+    {
+      question: "Chemical formula of table salt is?",
+      options: ["NaCl", "KCl", "CaCl2", "MgCl2"],
+      answer: 0,
+    },
+    {
+      question: "Which of these is not a metal?",
+      options: ["Copper", "Gold", "Sulfur", "Silver"],
+      answer: 2,
+    },
+    {
+      question: "Which acid is found in vinegar?",
+      options: ["Acetic acid", "Citric acid", "Sulfuric acid", "Hydrochloric acid"],
+      answer: 0,
+    },
+    {
+      question: "Which gas do plants absorb during photosynthesis?",
+      options: ["Oxygen", "Nitrogen", "Carbon dioxide", "Hydrogen"],
+      answer: 2,
+    },
+    {
+      question: "Which is the lightest element?",
+      options: ["Hydrogen", "Helium", "Lithium", "Oxygen"],
+      answer: 0,
+    },
+    {
+      question: "Water boils at?",
+      options: ["100°C", "90°C", "80°C", "120°C"],
+      answer: 0,
+    },
+    {
+      question: "What is the chemical formula of methane?",
+      options: ["CH4", "CO2", "C2H6", "C3H8"],
+      answer: 0,
+    },
+  ],
+
+  "chemistry-2": [
+    {
+      question: "What is the valency of oxygen?",
+      options: ["2", "1", "3", "4"],
+      answer: 0,
+    },
+    {
+      question: "Which element has atomic number 1?",
+      options: ["Hydrogen", "Helium", "Oxygen", "Carbon"],
+      answer: 0,
+    },
+    {
+      question: "Which gas causes rusting of iron?",
+      options: ["Oxygen", "Hydrogen", "Nitrogen", "Carbon dioxide"],
+      answer: 0,
+    },
+    {
+      question: "Which is a physical change?",
+      options: ["Melting ice", "Burning paper", "Rusting iron", "Cooking food"],
+      answer: 0,
+    },
+    {
+      question: "Which element is used in making glass?",
+      options: ["Silicon", "Iron", "Carbon", "Oxygen"],
+      answer: 0,
+    },
+    {
+      question: "Which acid is used in car batteries?",
+      options: ["Sulfuric acid", "Hydrochloric acid", "Nitric acid", "Acetic acid"],
+      answer: 0,
+    },
+    {
+      question: "Which of the following is a compound?",
+      options: ["Water", "Oxygen", "Nitrogen", "Helium"],
+      answer: 0,
+    },
+    {
+      question: "Salt is a?",
+      options: ["Compound", "Element", "Mixture", "Atom"],
+      answer: 0,
+    },
+    {
+      question: "Which element is essential for hemoglobin?",
+      options: ["Iron", "Calcium", "Potassium", "Magnesium"],
+      answer: 0,
+    },
+    {
+      question: "The process of separating liquids based on boiling points is?",
+      options: ["Distillation", "Filtration", "Evaporation", "Condensation"],
+      answer: 0,
+    },
+    {
+      question: "An atom consists of electrons, protons, and?",
+      options: ["Neutrons", "Photons", "Neutrinos", "Positrons"],
+      answer: 0,
+    },
+    {
+      question: "Which gas is used in refrigerators?",
+      options: ["Chlorofluorocarbon", "Oxygen", "Nitrogen", "Hydrogen"],
+      answer: 0,
+    },
+    {
+      question: "Which element is liquid at room temperature?",
+      options: ["Mercury", "Gold", "Silver", "Copper"],
+      answer: 0,
+    },
+    {
+      question: "The pH of lemon juice is?",
+      options: ["2", "7", "14", "10"],
+      answer: 0,
+    },
+    {
+      question: "Which element is used in pencils?",
+      options: ["Carbon", "Graphite", "Lead", "Iron"],
+      answer: 1,
+    },
+  ],
+
+  "biology-1": [
+    {
+      question: "The powerhouse of the cell is?",
+      options: ["Mitochondria", "Nucleus", "Ribosome", "Chloroplast"],
+      answer: 0,
+    },
+    {
+      question: "Which blood cells fight infection?",
+      options: ["White blood cells", "Red blood cells", "Platelets", "Plasma"],
+      answer: 0,
+    },
+    {
+      question: "Photosynthesis takes place in?",
+      options: ["Chloroplast", "Mitochondria", "Nucleus", "Ribosome"],
+      answer: 0,
+    },
+    {
+      question: "Which vitamin is produced in the skin by sunlight?",
+      options: ["Vitamin D", "Vitamin C", "Vitamin A", "Vitamin B12"],
+      answer: 0,
+    },
+    {
+      question: "Which organ filters blood in the human body?",
+      options: ["Kidneys", "Liver", "Heart", "Lungs"],
+      answer: 0,
+    },
+    {
+      question: "Which blood group is known as universal donor?",
+      options: ["O negative", "AB positive", "A positive", "B negative"],
+      answer: 0,
+    },
+    {
+      question: "The basic unit of life is?",
+      options: ["Cell", "Atom", "Molecule", "Tissue"],
+      answer: 0,
+    },
+    {
+      question: "Which part of the plant conducts water?",
+      options: ["Xylem", "Phloem", "Root", "Stem"],
+      answer: 0,
+    },
+    {
+      question: "Which gas do humans exhale?",
+      options: ["Carbon dioxide", "Oxygen", "Nitrogen", "Hydrogen"],
+      answer: 0,
+    },
+    {
+      question: "Which organ is responsible for digestion?",
+      options: ["Stomach", "Heart", "Lungs", "Brain"],
+      answer: 0,
+    },
+    {
+      question: "DNA stands for?",
+      options: [
+        "Deoxyribonucleic Acid",
+        "Deoxyribose Acid",
+        "Deoxy Nucleic Acid",
+        "Dioxin Acid",
+      ],
+      answer: 0,
+    },
+    {
+      question: "Which vitamin helps in blood clotting?",
+      options: ["Vitamin K", "Vitamin A", "Vitamin C", "Vitamin D"],
+      answer: 0,
+    },
+    {
+      question: "Which of these is not a part of the respiratory system?",
+      options: ["Heart", "Lungs", "Trachea", "Bronchi"],
+      answer: 0,
+    },
+    {
+      question: "Humans have how many pairs of chromosomes?",
+      options: ["23", "46", "22", "44"],
+      answer: 0,
+    },
+    {
+      question: "Which part of the brain controls balance?",
+      options: ["Cerebellum", "Cerebrum", "Medulla", "Pons"],
+      answer: 0,
+    },
+  ],
+};
+
+const subjectSelector = document.getElementById("subjectSelector");
+const startBtn = document.getElementById("startBtn");
+const quizArea = document.getElementById("quizArea");
+const questionEl = document.getElementById("question");
+const optionsList = document.getElementById("optionsList");
+const nextBtn = document.getElementById("nextBtn");
+const timerEl = document.getElementById("timer");
+const resultArea = document.getElementById("resultArea");
+const scoreEl = document.getElementById("score");
+const motivationalMsg = document.getElementById("motivationalMsg");
+const restartBtn = document.getElementById("restartBtn");
+
+let currentQuiz = [];
+let currentQuestionIndex = 0;
+let score = 0;
+let timer;
+let timeLeft = 60;
+let selectedAnswerIndex = null;
+
+subjectSelector.addEventListener("change", () => {
+  startBtn.disabled = !subjectSelector.value;
+});
+
+startBtn.addEventListener("click", () => {
+  startQuiz(subjectSelector.value);
+});
+
+nextBtn.addEventListener("click", () => {
+  if (selectedAnswerIndex === null) {
+    alert("Please select an option.");
+    return;
+  }
+  checkAnswer(selectedAnswerIndex);
+  selectedAnswerIndex = null;
+  nextBtn.disabled = true;
+});
+
+restartBtn.addEventListener("click", () => {
+  resetQuiz();
+});
+
+function startQuiz(subjectKey) {
+  currentQuiz = quizzes[subjectKey].slice(0, 15);
   currentQuestionIndex = 0;
   score = 0;
-  answered = false;
-  resultDiv.textContent = '';
-  restartBtn.style.display = 'none';
-  quizContainer.style.display = 'block';
-  nextBtn.style.display = 'inline-block';
+  startBtn.style.display = "none";
+  subjectSelector.style.display = "none";
+  quizArea.style.display = "block";
+  resultArea.style.display = "none";
   nextBtn.disabled = true;
   loadQuestion();
+  startTimer();
 }
 
 function loadQuestion() {
-  answered = false;
-  nextBtn.disabled = true;
-  timeLeft = 60;
-  timerDisplay.textContent = `Time Left: ${timeLeft}s`;
-  clearInterval(timer);
-  timer = setInterval(() => {
-    timeLeft--;
-    timerDisplay.textContent = `Time Left: ${timeLeft}s`;
-    if (timeLeft <= 0) {
-      clearInterval(timer);
-      disableChoices();
-      nextBtn.disabled = false;
-      if (!answered) {
-        answered = true;
-      }
-    }
-  }, 1000);
-
-  const q = currentQuiz.questions[currentQuestionIndex];
-  questionNumber.textContent = `Question ${currentQuestionIndex + 1} of ${currentQuiz.questions.length}`;
-  questionText.textContent = q.q;
-
-  // Clear previous choices
-  choicesList.innerHTML = '';
-  q.options.forEach((opt, i) => {
-    const li = document.createElement('li');
+  resetOptions();
+  if (currentQuestionIndex >= currentQuiz.length) {
+    endQuiz();
+    return;
+  }
+  const q = currentQuiz[currentQuestionIndex];
+  questionEl.textContent = `Q${currentQuestionIndex + 1}. ${q.question}`;
+  optionsList.innerHTML = "";
+  q.options.forEach((opt, idx) => {
+    const li = document.createElement("li");
     li.textContent = opt;
-    li.setAttribute('role', 'option');
+    li.className = "option";
     li.tabIndex = 0;
-    li.addEventListener('click', () => selectAnswer(i));
-    li.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
+    li.addEventListener("click", () => selectOption(idx, li));
+    li.addEventListener("keydown", e => {
+      if(e.key === "Enter" || e.key === " ") {
         e.preventDefault();
-        selectAnswer(i);
+        selectOption(idx, li);
       }
     });
-    choicesList.appendChild(li);
+    optionsList.appendChild(li);
   });
 }
 
-function selectAnswer(index) {
-  if (answered) return;
-  answered = true;
-  clearInterval(timer);
-
-  const q = currentQuiz.questions[currentQuestionIndex];
-  const correctIndex = q.answer;
-
-  // Highlight all choices
-  Array.from(choicesList.children).forEach((li, i) => {
-    li.classList.remove('selected');
-    li.style.pointerEvents = 'none';
-    if (i === correctIndex) {
-      li.style.backgroundColor = '#4CAF50'; // green correct
-      li.style.color = '#fff';
-    } else if (i === index) {
-      li.style.backgroundColor = '#f44336'; // red wrong
-      li.style.color = '#fff';
-    }
+function resetOptions() {
+  selectedAnswerIndex = null;
+  nextBtn.disabled = true;
+  optionsList.querySelectorAll("li").forEach((li) => {
+    li.classList.remove("selected", "correct", "wrong");
+    li.style.pointerEvents = "auto";
   });
+}
 
-  if (index === correctIndex) {
-    score++;
-  }
+function selectOption(idx, li) {
+  if (selectedAnswerIndex !== null) return; // already selected
+
+  selectedAnswerIndex = idx;
+  optionsList.querySelectorAll("li").forEach((li2, i) => {
+    li2.classList.toggle("selected", i === idx);
+  });
   nextBtn.disabled = false;
 }
 
-function disableChoices() {
-  Array.from(choicesList.children).forEach(li => {
-    li.style.pointerEvents = 'none';
+function checkAnswer(selectedIdx) {
+  clearInterval(timer);
+  const q = currentQuiz[currentQuestionIndex];
+  const correctIdx = q.answer;
+
+  // mark answers
+  optionsList.querySelectorAll("li").forEach((li, i) => {
+    li.style.pointerEvents = "none";
+    if (i === correctIdx) {
+      li.classList.add("correct");
+    }
+    if (i === selectedIdx && selectedIdx !== correctIdx) {
+      li.classList.add("wrong");
+    }
   });
+
+  if (selectedIdx === correctIdx) {
+    score++;
+  }
+
+  currentQuestionIndex++;
+  setTimeout(() => {
+    if (currentQuestionIndex < currentQuiz.length) {
+      timeLeft = 60;
+      startTimer();
+      loadQuestion();
+    } else {
+      endQuiz();
+    }
+  }, 1500);
 }
 
-nextBtn.addEventListener('click', () => {
-  currentQuestionIndex++;
-  if (currentQuestionIndex >= currentQuiz.questions.length) {
-    endQuiz();
-  } else {
-    loadQuestion();
-  }
-});
-
-restartBtn.addEventListener('click', () => {
-  quizContainer.style.display = 'none';
-  restartBtn.style.display = 'none';
-  resultDiv.textContent = '';
-  quizSelect.value = '';
-});
-
-quizSelect.addEventListener('change', () => {
-  if (quizSelect.value) {
-    startQuiz(quizSelect.value);
-  } else {
-    quizContainer.style.display = 'none';
-    resultDiv.textContent = '';
-    restartBtn.style.display = 'none';
-  }
-});
+function startTimer() {
+  timerEl.textContent = `Time Left: ${timeLeft}s`;
+  timer = setInterval(() => {
+    timeLeft--;
+    timerEl.textContent = `Time Left: ${timeLeft}s`;
+    if (timeLeft <= 0) {
+      clearInterval(timer);
+      // Automatically mark no answer, move on:
+      checkAnswer(-1); // -1 means no selection, wrong by default
+    }
+  }, 1000);
+}
 
 function endQuiz() {
-  clearInterval(timer);
-  quizContainer.style.display = 'none';
-  resultDiv.innerHTML = `<p>You scored <strong>${score}</strong> out of <strong>${currentQuiz.questions.length}</strong> in the <em>${currentQuiz.name}</em>!</p>`;
-  restartBtn.style.display = 'inline-block';
+  quizArea.style.display = "none";
+  resultArea.style.display = "block";
+  scoreEl.textContent = score;
+
+  motivationalMsg.textContent = getMotivationalMessage(score);
+
+  saveResultToFirestore(subjectSelector.value, score);
+}
+
+function resetQuiz() {
+  startBtn.style.display = "block";
+  subjectSelector.style.display = "block";
+  quizArea.style.display = "none";
+  resultArea.style.display = "none";
+  subjectSelector.value = "";
+  startBtn.disabled = true;
+}
+
+function getMotivationalMessage(score) {
+  if (score >= 13) return "🌟 Amazing! You're a Quiz Master!";
+  if (score >= 10) return "👍 Great job! Keep it up!";
+  if (score >= 7) return "😊 Good effort! Practice makes perfect!";
+  return "💪 Don't worry! Keep learning and try again!";
+}
+
+async function saveResultToFirestore(subject, score) {
+  try {
+    const timestamp = new Date();
+    await db.collection("quizResults").add({
+      subject: subject,
+      score: score,
+      timestamp: timestamp.toISOString(),
+    });
+    console.log("Quiz result saved successfully!");
+  } catch (error) {
+    console.error("Error saving quiz result:", error);
+  }
 }

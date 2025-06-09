@@ -1,61 +1,63 @@
-// ✅ Mobile Hamburger Menu Logic
-const hamburger = document.getElementById('hamburger');
-const mobileMenu = document.querySelector('.mobile-menu');
-const closeMenu = document.getElementById('closeMenu');
+// script.js
 
-hamburger.addEventListener('click', () => {
-  mobileMenu.classList.add('show');
+// Mobile menu toggle
+const menuIcon = document.querySelector('.menu-icon');
+const mobileMenu = document.querySelector('.mobile-menu');
+const closeMenu = document.querySelector('.close-menu');
+
+menuIcon.addEventListener('click', () => {
+  mobileMenu.classList.add('active');
 });
 
 closeMenu.addEventListener('click', () => {
-  mobileMenu.classList.remove('show');
+  mobileMenu.classList.remove('active');
 });
 
-window.addEventListener('click', (e) => {
-  if (!mobileMenu.contains(e.target) && !hamburger.contains(e.target)) {
-    mobileMenu.classList.remove('show');
+document.addEventListener('click', (e) => {
+  if (!mobileMenu.contains(e.target) && !menuIcon.contains(e.target)) {
+    mobileMenu.classList.remove('active');
   }
 });
 
-// ✅ Parallax Slideshow Logic
-let slides = document.querySelectorAll('.slide');
-let dots = document.querySelectorAll('.dot');
+// Slideshow logic
+const slides = document.querySelectorAll('.slide');
+const dots = document.querySelectorAll('.dot');
 let currentSlide = 0;
+let slideInterval = setInterval(nextSlide, 5000);
 
 function showSlide(index) {
   slides.forEach((slide, i) => {
-    slide.classList.remove('active');
-    dots[i].classList.remove('active-dot');
-    if (i === index) {
-      slide.classList.add('active');
-      dots[i].classList.add('active-dot');
-    }
+    slide.classList.toggle('active', i === index);
+    dots[i].classList.toggle('active', i === index);
   });
+  currentSlide = index;
 }
 
 function nextSlide() {
-  currentSlide = (currentSlide + 1) % slides.length;
-  showSlide(currentSlide);
+  let next = (currentSlide + 1) % slides.length;
+  showSlide(next);
 }
 
-// Auto Slide every 5 seconds
-setInterval(nextSlide, 5000);
-
-// Dot click handler
 dots.forEach((dot, index) => {
   dot.addEventListener('click', () => {
-    currentSlide = index;
-    showSlide(currentSlide);
+    clearInterval(slideInterval);
+    showSlide(index);
+    slideInterval = setInterval(nextSlide, 5000);
   });
 });
 
-// Optional: GSAP Scroll Reveal (expandable)
-if (typeof gsap !== 'undefined') {
-  gsap.from(".footer", {
-    scrollTrigger: ".footer",
-    y: 50,
-    opacity: 0,
-    duration: 1,
-    ease: "power2.out"
+// Scroll-based fade-in animation
+const faders = document.querySelectorAll('.fade-in');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('appear');
+    }
   });
-}
+}, {
+  threshold: 0.2
+});
+
+faders.forEach(fader => {
+  observer.observe(fader);
+});

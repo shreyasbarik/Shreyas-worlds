@@ -2,42 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sign Up | Shreyas World</title>
-  <link rel="stylesheet" href="style.css"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up - Shreyas World</title>
+  <link rel="stylesheet" href="style.css" />
+  <script type="module" src="auth.js" defer></script>
 </head>
-<body class="auth-body">
-
+<body class="login-body">
   <div class="auth-container">
-    <h1 class="auth-title">📝 Create Account</h1>
-    <p class="auth-subtitle">Join Shreyas World</p>
-    
-    <input type="email" id="signupEmail" placeholder="📧 Email" class="auth-input"/>
-    <input type="password" id="signupPassword" placeholder="🔒 Password" class="auth-input"/>
-    <button id="signupBtn" class="auth-button">Sign Up</button>
+    <div class="auth-card fade-in">
+      <h1 class="auth-title">Sign up for Shreyas World</h1>
+      <form id="signup-form" class="auth-form">
+        <label>Email</label>
+        <input type="email" id="signup-email" required />
 
-    <p class="auth-footer">Already have an account? <a href="login.html">Login</a></p>
-    <p id="signupError" class="auth-error"></p>
+        <label>Password</label>
+        <input type="password" id="signup-password" required />
+
+        <button type="submit" class="auth-button">Sign Up</button>
+
+        <p class="auth-switch">Already have an account? <a href="login.html">Log in</a></p>
+      </form>
+    </div>
   </div>
-
-  <script type="module">
-    import { auth } from "./firebase-config.js";
-    import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-
-    const signupBtn = document.getElementById('signupBtn');
-    const signupEmail = document.getElementById('signupEmail');
-    const signupPassword = document.getElementById('signupPassword');
-    const signupError = document.getElementById('signupError');
-
-    signupBtn.addEventListener('click', () => {
-      createUserWithEmailAndPassword(auth, signupEmail.value, signupPassword.value)
-        .then(() => {
-          window.location.href = "index.html"; // redirect after signup
-        })
-        .catch((error) => {
-          signupError.textContent = "❌ " + error.message;
-        });
-    });
-  </script>
 </body>
 </html>

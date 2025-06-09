@@ -2,42 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login | Shreyas World</title>
-  <link rel="stylesheet" href="style.css"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - Shreyas World</title>
+  <link rel="stylesheet" href="style.css" />
+  <script type="module" src="auth.js" defer></script>
 </head>
-<body class="auth-body">
-
+<body class="login-body">
   <div class="auth-container">
-    <h1 class="auth-title">🔐 Welcome Back</h1>
-    <p class="auth-subtitle">Sign in to Shreyas World</p>
-    
-    <input type="email" id="loginEmail" placeholder="📧 Email" class="auth-input"/>
-    <input type="password" id="loginPassword" placeholder="🔒 Password" class="auth-input"/>
-    <button id="loginBtn" class="auth-button">Login</button>
+    <div class="auth-card fade-in">
+      <h1 class="auth-title">Log in to Shreyas World</h1>
+      <form id="login-form" class="auth-form">
+        <label>Email</label>
+        <input type="email" id="login-email" required />
 
-    <p class="auth-footer">Don’t have an account? <a href="signup.html">Sign Up</a></p>
-    <p id="loginError" class="auth-error"></p>
+        <label>Password</label>
+        <input type="password" id="login-password" required />
+
+        <button type="submit" class="auth-button">Log In</button>
+
+        <p class="auth-switch">Don't have an account? <a href="signup.html">Sign up</a></p>
+      </form>
+    </div>
   </div>
-
-  <script type="module">
-    import { auth } from "./firebase-config.js";
-    import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-
-    const loginBtn = document.getElementById('loginBtn');
-    const loginEmail = document.getElementById('loginEmail');
-    const loginPassword = document.getElementById('loginPassword');
-    const loginError = document.getElementById('loginError');
-
-    loginBtn.addEventListener('click', () => {
-      signInWithEmailAndPassword(auth, loginEmail.value, loginPassword.value)
-        .then(() => {
-          window.location.href = "index.html"; // redirect after login
-        })
-        .catch((error) => {
-          loginError.textContent = "❌ " + error.message;
-        });
-    });
-  </script>
 </body>
 </html>

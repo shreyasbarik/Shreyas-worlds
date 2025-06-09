@@ -1,10 +1,11 @@
-// ✅ Firebase SDK v9+ Modular Setup
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics.js";
+// firebase-config.js
 
-// 🚨 Replace this config with your actual Firebase project config
+// Firebase SDK setup
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+
 const firebaseConfig = {
   apiKey: "AIzaSyBYEol3wDIUihPTLaM1EjqVkpvjvJ-1_O4",
   authDomain: "my-website-backend-957db.firebaseapp.com",
@@ -15,16 +16,10 @@ const firebaseConfig = {
   measurementId: "G-8H93W7QZGT"
 };
 
-// ✅ Initialize Firebase
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
-// 🔐 Auth & 🔥 Firestore
+const analytics = getAnalytics(app);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// 📊 Analytics
-const analytics = getAnalytics(app);
-
-// 🌍 Export for other JS files
-export { auth, db, analytics };
-
+export { auth, db };

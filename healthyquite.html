@@ -3,163 +3,76 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Healthy Quite | Shreyas World</title>
+  <title>Healthy Quite - Shreyas World</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    body {
-      background: #f5f5f7;
-      font-family: 'SF Pro', sans-serif;
-      margin: 0;
-      padding: 2rem;
-      color: #000;
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      background: #fff;
-      box-shadow: 0 1px 6px rgba(0,0,0,0.1);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    header .logo {
-      font-weight: 700;
-      font-size: 1.5rem;
-      color: #000;
-      user-select: none;
-    }
-
-    header nav a {
-      margin-left: 1.5rem;
-      text-decoration: none;
-      color: #000;
-      font-weight: 600;
-      transition: color 0.3s ease;
-    }
-
-    header nav a:hover {
-      color: #0071e3; /* Apple Blue */
-    }
-
-    main {
-      max-width: 1000px;
-      margin: 2rem auto;
-    }
-
-    h1 {
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin-bottom: 1.5rem;
-    }
-
-    .video-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fill,minmax(320px,1fr));
-      gap: 2rem;
-    }
-
-    .video-card {
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 8px 30px rgb(0 0 0 / 0.1);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      cursor: pointer;
-      user-select: none;
-    }
-
-    .video-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 16px 50px rgb(0 0 0 / 0.15);
-    }
-
-    video {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-      background: #000;
-      border-radius: 20px 20px 0 0;
-    }
-
-    .video-desc {
-      padding: 1rem 1.5rem 1.5rem;
-      font-weight: 600;
-      font-size: 1.05rem;
-      color: #111;
-      flex-grow: 1;
-    }
-
-    @media (max-width: 600px) {
-      body {
-        padding: 1rem;
-      }
-
-      h1 {
-        font-size: 2rem;
-        text-align: center;
-      }
-
-      .video-list {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-      }
-    }
-  </style>
+  <script type="module" src="firebase-config.js" defer></script>
+  <script type="module" src="script.js" defer></script>
 </head>
 <body>
+  <header class="header">
+    <div class="logo">Shreyas World</div>
+    <nav class="desktop-nav">
+      <a href="index.html">Home</a>
+      <a href="signup.html">Sign Up</a>
+      <a href="login.html">Login</a>
+    </nav>
+    <div class="menu-icon">☰</div>
+  </header>
 
-<header>
-  <div class="logo">🍎 Shreyas World</div>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="login.html">Login</a>
-    <a href="signup.html">Sign Up</a>
-  </nav>
-</header>
-
-<main>
-  <h1>Healthy Quite Videos</h1>
-  <div class="video-list" id="videoList">
-    <!-- Video cards inserted by JS -->
+  <div class="mobile-menu">
+    <div class="close-menu">×</div>
+    <ul>
+      <li><a href="craftvibe.html">CraftVibe</a></li>
+      <li><a href="ignitestream.html">IgniteStream</a></li>
+      <li><a href="examquote.html">Exam Quote</a></li>
+      <li><a href="chakragallery.html">Chakra Gallery</a></li>
+      <li><a href="healthyquite.html">Healthy Quite</a></li>
+      <li><a href="quitestrange.html">Quite Strange</a></li>
+      <li><a href="musicmentor.html">Music Mentor</a></li>
+      <li><a href="childishhub.html">Childish Hub</a></li>
+      <li><a href="experimentsize.html">Experiment Size</a></li>
+      <li><a href="quizme.html">Quize Me</a></li>
+      <li><a href="funcube.html">Fun Cube</a></li>
+    </ul>
   </div>
-</main>
 
-<script>
-  const videos = [
-    {
-      src: "Healthy Quite/tip1.mp4",
-      description: "Daily tips to maintain a healthy lifestyle and mind."
-    },
-    {
-      src: "Healthy Quite/tip2.mp4",
-      description: "Nutrition advice for better energy and wellness."
-    },
-    {
-      src: "Healthy Quite/tip3.mp4",
-      description: "Simple exercises to keep you fit and active."
-    }
-  ];
+  <main class="video-page fade-in">
+    <h1 class="page-title">🌿 Healthy Quite</h1>
+    <div class="video-grid">
+      <div class="video-card">
+        <video src="Healthy Quite/tip1.mp4" controls muted loop></video>
+        <p class="video-desc">Stay hydrated daily to boost your metabolism and energy.</p>
+        <div class="emoji-bar" data-video-id="tip1">
+          <button class="emoji-btn" data-reaction="like">👍</button>
+          <button class="emoji-btn" data-reaction="dislike">👎</button>
+          <button class="emoji-btn" data-reaction="heart">❤️</button>
+        </div>
+      </div>
 
-  const videoList = document.getElementById('videoList');
+      <div class="video-card">
+        <video src="Healthy Quite/tip2.mp4" controls muted loop></video>
+        <p class="video-desc">Incorporate green leafy vegetables into your meals for essential nutrients.</p>
+        <div class="emoji-bar" data-video-id="tip2">
+          <button class="emoji-btn" data-reaction="like">👍</button>
+          <button class="emoji-btn" data-reaction="dislike">👎</button>
+          <button class="emoji-btn" data-reaction="heart">❤️</button>
+        </div>
+      </div>
 
-  videos.forEach(({src, description}) => {
-    const card = document.createElement('div');
-    card.className = 'video-card';
+      <div class="video-card">
+        <video src="Healthy Quite/tip3.mp4" controls muted loop></video>
+        <p class="video-desc">Practice deep breathing exercises to reduce stress and increase focus.</p>
+        <div class="emoji-bar" data-video-id="tip3">
+          <button class="emoji-btn" data-reaction="like">👍</button>
+          <button class="emoji-btn" data-reaction="dislike">👎</button>
+          <button class="emoji-btn" data-reaction="heart">❤️</button>
+        </div>
+      </div>
+    </div>
+  </main>
 
-    card.innerHTML = `
-      <video src="${src}" muted autoplay loop playsinline controls></video>
-      <div class="video-desc">${description}</div>
-    `;
-
-    videoList.appendChild(card);
-  });
-</script>
-
+  <footer class="footer">
+    <p>2025 Shreyas World. All Rights Reserved. For learning purposes only.</p>
+  </footer>
 </body>
 </html>
