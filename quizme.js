@@ -19,7 +19,7 @@ let answered = false;
 
 // Question data for all quizzes
 const quizzes = {
-  "Physics Quiz 1": [
+  "Light-Reflection And Refraction 1": [
     { question: "What is the focal length of a concave mirror whose radius of curvature is 40 cm?", options: ["20 cm", "40 cm", "80 cm", "10 cm"], answer: "20 cm" },
     { question: "Which of the following always produces a virtual, erect, and diminished image?", options: ["Concave mirror", "Plane mirror", "Convex mirror", "Convex lens"], answer: "Convex mirror" },
     { question: "An object is placed 30 cm in front of a concave mirror of focal length 15 cm. Where will the image form?", options: ["At focus", "At center of curvature", "At infinity", "Between pole and focus"], answer: "At 30 cm behind the mirror" },
@@ -37,7 +37,7 @@ const quizzes = {
     { question: "What type of image is formed by plane mirrors?", options: ["Real and inverted", "Virtual and erect", "Real and erect", "Inverted and magnified"], answer: "Virtual and erect" }
   ],
 
-  "Physics Quiz 2": [
+  "Light-Reflection And Refraction 2": [
     { question: "A ray of light enters from air to glass. What happens to its speed?", options: ["Increases", "Decreases", "Remains same", "Becomes zero"], answer: "Decreases" },
     { question: "Refractive index of a medium is defined as:", options: ["1/sin i", "sin i/sin r", "sin r/sin i", "speed in medium / speed in vacuum"], answer: "sin i/sin r" },
     { question: "What is the unit of refractive index?", options: ["m", "cm", "no unit", "m/s"], answer: "no unit" },
@@ -55,7 +55,7 @@ const quizzes = {
     { question: "What is the sign of power of a concave lens?", options: ["Positive", "Negative", "Zero", "Infinite"], answer: "Negative" }
   ],
 
-  "Chemistry Quiz 1": [
+  "Chemical Reactions And Equations 1": [
     { question: "Which of the following reactions is a displacement reaction?", options: ["Fe + CuSO₄ → FeSO₄ + Cu", "HCl + NaOH → NaCl + H₂O", "AgNO₃ + NaCl → AgCl + NaNO₃", "CaO + H₂O → Ca(OH)₂"], answer: "Fe + CuSO₄ → FeSO₄ + Cu" },
     { question: "Which of the following is an endothermic reaction?", options: ["Photosynthesis", "Combustion", "Neutralisation", "Respiration"], answer: "Photosynthesis" },
     { question: "Which of the following changes is not a chemical change?", options: ["Burning of paper", "Rusting of iron", "Melting of ice", "Cooking food"], answer: "Melting of ice" },
@@ -73,7 +73,7 @@ const quizzes = {
     { question: "The rusting of iron involves which reaction?", options: ["Redox", "Acid-base", "Precipitation", "Combination"], answer: "Redox" }
   ],
 
-  "Chemistry Quiz 2": [
+  "Chemical Reactions And Equations 2": [
     { question: "What is the product of: 2Al + Fe₂O₃ → ?", options: ["Fe and Al₂O₃", "Fe and AlO", "FeO and Al", "Fe₂O₃ and Al"], answer: "Fe and Al₂O₃" },
     { question: "Which reaction is used in black and white photography?", options: ["Decomposition of AgBr", "Combustion", "Displacement", "Neutralization"], answer: "Decomposition of AgBr" },
     { question: "What type of reaction is: BaCl₂ + Na₂SO₄ → BaSO₄ + 2NaCl?", options: ["Double displacement", "Combination", "Displacement", "Decomposition"], answer: "Double displacement" },
@@ -91,7 +91,7 @@ const quizzes = {
     { question: "Which of these is a balanced equation?", options: ["2H₂ + O₂ → 2H₂O", "H₂ + O₂ → H₂O", "H₂O + H → H₂", "NaCl → Na + Cl"], answer: "2H₂ + O₂ → 2H₂O" }
   ],
 
-  "Biology Quiz 1": [
+  "Life Processes 1": [
     { question: "What enzyme is responsible for breakdown of starch in saliva?", options: ["Amylase", "Lipase", "Pepsin", "Trypsin"], answer: "Amylase" },
     { question: "In photosynthesis, light energy is absorbed by:", options: ["Chlorophyll", "Mitochondria", "Xylem", "Nucleus"], answer: "Chlorophyll" },
     { question: "Which part of the alimentary canal absorbs water?", options: ["Small intestine", "Stomach", "Large intestine", "Mouth"], answer: "Large intestine" },
