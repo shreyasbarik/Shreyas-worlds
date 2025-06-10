@@ -18,7 +18,7 @@ let timeLeft = 60;
 let answered = false;
 
 // Question data for all quizzes
-const quizzes = {
+const quizData = {
   "Light-Reflection And Refraction 1": [
     { question: "What is the focal length of a concave mirror whose radius of curvature is 40 cm?", options: ["20 cm", "40 cm", "80 cm", "10 cm"], answer: "20 cm" },
     { question: "Which of the following always produces a virtual, erect, and diminished image?", options: ["Concave mirror", "Plane mirror", "Convex mirror", "Convex lens"], answer: "Convex mirror" },
