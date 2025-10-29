@@ -3,39 +3,35 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Authority Login | Sharvika</title>
+  <title>Authority Login - Sharvika</title>
   <link rel="stylesheet" href="authority.css"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bcrypt.js/2.4.3/bcrypt.min.js"></script>
 </head>
 <body>
-  <div class="auth-gradient-bg">
-    <div class="auth-glass-card">
-      <div class="auth-anim-logo">
-        <!-- SVG Glassified Apple-style Icon -->
-        <svg width="56" height="56" viewBox="0 0 60 60">
+  <div class="authority-bg">
+    <div class="glass-card">
+      <!-- Animated SVG/Logo -->
+      <div class="glass-logo">
+        <svg width="60" height="60" viewBox="0 0 60 60">
           <defs>
-            <radialGradient id="grad" cx="60%" cy="40%" r="60%" fx="50%" fy="50%">
-              <stop offset="0%" stop-color="#ecbc79"/>
-              <stop offset="100%" stop-color="#4d516b"/>
+            <radialGradient id="logo-grad" cx="50%" cy="50%" r="60%">
+              <stop offset="0%" stop-color="#e3c7ff"/>
+              <stop offset="100%" stop-color="#6a7afc"/>
             </radialGradient>
           </defs>
-          <circle cx="30" cy="30" r="28" fill="url(#grad)" opacity="0.8"/>
-          <text x="30" y="36" fill="#fff" font-size="28" font-weight="bold" text-anchor="middle" font-family="Inter">S</text>
+          <circle cx="30" cy="30" r="27" fill="url(#logo-grad)" opacity="0.88"/>
+          <text x="30" y="38" font-size="24" fill="#fff" font-family="Inter" text-anchor="middle" font-weight="bold">S</text>
         </svg>
       </div>
-      <h2 class="auth-title">Authority Login</h2>
+      <h2 class="glass-title">Authority Login</h2>
       <form id="loginForm" autocomplete="off">
-        <div class="input-group">
-          <input type="text" name="username" placeholder="Username" required autocomplete="off" />
-        </div>
-        <div class="input-group">
-          <input type="password" name="password" placeholder="Password" required autocomplete="off" />
-        </div>
+        <div class="input-box"><input type="text" name="username" placeholder="Username" required autocomplete="off"></div>
+        <div class="input-box"><input type="password" name="password" placeholder="Password" required></div>
         <button type="submit"><span>Login</span></button>
         <div id="auth-status"></div>
       </form>
-      <div class="auth-footer">
-        <span>Sharvika Authority • 2025 &copy;</span>
+      <div class="glass-footer">
+        <span>Sharvika &copy; 2025</span>
       </div>
     </div>
   </div>

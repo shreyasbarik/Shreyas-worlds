@@ -2,85 +2,110 @@ body, html {
   height: 100%; margin: 0; padding: 0;
   font-family: 'Inter', sans-serif;
 }
-.auth-gradient-bg {
+
+/* Animated glass gradient background */
+.authority-bg {
   min-height: 100vh;
+  width: 100vw;
+  background: linear-gradient(135deg,#2a295a 0%,#afa3fb 100%);
   display: flex; align-items: center; justify-content: center;
-  background: linear-gradient(120deg, #4953a8 0%, #c6a4f8 100%);
+  animation: bgMove 5s infinite alternate;
 }
-.auth-glass-card {
-  position: relative;
-  width: 360px; max-width: 98vw;
-  padding: 34px 22px 26px 22px;
-  border-radius: 27px;
-  background: rgba(38,38,56,.83);
-  box-shadow: 0 4px 40px 0 rgba(67,61,98,0.25);
-  backdrop-filter: blur(18px);
-  border: 2.5px solid rgba(255,255,255,0.09);
+@keyframes bgMove {
+  0% {background-position: left;}
+  100% {background-position: right;}
+}
+
+/* Glassmorphism Card */
+.glass-card {
+  width: 370px; max-width: 99vw;
+  padding: 40px 28px 26px 28px;
+  border-radius: 22px;
+  background: rgba(34,36,62,0.77);
+  box-shadow: 0 6px 60px 0 rgba(99,79,216,0.25), 0 1px 11px rgba(0,0,0,0.12);
+  backdrop-filter: blur(19px);
+  border: 1.5px solid rgba(255,255,255,0.12);
   text-align: center;
-  animation: cardFadeIn 0.7s cubic-bezier(0.21,0.7,0.58,1) 1;
+  animation: cardFade .75s ease;
 }
-@keyframes cardFadeIn { from { opacity: 0; transform: scale(.93);} to { opacity:1; transform: scale(1);} }
-.auth-anim-logo { margin-bottom: 17px; }
-.auth-title {
-  font-size: 1.7rem;
+@keyframes cardFade { from { opacity:.07; transform: scale(.9);} to{ opacity:1; transform:scale(1);} }
+
+.glass-logo {
+  margin-bottom: 13px;
+  animation: logoPulse 2.7s infinite alternate ease-in-out;
+}
+@keyframes logoPulse {
+  from { transform: scale(1);}
+  to { transform: scale(1.08);}
+}
+
+.glass-title {
+  color: #fff;
+  font-size: 1.6rem;
   font-weight: 600;
-  letter-spacing: 2px;
-  color: #fbf7fa;
-  margin-bottom: 15px;
-  text-shadow: 0 0 12px #b4b2e7;
+  letter-spacing: 2.5px;
+  margin-bottom: 18px;
+  text-shadow: 0 0 16px #d1affc80;
 }
-.input-group {
-  margin-bottom: 19px;
+
+.input-box {
   position: relative;
+  margin-bottom: 19px;
 }
-input[type=text], input[type=password] {
-  width: 100%; padding: 15px;
-  border-radius: 12px;
+input {
+  width: 100%;
+  padding: 15px 18px;
+  border-radius: 13px;
+  background: rgba(225,225,255,0.16);
   border: none;
-  background: rgba(220,215,245,.14);
-  color: #e5ddfd;
-  font-size: 1.1rem;
+  color: #ece8fb;
+  font-size: 1.11rem;
   outline: none;
   box-shadow: 0 2px 12px 0 rgba(120,97,171,0.12);
-  transition: box-shadow 0.24s, background 0.2s;
+  transition: box-shadow 0.24s, background 0.22s;
+  backdrop-filter: blur(5px);
 }
 input:focus {
-  background: rgba(250,235,255,0.19);
-  box-shadow: 0 0 15px #7952ff99;
+  background: rgba(195,195,255,0.29);
+  box-shadow: 0 0 18px #7952ff99;
 }
+
 button {
+  padding: 16px;
+  border-radius: 14px;
   width: 100%;
-  padding: 15px;
-  margin-top:6px;
-  border-radius: 13px;
-  border: none;
-  background: linear-gradient(90deg,#f7c873,#6243af);
-  color: #222;
-  font-size: 1.15rem;
+  background: linear-gradient(90deg,#ffd776,#6a7afc);
+  color: #212039;
+  font-size: 1.18rem;
   font-weight: 600;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.16);
+  border: none;
+  box-shadow: 0 3px 21px rgba(129,119,255,0.11) inset;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: box-shadow 0.15s, background 0.16s;
   position: relative;
-  overflow: hidden;
 }
-button span { position:relative; z-index:1;}
-button:hover {
-  background: linear-gradient(90deg,#6243af,#f7c873);
-  box-shadow: 0 0 32px #af9cf6cc inset;
+button:hover,button:focus {
+  background: linear-gradient(90deg,#6a7afc,#ffd776);
+  box-shadow: 0 0 36px #6a7afc55 inset,0 0 21px #ffd77688 inset;
 }
+
 #auth-status {
-  margin-top: 12px;
-  color: #ff9191; font-size: 1rem; min-height: 24px;
+  margin-top: 12px; color: #ff9191;
+  font-size: 1.1rem; min-height: 24px;
 }
-.auth-footer {
-  font-size: .92rem;
-  color: #dabfee;
-  margin-top: 23px;
-  opacity: 0.82;
+.glass-footer {
+  margin-top: 24px;
+  font-size: 0.92rem;
+  color: #dbafff;
+  opacity: 0.8;
 }
+
 @media (max-width: 520px) {
-  .auth-glass-card { width:98vw; min-width:220px; }
-  .auth-title { font-size: 1.12rem; letter-spacing: 0.8px; }
-  input,button { font-size: 1rem; }
+  .glass-card { width: 98vw !important; min-width: 210px; padding: 24px 7vw; }
+  .glass-title { font-size: 1.13rem; }
+}
+
+/* Optionally, add background blur on mobile: */
+@media (max-width: 720px) {
+  .authority-bg { backdrop-filter: blur(9px);}
 }
