@@ -1,16 +1,23 @@
-const allowedUsers = ["Bishesh_04", "Ayush_05", "Soumya_01", "Shreyas_00", "Refer_09"];
-const allowedPass = "Lovejust";
-const form = document.getElementById('auth-form');
-const statusDiv = document.getElementById('login-status');
-
-form.addEventListener('submit', function(e) {
+const usernames = [
+  "Bishesh_04","Ayush_05","Soumya_01","Shreyas_00","Refer_09"
+];
+const bcryptHash = "$2a$10$O3iRa7sA4jENxb3r5TK9FeW.ZPt13qJ/JGk/IGR71CBOxJw0gLfUy";
+document.getElementById('loginForm').onsubmit = async function(e){
   e.preventDefault();
-  const username = form.username.value;
-  const password = form.password.value;
-  if (allowedUsers.includes(username) && password === allowedPass) {
-    statusDiv.textContent = "Success. Redirecting…";
-    setTimeout(() => window.location.href="authority-dashboard.html", 1200);
-  } else {
-    statusDiv.textContent = "Incorrect credentials.";
+  let uname = this.username.value.trim();
+  let psw = this.password.value;
+  if (!usernames.includes(uname)) {
+    showStatus('Incorrect username');
+    return;
   }
-});
+  let match = await bcrypt.compare(psw, bcryptHash);
+  if (!match) {
+    showStatus('Incorrect password');
+    return;
+  }
+  showStatus('Login successful! Redirecting...');
+  setTimeout(() => { window.location.href="authority-dashboard.html"; }, 900);
+};
+function showStatus(msg){
+  document.getElementById('auth-status').innerText = msg;
+}
