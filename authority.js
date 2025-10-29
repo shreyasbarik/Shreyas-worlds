@@ -1,6 +1,4 @@
-const usernames = [
-  "Bishesh_04","Ayush_05","Soumya_01","Shreyas_00","Refer_09"
-];
+const usernames = ["Bishesh_04","Ayush_05","Soumya_01","Shreyas_00","Refer_09"];
 const bcryptHash = "$2a$10$O3iRa7sA4jENxb3r5TK9FeW.ZPt13qJ/JGk/IGR71CBOxJw0gLfUy";
 document.getElementById('loginForm').onsubmit = async function(e){
   e.preventDefault();
@@ -18,6 +16,4 @@ document.getElementById('loginForm').onsubmit = async function(e){
   showStatus('Login successful! Redirecting...');
   setTimeout(() => { window.location.href="authority-dashboard.html"; }, 900);
 };
-function showStatus(msg){
-  document.getElementById('auth-status').innerText = msg;
-}
+function showStatus(msg){ document.getElementById('auth-status').innerText = msg; }
