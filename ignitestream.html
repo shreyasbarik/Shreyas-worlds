@@ -1,133 +1,1073 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>IgniteStream | Sharvika</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IgniteStream — Sharvika</title>
+  
   <style>
-    body {
-      font-family: 'SF Pro', sans-serif;
-      background: #f5f5f7;
+    /* ==================== Apple-Style CSS Reset ==================== */
+    * {
       margin: 0;
-      padding: 0 1rem 4rem;
-      color: #000;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    header {
-      padding: 1rem 0;
-      text-align: center;
-      font-weight: 700;
-      font-size: 2rem;
-      border-bottom: 1px solid #ddd;
-      background: #fff;
+    :root {
+      --apple-black: #1d1d1f;
+      --apple-gray: #86868b;
+      --apple-light-gray: #f5f5f7;
+      --apple-white: #fbfbfd;
+      --apple-blue: #0071e3;
+      --apple-hover-blue: #0077ed;
+      --ignite-red: #FF3B30;
+      --ignite-orange: #FF9500;
+      --ignite-yellow: #FFCC00;
+      --ignite-deep-orange: #FF6B35;
+      --card-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      --card-shadow-hover: 0 8px 32px rgba(0, 0, 0, 0.12);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+      background: linear-gradient(135deg, #FFF5E1 0%, #FFE4CC 25%, #FFDAB9 50%, #FFB366 100%);
+      background-attachment: fixed;
+      color: var(--apple-black);
+      overflow-x: hidden;
+      line-height: 1.47059;
+      font-weight: 400;
+      letter-spacing: -0.022em;
+      cursor: crosshair;
+    }
+
+    /* ==================== Navigation Bar (Apple Style) ==================== */
+    .navbar {
       position: sticky;
       top: 0;
-      z-index: 100;
+      z-index: 9999;
+      background: rgba(255, 245, 225, 0.72);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid rgba(255, 59, 48, 0.2);
+      transition: all 0.4s cubic-bezier(0.28, 0.11, 0.32, 1);
+      cursor: default;
     }
 
-    .video-section {
-      max-width: 700px;
-      margin: 2rem auto;
-      background: #fff;
-      border-radius: 18px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-      padding: 1rem 1.5rem 2rem;
+    .navbar.scrolled {
+      background: rgba(255, 245, 225, 0.88);
+      box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05);
     }
 
-    video {
-      width: 100%;
-      border-radius: 14px;
-      background: #000;
-      outline: none;
-    }
-
-    .description {
-      margin-top: 1rem;
-      font-size: 1.1rem;
-      font-weight: 500;
-      line-height: 1.6;
-      color: #444;
-      text-align: center;
-    }
-
-    .emoji-reactions {
-      margin-top: 1rem;
+    .nav-content {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 22px;
+      height: 44px;
       display: flex;
-      gap: 1.5rem;
-      justify-content: center;
+      align-items: center;
+      justify-content: space-between;
     }
 
-    .emoji-btn {
-      font-size: 2rem;
+    .nav-logo {
+      font-size: 21px;
+      font-weight: 600;
+      background: linear-gradient(135deg, var(--ignite-red) 0%, var(--ignite-orange) 50%, var(--ignite-yellow) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.02em;
+      text-decoration: none;
+      transition: opacity 0.3s ease;
       cursor: pointer;
-      user-select: none;
-      transition: transform 0.3s ease;
+      animation: fireGlow 3s ease-in-out infinite;
     }
 
-    .emoji-btn:active {
-      transform: scale(1.3);
-    }
-
-    @media (max-width: 500px) {
-      .video-section {
-        margin: 1rem 0.5rem;
-        padding: 1rem;
+    @keyframes fireGlow {
+      0%, 100% {
+        filter: drop-shadow(0 0 8px rgba(255, 59, 48, 0.4));
+      }
+      50% {
+        filter: drop-shadow(0 0 16px rgba(255, 149, 0, 0.6));
       }
     }
+
+    .nav-logo:hover {
+      opacity: 0.7;
+    }
+
+    .nav-tagline {
+      font-size: 12px;
+      color: var(--apple-gray);
+      font-weight: 400;
+      letter-spacing: -0.01em;
+    }
+
+    /* ==================== Hero Section ==================== */
+    .hero {
+      text-align: center;
+      padding: 80px 20px 60px;
+      max-width: 980px;
+      margin: 0 auto;
+      cursor: crosshair;
+    }
+
+    .hero-eyebrow {
+      font-size: 17px;
+      line-height: 1.23536;
+      font-weight: 600;
+      letter-spacing: -0.022em;
+      background: linear-gradient(135deg, var(--ignite-red), var(--ignite-orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease forwards;
+    }
+
+    .hero-title {
+      font-size: 64px;
+      line-height: 1.0625;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      background: linear-gradient(135deg, var(--ignite-red) 0%, var(--ignite-orange) 50%, var(--ignite-yellow) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease 0.1s forwards;
+    }
+
+    .hero-subtitle {
+      font-size: 28px;
+      line-height: 1.14286;
+      font-weight: 400;
+      letter-spacing: 0.007em;
+      color: var(--apple-gray);
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease 0.2s forwards;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ==================== Video Gallery ==================== */
+    .gallery {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px 100px;
+      cursor: crosshair;
+    }
+
+    .video-item {
+      margin-bottom: 120px;
+      opacity: 0;
+      transform: translateY(60px);
+      transition: all 0.8s cubic-bezier(0.28, 0.11, 0.32, 1);
+    }
+
+    .video-item.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Video Container */
+    .video-wrapper {
+      position: relative;
+      border-radius: 28px;
+      overflow: hidden;
+      background: #000;
+      box-shadow: var(--card-shadow);
+      transition: all 0.5s cubic-bezier(0.28, 0.11, 0.32, 1);
+      max-width: 980px;
+      margin: 0 auto 32px;
+      cursor: default;
+      border: 3px solid transparent;
+      background-clip: padding-box;
+    }
+
+    .video-wrapper::before {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      background: linear-gradient(135deg, var(--ignite-red), var(--ignite-orange), var(--ignite-yellow), var(--ignite-red));
+      background-size: 300% 300%;
+      border-radius: 31px;
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      animation: fireFlow 6s ease infinite;
+    }
+
+    @keyframes fireFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .video-wrapper:hover {
+      box-shadow: 0 12px 40px rgba(255, 59, 48, 0.3);
+      transform: scale(1.01);
+    }
+
+    .video-wrapper:hover::before {
+      opacity: 1;
+    }
+
+    .video-wrapper video {
+      width: 100%;
+      display: block;
+      background: #000;
+      cursor: pointer;
+    }
+
+    .video-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(255, 59, 48, 0.4) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+
+    .video-wrapper:hover .video-overlay {
+      opacity: 1;
+    }
+
+    /* Content Section */
+    .video-content {
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 20px;
+      cursor: crosshair;
+    }
+
+    .video-quote {
+      font-size: 24px;
+      line-height: 1.33341;
+      font-weight: 600;
+      letter-spacing: 0.009em;
+      color: var(--apple-black);
+      margin-bottom: 32px;
+      position: relative;
+      padding: 0 40px;
+    }
+
+    .video-quote::before,
+    .video-quote::after {
+      content: '';
+      position: absolute;
+      width: 24px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--ignite-red), var(--ignite-orange));
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .video-quote::before {
+      left: 0;
+    }
+
+    .video-quote::after {
+      right: 0;
+    }
+
+    /* ==================== Emoji Reactions (Apple Style) ==================== */
+    .reactions {
+      display: inline-flex;
+      gap: 12px;
+      background: rgba(255, 228, 204, 0.5);
+      padding: 8px;
+      border-radius: 50px;
+      position: relative;
+      cursor: default;
+      backdrop-filter: blur(10px);
+    }
+
+    .reaction-btn {
+      position: relative;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: none;
+      background: var(--apple-white);
+      font-size: 26px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s cubic-bezier(0.28, 0.11, 0.32, 1);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .reaction-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 4px 12px rgba(255, 59, 48, 0.3);
+      background: #fff;
+    }
+
+    .reaction-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* ==================== Emoji Animations ==================== */
+    
+    @keyframes thumbsUp {
+      0% { transform: scale(1) translateY(0) rotate(0deg); }
+      30% { transform: scale(1.3) translateY(-10px) rotate(-15deg); }
+      60% { transform: scale(1.1) translateY(-5px) rotate(5deg); }
+      100% { transform: scale(1) translateY(0) rotate(0deg); }
+    }
+
+    .reaction-btn[data-type="like"].animate {
+      animation: thumbsUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes thumbsDown {
+      0% { transform: scale(1) translateY(0) rotate(0deg); }
+      30% { transform: scale(1.3) translateY(10px) rotate(15deg); }
+      60% { transform: scale(1.1) translateY(5px) rotate(-5deg); }
+      100% { transform: scale(1) translateY(0) rotate(0deg); }
+    }
+
+    .reaction-btn[data-type="dislike"].animate {
+      animation: thumbsDown 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes heartBeat {
+      0% { transform: scale(1); }
+      15% { transform: scale(1.4); }
+      30% { transform: scale(1.2); }
+      45% { transform: scale(1.35); }
+      60% { transform: scale(1.25); }
+      100% { transform: scale(1); }
+    }
+
+    .reaction-btn[data-type="love"].animate {
+      animation: heartBeat 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .particle-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9998;
+    }
+
+    .emoji-particle {
+      position: absolute;
+      font-size: 24px;
+      pointer-events: none;
+      animation: floatAway 2s cubic-bezier(0.28, 0.11, 0.32, 1) forwards;
+      filter: blur(0);
+    }
+
+    @keyframes floatAway {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotate(0deg);
+        filter: blur(0);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-150px) scale(0.3) rotate(180deg);
+        filter: blur(4px);
+      }
+    }
+
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 59, 48, 0.3);
+      transform: scale(0);
+      animation: rippleEffect 0.6s ease-out;
+      pointer-events: none;
+    }
+
+    @keyframes rippleEffect {
+      to {
+        transform: scale(3);
+        opacity: 0;
+      }
+    }
+
+    /* ==================== BEAUTIFUL HEART ANIMATIONS ==================== */
+    .heart-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9997;
+      overflow: hidden;
+    }
+
+    .animated-heart {
+      position: absolute;
+      pointer-events: none;
+      filter: drop-shadow(0 0 20px rgba(255, 59, 48, 0.8));
+    }
+
+    .heart-svg {
+      width: 100%;
+      height: 100%;
+      animation: heartPulse 0.6s ease-out;
+    }
+
+    @keyframes heartPulse {
+      0% {
+        transform: scale(0) rotate(-45deg);
+        opacity: 0;
+      }
+      50% {
+        transform: scale(1.3) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+      }
+    }
+
+    .heart-float {
+      animation: floatUpHeart 4s ease-out forwards;
+    }
+
+    @keyframes floatUpHeart {
+      0% {
+        transform: translateY(0) translateX(0) scale(1) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-600px) translateX(var(--random-x)) scale(0.3) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .heart-burst {
+      animation: burstHeart 1.5s ease-out forwards;
+    }
+
+    @keyframes burstHeart {
+      0% {
+        transform: scale(0) rotate(0deg);
+        opacity: 1;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        transform: scale(3) rotate(180deg);
+        opacity: 0;
+      }
+    }
+
+    .sharvika-text {
+      position: absolute;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      background: linear-gradient(135deg, #FF6B9D 0%, #C239B3 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      white-space: nowrap;
+      pointer-events: none;
+      animation: textFloat 3s ease-out forwards;
+      filter: drop-shadow(0 2px 8px rgba(255, 105, 180, 0.4));
+    }
+
+    @keyframes textFloat {
+      0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.8);
+      }
+      20% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      80% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-100px) scale(0.5);
+      }
+    }
+
+    .sparkle-particle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: linear-gradient(135deg, #FFD700, #FFA500);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: sparkleFloat 2s ease-out forwards;
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+    }
+
+    @keyframes sparkleFloat {
+      0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(var(--spark-x), var(--spark-y)) scale(0);
+        opacity: 0;
+      }
+    }
+
+    .heart-ripple {
+      position: absolute;
+      border: 3px solid #FF1744;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: heartRipple 1s ease-out forwards;
+    }
+
+    @keyframes heartRipple {
+      0% {
+        width: 0;
+        height: 0;
+        opacity: 1;
+      }
+      100% {
+        width: 300px;
+        height: 300px;
+        opacity: 0;
+      }
+    }
+
+    /* ==================== Responsive Design ==================== */
+    @media (max-width: 1068px) {
+      .hero-title { font-size: 48px; }
+      .hero-subtitle { font-size: 24px; }
+      .video-quote { font-size: 20px; }
+    }
+
+    @media (max-width: 735px) {
+      .hero { padding: 60px 20px 40px; }
+      .hero-title { font-size: 40px; }
+      .hero-subtitle { font-size: 20px; }
+      .video-quote { font-size: 18px; padding: 0 30px; }
+      .video-item { margin-bottom: 80px; }
+      .video-wrapper { border-radius: 18px; }
+      .reaction-btn { width: 48px; height: 48px; font-size: 22px; }
+      .reactions { gap: 8px; }
+    }
+
+    @media (max-width: 480px) {
+      .nav-logo { font-size: 18px; }
+      .hero-title { font-size: 32px; }
+      .hero-subtitle { font-size: 18px; }
+      .video-quote { font-size: 16px; padding: 0 20px; }
+      .video-quote::before, .video-quote::after { width: 16px; }
+      .reaction-btn { width: 44px; height: 44px; font-size: 20px; }
+    }
+
+    .video-wrapper.loading::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0) 100%);
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    ::-webkit-scrollbar { width: 12px; }
+    ::-webkit-scrollbar-track { background: #FFE4CC; }
+    ::-webkit-scrollbar-thumb { background: var(--ignite-orange); border-radius: 6px; border: 3px solid #FFE4CC; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--ignite-red); }
+    ::selection { background: rgba(255, 59, 48, 0.2); color: var(--apple-black); }
+    button:focus-visible { outline: 2px solid var(--ignite-red); outline-offset: 2px; }
   </style>
 </head>
 <body>
-  <header>IgniteStream </header>
+  
+  <!-- Heart Animation Container -->
+  <div class="heart-container" id="heartContainer"></div>
 
-  <main>
-    <section class="video-section">
-      <video controls muted playsinline src="IgniteStream videos/video1.mp4"></video>
-      <div class="description">
-        "Every spark starts with a thought. Ignite yours today."
-      </div>
-      <div class="emoji-reactions">
-        <div class="emoji-btn">👍</div>
-        <div class="emoji-btn">👎</div>
-        <div class="emoji-btn">❤️</div>
-      </div>
-    </section>
+  <!-- Navigation Bar -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-content">
+      <a href="#" class="nav-logo">🔥 IgniteStream</a>
+      <span class="nav-tagline">by Sharvika</span>
+    </div>
+  </nav>
 
-    <section class="video-section">
-      <video controls muted playsinline src="IgniteStream videos/video2.mp4"></video>
-      <div class="description">
-        "Push boundaries. Light your passion."
-      </div>
-      <div class="emoji-reactions">
-        <div class="emoji-btn">👍</div>
-        <div class="emoji-btn">👎</div>
-        <div class="emoji-btn">❤️</div>
-      </div>
-    </section>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-eyebrow">Ignite Your Passion</div>
+    <h1 class="hero-title">IgniteStream.</h1>
+    <p class="hero-subtitle">Where fire meets inspiration.</p>
+  </section>
 
-    <section class="video-section">
-      <video controls muted playsinline src="IgniteStream videos/video3.mp4"></video>
-      <div class="description">
-        "Consistency is fire. Feed it daily."
+  <!-- Video Gallery -->
+  <main class="gallery">
+    
+    <!-- Video 1 -->
+    <article class="video-item">
+      <div class="video-wrapper">
+        <video controls preload="metadata" src="IgniteStream videos/video1.mp4" playsinline></video>
+        <div class="video-overlay"></div>
       </div>
-      <div class="emoji-reactions">
-        <div class="emoji-btn">👍</div>
-        <div class="emoji-btn">👎</div>
-        <div class="emoji-btn">❤️</div>
+      <div class="video-content">
+        <p class="video-quote">Every spark starts with a thought. Ignite yours today.</p>
+        <div class="reactions">
+          <button class="reaction-btn" data-type="like" data-emoji="👍" aria-label="Like">
+            <span>👍</span>
+          </button>
+          <button class="reaction-btn" data-type="dislike" data-emoji="👎" aria-label="Dislike">
+            <span>👎</span>
+          </button>
+          <button class="reaction-btn" data-type="love" data-emoji="❤️" aria-label="Love">
+            <span>❤️</span>
+          </button>
+        </div>
       </div>
-    </section>
+    </article>
 
-    <section class="video-section">
-      <video controls muted playsinline src="IgniteStream videos/video4.mp4"></video>
-      <div class="description">
-        "Burn with curiosity. Shine with confidence."
+    <!-- Video 2 -->
+    <article class="video-item">
+      <div class="video-wrapper">
+        <video controls preload="metadata" src="IgniteStream videos/video2.mp4" playsinline></video>
+        <div class="video-overlay"></div>
       </div>
-      <div class="emoji-reactions">
-        <div class="emoji-btn">👍</div>
-        <div class="emoji-btn">👎</div>
-        <div class="emoji-btn">❤️</div>
+      <div class="video-content">
+        <p class="video-quote">Push boundaries. Light your passion.</p>
+        <div class="reactions">
+          <button class="reaction-btn" data-type="like" data-emoji="👍" aria-label="Like">
+            <span>👍</span>
+          </button>
+          <button class="reaction-btn" data-type="dislike" data-emoji="👎" aria-label="Dislike">
+            <span>👎</span>
+          </button>
+          <button class="reaction-btn" data-type="love" data-emoji="❤️" aria-label="Love">
+            <span>❤️</span>
+          </button>
+        </div>
       </div>
-    </section>
+    </article>
+
+    <!-- Video 3 -->
+    <article class="video-item">
+      <div class="video-wrapper">
+        <video controls preload="metadata" src="IgniteStream videos/video3.mp4" playsinline></video>
+        <div class="video-overlay"></div>
+      </div>
+      <div class="video-content">
+        <p class="video-quote">Consistency is fire. Feed it daily.</p>
+        <div class="reactions">
+          <button class="reaction-btn" data-type="like" data-emoji="👍" aria-label="Like">
+            <span>👍</span>
+          </button>
+          <button class="reaction-btn" data-type="dislike" data-emoji="👎" aria-label="Dislike">
+            <span>👎</span>
+          </button>
+          <button class="reaction-btn" data-type="love" data-emoji="❤️" aria-label="Love">
+            <span>❤️</span>
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Video 4 -->
+    <article class="video-item">
+      <div class="video-wrapper">
+        <video controls preload="metadata" src="IgniteStream videos/video4.mp4" playsinline></video>
+        <div class="video-overlay"></div>
+      </div>
+      <div class="video-content">
+        <p class="video-quote">Burn with curiosity. Shine with confidence.</p>
+        <div class="reactions">
+          <button class="reaction-btn" data-type="like" data-emoji="👍" aria-label="Like">
+            <span>👍</span>
+          </button>
+          <button class="reaction-btn" data-type="dislike" data-emoji="👎" aria-label="Dislike">
+            <span>👎</span>
+          </button>
+          <button class="reaction-btn" data-type="love" data-emoji="❤️" aria-label="Love">
+            <span>❤️</span>
+          </button>
+        </div>
+      </div>
+    </article>
+
   </main>
+
+  <div class="particle-container" id="particleContainer"></div>
+
+  <script>
+    // ==================== BEAUTIFUL HEART ANIMATION SYSTEM ====================
+    const heartContainer = document.getElementById('heartContainer');
+
+    const heartGradients = [
+      { start: '#FF6B9D', end: '#C239B3' },
+      { start: '#FF1744', end: '#F50057' },
+      { start: '#FF4081', end: '#F50057' },
+      { start: '#E91E63', end: '#9C27B0' },
+      { start: '#FF6F00', end: '#FF1744' },
+      { start: '#FF5722', end: '#E91E63' },
+    ];
+
+    function createHeartSVG(gradient) {
+      const svgNS = "http://www.w3.org/2000/svg";
+      const svg = document.createElementNS(svgNS, "svg");
+      svg.setAttribute("viewBox", "0 0 100 100");
+      svg.classList.add("heart-svg");
+
+      const defs = document.createElementNS(svgNS, "defs");
+      const gradientEl = document.createElementNS(svgNS, "linearGradient");
+      const gradientId = `heartGradient${Math.random().toString(36).substr(2, 9)}`;
+      gradientEl.setAttribute("id", gradientId);
+      gradientEl.setAttribute("x1", "0%");
+      gradientEl.setAttribute("y1", "0%");
+      gradientEl.setAttribute("x2", "100%");
+      gradientEl.setAttribute("y2", "100%");
+
+      const stop1 = document.createElementNS(svgNS, "stop");
+      stop1.setAttribute("offset", "0%");
+      stop1.setAttribute("style", `stop-color:${gradient.start};stop-opacity:1`);
+
+      const stop2 = document.createElementNS(svgNS, "stop");
+      stop2.setAttribute("offset", "100%");
+      stop2.setAttribute("style", `stop-color:${gradient.end};stop-opacity:1`);
+
+      gradientEl.appendChild(stop1);
+      gradientEl.appendChild(stop2);
+      defs.appendChild(gradientEl);
+      svg.appendChild(defs);
+
+      const heart = document.createElementNS(svgNS, "path");
+      heart.setAttribute("d", "M50,92 C50,92 10,65 10,40 C10,25 20,15 32,15 C40,15 47,20 50,28 C53,20 60,15 68,15 C80,15 90,25 90,40 C90,65 50,92 50,92 Z");
+      heart.setAttribute("fill", `url(#${gradientId})`);
+      heart.setAttribute("stroke", "#FFF");
+      heart.setAttribute("stroke-width", "2");
+
+      svg.appendChild(heart);
+      return svg;
+    }
+
+    function createAnimatedHeart(x, y) {
+      const gradient = heartGradients[Math.floor(Math.random() * heartGradients.length)];
+      const size = Math.random() * 60 + 80;
+      
+      const heartDiv = document.createElement('div');
+      heartDiv.className = 'animated-heart heart-float';
+      heartDiv.style.left = (x - size / 2) + 'px';
+      heartDiv.style.top = (y - size / 2) + 'px';
+      heartDiv.style.width = size + 'px';
+      heartDiv.style.height = size + 'px';
+      heartDiv.style.setProperty('--random-x', `${(Math.random() - 0.5) * 200}px`);
+
+      const heartSVG = createHeartSVG(gradient);
+      heartDiv.appendChild(heartSVG);
+
+      heartContainer.appendChild(heartDiv);
+
+      setTimeout(() => heartDiv.remove(), 4000);
+    }
+
+    function createHeartBurst(x, y) {
+      const count = 8;
+      for (let i = 0; i < count; i++) {
+        setTimeout(() => {
+          const gradient = heartGradients[Math.floor(Math.random() * heartGradients.length)];
+          const angle = (Math.PI * 2 / count) * i;
+          const distance = 80;
+          const heartX = x + Math.cos(angle) * distance;
+          const heartY = y + Math.sin(angle) * distance;
+          const size = Math.random() * 30 + 40;
+
+          const heartDiv = document.createElement('div');
+          heartDiv.className = 'animated-heart heart-burst';
+          heartDiv.style.left = (heartX - size / 2) + 'px';
+          heartDiv.style.top = (heartY - size / 2) + 'px';
+          heartDiv.style.width = size + 'px';
+          heartDiv.style.height = size + 'px';
+
+          const heartSVG = createHeartSVG(gradient);
+          heartDiv.appendChild(heartSVG);
+
+          heartContainer.appendChild(heartDiv);
+
+          setTimeout(() => heartDiv.remove(), 1500);
+        }, i * 50);
+      }
+    }
+
+    function createSharvikaText(x, y) {
+      const text = document.createElement('div');
+      text.className = 'sharvika-text';
+      text.textContent = 'From Sharvika ✨';
+      text.style.left = (x - 80) + 'px';
+      text.style.top = (y + 60) + 'px';
+
+      heartContainer.appendChild(text);
+
+      setTimeout(() => text.remove(), 3000);
+    }
+
+    function createSparkles(x, y) {
+      const count = 20;
+      for (let i = 0; i < count; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle-particle';
+        sparkle.style.left = x + 'px';
+        sparkle.style.top = y + 'px';
+        
+        const angle = (Math.PI * 2 / count) * i;
+        const distance = Math.random() * 100 + 50;
+        sparkle.style.setProperty('--spark-x', `${Math.cos(angle) * distance}px`);
+        sparkle.style.setProperty('--spark-y', `${Math.sin(angle) * distance}px`);
+
+        heartContainer.appendChild(sparkle);
+
+        setTimeout(() => sparkle.remove(), 2000);
+      }
+    }
+
+    function createHeartRipple(x, y) {
+      const ripple = document.createElement('div');
+      ripple.className = 'heart-ripple';
+      ripple.style.left = (x - 0) + 'px';
+      ripple.style.top = (y - 0) + 'px';
+
+      heartContainer.appendChild(ripple);
+
+      setTimeout(() => ripple.remove(), 1000);
+    }
+
+    // ==================== SOUND EFFECTS ====================
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    const audioContext = new AudioContext();
+
+    function playHeartSound() {
+      const now = audioContext.currentTime;
+      const frequencies = [523.25, 659.25, 783.99, 1046.50];
+      
+      frequencies.forEach((freq, index) => {
+        setTimeout(() => {
+          const osc = audioContext.createOscillator();
+          const gain = audioContext.createGain();
+          
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, audioContext.currentTime);
+          
+          gain.gain.setValueAtTime(0.3, audioContext.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.8);
+          
+          osc.connect(gain);
+          gain.connect(audioContext.destination);
+          
+          osc.start(audioContext.currentTime);
+          osc.stop(audioContext.currentTime + 0.8);
+        }, index * 100);
+      });
+    }
+
+    function playSparkleSound() {
+      const osc = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+      
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(2000, audioContext.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(4000, audioContext.currentTime + 0.2);
+      
+      gain.gain.setValueAtTime(0.2, audioContext.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+      
+      osc.connect(gain);
+      gain.connect(audioContext.destination);
+      
+      osc.start(audioContext.currentTime);
+      osc.stop(audioContext.currentTime + 0.2);
+    }
+
+    function triggerHeartEffect(x, y) {
+      if (audioContext.state === 'suspended') {
+        audioContext.resume();
+      }
+
+      playHeartSound();
+      setTimeout(() => playSparkleSound(), 200);
+
+      createHeartRipple(x, y);
+
+      for (let i = 0; i < 5; i++) {
+        setTimeout(() => {
+          const offsetX = (Math.random() - 0.5) * 100;
+          const offsetY = (Math.random() - 0.5) * 50;
+          createAnimatedHeart(x + offsetX, y + offsetY);
+        }, i * 100);
+      }
+
+      setTimeout(() => createHeartBurst(x, y), 300);
+      createSparkles(x, y);
+      createSharvikaText(x, y);
+
+      if (navigator.vibrate) {
+        navigator.vibrate([30, 50, 30, 50, 30]);
+      }
+    }
+
+    // ==================== CLICK HANDLER ====================
+    document.addEventListener('click', (e) => {
+      const target = e.target;
+      const isButton = target.closest('button');
+      const isVideo = target.closest('video');
+      const isLink = target.closest('a');
+      const isControl = target.closest('.reactions, .navbar, .video-wrapper');
+
+      if (!isButton && !isVideo && !isLink && !isControl) {
+        triggerHeartEffect(e.clientX, e.clientY);
+      }
+    });
+
+    // ==================== SCROLL REVEAL ====================
+    const observerOptions = {
+      threshold: 0.2,
+      rootMargin: '0px 0px -100px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.video-item').forEach(item => {
+      observer.observe(item);
+    });
+
+    // ==================== NAVBAR SCROLL ====================
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // ==================== EMOJI REACTIONS ====================
+    const reactionButtons = document.querySelectorAll('.reaction-btn');
+
+    reactionButtons.forEach(button => {
+      const emoji = button.dataset.emoji;
+      const type = button.dataset.type;
+
+      button.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        this.classList.add('animate');
+        setTimeout(() => this.classList.remove('animate'), 800);
+
+        createRipple(e, this);
+        createFloatingEmoji(e, emoji);
+
+        if (navigator.vibrate) {
+          navigator.vibrate(10);
+        }
+      });
+    });
+
+    function createRipple(event, button) {
+      const ripple = document.createElement('span');
+      ripple.classList.add('ripple');
+
+      const rect = button.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      const x = event.clientX - rect.left - size / 2;
+      const y = event.clientY - rect.top - size / 2;
+
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = x + 'px';
+      ripple.style.top = y + 'px';
+
+      button.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 600);
+    }
+
+    function createFloatingEmoji(event, emoji) {
+      const particle = document.createElement('div');
+      particle.classList.add('emoji-particle');
+      particle.textContent = emoji;
+      
+      const randomOffset = (Math.random() - 0.5) * 100;
+      particle.style.left = event.clientX + randomOffset + 'px';
+      particle.style.top = event.clientY + 'px';
+
+      document.getElementById('particleContainer').appendChild(particle);
+      setTimeout(() => particle.remove(), 2000);
+    }
+
+    // ==================== VIDEO CONTROLS ====================
+    document.querySelectorAll('video').forEach(video => {
+      const wrapper = video.closest('.video-wrapper');
+      
+      video.addEventListener('loadstart', () => {
+        wrapper.classList.add('loading');
+      });
+
+      video.addEventListener('loadeddata', () => {
+        wrapper.classList.remove('loading');
+      });
+
+      video.addEventListener('play', () => {
+        document.querySelectorAll('video').forEach(v => {
+          if (v !== video) v.pause();
+        });
+      });
+    });
+
+    // ==================== KEYBOARD SHORTCUTS ====================
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('video').forEach(v => v.pause());
+      }
+      
+      if (e.code === 'Space' && e.target.tagName !== 'VIDEO') {
+        e.preventDefault();
+        const x = window.innerWidth / 2;
+        const y = window.innerHeight / 2;
+        triggerHeartEffect(x, y);
+      }
+    });
+
+    // ==================== WELCOME HEART ANIMATION ====================
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        triggerHeartEffect(window.innerWidth / 2, window.innerHeight / 3);
+      }, 1200);
+    });
+  </script>
+
 </body>
 </html>

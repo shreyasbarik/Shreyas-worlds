@@ -3,141 +3,720 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sign Up | Sharvika</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Sign up — Sharvika</title>
+  
   <style>
+    /* ==================== Professional Reset ==================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: 'SF Pro', sans-serif;
-      background: #f5f5f7;
+      font-family: 'Google Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background: #fff;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      margin: 0;
+      min-height: 100vh;
+      padding: 20px;
+      color: #202124;
     }
 
-    .form-container {
-      background: #fff;
-      padding: 2rem;
-      border-radius: 16px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-      width: 90%;
-      max-width: 400px;
-      text-align: center;
-      transition: 0.3s ease;
-    }
-
-    .form-container h2 {
-      margin-bottom: 1.5rem;
-      font-size: 1.6rem;
-    }
-
-    input[type="email"], input[type="password"] {
+    /* ==================== Container ==================== */
+    .auth-container {
       width: 100%;
-      padding: 0.8rem;
-      margin-bottom: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 12px;
-      font-size: 1rem;
+      max-width: 450px;
+    }
+
+    .auth-card {
+      background: #fff;
+      border: 1px solid #dadce0;
+      border-radius: 8px;
+      padding: 48px 40px 36px;
+      box-sizing: border-box;
+    }
+
+    /* ==================== Logo ==================== */
+    .logo {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .logo-text {
+      font-size: 24px;
+      font-weight: 400;
+      color: #202124;
+      letter-spacing: -0.5px;
+    }
+
+    .logo-text span {
+      color: #1a73e8;
+      font-weight: 500;
+    }
+
+    /* ==================== Heading ==================== */
+    h1 {
+      font-size: 24px;
+      font-weight: 400;
+      line-height: 1.3333;
+      margin-bottom: 8px;
+      text-align: center;
+      color: #202124;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.5;
+      color: #5f6368;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    /* ==================== Form ==================== */
+    form {
+      margin-top: 24px;
+    }
+
+    .input-wrapper {
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      color: #5f6368;
+      margin-bottom: 8px;
+      line-height: 1.4286;
+    }
+
+    input[type="email"],
+    input[type="password"],
+    input[type="text"] {
+      width: 100%;
+      height: 48px;
+      padding: 13px 15px;
+      font-size: 16px;
+      line-height: 1.5;
+      color: #202124;
+      background: #fff;
+      border: 1px solid #dadce0;
+      border-radius: 4px;
       outline: none;
-      transition: border 0.3s;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    input:hover {
+      border-color: #bdc1c6;
+      box-shadow: 0 1px 1px 0 rgba(65, 69, 73, 0.3), 0 1px 3px 1px rgba(65, 69, 73, 0.15);
     }
 
     input:focus {
-      border-color: #0071e3;
+      border-color: #1a73e8;
+      border-width: 2px;
+      padding: 12px 14px;
+      box-shadow: none;
     }
 
-    .btn {
-      background: #0071e3;
-      color: #fff;
-      padding: 0.9rem 2rem;
-      border: none;
-      border-radius: 12px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background 0.3s;
-      width: 100%;
+    input.error {
+      border-color: #d93025;
     }
 
-    .btn:hover {
-      background: #005bb5;
+    input.error:focus {
+      border-color: #d93025;
+      border-width: 2px;
     }
 
-    .toggle-link {
+    /* ==================== Error Message ==================== */
+    .error-message {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+      font-size: 12px;
+      color: #d93025;
+      line-height: 1.3333;
+    }
+
+    .error-message.show {
+      display: flex;
+    }
+
+    .error-icon {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    /* ==================== Password Requirements ==================== */
+    .password-requirements {
+      margin-top: 8px;
+      padding: 12px;
+      background: #f8f9fa;
+      border-radius: 4px;
+      display: none;
+    }
+
+    .password-requirements.show {
       display: block;
-      margin-top: 1rem;
-      font-size: 0.9rem;
-      color: #0071e3;
+    }
+
+    .requirement {
+      font-size: 12px;
+      color: #5f6368;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .requirement:last-child {
+      margin-bottom: 0;
+    }
+
+    .requirement.met {
+      color: #1e8e3e;
+    }
+
+    .requirement::before {
+      content: '○';
+      font-size: 14px;
+    }
+
+    .requirement.met::before {
+      content: '✓';
+      font-weight: bold;
+    }
+
+    /* ==================== Checkbox ==================== */
+    .checkbox-wrapper {
+      margin: 24px 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      cursor: pointer;
+      accent-color: #1a73e8;
+    }
+
+    .checkbox-label {
+      font-size: 14px;
+      color: #5f6368;
+      line-height: 1.4286;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .checkbox-label a {
+      color: #1a73e8;
       text-decoration: none;
     }
 
-    .error-message {
-      color: red;
-      font-size: 0.9rem;
-      margin-top: 0.5rem;
+    .checkbox-label a:hover {
+      text-decoration: underline;
     }
 
-    .spinner {
+    /* ==================== Buttons ==================== */
+    .form-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 32px;
+    }
+
+    .btn-text {
+      color: #1a73e8;
+      font-size: 14px;
+      font-weight: 500;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s;
+      border-radius: 4px;
+      padding: 8px 16px;
+    }
+
+    .btn-text:hover {
+      background: rgba(26, 115, 232, 0.04);
+    }
+
+    .btn-primary {
+      background: #1a73e8;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 0 24px;
+      height: 36px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+      letter-spacing: 0.25px;
+      min-width: 80px;
+      position: relative;
+    }
+
+    .btn-primary:hover {
+      background: #1765cc;
+      box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    }
+
+    .btn-primary:active {
+      background: #1557b0;
+      box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 2px 6px 2px rgba(60, 64, 67, 0.15);
+    }
+
+    .btn-primary:disabled {
+      background: #dadce0;
+      color: #80868b;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .btn-primary .spinner {
       display: none;
-      margin: 1rem auto 0;
-      border: 3px solid #f3f3f3;
-      border-top: 3px solid #0071e3;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top-color: #fff;
       border-radius: 50%;
-      width: 24px;
-      height: 24px;
-      animation: spin 1s linear infinite;
+      animation: spin 0.6s linear infinite;
+    }
+
+    .btn-primary.loading .btn-text {
+      visibility: hidden;
+    }
+
+    .btn-primary.loading .spinner {
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
 
     @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+      to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    /* ==================== Divider ==================== */
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 28px 0;
+      color: #5f6368;
+      font-size: 14px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #dadce0;
+    }
+
+    .divider span {
+      padding: 0 16px;
+    }
+
+    /* ==================== Social Buttons ==================== */
+    .social-login {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .social-btn {
+      width: 100%;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: #fff;
+      border: 1px solid #dadce0;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #3c4043;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    .social-btn:hover {
+      background: #f8f9fa;
+      border-color: #dadce0;
+      box-shadow: 0 1px 1px 0 rgba(65, 69, 73, 0.3), 0 1px 3px 1px rgba(65, 69, 73, 0.15);
+    }
+
+    .social-btn img {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* ==================== Footer ==================== */
+    .auth-footer {
+      margin-top: 24px;
+      text-align: center;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 24px;
+      font-size: 12px;
+      color: #5f6368;
+    }
+
+    .footer-links a {
+      color: #5f6368;
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+
+    /* ==================== Success Message ==================== */
+    .success-message {
+      display: none;
+      padding: 12px 16px;
+      background: #e6f4ea;
+      border: 1px solid #c6e1c6;
+      border-radius: 4px;
+      margin-bottom: 16px;
+      color: #137333;
+      font-size: 14px;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .success-message.show {
+      display: flex;
+    }
+
+    /* ==================== Responsive ==================== */
+    @media (max-width: 600px) {
+      .auth-card {
+        padding: 32px 24px;
+        border: none;
+        box-shadow: none;
+      }
+
+      h1 {
+        font-size: 20px;
+      }
+
+      .form-actions {
+        flex-direction: column;
+        gap: 16px;
+        align-items: stretch;
+      }
+
+      .btn-primary {
+        width: 100%;
+        order: -1;
+      }
+
+      .btn-text {
+        width: 100%;
+        text-align: center;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="form-container">
-    <h2>Create Your Account ✨</h2>
-    <form id="signupForm">
-      <input type="email" id="email" placeholder="Email" required />
-      <input type="password" id="password" placeholder="Password" required />
-      <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
-      <button type="submit" class="btn">Sign Up</button>
-      <div class="spinner" id="spinner"></div>
-      <div class="error-message" id="errorMsg"></div>
-    </form>
-    <a class="toggle-link" href="login.html">Already have an account? Login</a>
+  
+  <div class="auth-container">
+    <div class="auth-card">
+      <!-- Logo -->
+      <div class="logo">
+        <div class="logo-text">
+          <span>Sharvika</span>
+        </div>
+      </div>
+
+      <!-- Heading -->
+      <h1>Create your Account</h1>
+      <p class="subtitle">to continue to Sharvika</p>
+
+      <!-- Success Message -->
+      <div class="success-message" id="successMessage">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="#137333">
+          <path d="M6.5 11.5L3 8l1-1 2.5 2.5L11 5l1 1-5.5 5.5z"/>
+        </svg>
+        <span>Account created successfully!</span>
+      </div>
+
+      <!-- Form -->
+      <form id="signupForm">
+        <!-- Email -->
+        <div class="input-wrapper">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" autocomplete="email" required />
+          <div class="error-message" id="emailError">
+            <svg class="error-icon" viewBox="0 0 16 16" fill="#d93025">
+              <path d="M8 1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7zm1 10.5H7V10h2v1.5zm0-3H7V4h2v4.5z"/>
+            </svg>
+            <span id="emailErrorText">Enter a valid email</span>
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="input-wrapper">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" autocomplete="new-password" required />
+          <div class="password-requirements" id="passwordReqs">
+            <div class="requirement" id="req-length">Use 8 or more characters</div>
+            <div class="requirement" id="req-letter">Use upper and lower case letters (e.g. Aa)</div>
+            <div class="requirement" id="req-number">Use a number (e.g. 1234)</div>
+          </div>
+          <div class="error-message" id="passwordError">
+            <svg class="error-icon" viewBox="0 0 16 16" fill="#d93025">
+              <path d="M8 1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7zm1 10.5H7V10h2v1.5zm0-3H7V4h2v4.5z"/>
+            </svg>
+            <span id="passwordErrorText">Password is too weak</span>
+          </div>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="input-wrapper">
+          <label for="confirmPassword">Confirm</label>
+          <input type="password" id="confirmPassword" name="confirmPassword" autocomplete="new-password" required />
+          <div class="error-message" id="confirmError">
+            <svg class="error-icon" viewBox="0 0 16 16" fill="#d93025">
+              <path d="M8 1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7zm1 10.5H7V10h2v1.5zm0-3H7V4h2v4.5z"/>
+            </svg>
+            <span>Passwords don't match</span>
+          </div>
+        </div>
+
+        <!-- Terms Checkbox -->
+        <div class="checkbox-wrapper">
+          <input type="checkbox" id="terms" required />
+          <label for="terms" class="checkbox-label">
+            I agree to the <a href="#" target="_blank">Terms of Service</a> and <a href="#" target="_blank">Privacy Policy</a>
+          </label>
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+          <a href="login.html" class="btn-text">Sign in instead</a>
+          <button type="submit" class="btn-primary" id="submitBtn">
+            <span class="btn-text">Next</span>
+            <div class="spinner"></div>
+          </button>
+        </div>
+      </form>
+
+      <!-- Divider -->
+      <div class="divider">
+        <span>or</span>
+      </div>
+
+      <!-- Social Login -->
+      <div class="social-login">
+        <button class="social-btn" type="button" onclick="alert('Google sign-in coming soon')">
+          <svg width="20" height="20" viewBox="0 0 20 20">
+            <path fill="#4285F4" d="M19.6 10.2c0-.7-.1-1.4-.2-2H10v3.8h5.4c-.2 1.2-1 2.2-2 2.9v2.5h3.2c1.9-1.7 3-4.3 3-7.2z"/>
+            <path fill="#34A853" d="M10 20c2.7 0 4.9-.9 6.6-2.4l-3.2-2.5c-.9.6-2 .9-3.4.9-2.6 0-4.8-1.8-5.6-4.1H1.1v2.6C2.8 17.7 6.1 20 10 20z"/>
+            <path fill="#FBBC04" d="M4.4 11.9c-.4-1.2-.4-2.6 0-3.8V5.5H1.1c-1.5 2.9-1.5 6.4 0 9.3l3.3-2.9z"/>
+            <path fill="#EA4335" d="M10 4c1.5 0 2.8.5 3.9 1.5l2.9-2.9C15 1 12.7 0 10 0 6.1 0 2.8 2.3 1.1 5.5l3.3 2.6C5.2 5.8 7.4 4 10 4z"/>
+          </svg>
+          Continue with Google
+        </button>
+        <button class="social-btn" type="button" onclick="alert('Apple sign-in coming soon')">
+          <svg width="20" height="20" viewBox="0 0 20 20">
+            <path fill="#000" d="M15.5 10.8c0-2.5 2-3.7 2.1-3.8-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.6.9-.8 0-1.9-.9-3.2-.8-1.6 0-3.1.9-3.9 2.4-1.7 2.9-.4 7.2 1.2 9.6.8 1.2 1.7 2.5 3 2.4 1.2 0 1.7-.8 3.2-.8 1.5 0 1.9.8 3.2.8 1.3 0 2.1-1.1 2.9-2.3.9-1.4 1.3-2.7 1.3-2.8-.1 0-2.4-.9-2.4-3.7zm-2.3-6.9c.7-.8 1.1-2 1-3.1-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.9-1 3 1.1.1 2.2-.5 2.8-1.4z"/>
+          </svg>
+          Continue with Apple
+        </button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="auth-footer">
+      <div class="footer-links">
+        <a href="#">Help</a>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+      </div>
+    </div>
   </div>
 
-  <!-- Firebase App (required) -->
+  <!-- Firebase App -->
   <script type="module">
     import { auth } from './firebase-config.js';
     import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 
-    const signupForm = document.getElementById("signupForm");
-    const errorMsg = document.getElementById("errorMsg");
-    const spinner = document.getElementById("spinner");
+    // ==================== Elements ====================
+    const form = document.getElementById('signupForm');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const confirmInput = document.getElementById('confirmPassword');
+    const submitBtn = document.getElementById('submitBtn');
+    const emailError = document.getElementById('emailError');
+    const passwordError = document.getElementById('passwordError');
+    const confirmError = document.getElementById('confirmError');
+    const passwordReqs = document.getElementById('passwordReqs');
+    const successMessage = document.getElementById('successMessage');
 
-    signupForm.addEventListener("submit", async (e) => {
+    // ==================== Password Validation ====================
+    const requirements = {
+      length: document.getElementById('req-length'),
+      letter: document.getElementById('req-letter'),
+      number: document.getElementById('req-number')
+    };
+
+    passwordInput.addEventListener('focus', () => {
+      passwordReqs.classList.add('show');
+    });
+
+    passwordInput.addEventListener('input', () => {
+      const password = passwordInput.value;
+      
+      // Check length
+      if (password.length >= 8) {
+        requirements.length.classList.add('met');
+      } else {
+        requirements.length.classList.remove('met');
+      }
+
+      // Check upper and lower case
+      if (/[a-z]/.test(password) && /[A-Z]/.test(password)) {
+        requirements.letter.classList.add('met');
+      } else {
+        requirements.letter.classList.remove('met');
+      }
+
+      // Check number
+      if (/\d/.test(password)) {
+        requirements.number.classList.add('met');
+      } else {
+        requirements.number.classList.remove('met');
+      }
+    });
+
+    // ==================== Email Validation ====================
+    emailInput.addEventListener('blur', () => {
+      const email = emailInput.value;
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      
+      if (email && !emailRegex.test(email)) {
+        emailInput.classList.add('error');
+        emailError.classList.add('show');
+      } else {
+        emailInput.classList.remove('error');
+        emailError.classList.remove('show');
+      }
+    });
+
+    emailInput.addEventListener('input', () => {
+      emailInput.classList.remove('error');
+      emailError.classList.remove('show');
+    });
+
+    // ==================== Confirm Password ====================
+    confirmInput.addEventListener('input', () => {
+      if (confirmInput.value && confirmInput.value !== passwordInput.value) {
+        confirmInput.classList.add('error');
+        confirmError.classList.add('show');
+      } else {
+        confirmInput.classList.remove('error');
+        confirmError.classList.remove('show');
+      }
+    });
+
+    // ==================== Form Submit ====================
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      errorMsg.textContent = "";
-      spinner.style.display = "block";
 
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      const confirmPassword = document.getElementById("confirmPassword").value;
+      const email = emailInput.value;
+      const password = passwordInput.value;
+      const confirmPassword = confirmInput.value;
+
+      // Clear errors
+      emailInput.classList.remove('error');
+      passwordInput.classList.remove('error');
+      confirmInput.classList.remove('error');
+      emailError.classList.remove('show');
+      passwordError.classList.remove('show');
+      confirmError.classList.remove('show');
+
+      // Validate
+      let hasError = false;
+
+      if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+        emailInput.classList.add('error');
+        emailError.classList.add('show');
+        hasError = true;
+      }
+
+      if (password.length < 8) {
+        passwordInput.classList.add('error');
+        passwordError.classList.add('show');
+        hasError = true;
+      }
 
       if (password !== confirmPassword) {
-        errorMsg.textContent = "Passwords do not match.";
-        spinner.style.display = "none";
-        return;
+        confirmInput.classList.add('error');
+        confirmError.classList.add('show');
+        hasError = true;
       }
+
+      if (hasError) return;
+
+      // Show loading
+      submitBtn.disabled = true;
+      submitBtn.classList.add('loading');
 
       try {
         await createUserWithEmailAndPassword(auth, email, password);
-        window.location.href = "index.html"; // Redirect to home page
+        
+        // Success
+        submitBtn.classList.remove('loading');
+        successMessage.classList.add('show');
+        form.reset();
+        passwordReqs.classList.remove('show');
+        
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 1500);
+
       } catch (error) {
-        spinner.style.display = "none";
-        errorMsg.textContent = error.message.replace("Firebase:", "");
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('loading');
+
+        // Handle errors
+        if (error.code === 'auth/email-already-in-use') {
+          emailInput.classList.add('error');
+          emailError.classList.add('show');
+          document.getElementById('emailErrorText').textContent = 'This email is already in use';
+        } else if (error.code === 'auth/invalid-email') {
+          emailInput.classList.add('error');
+          emailError.classList.add('show');
+        } else if (error.code === 'auth/weak-password') {
+          passwordInput.classList.add('error');
+          passwordError.classList.add('show');
+        } else {
+          alert(error.message);
+        }
       }
     });
   </script>

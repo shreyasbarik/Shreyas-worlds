@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="Sharvika Store - Download premium games for PC and mobile devices">
+    <meta name="theme-color" content="#01875f">
+    <title>Sharvika Store - Download Games for PC & Mobile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background: #f8f9fa;
+            color: #202124;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: #fff;
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .store-logo {
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
+        }
+
+        .store-name {
+            font-size: 22px;
+            color: #5f6368;
+            font-weight: 400;
+            letter-spacing: -0.5px;
+            white-space: nowrap;
+        }
+
+        .store-name .highlight {
+            color: #01875f;
+            font-weight: 500;
+        }
+
+        .search-container {
+            flex: 1;
+            max-width: 720px;
+        }
+
+        .search-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            width: 20px;
+            height: 20px;
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .search-box {
+            width: 100%;
+            height: 48px;
+            background: #f1f3f4;
+            border: none;
+            border-radius: 8px;
+            padding: 0 16px 0 48px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .search-box:focus {
+            background: #fff;
+            box-shadow: 0 1px 6px rgba(32,33,36,0.28);
+        }
+
+        /* Navigation */
+        .nav-tabs {
+            background: #fff;
+            border-bottom: 1px solid #dadce0;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .nav-container {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            gap: 40px;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .nav-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-tab {
+            padding: 16px 0;
+            color: #5f6368;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+            transition: all 0.2s;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .nav-tab:hover {
+            color: #202124;
+        }
+
+        .nav-tab.active {
+            color: #01875f;
+            border-bottom-color: #01875f;
+        }
+
+        /* Main Content */
+        .main {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 24px;
+            min-height: calc(100vh - 250px);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 500;
+            color: #202124;
+        }
+
+        /* Games List */
+        .games-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .game-item {
+            background: #fff;
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            transition: all 0.2s;
+            cursor: pointer;
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .game-item:hover {
+            box-shadow: 0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
+        }
+
+        .game-item:active {
+            transform: scale(0.99);
+        }
+
+        .game-icon-wrapper {
+            flex-shrink: 0;
+        }
+
+        .game-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 16px;
+            object-fit: cover;
+            border: 1px solid rgba(0,0,0,0.1);
+            display: block;
+        }
+
+        .game-details {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .game-title {
+            font-size: 16px;
+            font-weight: 400;
+            color: #202124;
+            margin-bottom: 2px;
+            line-height: 1.4;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .game-developer {
+            font-size: 13px;
+            color: #5f6368;
+            margin-bottom: 8px;
+        }
+
+        .game-stats {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+
+        .rating-box {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .rating-badge {
+            background: #01875f;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            color: #5f6368;
+        }
+
+        .category-badge {
+            background: #e8f5e9;
+            color: #137333;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .game-version {
+            font-size: 12px;
+            color: #5f6368;
+            margin: 6px 0;
+            line-height: 1.4;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .password-box {
+            background: #fef7e0;
+            border-left: 4px solid #f9ab00;
+            padding: 8px 12px;
+            margin: 8px 0;
+            display: inline-block;
+            border-radius: 4px;
+        }
+
+        .password-label {
+            font-size: 11px;
+            color: #5f6368;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .password-text {
+            font-size: 16px;
+            font-weight: 700;
+            color: #e37400;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+            user-select: all;
+        }
+
+        .game-actions {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .install-btn {
+            background: #01875f;
+            color: #fff;
+            border: none;
+            padding: 10px 32px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            white-space: nowrap;
+        }
+
+        .install-btn:hover {
+            background: #016d4f;
+            box-shadow: 0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
+        }
+
+        .install-btn:active {
+            transform: scale(0.96);
+        }
+
+        /* Footer */
+        .footer {
+            background: #fff;
+            border-top: 1px solid #dadce0;
+            padding: 24px;
+            margin-top: 64px;
+        }
+
+        .footer-content {
+            max-width: 1320px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: #5f6368;
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.2s;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .footer-link:hover {
+            color: #01875f;
+        }
+
+        .footer-link:active {
+            color: #016d4f;
+        }
+
+        .footer-text {
+            color: #5f6368;
+            font-size: 12px;
+        }
+
+        .footer-brand {
+            font-weight: 500;
+            color: #01875f;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            animation: slideDown 0.3s;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            padding: 24px;
+            border-bottom: 1px solid #dadce0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: #fff;
+            z-index: 1;
+        }
+
+        .modal-header h2 {
+            font-size: 20px;
+            font-weight: 500;
+            color: #202124;
+        }
+
+        .close {
+            color: #5f6368;
+            font-size: 28px;
+            font-weight: 300;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.2s;
+            -webkit-tap-highlight-color: transparent;
+            flex-shrink: 0;
+        }
+
+        .close:hover {
+            background: #f1f3f4;
+        }
+
+        .close:active {
+            background: #e8eaed;
+        }
+
+        .modal-body {
+            padding: 24px;
+            color: #5f6368;
+            line-height: 1.8;
+        }
+
+        .modal-body h3 {
+            color: #202124;
+            font-size: 16px;
+            font-weight: 500;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .modal-body p {
+            margin-bottom: 16px;
+        }
+
+        .modal-body ul {
+            margin-left: 20px;
+            margin-bottom: 16px;
+        }
+
+        .modal-body li {
+            margin-bottom: 8px;
+        }
+
+        /* Tablet Responsive (768px - 968px) */
+        @media (max-width: 968px) {
+            .search-container {
+                max-width: 400px;
+            }
+
+            .nav-container {
+                gap: 24px;
+            }
+
+            .modal-content {
+                width: 92%;
+                margin: 8% auto;
+            }
+        }
+
+        /* Mobile Responsive (up to 768px) */
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 0 16px;
+                height: 56px;
+            }
+
+            .store-logo {
+                width: 36px;
+                height: 36px;
+            }
+
+            .store-name {
+                font-size: 18px;
+            }
+
+            .search-container {
+                display: none;
+            }
+
+            .nav-container {
+                padding: 0 16px;
+                gap: 20px;
+            }
+
+            .nav-tab {
+                padding: 14px 0;
+                font-size: 13px;
+            }
+
+            .main {
+                padding: 16px;
+            }
+
+            .section-title {
+                font-size: 18px;
+            }
+
+            .games-list {
+                gap: 10px;
+            }
+
+            .game-item {
+                padding: 12px;
+                gap: 12px;
+            }
+
+            .game-icon {
+                width: 70px;
+                height: 70px;
+                border-radius: 12px;
+            }
+
+            .game-title {
+                font-size: 15px;
+            }
+
+            .game-developer {
+                font-size: 12px;
+            }
+
+            .game-stats {
+                gap: 8px;
+            }
+
+            .game-version {
+                font-size: 11px;
+            }
+
+            .password-box {
+                padding: 6px 10px;
+            }
+
+            .password-text {
+                font-size: 14px;
+            }
+
+            .game-actions {
+                margin-top: 8px;
+                width: 100%;
+            }
+
+            .install-btn {
+                width: 100%;
+                justify-content: center;
+                padding: 12px 24px;
+                font-size: 14px;
+            }
+
+            .footer {
+                padding: 20px 16px;
+                margin-top: 40px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-links {
+                justify-content: center;
+                gap: 16px;
+            }
+
+            .footer-link {
+                font-size: 12px;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 20px auto;
+                max-height: calc(100vh - 40px);
+                border-radius: 8px;
+            }
+
+            .modal-header {
+                padding: 16px;
+            }
+
+            .modal-header h2 {
+                font-size: 18px;
+            }
+
+            .close {
+                width: 36px;
+                height: 36px;
+                font-size: 24px;
+            }
+
+            .modal-body {
+                padding: 16px;
+                font-size: 14px;
+            }
+
+            .modal-body h3 {
+                font-size: 15px;
+                margin-top: 16px;
+            }
+        }
+
+        /* Small Mobile (up to 480px) */
+        @media (max-width: 480px) {
+            .header-container {
+                gap: 8px;
+                padding: 0 12px;
+            }
+
+            .store-logo {
+                width: 32px;
+                height: 32px;
+            }
+
+            .store-name {
+                font-size: 16px;
+            }
+
+            .nav-container {
+                gap: 16px;
+                padding: 0 12px;
+            }
+
+            .main {
+                padding: 12px;
+            }
+
+            .section-header {
+                margin-bottom: 16px;
+            }
+
+            .section-title {
+                font-size: 16px;
+            }
+
+            .games-list {
+                gap: 8px;
+            }
+
+            .game-item {
+                padding: 10px;
+                gap: 10px;
+            }
+
+            .game-icon {
+                width: 64px;
+                height: 64px;
+                border-radius: 10px;
+            }
+
+            .game-title {
+                font-size: 14px;
+                -webkit-line-clamp: 2;
+            }
+
+            .game-developer {
+                font-size: 11px;
+                margin-bottom: 6px;
+            }
+
+            .rating-badge {
+                font-size: 11px;
+                padding: 2px 6px;
+            }
+
+            .stat-item {
+                font-size: 11px;
+            }
+
+            .category-badge {
+                font-size: 11px;
+                padding: 3px 8px;
+            }
+
+            .game-version {
+                font-size: 10px;
+            }
+
+            .password-box {
+                padding: 6px 8px;
+                margin: 6px 0;
+            }
+
+            .password-label {
+                font-size: 10px;
+            }
+
+            .password-text {
+                font-size: 13px;
+                letter-spacing: 1px;
+            }
+
+            .install-btn {
+                padding: 10px 20px;
+                font-size: 13px;
+            }
+
+            .footer {
+                padding: 16px 12px;
+            }
+
+            .footer-links {
+                gap: 12px;
+                flex-direction: column;
+            }
+
+            .footer-link {
+                font-size: 11px;
+            }
+
+            .footer-text {
+                font-size: 11px;
+            }
+        }
+
+        /* Landscape Mobile */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .header-container {
+                height: 48px;
+            }
+
+            .modal-content {
+                max-height: 95vh;
+                margin: 2% auto;
+            }
+
+            .modal-header {
+                padding: 12px 16px;
+            }
+
+            .modal-body {
+                padding: 12px 16px;
+            }
+        }
+
+        /* Desktop Large Screens */
+        @media (min-width: 1600px) {
+            .header-container,
+            .nav-container,
+            .main,
+            .footer-content {
+                max-width: 1440px;
+            }
+        }
+
+        /* Touch Device Optimization */
+        @media (hover: none) and (pointer: coarse) {
+            .game-item:hover {
+                box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+            }
+
+            .install-btn:hover {
+                background: #01875f;
+            }
+
+            .nav-tab:hover {
+                color: #5f6368;
+            }
+
+            .nav-tab.active:hover {
+                color: #01875f;
+            }
+
+            .footer-link:hover {
+                color: #5f6368;
+            }
+
+            .close:hover {
+                background: none;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .header,
+            .nav-tabs,
+            .footer,
+            .modal {
+                display: none;
+            }
+
+            .main {
+                padding: 0;
+            }
+
+            .game-item {
+                page-break-inside: avoid;
+            }
+        }
+
+        /* Loading State */
+        .game-icon.loading {
+            background: #f1f3f4;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Accessibility */
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            margin: -1px;
+            padding: 0;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        /* Focus Styles for Keyboard Navigation */
+        *:focus-visible {
+            outline: 2px solid #01875f;
+            outline-offset: 2px;
+        }
+
+        .install-btn:focus-visible,
+        .nav-tab:focus-visible,
+        .footer-link:focus-visible {
+            outline: 2px solid #01875f;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" role="banner">
+        <div class="header-container">
+            <a href="#" class="logo-section" aria-label="Sharvika Store Home">
+                <svg class="store-logo" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <defs>
+                        <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#01875f;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#00c48c;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M24 4L6 14v20l18 10 18-10V14L24 4z" fill="url(#gradient1)"/>
+                    <path d="M24 4L6 14l18 10 18-10L24 4z" fill="#00c48c" opacity="0.8"/>
+                    <path d="M24 24v20l-18-10V14l18 10z" fill="#016d4f" opacity="0.6"/>
+                    <circle cx="24" cy="24" r="8" fill="white"/>
+                    <path d="M20 24l3 3 5-6" stroke="#01875f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                </svg>
+                <div class="store-name"><span class="highlight">Sharvika</span> Store</div>
+            </a>
+            <div class="search-container">
+                <div class="search-wrapper">
+                    <svg class="search-icon" viewBox="0 0 24 24" fill="#5f6368" aria-hidden="true">
+                        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                    </svg>
+                    <input type="search" class="search-box" placeholder="Search for games" aria-label="Search games">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs" role="navigation" aria-label="Main navigation">
+        <div class="nav-container">
+            <div class="nav-tab active" role="button" tabindex="0">For you</div>
+            <div class="nav-tab" role="button" tabindex="0">Top charts</div>
+            <div class="nav-tab" role="button" tabindex="0">Kids</div>
+            <div class="nav-tab" role="button" tabindex="0">Premium</div>
+            <div class="nav-tab" role="button" tabindex="0">Categories</div>
+            <div class="nav-tab" role="button" tabindex="0">Editor's Choice</div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main" role="main">
+        <div class="section-header">
+            <h2 class="section-title">Recommended for you</h2>
+        </div>
+
+        <div class="games-list" role="list">
+            <!-- Game 1: GTA V -->
+            <article class="game-item" role="listitem">
+                <div class="game-icon-wrapper">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/a/a5/Grand_Theft_Auto_V.png" 
+                         alt="Grand Theft Auto V game cover" 
+                         class="game-icon"
+                         loading="lazy"
+                         onerror="this.src='https://cdn.cloudflare.steamstatic.com/steam/apps/271590/header.jpg'">
+                </div>
+                <div class="game-details">
+                    <h3 class="game-title">Grand Theft Auto V Redux</h3>
+                    <div class="game-developer">Rockstar Games</div>
+                    <div class="game-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.8 stars">4.8 ★</span>
+                        </div>
+                        <span class="stat-item">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="#5f6368" aria-hidden="true">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                            Rated for 18+
+                        </span>
+                        <span class="category-badge">Action</span>
+                    </div>
+                    <div class="game-version">Build 2189 / v1.52 Online / v1.10 Redux + All DLCs</div>
+                    <div class="password-box">
+                        <span class="password-label">Password Required:</span>
+                        <span class="password-text">3175</span>
+                    </div>
+                </div>
+                <div class="game-actions">
+                    <a href="https://mega.nz/file/iQlwzRiY#nYEC-9pVoM7ArAyxGNgWoOMtmkRISBpcXnDVb08PXyI" 
+                       class="install-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Install Grand Theft Auto V Redux">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                        </svg>
+                        Install
+                    </a>
+                </div>
+            </article>
+
+            <!-- Game 2: Ranch Simulator -->
+            <article class="game-item" role="listitem">
+                <div class="game-icon-wrapper">
+                    <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1119730/header.jpg" 
+                         alt="Ranch Simulator game cover" 
+                         class="game-icon"
+                         loading="lazy"
+                         onerror="this.src='https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/1119730/capsule_616x353.jpg'">
+                </div>
+                <div class="game-details">
+                    <h3 class="game-title">Ranch Simulator: Build, Hunt, Farm</h3>
+                    <div class="game-developer">Toxic Dog</div>
+                    <div class="game-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.5 stars">4.5 ★</span>
+                        </div>
+                        <span class="stat-item">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="#5f6368" aria-hidden="true">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                            Rated for 12+
+                        </span>
+                        <span class="category-badge">Simulation</span>
+                    </div>
+                    <div class="game-version">v1.152 + All DLCs Included</div>
+                    <div class="password-box">
+                        <span class="password-label">Password Required:</span>
+                        <span class="password-text">3175</span>
+                    </div>
+                </div>
+                <div class="game-actions">
+                    <a href="https://mega.nz/file/iQlwzRiY#nYEC-9pVoM7ArAyxGNgWoOMtmkRISBpcXnDVb08PXyI" 
+                       class="install-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Install Ranch Simulator">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                        </svg>
+                        Install
+                    </a>
+                </div>
+            </article>
+
+            <!-- Game 3: Green Hell -->
+            <article class="game-item" role="listitem">
+                <div class="game-icon-wrapper">
+                    <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/815370/header.jpg" 
+                         alt="Green Hell game cover" 
+                         class="game-icon"
+                         loading="lazy"
+                         onerror="this.src='https://shared.cloudflare.steamstatic.com/store_item_assets/steam/apps/815370/capsule_616x353.jpg'">
+                </div>
+                <div class="game-details">
+                    <h3 class="game-title">Green Hell</h3>
+                    <div class="game-developer">Creepy Jar</div>
+                    <div class="game-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.7 stars">4.7 ★</span>
+                        </div>
+                        <span class="stat-item">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="#5f6368" aria-hidden="true">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                            Rated for 16+
+                        </span>
+                        <span class="category-badge">Survival</span>
+                    </div>
+                    <div class="game-version">v2.9.3 | Build 100110 - Latest Version</div>
+                    <div class="password-box">
+                        <span class="password-label">Password Required:</span>
+                        <span class="password-text">3175</span>
+                    </div>
+                </div>
+                <div class="game-actions">
+                    <a href="https://mega.nz/file/iQlwzRiY#nYEC-9pVoM7ArAyxGNgWoOMtmkRISBpcXnDVb08PXyI" 
+                       class="install-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Install Green Hell">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                        </svg>
+                        Install
+                    </a>
+                </div>
+            </article>
+
+            <!-- Game 4: COD MW3 -->
+            <article class="game-item" role="listitem">
+                <div class="game-icon-wrapper">
+                    <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2519060/header.jpg" 
+                         alt="Call of Duty Modern Warfare III game cover" 
+                         class="game-icon"
+                         loading="lazy"
+                         onerror="this.src='https://image.api.playstation.com/vulcan/ap/rnd/202310/2420/f4bb95c2053c8c8e5e24e93b05b53a19e4cd8e33c0a6ed56.png'">
+                </div>
+                <div class="game-details">
+                    <h3 class="game-title">Call of Duty: Modern Warfare III</h3>
+                    <div class="game-developer">Activision Publishing, Inc.</div>
+                    <div class="game-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.9 stars">4.9 ★</span>
+                        </div>
+                        <span class="stat-item">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="#5f6368" aria-hidden="true">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                            Rated for 18+
+                        </span>
+                        <span class="category-badge">Action</span>
+                    </div>
+                    <div class="game-version">Campaign Only - v10.4 | Build 23098619</div>
+                    <div class="password-box">
+                        <span class="password-label">Password Required:</span>
+                        <span class="password-text">3175</span>
+                    </div>
+                </div>
+                <div class="game-actions">
+                    <a href="https://mega.nz/file/iQlwzRiY#nYEC-9pVoM7ArAyxGNgWoOMtmkRISBpcXnDVb08PXyI" 
+                       class="install-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Install Call of Duty Modern Warfare III">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                        </svg>
+                        Install
+                    </a>
+                </div>
+            </article>
+
+            <!-- Game 5: Forza Horizon 5 -->
+            <article class="game-item" role="listitem">
+                <div class="game-icon-wrapper">
+                    <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1551360/header.jpg" 
+                         alt="Forza Horizon 5 game cover" 
+                         class="game-icon"
+                         loading="lazy"
+                         onerror="this.src='https://compass-ssl.xboxlive.com/assets/99/b5/99b5c0c1-4c9c-4a6e-9bc0-1ae4a8e9c735.jpg'">
+                </div>
+                <div class="game-details">
+                    <h3 class="game-title">Forza Horizon 5 - Premium Edition</h3>
+                    <div class="game-developer">Playground Games</div>
+                    <div class="game-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.9 stars">4.9 ★</span>
+                        </div>
+                        <span class="stat-item">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="#5f6368" aria-hidden="true">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                            Rated for Everyone
+                        </span>
+                        <span class="category-badge">Racing</span>
+                    </div>
+                    <div class="game-version">v1.687.302.0 | Build 19909478 + All DLCs</div>
+                    <div class="password-box">
+                        <span class="password-label">Password Required:</span>
+                        <span class="password-text">3175</span>
+                    </div>
+                </div>
+                <div class="game-actions">
+                    <a href="https://mega.nz/file/iQlwzRiY#nYEC-9pVoM7ArAyxGNgWoOMtmkRISBpcXnDVb08PXyI" 
+                       class="install-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Install Forza Horizon 5 Premium Edition">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                        </svg>
+                        Install
+                    </a>
+                </div>
+            </article>
+
+            <!-- Game 6: GTA San Andreas -->
+            <article class="game-item" role="listitem">
+                <div class="game-icon-wrapper">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/c/ce/GTA_San_Andreas_Box.jpg" 
+                         alt="Grand Theft Auto San Andreas game cover" 
+                         class="game-icon"
+                         loading="lazy"
+                         onerror="this.src='https://cdn.cloudflare.steamstatic.com/steam/apps/12120/header.jpg'">
+                </div>
+                <div class="game-details">
+                    <h3 class="game-title">Grand Theft Auto: San Andreas</h3>
+                    <div class="game-developer">Rockstar Games</div>
+                    <div class="game-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.8 stars">4.8 ★</span>
+                        </div>
+                        <span class="stat-item">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="#5f6368" aria-hidden="true">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                            Rated for 18+
+                        </span>
+                        <span class="category-badge">Action</span>
+                    </div>
+                    <div class="game-version">v6 - Complete Edition</div>
+                    <div class="password-box">
+                        <span class="password-label">Password Required:</span>
+                        <span class="password-text">3175</span>
+                    </div>
+                </div>
+                <div class="game-actions">
+                    <a href="https://mega.nz/file/iQlwzRiY#nYEC-9pVoM7ArAyxGNgWoOMtmkRISBpcXnDVb08PXyI" 
+                       class="install-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Install Grand Theft Auto San Andreas">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                        </svg>
+                        Install
+                    </a>
+                </div>
+            </article>
+
+            <!-- Game 7: Far Cry 6 -->
+            <article class="game-item" role="listitem">
+                <div class="game-icon-wrapper">
+                    <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/2369390/header.jpg" 
+                         alt="Far Cry 6 game cover" 
+                         class="game-icon"
+                         loading="lazy"
+                         onerror="this.src='https://staticctf.ubisoft.com/J3yJr34U2pZ2Ieem48Dwy9uqj5PNUQTn/4dNVYPeGJ6JdFXiWt70QxA/8ea2ef89931d9c5fd2ae4dbaf50e77e2/FC6_META_OPENGRAPH.jpg'">
+                </div>
+                <div class="game-details">
+                    <h3 class="game-title">Far Cry 6 - Ultimate Edition</h3>
+                    <div class="game-developer">Ubisoft</div>
+                    <div class="game-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.6 stars">4.6 ★</span>
+                        </div>
+                        <span class="stat-item">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="#5f6368" aria-hidden="true">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                            Rated for 18+
+                        </span>
+                        <span class="category-badge">Action</span>
+                    </div>
+                    <div class="game-version">v1.5.0 + All DLCs</div>
+                    <div class="password-box">
+                        <span class="password-label">Password Required:</span>
+                        <span class="password-text">3175</span>
+                    </div>
+                </div>
+                <div class="game-actions">
+                    <a href="https://mega.nz/file/iQlwzRiY#nYEC-9pVoM7ArAyxGNgWoOMtmkRISBpcXnDVb08PXyI" 
+                       class="install-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Install Far Cry 6 Ultimate Edition">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                        </svg>
+                        Install
+                    </a>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="footer-content">
+            <div class="footer-links">
+                <span class="footer-link" onclick="openModal('aboutModal')" role="button" tabindex="0">About</span>
+                <a href="mailto:Shreyascreative59@gmail.com" class="footer-link">Help Center</a>
+                <span class="footer-link" onclick="openModal('privacyModal')" role="button" tabindex="0">Privacy Policy</span>
+                <span class="footer-link" onclick="openModal('termsModal')" role="button" tabindex="0">Terms of Service</span>
+            </div>
+            <div class="footer-text">
+                © 2025 <span class="footer-brand">Sharvika Store</span>. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- About Modal -->
+    <div id="aboutModal" class="modal" role="dialog" aria-labelledby="aboutTitle" aria-modal="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="aboutTitle">About Sharvika Store</h2>
+                <button class="close" onclick="closeModal('aboutModal')" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Welcome to <strong>Sharvika Store</strong>, your trusted platform for discovering and downloading premium games for PC and mobile devices.</p>
+                
+                <h3>Our Mission</h3>
+                <p>We provide a curated selection of quality titles with verified downloads and regular updates. Our goal is to make gaming accessible to everyone by offering a simple, clean, and professional platform.</p>
+                
+                <h3>What We Offer</h3>
+                <ul>
+                    <li>Verified game downloads from trusted sources</li>
+                    <li>Latest versions with all DLCs included</li>
+                    <li>Regular updates and new releases</li>
+                    <li>Clean and professional user interface</li>
+                    <li>Fast and secure download links</li>
+                </ul>
+                
+                <h3>Quality Assurance</h3>
+                <p>All games on Sharvika Store are carefully selected and tested to ensure the best experience for our users. We prioritize quality over quantity.</p>
+                
+                <p><strong>Contact:</strong> For inquiries, please reach out to Shreyascreative59@gmail.com</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Privacy Policy Modal -->
+    <div id="privacyModal" class="modal" role="dialog" aria-labelledby="privacyTitle" aria-modal="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="privacyTitle">Privacy Policy</h2>
+                <button class="close" onclick="closeModal('privacyModal')" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Last Updated:</strong> January 2025</p>
+                
+                <h3>1. Information We Collect</h3>
+                <p>Sharvika Store respects your privacy. We do not collect, store, or share any personal information. Your use of our platform is completely anonymous.</p>
+                
+                <h3>2. Cookies and Tracking</h3>
+                <p>We do not use cookies or tracking technologies. Your browsing activity on Sharvika Store is not monitored or recorded.</p>
+                
+                <h3>3. Third-Party Links</h3>
+                <p>All downloads are provided from third-party sources (such as MEGA.nz). We are not responsible for the privacy practices of these external services. Please review their privacy policies before downloading.</p>
+                
+                <h3>4. Data Security</h3>
+                <p>Since we don't collect any personal data, there is no risk of your information being compromised through our platform. However, users are responsible for their own data security when downloading and installing software.</p>
+                
+                <h3>5. Your Responsibility</h3>
+                <p>Users are responsible for:</p>
+                <ul>
+                    <li>Ensuring their device security when downloading files</li>
+                    <li>Scanning downloaded files with antivirus software</li>
+                    <li>Complying with local laws and regulations</li>
+                    <li>Owning legitimate licenses for software</li>
+                </ul>
+                
+                <h3>6. Changes to Privacy Policy</h3>
+                <p>We reserve the right to update this privacy policy at any time. Changes will be posted on this page with an updated date.</p>
+                
+                <h3>7. Contact</h3>
+                <p>If you have any questions about our privacy practices, please contact us at Shreyascreative59@gmail.com</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms of Service Modal -->
+    <div id="termsModal" class="modal" role="dialog" aria-labelledby="termsTitle" aria-modal="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="termsTitle">Terms of Service</h2>
+                <button class="close" onclick="closeModal('termsModal')" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Effective Date:</strong> January 2025</p>
+                
+                <h3>1. Acceptance of Terms</h3>
+                <p>By accessing and using Sharvika Store, you accept and agree to be bound by the terms and provisions of this agreement. If you do not agree to these terms, please do not use our service.</p>
+                
+                <h3>2. Use of Service</h3>
+                <p>Sharvika Store provides links to downloadable game content. Users must:</p>
+                <ul>
+                    <li>Be of legal age in their jurisdiction to download and use software</li>
+                    <li>Use the service in accordance with local, state, and federal laws</li>
+                    <li>Not use the service for any illegal or unauthorized purpose</li>
+                    <li>Respect intellectual property rights</li>
+                </ul>
+                
+                <h3>3. Content Disclaimer</h3>
+                <p>We do not host any files directly. All content is linked from external sources. Sharvika Store acts solely as a directory service and is not responsible for:</p>
+                <ul>
+                    <li>The availability of external download links</li>
+                    <li>The quality or functionality of downloaded software</li>
+                    <li>Any damages caused by downloaded content</li>
+                    <li>Copyright or licensing issues</li>
+                </ul>
+                
+                <h3>4. User Responsibilities</h3>
+                <p>Users are solely responsible for:</p>
+                <ul>
+                    <li>Owning legitimate licenses for software they download</li>
+                    <li>Scanning files for viruses and malware</li>
+                    <li>Any consequences of downloading and using software</li>
+                    <li>Compliance with end-user license agreements (EULAs)</li>
+                </ul>
+                
+                <h3>5. Intellectual Property</h3>
+                <p>All trademarks, logos, and game names are property of their respective owners. We do not claim ownership of any third-party content.</p>
+                
+                <h3>6. Limitation of Liability</h3>
+                <p>Sharvika Store shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use of the service.</p>
+                
+                <h3>7. Service Modifications</h3>
+                <p>We reserve the right to modify or discontinue the service at any time without notice. We are not liable for any modification, suspension, or discontinuation of the service.</p>
+                
+                <h3>8. Governing Law</h3>
+                <p>These terms shall be governed by and construed in accordance with applicable laws, without regard to conflict of law provisions.</p>
+                
+                <h3>9. Contact Information</h3>
+                <p>For questions regarding these terms, contact us at Shreyascreative59@gmail.com</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal Functions
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            
+            // Focus trap for accessibility
+            const focusableElements = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+            const firstElement = focusableElements[0];
+            const lastElement = focusableElements[focusableElements.length - 1];
+            
+            if (firstElement) {
+                firstElement.focus();
+            }
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Close modal on ESC key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const modals = document.querySelectorAll('.modal');
+                modals.forEach(modal => {
+                    if (modal.style.display === 'block') {
+                        modal.style.display = 'none';
+                    }
+                });
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Search functionality with debounce
+        const searchBox = document.querySelector('.search-box');
+        let searchTimeout;
+        
+        if (searchBox) {
+            searchBox.addEventListener('input', function(e) {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    const searchTerm = e.target.value.toLowerCase().trim();
+                    const gameItems = document.querySelectorAll('.game-item');
+                    
+                    gameItems.forEach(item => {
+                        const title = item.querySelector('.game-title').textContent.toLowerCase();
+                        const developer = item.querySelector('.game-developer').textContent.toLowerCase();
+                        
+                        if (title.includes(searchTerm) || developer.includes(searchTerm) || searchTerm === '') {
+                            item.style.display = 'flex';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                }, 300);
+            });
+        }
+
+        // Tab switching with keyboard support
+        const tabs = document.querySelectorAll('.nav-tab');
+        tabs.forEach((tab, index) => {
+            tab.addEventListener('click', function() {
+                tabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+            
+            // Keyboard navigation
+            tab.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.click();
+                }
+                
+                if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    const nextTab = tabs[index + 1] || tabs[0];
+                    nextTab.focus();
+                }
+                
+                if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    const prevTab = tabs[index - 1] || tabs[tabs.length - 1];
+                    prevTab.focus();
+                }
+            });
+        });
+
+        // Footer link keyboard support
+        document.querySelectorAll('.footer-link[role="button"]').forEach(link => {
+            link.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.click();
+                }
+            });
+        });
+
+        // Lazy loading images
+        if ('loading' in HTMLImageElement.prototype) {
+            const images = document.querySelectorAll('img[loading="lazy"]');
+            images.forEach(img => {
+                img.src = img.src;
+            });
+        } else {
+            // Fallback for browsers that don't support lazy loading
+            const script = document.createElement('script');
+            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js';
+            document.body.appendChild(script);
+        }
+
+        // Service Worker for offline support (optional)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                // Uncomment to enable service worker
+                // navigator.serviceWorker.register('/sw.js');
+            });
+        }
+
+        // Performance monitoring
+        window.addEventListener('load', () => {
+            if (window.performance && window.performance.timing) {
+                const loadTime = window.performance.timing.domContentLoadedEventEnd - window.performance.timing.navigationStart;
+                console.log('Page load time:', loadTime + 'ms');
+            }
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
