@@ -1,0 +1,22 @@
+{
+  "badges": [
+    {
+      "id": "badge-quiz-whiz",
+      "name": "Quiz Whiz",
+      "criteria": {"type": "score", "threshold": 90},
+      "description": "Achieve 90%+ in a single quiz."
+    },
+    {
+      "id": "badge-fast-learner",
+      "name": "Fast Learner",
+      "criteria": {"type": "time", "limitSeconds": 60},
+      "description": "Complete a quiz within 60 seconds."
+    },
+    {
+      "id": "badge-star-student",
+      "name": "Star Student",
+      "criteria": {"type": "streak", "length": 5},
+      "description": "5 consecutive days of top scores."
+    }
+  ]
+}

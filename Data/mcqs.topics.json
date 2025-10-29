@@ -1,0 +1,374 @@
+{
+  "CL-5": {
+    "Mathematics": {
+      "Numbers and Operations": [
+        {
+          "question": "What is the least common multiple of 2, 3 and 5?",
+          "options": ["30", "15", "10", "60"],
+          "answer": 0
+        },
+        {
+          "question": "If 3 × 4 = 12, then 3 × 4 × 5 = ?",
+          "options": ["60", "20", "15", "24"],
+          "answer": 0
+        },
+        {
+          "question": "Which of the following is a prime number?",
+          "options": ["21", "25", "29", "39"],
+          "answer": 2
+        },
+        {
+          "question": "A number is increased by 20% to become 240. Find the original number.",
+          "options": ["200", "180", "240", "260"],
+          "answer": 0
+        }
+      ],
+      "Fractions": [
+        {
+          "question": "What is 1/2 + 1/3?",
+          "options": ["5/6", "1/6", "2/3", "3/4"],
+          "answer": 0
+        },
+        {
+          "question": "Convert 0.75 to a fraction.",
+          "options": ["3/4", "1/4", "7/10", "5/6"],
+          "answer": 0
+        },
+        {
+          "question": "Which fraction is equivalent to 2/5?",
+          "options": ["4/10", "1/5", "3/5", "5/8"],
+          "answer": 0
+        },
+        {
+          "question": "If you multiply 3/4 by 2/3, what is the result?",
+          "options": ["1/2", "1/6", "1", "3/4"],
+          "answer": 1
+        }
+      ]
+    },
+    "Science": {
+      "Plants and Animals": [
+        {
+          "question": "Which part of a plant conducts photosynthesis?",
+          "options": ["Root", "Stem", "Leaf", "Flower"],
+          "answer": 2
+        },
+        {
+          "question": "Which gas do plants primarily absorb for photosynthesis?",
+          "options": ["Oxygen", "Carbon dioxide", "Nitrogen", "Hydrogen"],
+          "answer": 1
+        },
+        {
+          "question": "What is the process by which a caterpillar becomes a butterfly?",
+          "options": ["Metamorphosis", "Germination", "Respiration", "Pollination"],
+          "answer": 0
+        },
+        {
+          "question": "Which part of the plant stores water?",
+          "options": ["Leaf", "Stem", "Root", "Fruit"],
+          "answer": 1
+        }
+      ],
+      "Weather and Climate": [
+        {
+          "question": "What instrument is used to measure air pressure?",
+          "options": ["Barometer", "Thermometer", "Anemometer", "Ruler"],
+          "answer": 0
+        },
+        {
+          "question": "Which season follows summer in the northern hemisphere?",
+          "options": ["Spring", "Autumn", "Winter", "Monsoon"],
+          "answer": 1
+        },
+        {
+          "question": "Which phenomenon causes rain when warm air rises and cools?",
+          "options": ["Condensation", "Evaporation", "Sublimation", "Transpiration"],
+          "answer": 0
+        },
+        {
+          "question": "Which gas makes up most of the Earth's atmosphere?",
+          "options": ["Oxygen", "Hydrogen", "Carbon Dioxide", "Nitrogen"],
+          "answer": 3
+        }
+      ]
+    },
+    "Social Science": {
+      "History": [
+        {
+          "question": "Who was the first President of India?",
+          "options": ["Mahatma Gandhi", "Dr. Rajendra Prasad", "Jawaharlal Nehru", "Sardar Patel"],
+          "answer": 1
+        },
+        {
+          "question": "Which ancient civilization built the pyramids?",
+          "options": ["Romans", "Greeks", "Egyptians", "Indians"],
+          "answer": 2
+        },
+        {
+          "question": "The 1857 Revolt is also known as the...",
+          "options": ["First War of Independence", "Industrial Revolution", "Civil War", "Revolt of 1857"],
+          "answer": 0
+        },
+        {
+          "question": "Which map feature shows the direction to travel?",
+          "options": ["Legend", "Scale", "Index", "Compass"],
+          "answer": 3
+        }
+      ],
+      "Geography": [
+        {
+          "question": "Which is the largest continent by land area?",
+          "options": ["Africa", "Asia", "Europe", "North America"],
+          "answer": 1
+        },
+        {
+          "question": "What is the prime meridian?",
+          "options": ["0° longitude", "0° latitude", "90° longitude", "180° longitude"],
+          "answer": 0
+        },
+        {
+          "question": "Which water body separates Africa from Europe?",
+          "options": ["Sahara", "Mediterranean Sea", "Red Sea", "Atlantic Ocean"],
+          "answer": 1
+        },
+        {
+          "question": "Which is the smallest country in the world by area?",
+          "options": ["Monaco", "Vatican City", "San Marino", "Nauru"],
+          "answer": 1
+        }
+      ]
+    },
+    "English": {
+      "Grammar": [
+        {
+          "question": "Choose the correct form: He _____ to school every day.",
+          "options": ["go", "goes", "going", "gone"],
+          "answer": 1
+        },
+        {
+          "question": "Which sentence is in the past tense?",
+          "options": ["I am eating.", "She walks.", "They played yesterday.", "We will go."],
+          "answer": 2
+        },
+        {
+          "question": "Pick the synonym of 'happy'.",
+          "options": ["sad", "joyful", "angry", "tired"],
+          "answer": 1
+        },
+        {
+          "question": "Which punctuation marks are used to show an exclamation?",
+          "options": ["?", "!", ".", ","],
+          "answer": 1
+        }
+      ],
+      "Reading Comprehension": [
+        {
+          "question": "In a passage about trees, the author mainly discusses:",
+          "options": ["Animals", "Plants", "Deserts", "Oceans"],
+          "answer": 1
+        },
+        {
+          "question": "What is the main idea of the passage?",
+          "options": ["The benefits of exercise", "The importance of reading", "The life cycle of a plant", "The process of photosynthesis"],
+          "answer": 2
+        },
+        {
+          "question": "Which word most nearly means 'difficult to understand'?",
+          "options": ["Clear", "Simple", "Complex", "Bright"],
+          "answer": 2
+        },
+        {
+          "question": "What can be inferred about the author’s tone?",
+          "options": ["Sarcastic", "Neutral", "Joyful", "Angry"],
+          "answer": 1
+        }
+      ]
+    }
+  },
+  "CL-6": {
+    "Mathematics": {
+      "Whole Numbers and Basic Operations": [
+        {
+          "question": "What is the value of 97 ÷ 1?",
+          "options": ["97", "9", "1", "0"],
+          "answer": 0
+        },
+        {
+          "question": "Which of these is a prime number?",
+          "options": ["49", "51", "53", "57"],
+          "answer": 2
+        },
+        {
+          "question": "The product of two consecutive integers is always:",
+          "options": ["Even", "Odd", "Prime", "Composite"],
+          "answer": 0
+        },
+        {
+          "question": "If 12×x = 144, what is x?",
+          "options": ["6", "12", "8", "24"],
+          "answer": 0
+        }
+      ],
+      "Fractions and Decimals": [
+        {
+          "question": "Convert 0.25 to a fraction.",
+          "options": ["1/2", "1/4", "3/4", "2/5"],
+          "answer": 1
+        },
+        {
+          "question": "What is 3/8 + 1/4?",
+          "options": ["5/8", "7/8", "3/4", "1/2"],
+          "answer": 0
+        },
+        {
+          "question": "Convert 1 1/2 to a improper fraction.",
+          "options": ["3/2", "2/3", "1/2", "3/4"],
+          "answer": 0
+        },
+        {
+          "question": "Which decimal is equivalent to 1/5?",
+          "options": ["0.1", "0.2", "0.5", "0.25"],
+          "answer": 0
+        }
+      ]
+    },
+    "Science": {
+      "Matter and Its Properties": [
+        {
+          "question": "Which state of matter has a definite shape and volume?",
+          "options": ["Gas", "Liquid", "Solid", "Plasma"],
+          "answer": 2
+        },
+        {
+          "question": "Which of these is a chemical change?",
+          "options": ["Melting ice", "Dissolving sugar in water", "Baking a cake", "Boiling water"],
+          "answer": 2
+        },
+        {
+          "question": "What is the unit for measuring mass?",
+          "options": ["Meter", "Kilogram", "Litre", "Second"],
+          "answer": 1
+        },
+        {
+          "question": "Which state of matter has the most energy?",
+          "options": ["Solid", "Liquid", "Gas", "Plasma"],
+          "answer": 2
+        }
+      ],
+      "The World of Plants": [
+        {
+          "question": "What part of a plant conducts photosynthesis?",
+          "options": ["Root", "Stem", "Leaf", "Flower"],
+          "answer": 2
+        },
+        {
+          "question": "Which hormone helps in fruit ripening?",
+          "options": ["Gibberellin", "Ethylene", "Auxin", "Cytokinin"],
+          "answer": 1
+        },
+        {
+          "question": "What is the function of xylem?",
+          "options": ["Transport sugar", "Transport water", "Store nutrients", "Protect plant"],
+          "answer": 1
+        },
+        {
+          "question": "Which process do plants use to convert light energy into chemical energy?",
+          "options": ["Respiration", "Photosynthesis", "Fermentation", "Transpiration"],
+          "answer": 1
+        }
+      ]
+    },
+    "Social Science": {
+      "Geography Basics": [
+        {
+          "question": "Which is the largest ocean on Earth?",
+          "options": ["Atlantic", "Indian", "Pacific", "Arctic"],
+          "answer": 2
+        },
+        {
+          "question": "Which country has the most population?",
+          "options": ["USA", "India", "China", "Russia"],
+          "answer": 2
+        },
+        {
+          "question": "The equator divides the Earth into which halves?",
+          "options": ["Northern and Southern", "Eastern and Western", "Top and Bottom", "Left and Right"],
+          "answer": 0
+        },
+        {
+          "question": "Which landform is formed by the flow of lava?",
+          "options": ["Desert", "Plateau", "Volcanic mountain", "Valley"],
+          "answer": 2
+        }
+      ],
+      "History Basics": [
+        {
+          "question": "Who discovered America in 1492?",
+          "options": ["Christopher Columbus", "Ferdinand Magellan", "James Cook", "Vasco da Gama"],
+          "answer": 0
+        },
+        {
+          "question": "Which ancient civilization built the pyramids?",
+          "options": ["Greeks", "Egyptians", "Romans", "Chinese"],
+          "answer": 1
+        },
+        {
+          "question": "The Great War is another name for which war?",
+          "options": ["World War I", "World War II", "Cold War", "Arab-Israeli War"],
+          "answer": 0
+        },
+        {
+          "question": "Which river flows through Egypt?",
+          "options": ["Nile", "Amazon", "Yangtze", "Mississippi"],
+          "answer": 0
+        }
+      ]
+    },
+    "English": {
+      "Vocabulary": [
+        {
+          "question": "Select the word that means 'happy'.",
+          "options": ["sad", "joyous", "angry", "tired"],
+          "answer": 1
+        },
+        {
+          "question": "Choose the antonym of 'difficult'.",
+          "options": ["easy", "hard", "complex", "complicated"],
+          "answer": 0
+        },
+        {
+          "question": "Which is a synonym of 'quick'?",
+          "options": ["slow", "rapid", "sluggish", "lazy"],
+          "answer": 1
+        },
+        {
+          "question": "Which word is spelled correctly?",
+          "options": ["accomodate", "accommodate", "acommodate", "acommadate"],
+          "answer": 1
+        }
+      ],
+      "Reading Comprehension": [
+        {
+          "question": "In a passage about plants, the author mainly emphasizes:",
+          "options": ["Animals", "Plants", "Deserts", "Oceans"],
+          "answer": 1
+        },
+        {
+          "question": "What is the main idea of the passage?",
+          "options": ["The benefits of exercise", "The importance of reading", "The growth of plants", "The processes of photosynthesis"],
+          "answer": 2
+        },
+        {
+          "question": "Which word means the opposite of 'bright'?",
+          "options": ["Dark", "Dull", "Shiny", "Vivid"],
+          "answer": 0
+        },
+        {
+          "question": "Which tone is used in a formal report?",
+          "options": ["Casual", "Humorous", "Formal", "Sarcastic"],
+          "answer": 2
+        }
+      ]
+    }
+  }
+}
