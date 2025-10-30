@@ -167,7 +167,15 @@
 
         .user-status {
             font-size: 12px;
-            color: #8e8e93;
+            color: #34c759;
+        }
+
+        .user-status.banned {
+            color: #ff3b30;
+        }
+
+        .user-status.muted {
+            color: #ff9500;
         }
 
         .logout-icon {
@@ -326,8 +334,8 @@
         }
 
         .message-bubble.announcement {
-            background: #2a2a2a;
-            border-left: 3px solid #ffffff;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-left: 3px solid #667eea;
         }
 
         .message-text {
@@ -343,15 +351,16 @@
             padding: 10px 14px;
             border-radius: 8px;
             margin-top: 8px;
-            border-left: 2px solid #6e6e73;
+            border-left: 2px solid #34c759;
         }
 
         .reply-label {
             font-size: 11px;
-            color: #6e6e73;
+            color: #34c759;
             margin-bottom: 4px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            font-weight: 600;
         }
 
         .reply-text {
@@ -381,6 +390,28 @@
             background: #1a1a1a;
             border-top: 1px solid #2a2a2a;
             flex-shrink: 0;
+        }
+
+        .restriction-banner {
+            padding: 12px 24px;
+            background: rgba(255, 59, 48, 0.1);
+            border-top: 1px solid rgba(255, 59, 48, 0.3);
+            color: #ff3b30;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .restriction-banner.muted {
+            background: rgba(255, 149, 0, 0.1);
+            border-top-color: rgba(255, 149, 0, 0.3);
+            color: #ff9500;
+        }
+
+        .restriction-banner.readonly {
+            background: rgba(142, 142, 147, 0.1);
+            border-top-color: rgba(142, 142, 147, 0.3);
+            color: #8e8e93;
         }
 
         .input-wrapper {
@@ -416,6 +447,11 @@
             color: #6e6e73;
         }
 
+        .message-input:disabled {
+            color: #6e6e73;
+            cursor: not-allowed;
+        }
+
         .char-counter {
             font-size: 11px;
             color: #6e6e73;
@@ -438,11 +474,11 @@
             flex-shrink: 0;
         }
 
-        .send-button:hover {
+        .send-button:hover:not(:disabled) {
             transform: scale(1.05);
         }
 
-        .send-button:active {
+        .send-button:active:not(:disabled) {
             transform: scale(0.95);
         }
 
@@ -507,6 +543,11 @@
 
         .toast.show {
             transform: translateX(-50%) translateY(0);
+        }
+
+        .toast.error {
+            background: #ff3b30;
+            color: #ffffff;
         }
 
         .mobile-menu-toggle {
@@ -589,6 +630,10 @@
             .chat-header {
                 padding: 12px 16px;
             }
+
+            .restriction-banner {
+                padding: 10px 16px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -649,7 +694,7 @@
                 <div class="user-avatar" id="sidebarAvatar">U</div>
                 <div class="user-info">
                     <div class="user-name" id="sidebarName">User</div>
-                    <div class="user-status">online</div>
+                    <div class="user-status" id="userStatus">online</div>
                 </div>
                 <div class="logout-icon" onclick="logout()" title="Logout">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -674,6 +719,8 @@
                     <div>Loading messages...</div>
                 </div>
             </div>
+
+            <div id="restrictionBanner"></div>
 
             <div class="input-container" id="inputContainer">
                 <div class="input-wrapper">
@@ -706,6 +753,25 @@
         let currentUser = null;
         let currentChannel = 'community';
         let messagesUnsubscribe = null;
+        let banUnsubscribe = null;
+        let muteUnsubscribe = null;
+        let settingsUnsubscribe = null;
+        let lastMessageTime = 0;
+        
+        let userRestrictions = {
+            banned: false,
+            muted: false,
+            muteUntil: null,
+            banReason: '',
+            muteReason: ''
+        };
+
+        let systemSettings = {
+            readOnly: false,
+            slowMode: 0,
+            profanity: false,
+            autoMod: false
+        };
 
         function initializePage() {
             console.log('✅ Initializing community hub...');
@@ -719,6 +785,16 @@
                     document.getElementById('sidebarAvatar').textContent = initial;
                     document.getElementById('sidebarName').textContent = name;
                     
+                    // Update user presence
+                    updateUserPresence(user.uid);
+                    
+                    // Check restrictions
+                    checkUserRestrictions(user.email);
+                    
+                    // Load system settings
+                    loadSystemSettings();
+                    
+                    // Load messages
                     loadMessages();
                 } else {
                     window.location.href = 'signin.html';
@@ -753,6 +829,169 @@
                     sendMessage();
                 }
             });
+
+            // Check mute expiry every 30 seconds
+            setInterval(checkMuteExpiry, 30000);
+        }
+
+        function updateUserPresence(uid) {
+            const presenceRef = db.collection('presence').doc(uid);
+            
+            presenceRef.set({
+                online: true,
+                lastSeen: firebase.firestore.FieldValue.serverTimestamp(),
+                uid: uid,
+                email: currentUser.email,
+                name: currentUser.displayName || currentUser.email.split('@')[0]
+            }, { merge: true });
+
+            // Update on page unload
+            window.addEventListener('beforeunload', () => {
+                presenceRef.set({
+                    online: false,
+                    lastSeen: firebase.firestore.FieldValue.serverTimestamp()
+                }, { merge: true });
+            });
+        }
+
+        function checkUserRestrictions(email) {
+            // Check if user is banned
+            if (banUnsubscribe) banUnsubscribe();
+            banUnsubscribe = db.collection('bannedUsers').doc(email)
+                .onSnapshot((doc) => {
+                    if (doc.exists) {
+                        const data = doc.data();
+                        userRestrictions.banned = true;
+                        userRestrictions.banReason = data.reason || 'Violation of community guidelines';
+                        updateInputState();
+                        document.getElementById('userStatus').textContent = 'banned';
+                        document.getElementById('userStatus').classList.add('banned');
+                    } else {
+                        userRestrictions.banned = false;
+                        userRestrictions.banReason = '';
+                        document.getElementById('userStatus').classList.remove('banned');
+                        if (!userRestrictions.muted) {
+                            document.getElementById('userStatus').textContent = 'online';
+                        }
+                        updateInputState();
+                    }
+                });
+
+            // Check if user is muted
+            if (muteUnsubscribe) muteUnsubscribe();
+            muteUnsubscribe = db.collection('mutedUsers').doc(email)
+                .onSnapshot((doc) => {
+                    if (doc.exists) {
+                        const data = doc.data();
+                        userRestrictions.muted = true;
+                        userRestrictions.muteUntil = data.mutedUntil;
+                        userRestrictions.muteReason = data.reason || 'Temporary restriction';
+                        updateInputState();
+                        document.getElementById('userStatus').textContent = 'muted';
+                        document.getElementById('userStatus').classList.add('muted');
+                    } else {
+                        userRestrictions.muted = false;
+                        userRestrictions.muteUntil = null;
+                        userRestrictions.muteReason = '';
+                        document.getElementById('userStatus').classList.remove('muted');
+                        if (!userRestrictions.banned) {
+                            document.getElementById('userStatus').textContent = 'online';
+                        }
+                        updateInputState();
+                    }
+                });
+        }
+
+        function checkMuteExpiry() {
+            if (userRestrictions.muted && userRestrictions.muteUntil) {
+                const now = new Date();
+                const muteEnd = userRestrictions.muteUntil.toDate();
+                
+                if (now >= muteEnd) {
+                    userRestrictions.muted = false;
+                    userRestrictions.muteUntil = null;
+                    updateInputState();
+                }
+            }
+        }
+
+        function loadSystemSettings() {
+            if (settingsUnsubscribe) settingsUnsubscribe();
+            
+            settingsUnsubscribe = db.collection('systemSettings').doc('moderation')
+                .onSnapshot((doc) => {
+                    if (doc.exists) {
+                        const data = doc.data();
+                        systemSettings.readOnly = data.readOnly || false;
+                        systemSettings.slowMode = data.slowMode || 0;
+                        systemSettings.profanity = data.profanity || false;
+                        systemSettings.autoMod = data.autoMod || false;
+                        updateInputState();
+                    }
+                });
+        }
+
+        function updateInputState() {
+            const input = document.getElementById('messageInput');
+            const sendBtn = document.getElementById('sendBtn');
+            const banner = document.getElementById('restrictionBanner');
+            
+            // Clear previous banner
+            banner.innerHTML = '';
+            banner.className = '';
+
+            // Check banned
+            if (userRestrictions.banned) {
+                input.disabled = true;
+                sendBtn.disabled = true;
+                banner.className = 'restriction-banner';
+                banner.innerHTML = `You have been banned from sending messages. Reason: ${userRestrictions.banReason}`;
+                return;
+            }
+
+            // Check muted
+            if (userRestrictions.muted) {
+                input.disabled = true;
+                sendBtn.disabled = true;
+                
+                if (userRestrictions.muteUntil) {
+                    const remaining = Math.max(0, Math.floor((userRestrictions.muteUntil.toDate() - new Date()) / 60000));
+                    banner.className = 'restriction-banner muted';
+                    banner.innerHTML = `You are temporarily muted (${remaining} minutes remaining). Reason: ${userRestrictions.muteReason}`;
+                } else {
+                    banner.className = 'restriction-banner muted';
+                    banner.innerHTML = `You are temporarily muted. Reason: ${userRestrictions.muteReason}`;
+                }
+                return;
+            }
+
+            // Check read-only mode
+            if (systemSettings.readOnly) {
+                input.disabled = true;
+                sendBtn.disabled = true;
+                banner.className = 'restriction-banner readonly';
+                banner.innerHTML = 'Community is in read-only mode. Only admins can post messages.';
+                return;
+            }
+
+            // Check slow mode
+            if (systemSettings.slowMode > 0) {
+                const timeSinceLastMessage = (Date.now() - lastMessageTime) / 1000;
+                if (timeSinceLastMessage < systemSettings.slowMode) {
+                    const remaining = Math.ceil(systemSettings.slowMode - timeSinceLastMessage);
+                    sendBtn.disabled = true;
+                    banner.className = 'restriction-banner readonly';
+                    banner.innerHTML = `Slow mode: Wait ${remaining} seconds before sending another message`;
+                    
+                    setTimeout(updateInputState, 1000);
+                    return;
+                }
+            }
+
+            // Enable input
+            input.disabled = false;
+            sendBtn.disabled = false;
+            input.placeholder = 'Write a message...';
         }
 
         window.toggleSidebar = function() {
@@ -777,11 +1016,13 @@
                 document.getElementById('chatTitle').textContent = 'Community Chat';
                 document.getElementById('chatSubtitle').textContent = 'Public discussion';
                 document.getElementById('inputContainer').style.display = 'block';
+                document.getElementById('restrictionBanner').style.display = 'block';
             } else if (channel === 'announcements') {
                 document.getElementById('chatAvatar').textContent = 'A';
                 document.getElementById('chatTitle').textContent = 'Announcements';
                 document.getElementById('chatSubtitle').textContent = 'Official updates from team';
                 document.getElementById('inputContainer').style.display = 'none';
+                document.getElementById('restrictionBanner').style.display = 'none';
             }
 
             loadMessages();
@@ -804,16 +1045,52 @@
 
         window.sendMessage = async function() {
             if (currentChannel !== 'community') return;
+            
+            // Check all restrictions
+            if (userRestrictions.banned) {
+                showToast('You are banned from sending messages', 'error');
+                return;
+            }
+
+            if (userRestrictions.muted) {
+                showToast('You are temporarily muted', 'error');
+                return;
+            }
+
+            if (systemSettings.readOnly) {
+                showToast('Community is in read-only mode', 'error');
+                return;
+            }
+
             if (!currentUser) {
                 showToast('Please sign in to send messages');
                 return;
             }
 
+            // Check slow mode
+            if (systemSettings.slowMode > 0) {
+                const timeSinceLastMessage = (Date.now() - lastMessageTime) / 1000;
+                if (timeSinceLastMessage < systemSettings.slowMode) {
+                    const remaining = Math.ceil(systemSettings.slowMode - timeSinceLastMessage);
+                    showToast(`Slow mode: Wait ${remaining} seconds`, 'error');
+                    return;
+                }
+            }
+
             const input = document.getElementById('messageInput');
-            const text = input.value.trim();
+            let text = input.value.trim();
             const sendBtn = document.getElementById('sendBtn');
 
             if (!text) return;
+
+            // Basic profanity filter (if enabled)
+            if (systemSettings.profanity) {
+                const profanityList = ['badword1', 'badword2']; // Add your list
+                profanityList.forEach(word => {
+                    const regex = new RegExp(word, 'gi');
+                    text = text.replace(regex, '***');
+                });
+            }
 
             sendBtn.disabled = true;
 
@@ -825,6 +1102,7 @@
                     authorUID: currentUser.uid,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                     highlighted: false,
+                    hidden: false,
                     adminReply: null,
                     channel: 'community'
                 });
@@ -833,6 +1111,9 @@
                 updateCharCount();
                 autoResize(input);
                 sendBtn.disabled = false;
+                
+                // Update last message time for slow mode
+                lastMessageTime = Date.now();
 
                 const container = document.getElementById('messagesContainer');
                 setTimeout(() => {
@@ -840,11 +1121,12 @@
                 }, 100);
             } catch (error) {
                 console.error('Error sending message:', error);
-                showToast('Error sending message');
+                showToast('Error sending message', 'error');
                 sendBtn.disabled = false;
             }
         };
 
+        // ✅ FIXED FUNCTION - Removed where() clause to avoid index requirement
         function loadMessages() {
             const container = document.getElementById('messagesContainer');
             const collectionName = currentChannel === 'community' ? 'communityComments' : 'announcements';
@@ -860,8 +1142,10 @@
                 </div>
             `;
 
+            // FIX: Removed .where('hidden', '==', false) to avoid composite index requirement
             messagesUnsubscribe = db.collection(collectionName)
                 .orderBy('timestamp', 'asc')
+                .limit(100)
                 .onSnapshot((snapshot) => {
                     if (snapshot.empty) {
                         container.innerHTML = `
@@ -876,6 +1160,10 @@
                     let html = '';
                     snapshot.forEach((doc) => {
                         const msg = doc.data();
+                        
+                        // FIX: Filter hidden messages on client-side instead of server-side
+                        if (msg.hidden === true) return;
+                        
                         const timeAgo = msg.timestamp ? formatTime(msg.timestamp.toDate()) : 'now';
                         const initial = msg.author ? msg.author.charAt(0).toUpperCase() : '?';
 
@@ -944,9 +1232,13 @@
             return date.toLocaleDateString();
         }
 
-        function showToast(message) {
+        function showToast(message, type = 'normal') {
             const toast = document.getElementById('toast');
             toast.textContent = message;
+            toast.className = 'toast';
+            if (type === 'error') {
+                toast.classList.add('error');
+            }
             toast.classList.add('show');
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
@@ -954,20 +1246,31 @@
         window.logout = async function() {
             if (confirm('Are you sure you want to logout?')) {
                 try {
-                    if (messagesUnsubscribe) {
-                        messagesUnsubscribe();
+                    // Update presence
+                    if (currentUser) {
+                        await db.collection('presence').doc(currentUser.uid).set({
+                            online: false,
+                            lastSeen: firebase.firestore.FieldValue.serverTimestamp()
+                        }, { merge: true });
                     }
+                    
+                    // Unsubscribe from listeners
+                    if (messagesUnsubscribe) messagesUnsubscribe();
+                    if (banUnsubscribe) banUnsubscribe();
+                    if (muteUnsubscribe) muteUnsubscribe();
+                    if (settingsUnsubscribe) settingsUnsubscribe();
                     
                     await auth.signOut();
                     sessionStorage.clear();
                     window.location.href = 'signin.html';
                 } catch (error) {
                     console.error('Logout error:', error);
-                    showToast('Error logging out');
+                    showToast('Error logging out', 'error');
                 }
             }
         };
 
+        // Check if Firebase loaded properly
         setTimeout(() => {
             if (typeof auth === 'undefined') {
                 console.error('❌ Firebase failed to load');
