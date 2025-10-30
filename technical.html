@@ -23,7 +23,36 @@
             color: #ffffff;
         }
 
-        /* FIXED: Proper Grid Layout */
+        /* Mobile Header */
+        .mobile-header {
+            display: none;
+            padding: 12px 16px;
+            background: #1a1a1a;
+            border-bottom: 1px solid #2a2a2a;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .mobile-menu-btn {
+            width: 40px;
+            height: 40px;
+            background: #2a2a2a;
+            border: none;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mobile-title {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* Workspace Grid */
         .workspace {
             display: grid;
             grid-template-columns: 280px 1fr 420px;
@@ -32,7 +61,7 @@
             overflow: hidden;
         }
 
-        /* FIXED: Left Panel Scrolling */
+        /* Left Panel */
         .left-panel {
             background: #1a1a1a;
             border-right: 1px solid #2a2a2a;
@@ -59,7 +88,6 @@
             color: #8e8e93;
         }
 
-        /* FIXED: Nav Section Scrolling */
         .nav-sections-wrapper {
             flex: 1;
             overflow-y: auto;
@@ -275,7 +303,7 @@
             background: #2a2a2a;
         }
 
-        /* FIXED: Middle Panel Scrolling */
+        /* Middle Panel */
         .middle-panel {
             background: #0e0e0e;
             display: flex;
@@ -343,7 +371,6 @@
             background: #3a3a3a;
         }
 
-        /* FIXED: Content Area - Perfect Scrolling */
         .content-area {
             flex: 1;
             overflow-y: auto;
@@ -366,11 +393,7 @@
             border-radius: 4px;
         }
 
-        .content-area::-webkit-scrollbar-thumb:hover {
-            background: #3a3a3a;
-        }
-
-        /* Message Item */
+        /* Message Items */
         .message-item {
             background: #1a1a1a;
             border: 1px solid #2a2a2a;
@@ -510,7 +533,7 @@
             color: #ff9500;
         }
 
-        /* FIXED: Right Panel Scrolling */
+        /* Right Panel */
         .right-panel {
             background: #1a1a1a;
             border-left: 1px solid #2a2a2a;
@@ -531,7 +554,6 @@
             font-weight: 500;
         }
 
-        /* FIXED: Actions Body - Perfect Scrolling */
         .actions-body {
             flex: 1;
             overflow-y: auto;
@@ -552,10 +574,6 @@
         .actions-body::-webkit-scrollbar-thumb {
             background: #2a2a2a;
             border-radius: 3px;
-        }
-
-        .actions-body::-webkit-scrollbar-thumb:hover {
-            background: #3a3a3a;
         }
 
         .action-section {
@@ -764,7 +782,23 @@
             color: #ffffff;
         }
 
-        /* FIXED: Responsive */
+        /* Overlay for mobile menus */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+        }
+
+        .overlay.show {
+            display: block;
+        }
+
+        /* Responsive */
         @media (max-width: 1400px) {
             .workspace {
                 grid-template-columns: 260px 1fr 360px;
@@ -781,7 +815,7 @@
                 right: -420px;
                 top: 0;
                 width: 420px;
-                transition: right 0.3s;
+                transition: right 0.3s ease;
                 z-index: 1001;
                 box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
             }
@@ -792,22 +826,35 @@
         }
 
         @media (max-width: 768px) {
+            .mobile-header {
+                display: flex;
+            }
+
             .workspace {
                 grid-template-columns: 1fr;
+                height: calc(100vh - 64px);
             }
 
             .left-panel {
                 position: fixed;
-                left: -280px;
-                top: 0;
+                left: -100%;
+                top: 64px;
                 width: 280px;
-                transition: left 0.3s;
+                height: calc(100vh - 64px);
+                transition: left 0.3s ease;
                 z-index: 1002;
                 box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
             }
 
             .left-panel.show {
                 left: 0;
+            }
+
+            .right-panel {
+                top: 64px;
+                height: calc(100vh - 64px);
+                width: 90%;
+                max-width: 360px;
             }
 
             .content-area {
@@ -817,20 +864,66 @@
             .actions-body {
                 padding: 16px;
             }
+
+            .content-header {
+                padding: 12px 16px;
+            }
+
+            .header-actions {
+                gap: 4px;
+            }
+
+            .action-btn {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+
+            .action-btn svg {
+                display: none;
+            }
+
+            .message-item {
+                padding: 12px;
+            }
+
+            .author-email {
+                font-size: 11px;
+            }
         }
 
-        /* Touch Scrolling Improvements */
-        @supports (-webkit-overflow-scrolling: touch) {
-            .content-area,
-            .actions-body,
-            .nav-sections-wrapper {
-                -webkit-overflow-scrolling: touch;
-                scroll-behavior: smooth;
+        @media (max-width: 480px) {
+            .header-subtitle {
+                display: none;
+            }
+
+            .header-icon {
+                width: 32px;
+                height: 32px;
+            }
+
+            .message-author-info {
+                gap: 8px;
+            }
+
+            .author-avatar {
+                width: 32px;
+                height: 32px;
+                font-size: 12px;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+        <button class="mobile-menu-btn" onclick="toggleLeftPanel()">☰</button>
+        <div class="mobile-title">Technical Workspace</div>
+        <button class="mobile-menu-btn" onclick="toggleRightPanel()">⋮</button>
+    </div>
+
+    <!-- Overlay for mobile -->
+    <div class="overlay" id="overlay" onclick="closeAllPanels()"></div>
+
     <div class="workspace">
         <!-- Left Panel -->
         <div class="left-panel" id="leftPanel">
@@ -839,7 +932,6 @@
                 <div class="workspace-subtitle">Technical Control</div>
             </div>
 
-            <!-- FIXED: Scrollable Nav Sections -->
             <div class="nav-sections-wrapper">
                 <div class="nav-section">
                     <div class="nav-label">Content Management</div>
@@ -993,7 +1085,6 @@
                 </div>
             </div>
 
-            <!-- FIXED: Scrollable Content Area -->
             <div class="content-area" id="contentArea">
                 <div class="loading">
                     <div class="loading-spinner"></div>
@@ -1008,7 +1099,6 @@
                 <div class="actions-title">Quick Actions</div>
             </div>
 
-            <!-- FIXED: Scrollable Actions Body -->
             <div class="actions-body" id="actionsBody">
                 <div class="no-selection">
                     <div class="no-selection-icon">👆</div>
@@ -1020,23 +1110,26 @@
 
     <div class="toast" id="toast"></div>
 
-    <script type="module">
-        import { 
-            auth, 
-            db,
-            onAuthStateChanged,
-            signOut,
-            collection,
-            addDoc,
-            query,
-            where,
-            orderBy,
-            onSnapshot,
-            deleteDoc,
-            doc,
-            updateDoc,
-            serverTimestamp
-        } from './firebase-config.js';
+    <!-- Firebase Compat SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        // Firebase Configuration - REPLACE WITH YOUR CONFIG
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
 
         let currentView = 'all';
         let selectedItem = null;
@@ -1057,7 +1150,28 @@
             { title: 'Not Bug', text: 'This is working as intended. Check our documentation for more info.' }
         ];
 
-        onAuthStateChanged(auth, (user) => {
+        // Mobile Panel Toggles
+        window.toggleLeftPanel = function() {
+            const panel = document.getElementById('leftPanel');
+            const overlay = document.getElementById('overlay');
+            panel.classList.toggle('show');
+            overlay.classList.toggle('show');
+        };
+
+        window.toggleRightPanel = function() {
+            const panel = document.getElementById('rightPanel');
+            const overlay = document.getElementById('overlay');
+            panel.classList.toggle('show');
+            overlay.classList.toggle('show');
+        };
+
+        window.closeAllPanels = function() {
+            document.getElementById('leftPanel').classList.remove('show');
+            document.getElementById('rightPanel').classList.remove('show');
+            document.getElementById('overlay').classList.remove('show');
+        };
+
+        auth.onAuthStateChanged((user) => {
             if (user) {
                 const name = user.displayName || user.email.split('@')[0];
                 document.getElementById('adminAvatar').textContent = name.charAt(0).toUpperCase();
@@ -1070,17 +1184,19 @@
         });
 
         function loadData() {
-            const q = query(collection(db, 'communityComments'), orderBy('timestamp', 'desc'));
+            if (unsubscribe) unsubscribe();
 
-            unsubscribe = onSnapshot(q, (snapshot) => {
-                allMessages = [];
-                snapshot.forEach((docSnapshot) => {
-                    allMessages.push({ id: docSnapshot.id, ...docSnapshot.data() });
+            unsubscribe = db.collection('communityComments')
+                .orderBy('timestamp', 'desc')
+                .onSnapshot((snapshot) => {
+                    allMessages = [];
+                    snapshot.forEach((doc) => {
+                        allMessages.push({ id: doc.id, ...doc.data() });
+                    });
+
+                    updateCounts();
+                    displayContent();
                 });
-
-                updateCounts();
-                displayContent();
-            });
         }
 
         function updateCounts() {
@@ -1120,6 +1236,7 @@
 
             displayContent();
             updateActionsPanel();
+            closeAllPanels();
         };
 
         function displayContent() {
@@ -1143,9 +1260,10 @@
         function createMessageHTML(msg) {
             const timeAgo = msg.timestamp ? formatTime(msg.timestamp.toDate()) : 'now';
             const initial = msg.author.charAt(0).toUpperCase();
+            const msgJSON = JSON.stringify(msg).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
             return `
-                <div class="message-item ${selectedItem?.id === msg.id ? 'selected' : ''} ${msg.pinned ? 'pinned' : ''} ${msg.hidden ? 'hidden' : ''}" onclick='selectMessage(${JSON.stringify(msg).replace(/'/g, "&apos;")})'>
+                <div class="message-item ${selectedItem?.id === msg.id ? 'selected' : ''} ${msg.pinned ? 'pinned' : ''} ${msg.hidden ? 'hidden' : ''}" onclick='selectMessage(${msgJSON})'>
                     ${msg.pinned ? '<div class="pin-indicator">📌</div>' : ''}
                     <div class="message-header">
                         <div class="message-author-info">
@@ -1175,6 +1293,12 @@
             document.querySelectorAll('.message-item').forEach(item => item.classList.remove('selected'));
             event.currentTarget.classList.add('selected');
             updateActionsPanel();
+            
+            // Auto-open right panel on mobile
+            if (window.innerWidth <= 1200) {
+                document.getElementById('rightPanel').classList.add('show');
+                document.getElementById('overlay').classList.add('show');
+            }
         };
 
         function updateActionsPanel() {
@@ -1232,7 +1356,7 @@
                 <div class="action-section">
                     <div class="action-section-title">Quick Replies</div>
                     ${replyTemplates.map(t => `
-                        <div class="template-item" onclick="useTemplate('${t.text.replace(/'/g, "\\'")}')">
+                        <div class="template-item" onclick="useTemplate(\`${t.text}\`)">
                             <div class="template-title">${t.title}</div>
                             <div class="template-text">${t.text.substring(0, 40)}...</div>
                         </div>
@@ -1251,16 +1375,15 @@
                 </div>
             `;
 
-            // Scroll to top of actions panel
             actionsBody.scrollTop = 0;
         }
 
         window.togglePin = async function() {
             if (!selectedItem) return;
             try {
-                await updateDoc(doc(db, 'communityComments', selectedItem.id), {
+                await db.collection('communityComments').doc(selectedItem.id).update({
                     pinned: !selectedItem.pinned,
-                    pinnedAt: !selectedItem.pinned ? serverTimestamp() : null
+                    pinnedAt: !selectedItem.pinned ? firebase.firestore.FieldValue.serverTimestamp() : null
                 });
                 showToast(selectedItem.pinned ? 'Message unpinned' : 'Message pinned to top', 'success');
             } catch (error) {
@@ -1271,7 +1394,7 @@
         window.toggleHighlight = async function() {
             if (!selectedItem) return;
             try {
-                await updateDoc(doc(db, 'communityComments', selectedItem.id), {
+                await db.collection('communityComments').doc(selectedItem.id).update({
                     highlighted: !selectedItem.highlighted
                 });
                 showToast('Highlight updated', 'success');
@@ -1283,7 +1406,7 @@
         window.toggleHide = async function() {
             if (!selectedItem) return;
             try {
-                await updateDoc(doc(db, 'communityComments', selectedItem.id), {
+                await db.collection('communityComments').doc(selectedItem.id).update({
                     hidden: !selectedItem.hidden
                 });
                 showToast(selectedItem.hidden ? 'Message shown' : 'Message hidden', 'success');
@@ -1295,9 +1418,9 @@
         window.toggleArchive = async function() {
             if (!selectedItem) return;
             try {
-                await updateDoc(doc(db, 'communityComments', selectedItem.id), {
+                await db.collection('communityComments').doc(selectedItem.id).update({
                     archived: !selectedItem.archived,
-                    archivedAt: !selectedItem.archived ? serverTimestamp() : null
+                    archivedAt: !selectedItem.archived ? firebase.firestore.FieldValue.serverTimestamp() : null
                 });
                 showToast(selectedItem.archived ? 'Message unarchived' : 'Message archived', 'success');
             } catch (error) {
@@ -1308,7 +1431,7 @@
         window.toggleFlag = async function() {
             if (!selectedItem) return;
             try {
-                await updateDoc(doc(db, 'communityComments', selectedItem.id), {
+                await db.collection('communityComments').doc(selectedItem.id).update({
                     flagged: !selectedItem.flagged
                 });
                 showToast(selectedItem.flagged ? 'Flag removed' : 'Message flagged', 'success');
@@ -1320,7 +1443,7 @@
         window.setCategory = async function(category) {
             if (!selectedItem) return;
             try {
-                await updateDoc(doc(db, 'communityComments', selectedItem.id), {
+                await db.collection('communityComments').doc(selectedItem.id).update({
                     category: category || null
                 });
                 showToast('Category updated', 'success');
@@ -1338,9 +1461,9 @@
             if (!replyText || !selectedItem) return;
 
             try {
-                await updateDoc(doc(db, 'communityComments', selectedItem.id), {
+                await db.collection('communityComments').doc(selectedItem.id).update({
                     adminReply: replyText,
-                    repliedAt: serverTimestamp()
+                    repliedAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
                 document.getElementById('replyText').value = '';
                 showToast('Reply sent successfully', 'success');
@@ -1354,7 +1477,7 @@
             if (!confirm('Delete this message permanently?')) return;
 
             try {
-                await deleteDoc(doc(db, 'communityComments', selectedItem.id));
+                await db.collection('communityComments').doc(selectedItem.id).delete();
                 showToast('Message deleted', 'success');
                 selectedItem = null;
                 updateActionsPanel();
@@ -1458,13 +1581,11 @@
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        window.showToast = showToast;
-
         window.logout = async function() {
             if (confirm('Logout from workspace?')) {
                 try {
                     if (unsubscribe) unsubscribe();
-                    await signOut(auth);
+                    await auth.signOut();
                     window.location.href = 'signin.html';
                 } catch (error) {
                     console.error('Logout error:', error);
