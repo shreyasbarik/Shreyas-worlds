@@ -7,6 +7,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Load Firebase Config -->
+    <script src="firebase-config.js"></script>
+    
     <style>
         * {
             margin: 0;
@@ -662,188 +666,218 @@
         </div>
     </div>
 
-    <!-- Firebase Authentication Script -->
-    <script type="module">
-        import { 
-            auth, 
-            googleProvider,
-            signInWithEmailAndPassword,
-            signInWithPopup
-        } from './firebase-config.js';
+    <script>
+        // Wait for Firebase to be ready
+        window.addEventListener('firebaseReady', initializePage);
 
-        // Create Floating Particles
-        const particlesContainer = document.getElementById('particles');
-        const particleCount = window.innerWidth < 768 ? 30 : 50;
-        
-        for (let i = 0; i < particleCount; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.top = Math.random() * 100 + '%';
-            particle.style.setProperty('--tx', (Math.random() - 0.5) * 200 + 'px');
-            particle.style.setProperty('--ty', (Math.random() - 0.5) * 200 + 'px');
-            particle.style.animationDelay = Math.random() * 20 + 's';
-            particlesContainer.appendChild(particle);
-        }
+        function initializePage() {
+            console.log('✅ Firebase ready, initializing sign-in page...');
 
-        // Spotlight follows mouse (desktop only)
-        if (window.innerWidth >= 769) {
-            document.addEventListener('mousemove', (e) => {
-                const spotlight = document.getElementById('spotlight');
-                spotlight.style.left = e.clientX - 300 + 'px';
-                spotlight.style.top = e.clientY - 300 + 'px';
+            // Create Floating Particles
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = window.innerWidth < 768 ? 30 : 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.setProperty('--tx', (Math.random() - 0.5) * 200 + 'px');
+                particle.style.setProperty('--ty', (Math.random() - 0.5) * 200 + 'px');
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particlesContainer.appendChild(particle);
+            }
+
+            // Spotlight follows mouse (desktop only)
+            if (window.innerWidth >= 769) {
+                document.addEventListener('mousemove', (e) => {
+                    const spotlight = document.getElementById('spotlight');
+                    spotlight.style.left = e.clientX - 300 + 'px';
+                    spotlight.style.top = e.clientY - 300 + 'px';
+                });
+            }
+
+            // Toggle Password
+            document.getElementById('togglePassword').addEventListener('click', function() {
+                const passwordInput = document.getElementById('password');
+                const type = passwordInput.type === 'password' ? 'text' : 'password';
+                passwordInput.type = type;
+                this.textContent = type === 'password' ? 'SHOW' : 'HIDE';
+            });
+
+            // Toast Notification
+            function showToast(type, title, message) {
+                const toast = document.getElementById('toast');
+                const icon = document.getElementById('toastIcon');
+                
+                toast.className = `toast ${type}`;
+                icon.textContent = type === 'error' ? '✕' : '✓';
+                document.getElementById('toastTitle').textContent = title;
+                document.getElementById('toastMessage').textContent = message;
+                
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 4000);
+            }
+
+            // Google Sign In
+            document.getElementById('googleSignInBtn').addEventListener('click', async () => {
+                document.getElementById('loading').classList.add('active');
+                document.getElementById('loadingText').textContent = 'Signing in with Google...';
+
+                try {
+                    const result = await auth.signInWithPopup(googleProvider);
+                    const user = result.user;
+
+                    // Store user session
+                    sessionStorage.setItem('authUser', user.email);
+                    sessionStorage.setItem('authName', user.displayName || 'User');
+                    sessionStorage.setItem('isLoggedIn', 'true');
+                    sessionStorage.setItem('authUID', user.uid);
+
+                    document.getElementById('loading').classList.remove('active');
+                    showToast('success', 'Welcome Back!', `Signed in as ${user.displayName}`);
+
+                    if (navigator.vibrate) {
+                        navigator.vibrate([100, 50, 100]);
+                    }
+
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1500);
+
+                } catch (error) {
+                    document.getElementById('loading').classList.remove('active');
+                    console.error('Google Sign-In Error:', error);
+                    
+                    let errorMessage = 'Failed to sign in with Google';
+                    if (error.code === 'auth/popup-closed-by-user') {
+                        errorMessage = 'Sign-in popup was closed';
+                    } else if (error.code === 'auth/cancelled-popup-request') {
+                        errorMessage = 'Another popup is already open';
+                    } else if (error.code === 'auth/network-request-failed') {
+                        errorMessage = 'Network error. Check your connection';
+                    }
+                    
+                    showToast('error', 'Sign-In Failed', errorMessage);
+                }
+            });
+
+            // Email/Password Sign In
+            document.getElementById('signinForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                const email = document.getElementById('email').value.trim();
+                const password = document.getElementById('password').value;
+
+                // Validate Email
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    showToast('error', 'Invalid Email', 'Please enter a valid email address');
+                    return;
+                }
+
+                // Validate Password
+                if (password.length < 6) {
+                    showToast('error', 'Invalid Password', 'Password must be at least 6 characters');
+                    return;
+                }
+
+                // Show Loading
+                document.getElementById('loading').classList.add('active');
+                document.getElementById('loadingText').textContent = 'Signing you in...';
+
+                try {
+                    // Sign in with email and password
+                    const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                    const user = userCredential.user;
+
+                    // Store user session
+                    sessionStorage.setItem('authUser', email);
+                    sessionStorage.setItem('authName', user.displayName || email.split('@')[0]);
+                    sessionStorage.setItem('isLoggedIn', 'true');
+                    sessionStorage.setItem('authUID', user.uid);
+
+                    document.getElementById('loading').classList.remove('active');
+                    showToast('success', 'Welcome Back!', 'Signed in successfully');
+
+                    if (navigator.vibrate) {
+                        navigator.vibrate([100, 50, 100]);
+                    }
+
+                    // Redirect to home page
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1500);
+
+                } catch (error) {
+                    document.getElementById('loading').classList.remove('active');
+                    console.error('Sign-In Error:', error);
+
+                    let errorMessage = 'Failed to sign in';
+                    
+                    switch (error.code) {
+                        case 'auth/user-not-found':
+                            errorMessage = 'No account found with this email';
+                            break;
+                        case 'auth/wrong-password':
+                            errorMessage = 'Incorrect password';
+                            break;
+                        case 'auth/invalid-email':
+                            errorMessage = 'Invalid email address';
+                            break;
+                        case 'auth/user-disabled':
+                            errorMessage = 'This account has been disabled';
+                            break;
+                        case 'auth/too-many-requests':
+                            errorMessage = 'Too many failed attempts. Try again later';
+                            break;
+                        case 'auth/network-request-failed':
+                            errorMessage = 'Network error. Check your connection';
+                            break;
+                        case 'auth/invalid-credential':
+                            errorMessage = 'Invalid email or password';
+                            break;
+                        default:
+                            errorMessage = error.message || 'An error occurred';
+                    }
+
+                    showToast('error', 'Sign-In Failed', errorMessage);
+                }
+            });
+
+            // Prevent zoom on double tap
+            let lastTouchEnd = 0;
+            document.addEventListener('touchend', function(e) {
+                const now = Date.now();
+                if (now - lastTouchEnd <= 300) {
+                    e.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, false);
+
+            // Check if already logged in
+            auth.onAuthStateChanged((user) => {
+                if (user && window.location.pathname.includes('signin.html')) {
+                    console.log('User already logged in, redirecting...');
+                    // Optionally redirect to home if already logged in
+                    // window.location.href = 'index.html';
+                }
             });
         }
 
-        // Toggle Password
-        document.getElementById('togglePassword').addEventListener('click', function() {
-            const passwordInput = document.getElementById('password');
-            const type = passwordInput.type === 'password' ? 'text' : 'password';
-            passwordInput.type = type;
-            this.textContent = type === 'password' ? 'SHOW' : 'HIDE';
-        });
-
-        // Toast Notification
-        function showToast(type, title, message) {
-            const toast = document.getElementById('toast');
-            const icon = document.getElementById('toastIcon');
-            
-            toast.className = `toast ${type}`;
-            icon.textContent = type === 'error' ? '✕' : '✓';
-            document.getElementById('toastTitle').textContent = title;
-            document.getElementById('toastMessage').textContent = message;
-            
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 4000);
-        }
-
-        // Google Sign In
-        document.getElementById('googleSignInBtn').addEventListener('click', async () => {
-            document.getElementById('loading').classList.add('active');
-            document.getElementById('loadingText').textContent = 'Signing in with Google...';
-
-            try {
-                const result = await signInWithPopup(auth, googleProvider);
-                const user = result.user;
-
-                // Store user session
-                sessionStorage.setItem('authUser', user.email);
-                sessionStorage.setItem('authName', user.displayName || 'User');
-                sessionStorage.setItem('isLoggedIn', 'true');
-                sessionStorage.setItem('authUID', user.uid);
-
+        // Fallback if Firebase doesn't load
+        setTimeout(() => {
+            if (typeof auth === 'undefined') {
+                console.error('❌ Firebase failed to load');
                 document.getElementById('loading').classList.remove('active');
-                showToast('success', 'Welcome Back!', `Signed in as ${user.displayName}`);
-
-                if (navigator.vibrate) {
-                    navigator.vibrate([100, 50, 100]);
-                }
-
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 1500);
-
-            } catch (error) {
-                document.getElementById('loading').classList.remove('active');
-                console.error('Google Sign-In Error:', error);
-                
-                let errorMessage = 'Failed to sign in with Google';
-                if (error.code === 'auth/popup-closed-by-user') {
-                    errorMessage = 'Sign-in popup was closed';
-                } else if (error.code === 'auth/cancelled-popup-request') {
-                    errorMessage = 'Another popup is already open';
-                }
-                
-                showToast('error', 'Sign-In Failed', errorMessage);
+                const toast = document.getElementById('toast');
+                toast.className = 'toast error';
+                document.getElementById('toastIcon').textContent = '✕';
+                document.getElementById('toastTitle').textContent = 'Connection Error';
+                document.getElementById('toastMessage').textContent = 'Please refresh the page';
+                toast.classList.add('show');
             }
-        });
-
-        // Email/Password Sign In
-        document.getElementById('signinForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value;
-
-            // Validate Email
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                showToast('error', 'Invalid Email', 'Please enter a valid email address');
-                return;
-            }
-
-            // Validate Password
-            if (password.length < 6) {
-                showToast('error', 'Invalid Password', 'Password must be at least 6 characters');
-                return;
-            }
-
-            // Show Loading
-            document.getElementById('loading').classList.add('active');
-            document.getElementById('loadingText').textContent = 'Signing you in...';
-
-            try {
-                // Sign in with email and password
-                const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
-
-                // Store user session
-                sessionStorage.setItem('authUser', email);
-                sessionStorage.setItem('authName', user.displayName || email.split('@')[0]);
-                sessionStorage.setItem('isLoggedIn', 'true');
-                sessionStorage.setItem('authUID', user.uid);
-
-                document.getElementById('loading').classList.remove('active');
-                showToast('success', 'Welcome Back!', 'Signed in successfully');
-
-                if (navigator.vibrate) {
-                    navigator.vibrate([100, 50, 100]);
-                }
-
-                // Redirect to home page
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 1500);
-
-            } catch (error) {
-                document.getElementById('loading').classList.remove('active');
-                console.error('Sign-In Error:', error);
-
-                let errorMessage = 'Failed to sign in';
-                
-                switch (error.code) {
-                    case 'auth/user-not-found':
-                        errorMessage = 'No account found with this email';
-                        break;
-                    case 'auth/wrong-password':
-                        errorMessage = 'Incorrect password';
-                        break;
-                    case 'auth/invalid-email':
-                        errorMessage = 'Invalid email address';
-                        break;
-                    case 'auth/user-disabled':
-                        errorMessage = 'This account has been disabled';
-                        break;
-                    case 'auth/too-many-requests':
-                        errorMessage = 'Too many failed attempts. Try again later';
-                        break;
-                    default:
-                        errorMessage = error.message;
-                }
-
-                showToast('error', 'Sign-In Failed', errorMessage);
-            }
-        });
-
-        // Prevent zoom on double tap
-        let lastTouchEnd = 0;
-        document.addEventListener('touchend', function(e) {
-            const now = Date.now();
-            if (now - lastTouchEnd <= 300) {
-                e.preventDefault();
-            }
-            lastTouchEnd = now;
-        }, false);
+        }, 5000);
     </script>
 </body>
 </html>

@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Publisher Control - Sharvika</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Firebase Compat SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
     <style>
         * {
             margin: 0;
@@ -21,6 +27,35 @@
             font-family: 'Roboto', sans-serif;
             background: #0e0e0e;
             color: #ffffff;
+        }
+
+        /* Mobile Header */
+        .mobile-header {
+            display: none;
+            padding: 12px 16px;
+            background: #1a1a1a;
+            border-bottom: 1px solid #2a2a2a;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .mobile-menu-btn {
+            width: 40px;
+            height: 40px;
+            background: #2a2a2a;
+            border: none;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mobile-title {
+            font-size: 16px;
+            font-weight: 500;
         }
 
         .workspace {
@@ -701,6 +736,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 24px;
         }
 
         .post-item {
@@ -725,6 +761,22 @@
             font-size: 12px;
             color: #8e8e93;
             margin-top: 8px;
+        }
+
+        /* Overlay */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+        }
+
+        .overlay.show {
+            display: block;
         }
 
         @media (max-width: 1400px) {
@@ -754,15 +806,21 @@
         }
 
         @media (max-width: 768px) {
+            .mobile-header {
+                display: flex;
+            }
+
             .workspace {
                 grid-template-columns: 1fr;
+                height: calc(100vh - 64px);
             }
 
             .left-panel {
                 position: fixed;
-                left: -280px;
-                top: 0;
+                left: -100%;
+                top: 64px;
                 width: 280px;
+                height: calc(100vh - 64px);
                 transition: left 0.3s;
                 z-index: 1002;
                 box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
@@ -771,12 +829,33 @@
             .left-panel.show {
                 left: 0;
             }
+
+            .right-panel {
+                top: 64px;
+                height: calc(100vh - 64px);
+                width: 90%;
+                max-width: 360px;
+            }
+
+            .content-area {
+                padding: 16px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+        <button class="mobile-menu-btn" onclick="toggleLeftPanel()">☰</button>
+        <div class="mobile-title">Publisher Control</div>
+        <button class="mobile-menu-btn" onclick="toggleRightPanel()">⋮</button>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay" onclick="closeAllPanels()"></div>
+
     <div class="workspace">
-        <div class="left-panel">
+        <div class="left-panel" id="leftPanel">
             <div class="panel-header">
                 <div class="workspace-title">PUBLISHER</div>
                 <div class="workspace-subtitle">Artist Management</div>
@@ -905,8 +984,8 @@
         </div>
     </div>
 
-    <div class="posts-modal" id="postsModal">
-        <div class="posts-modal-content">
+    <div class="posts-modal" id="postsModal" onclick="closePostsModalOnBackdrop(event)">
+        <div class="posts-modal-content" onclick="event.stopPropagation()">
             <div class="posts-modal-header">
                 <div class="posts-modal-title" id="postsModalTitle">Artist Posts</div>
                 <button class="posts-modal-close" onclick="closePostsModal()">×</button>
@@ -917,28 +996,50 @@
 
     <div class="toast" id="toast"></div>
 
-    <script type="module">
-        import { 
-            auth, 
-            db,
-            onAuthStateChanged,
-            signOut,
-            collection,
-            query,
-            orderBy,
-            onSnapshot,
-            doc,
-            updateDoc,
-            getDocs,
-            deleteDoc
-        } from './firebase-config.js';
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBYEol3wDIUihPTLaM1EjqVkpvjvJ-1_O4",
+            authDomain: "my-website-backend-957db.firebaseapp.com",
+            projectId: "my-website-backend-957db",
+            storageBucket: "my-website-backend-957db.firebasestorage.app",
+            messagingSenderId: "75667291929",
+            appId: "1:75667291929:web:10878882c9c30574144f88",
+            measurementId: "G-8H93W7QZGT"
+        };
+
+        // Initialize Firebase
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const auth = firebase.auth();
+        const db = firebase.firestore();
 
         let currentView = 'all';
         let selectedArtist = null;
         let allArtists = [];
         let allArtworks = [];
+        let unsubscribeUsers = null;
+        let unsubscribeArtworks = null;
 
-        onAuthStateChanged(auth, (user) => {
+        // Mobile Panel Toggles
+        window.toggleLeftPanel = function() {
+            document.getElementById('leftPanel').classList.toggle('show');
+            document.getElementById('overlay').classList.toggle('show');
+        };
+
+        window.toggleRightPanel = function() {
+            document.getElementById('rightPanel').classList.toggle('show');
+            document.getElementById('overlay').classList.toggle('show');
+        };
+
+        window.closeAllPanels = function() {
+            document.getElementById('leftPanel').classList.remove('show');
+            document.getElementById('rightPanel').classList.remove('show');
+            document.getElementById('overlay').classList.remove('show');
+        };
+
+        auth.onAuthStateChanged((user) => {
             if (user) {
                 const name = user.displayName || user.email.split('@')[0];
                 document.getElementById('adminAvatar').textContent = name.charAt(0).toUpperCase();
@@ -949,32 +1050,52 @@
             }
         });
 
-        async function loadData() {
-            const usersQuery = query(collection(db, 'users'));
-            onSnapshot(usersQuery, (snapshot) => {
+        function loadData() {
+            // Clean up previous listeners
+            if (unsubscribeUsers) unsubscribeUsers();
+            if (unsubscribeArtworks) unsubscribeArtworks();
+
+            // Load users
+            unsubscribeUsers = db.collection('users').onSnapshot((snapshot) => {
                 allArtists = [];
                 snapshot.forEach((doc) => {
-                    allArtists.push({ id: doc.id, ...doc.data() });
+                    const data = doc.data();
+                    allArtists.push({ 
+                        id: doc.id, 
+                        username: data.name || data.username || data.email || 'Unknown',
+                        email: data.email || 'No email',
+                        verified: data.verified || false,
+                        blocked: data.blocked || false,
+                        createdAt: data.createdAt || null,
+                        postCount: 0
+                    });
                 });
                 loadArtworks();
+            }, (error) => {
+                console.error('Error loading users:', error);
+                showToast('Error loading artists', 'error');
             });
         }
 
-        async function loadArtworks() {
-            const artworksQuery = query(collection(db, 'artworks'), orderBy('timestamp', 'desc'));
-            onSnapshot(artworksQuery, (snapshot) => {
-                allArtworks = [];
-                snapshot.forEach((doc) => {
-                    allArtworks.push({ id: doc.id, ...doc.data() });
-                });
-                
-                allArtists.forEach(artist => {
-                    artist.postCount = allArtworks.filter(a => a.authorUID === artist.id).length;
-                });
+        function loadArtworks() {
+            unsubscribeArtworks = db.collection('artworks')
+                .orderBy('timestamp', 'desc')
+                .onSnapshot((snapshot) => {
+                    allArtworks = [];
+                    snapshot.forEach((doc) => {
+                        allArtworks.push({ id: doc.id, ...doc.data() });
+                    });
+                    
+                    // Count posts for each artist
+                    allArtists.forEach(artist => {
+                        artist.postCount = allArtworks.filter(a => a.authorUID === artist.id).length;
+                    });
 
-                updateCounts();
-                displayContent();
-            });
+                    updateCounts();
+                    displayContent();
+                }, (error) => {
+                    console.error('Error loading artworks:', error);
+                });
         }
 
         function updateCounts() {
@@ -1004,6 +1125,7 @@
 
             displayContent();
             updateActionsPanel();
+            closeAllPanels();
         };
 
         function displayContent() {
@@ -1025,9 +1147,10 @@
         function createArtistHTML(artist) {
             const initial = artist.username.charAt(0).toUpperCase();
             const joinedDate = artist.createdAt ? new Date(artist.createdAt.toDate()).toLocaleDateString() : 'Unknown';
+            const artistJSON = JSON.stringify(artist).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
             return `
-                <div class="artist-item ${selectedArtist?.id === artist.id ? 'selected' : ''} ${artist.blocked ? 'blocked' : ''}" onclick='selectArtist(${JSON.stringify(artist).replace(/'/g, "&apos;")})'>
+                <div class="artist-item ${selectedArtist?.id === artist.id ? 'selected' : ''} ${artist.blocked ? 'blocked' : ''}" onclick='selectArtist(${artistJSON})'>
                     <div class="artist-header">
                         <div class="artist-avatar">
                             ${initial}
@@ -1062,6 +1185,12 @@
             document.querySelectorAll('.artist-item').forEach(item => item.classList.remove('selected'));
             event.currentTarget.classList.add('selected');
             updateActionsPanel();
+
+            // Auto-open right panel on tablet/mobile
+            if (window.innerWidth <= 1200) {
+                document.getElementById('rightPanel').classList.add('show');
+                document.getElementById('overlay').classList.add('show');
+            }
         };
 
         function updateActionsPanel() {
@@ -1168,16 +1297,18 @@
             if (!selectedArtist) return;
             try {
                 const newStatus = !selectedArtist.verified;
-                await updateDoc(doc(db, 'users', selectedArtist.id), {
+                await db.collection('users').doc(selectedArtist.id).update({
                     verified: newStatus
                 });
                 
+                // Update all artist's posts
                 const artistPosts = allArtworks.filter(a => a.authorUID === selectedArtist.id);
-                for (const post of artistPosts) {
-                    await updateDoc(doc(db, 'artworks', post.id), {
-                        verified: newStatus
-                    });
-                }
+                const batch = db.batch();
+                artistPosts.forEach(post => {
+                    const postRef = db.collection('artworks').doc(post.id);
+                    batch.update(postRef, { verified: newStatus });
+                });
+                await batch.commit();
 
                 showToast(newStatus ? 'Artist verified successfully' : 'Verification removed', 'success');
             } catch (error) {
@@ -1195,7 +1326,7 @@
             }
 
             try {
-                await updateDoc(doc(db, 'users', selectedArtist.id), {
+                await db.collection('users').doc(selectedArtist.id).update({
                     blocked: newStatus
                 });
 
@@ -1221,7 +1352,7 @@
                     const timeAgo = post.timestamp ? new Date(post.timestamp.toDate()).toLocaleString() : 'Unknown';
                     return `
                         <div class="post-item">
-                            ${post.text ? `<div class="post-text">${post.text}</div>` : ''}
+                            ${post.text ? `<div class="post-text">${escapeHtml(post.text)}</div>` : ''}
                             ${post.imageUrl ? `<img src="${post.imageUrl}" class="post-image" alt="Artwork">` : ''}
                             <div class="post-time">${timeAgo}</div>
                         </div>
@@ -1232,8 +1363,20 @@
             document.getElementById('postsModal').classList.add('show');
         };
 
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
         window.closePostsModal = function() {
             document.getElementById('postsModal').classList.remove('show');
+        };
+
+        window.closePostsModalOnBackdrop = function(event) {
+            if (event.target.id === 'postsModal') {
+                closePostsModal();
+            }
         };
 
         window.deleteAllPosts = async function() {
@@ -1246,9 +1389,11 @@
             try {
                 const artistPosts = allArtworks.filter(a => a.authorUID === selectedArtist.id);
                 
-                for (const post of artistPosts) {
-                    await deleteDoc(doc(db, 'artworks', post.id));
-                }
+                const batch = db.batch();
+                artistPosts.forEach(post => {
+                    batch.delete(db.collection('artworks').doc(post.id));
+                });
+                await batch.commit();
 
                 showToast('All posts deleted successfully', 'success');
                 closePostsModal();
@@ -1261,64 +1406,74 @@
         window.exportArtistData = function() {
             if (!selectedArtist) return;
 
-            const artistPosts = allArtworks.filter(a => a.authorUID === selectedArtist.id);
+            try {
+                const artistPosts = allArtworks.filter(a => a.authorUID === selectedArtist.id);
 
-            const data = {
-                artist: {
-                    username: selectedArtist.username,
-                    email: selectedArtist.email,
-                    verified: selectedArtist.verified,
-                    blocked: selectedArtist.blocked,
-                    joinedDate: selectedArtist.createdAt ? selectedArtist.createdAt.toDate().toISOString() : 'Unknown',
-                    totalPosts: artistPosts.length
-                },
-                posts: artistPosts.map(p => ({
-                    text: p.text,
-                    imageUrl: p.imageUrl,
-                    timestamp: p.timestamp ? p.timestamp.toDate().toISOString() : ''
-                }))
-            };
+                const data = {
+                    artist: {
+                        username: selectedArtist.username,
+                        email: selectedArtist.email,
+                        verified: selectedArtist.verified,
+                        blocked: selectedArtist.blocked,
+                        joinedDate: selectedArtist.createdAt ? selectedArtist.createdAt.toDate().toISOString() : 'Unknown',
+                        totalPosts: artistPosts.length
+                    },
+                    posts: artistPosts.map(p => ({
+                        text: p.text || '',
+                        imageUrl: p.imageUrl || '',
+                        timestamp: p.timestamp ? p.timestamp.toDate().toISOString() : ''
+                    }))
+                };
 
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `artist-${selectedArtist.username}-${new Date().toISOString().split('T')[0]}.json`;
-            a.click();
-            URL.revokeObjectURL(url);
-            showToast('Artist data exported', 'success');
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `artist-${selectedArtist.username}-${new Date().toISOString().split('T')[0]}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+                showToast('Artist data exported', 'success');
+            } catch (error) {
+                console.error('Export error:', error);
+                showToast('Error exporting data', 'error');
+            }
         };
 
         window.exportAllData = function() {
-            const data = allArtists.map(artist => ({
-                username: artist.username,
-                email: artist.email,
-                verified: artist.verified || false,
-                blocked: artist.blocked || false,
-                posts: artist.postCount || 0,
-                joinedDate: artist.createdAt ? artist.createdAt.toDate().toISOString() : 'Unknown'
-            }));
+            try {
+                const data = allArtists.map(artist => ({
+                    username: artist.username,
+                    email: artist.email,
+                    verified: artist.verified || false,
+                    blocked: artist.blocked || false,
+                    posts: artist.postCount || 0,
+                    joinedDate: artist.createdAt ? artist.createdAt.toDate().toISOString() : 'Unknown'
+                }));
 
-            const csv = [
-                ['Username', 'Email', 'Verified', 'Blocked', 'Posts', 'Joined Date'],
-                ...data.map(d => [
-                    d.username, 
-                    d.email, 
-                    d.verified, 
-                    d.blocked, 
-                    d.posts, 
-                    d.joinedDate
-                ])
-            ].map(row => row.join(',')).join('\n');
+                const csv = [
+                    ['Username', 'Email', 'Verified', 'Blocked', 'Posts', 'Joined Date'],
+                    ...data.map(d => [
+                        `"${d.username}"`, 
+                        d.email, 
+                        d.verified, 
+                        d.blocked, 
+                        d.posts, 
+                        d.joinedDate
+                    ])
+                ].map(row => row.join(',')).join('\n');
 
-            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `artists-data-${new Date().toISOString().split('T')[0]}.csv`;
-            a.click();
-            URL.revokeObjectURL(url);
-            showToast('All data exported', 'success');
+                const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `artists-data-${new Date().toISOString().split('T')[0]}.csv`;
+                a.click();
+                URL.revokeObjectURL(url);
+                showToast('All data exported', 'success');
+            } catch (error) {
+                console.error('Export error:', error);
+                showToast('Error exporting data', 'error');
+            }
         };
 
         window.refreshData = function() {
@@ -1334,15 +1489,17 @@
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        window.showToast = showToast;
-
         window.logout = async function() {
             if (confirm('Logout from publisher workspace?')) {
                 try {
-                    await signOut(auth);
+                    if (unsubscribeUsers) unsubscribeUsers();
+                    if (unsubscribeArtworks) unsubscribeArtworks();
+                    await auth.signOut();
+                    sessionStorage.clear();
                     window.location.href = 'signin.html';
                 } catch (error) {
                     console.error('Logout error:', error);
+                    showToast('Error logging out', 'error');
                 }
             }
         };

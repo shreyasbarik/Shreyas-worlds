@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Community Hub - Sharvika</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Load Firebase Config -->
+    <script src="firebase-config.js"></script>
+    
     <style>
         * {
             margin: 0;
@@ -493,6 +497,20 @@
             transform: translateX(-50%) translateY(0);
         }
 
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 1001;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
+            padding: 10px;
+            cursor: pointer;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .app-container {
@@ -500,7 +518,22 @@
             }
 
             .sidebar {
-                display: none;
+                position: fixed;
+                left: -100%;
+                top: 0;
+                width: 280px;
+                height: 100vh;
+                transition: left 0.3s ease;
+                z-index: 1000;
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+            }
+
+            .sidebar.show {
+                left: 0;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
             }
 
             .messages-container {
@@ -528,19 +561,47 @@
             background: #2a2a2a;
             border-radius: 3px;
         }
+
+        /* Mobile Overlay */
+        .mobile-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+        }
+
+        .mobile-overlay.show {
+            display: block;
+        }
     </style>
 </head>
 <body>
+    <!-- Mobile Menu Toggle -->
+    <div class="mobile-menu-toggle" id="mobileMenuToggle" onclick="toggleSidebar()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+    </div>
+
+    <!-- Mobile Overlay -->
+    <div class="mobile-overlay" id="mobileOverlay" onclick="toggleSidebar()"></div>
+
     <div class="app-container">
         <!-- Sidebar -->
-        <div class="sidebar">
+        <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="app-title">SHARVIKA</div>
                 <div class="app-subtitle">Community Hub</div>
             </div>
 
             <div class="sidebar-search">
-                <input type="text" class="search-input" placeholder="Search messages...">
+                <input type="text" class="search-input" placeholder="Search messages..." id="searchInput">
             </div>
 
             <div class="sidebar-menu">
@@ -617,42 +678,68 @@
     <!-- Toast -->
     <div class="toast" id="toast"></div>
 
-    <script type="module">
-        import { 
-            auth, 
-            db,
-            onAuthStateChanged,
-            signOut,
-            collection,
-            addDoc,
-            query,
-            orderBy,
-            onSnapshot,
-            serverTimestamp
-        } from './firebase-config.js';
+    <script>
+        // Wait for Firebase to be ready
+        window.addEventListener('firebaseReady', initializePage);
 
         let currentUser = null;
         let currentChannel = 'community';
+        let messagesUnsubscribe = null;
 
-        // Check Auth
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                currentUser = user;
-                const name = user.displayName || user.email.split('@')[0];
-                const initial = name.charAt(0).toUpperCase();
+        function initializePage() {
+            console.log('✅ Firebase ready, initializing community hub...');
+
+            // Check Auth
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    currentUser = user;
+                    const name = user.displayName || user.email.split('@')[0];
+                    const initial = name.charAt(0).toUpperCase();
+                    
+                    document.getElementById('sidebarAvatar').textContent = initial;
+                    document.getElementById('sidebarName').textContent = name;
+                    
+                    loadMessages();
+                } else {
+                    window.location.href = 'signin.html';
+                }
+            });
+
+            // Search functionality
+            document.getElementById('searchInput').addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                const messages = document.querySelectorAll('.message');
                 
-                document.getElementById('sidebarAvatar').textContent = initial;
-                document.getElementById('sidebarName').textContent = name;
-                
-                loadMessages();
-            } else {
-                window.location.href = 'signin.html';
-            }
-        });
+                messages.forEach(msg => {
+                    const text = msg.querySelector('.message-text').textContent.toLowerCase();
+                    const author = msg.querySelector('.message-author').textContent.toLowerCase();
+                    
+                    if (text.includes(searchTerm) || author.includes(searchTerm)) {
+                        msg.style.display = 'flex';
+                    } else {
+                        msg.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        // Mobile Sidebar Toggle
+        window.toggleSidebar = function() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobileOverlay');
+            
+            sidebar.classList.toggle('show');
+            overlay.classList.toggle('show');
+        };
 
         // Switch Channel
         window.switchChannel = function(channel) {
             currentChannel = channel;
+            
+            // Close mobile sidebar
+            if (window.innerWidth <= 768) {
+                toggleSidebar();
+            }
             
             // Update active state
             document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
@@ -703,6 +790,10 @@
         // Send Message
         window.sendMessage = async function() {
             if (currentChannel !== 'community') return;
+            if (!currentUser) {
+                showToast('Please sign in to send messages');
+                return;
+            }
 
             const input = document.getElementById('messageInput');
             const text = input.value.trim();
@@ -713,12 +804,12 @@
             sendBtn.disabled = true;
 
             try {
-                await addDoc(collection(db, 'communityComments'), {
+                await db.collection('communityComments').add({
                     text: text,
                     author: currentUser.displayName || currentUser.email.split('@')[0],
                     authorEmail: currentUser.email,
                     authorUID: currentUser.uid,
-                    timestamp: serverTimestamp(),
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                     highlighted: false,
                     adminReply: null,
                     channel: 'community'
@@ -745,64 +836,94 @@
         function loadMessages() {
             const container = document.getElementById('messagesContainer');
             const collectionName = currentChannel === 'community' ? 'communityComments' : 'announcements';
-            const q = query(collection(db, collectionName), orderBy('timestamp', 'asc'));
+            
+            // Unsubscribe from previous listener
+            if (messagesUnsubscribe) {
+                messagesUnsubscribe();
+            }
 
-            onSnapshot(q, (snapshot) => {
-                if (snapshot.empty) {
-                    container.innerHTML = `
-                        <div class="empty-state">
-                            <div class="empty-icon">💬</div>
-                            <div class="empty-text">No messages yet${currentChannel === 'announcements' ? '. Waiting for team updates...' : '. Start the conversation!'}</div>
-                        </div>
-                    `;
-                    return;
-                }
+            // Show loading
+            container.innerHTML = `
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <div>Loading messages...</div>
+                </div>
+            `;
 
-                let html = '';
-                snapshot.forEach((doc) => {
-                    const msg = doc.data();
-                    const timeAgo = msg.timestamp ? formatTime(msg.timestamp.toDate()) : 'now';
-                    const initial = msg.author.charAt(0).toUpperCase();
+            // Listen to messages
+            messagesUnsubscribe = db.collection(collectionName)
+                .orderBy('timestamp', 'asc')
+                .onSnapshot((snapshot) => {
+                    if (snapshot.empty) {
+                        container.innerHTML = `
+                            <div class="empty-state">
+                                <div class="empty-icon">💬</div>
+                                <div class="empty-text">No messages yet${currentChannel === 'announcements' ? '. Waiting for team updates...' : '. Start the conversation!'}</div>
+                            </div>
+                        `;
+                        return;
+                    }
 
-                    html += `
-                        <div class="message">
-                            <div class="message-avatar">${initial}</div>
-                            <div class="message-content">
-                                <div class="message-header">
-                                    <span class="message-author">${msg.author}</span>
-                                    <span class="message-time">${timeAgo}</span>
-                                </div>
-                                <div class="message-bubble ${msg.highlighted ? 'highlighted' : ''} ${currentChannel === 'announcements' ? 'announcement' : ''}">
-                                    <div class="message-text">${msg.text}</div>
-                                    ${msg.adminReply ? `
-                                        <div class="admin-reply">
-                                            <div class="reply-label">Team Response</div>
-                                            <div class="reply-text">${msg.adminReply}</div>
+                    let html = '';
+                    snapshot.forEach((doc) => {
+                        const msg = doc.data();
+                        const timeAgo = msg.timestamp ? formatTime(msg.timestamp.toDate()) : 'now';
+                        const initial = msg.author ? msg.author.charAt(0).toUpperCase() : '?';
+
+                        html += `
+                            <div class="message">
+                                <div class="message-avatar">${initial}</div>
+                                <div class="message-content">
+                                    <div class="message-header">
+                                        <span class="message-author">${msg.author || 'Anonymous'}</span>
+                                        <span class="message-time">${timeAgo}</span>
+                                    </div>
+                                    <div class="message-bubble ${msg.highlighted ? 'highlighted' : ''} ${currentChannel === 'announcements' ? 'announcement' : ''}">
+                                        <div class="message-text">${escapeHtml(msg.text)}</div>
+                                        ${msg.adminReply ? `
+                                            <div class="admin-reply">
+                                                <div class="reply-label">Team Response</div>
+                                                <div class="reply-text">${escapeHtml(msg.adminReply)}</div>
+                                            </div>
+                                        ` : ''}
+                                    </div>
+                                    ${msg.highlighted ? `
+                                        <div class="message-footer">
+                                            <span class="highlight-badge">Highlighted</span>
                                         </div>
                                     ` : ''}
                                 </div>
-                                ${msg.highlighted ? `
-                                    <div class="message-footer">
-                                        <span class="highlight-badge">Highlighted</span>
-                                    </div>
-                                ` : ''}
                             </div>
+                        `;
+                    });
+
+                    container.innerHTML = html;
+
+                    // Update announcement badge
+                    if (currentChannel === 'announcements') {
+                        document.getElementById('announcementBadge').style.display = 'none';
+                    }
+
+                    // Auto-scroll to bottom
+                    setTimeout(() => {
+                        container.scrollTop = container.scrollHeight;
+                    }, 100);
+                }, (error) => {
+                    console.error('Error loading messages:', error);
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-icon">⚠️</div>
+                            <div class="empty-text">Error loading messages. Please refresh.</div>
                         </div>
                     `;
                 });
+        }
 
-                container.innerHTML = html;
-
-                // Update announcement badge
-                if (currentChannel === 'announcements') {
-                    document.getElementById('announcementBadge').style.display = 'none';
-                }
-
-                // Auto-scroll to bottom
-                setTimeout(() => {
-                    container.scrollTop = container.scrollHeight;
-                }, 100);
-            });
+        // Escape HTML to prevent XSS
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
 
         // Format Time
@@ -836,13 +957,36 @@
         window.logout = async function() {
             if (confirm('Are you sure you want to logout?')) {
                 try {
-                    await signOut(auth);
+                    // Unsubscribe from listeners
+                    if (messagesUnsubscribe) {
+                        messagesUnsubscribe();
+                    }
+                    
+                    await auth.signOut();
+                    
+                    // Clear session
+                    sessionStorage.clear();
+                    
                     window.location.href = 'signin.html';
                 } catch (error) {
                     console.error('Logout error:', error);
+                    showToast('Error logging out');
                 }
             }
         };
+
+        // Fallback if Firebase doesn't load
+        setTimeout(() => {
+            if (typeof auth === 'undefined') {
+                console.error('❌ Firebase failed to load');
+                document.getElementById('messagesContainer').innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">⚠️</div>
+                        <div class="empty-text">Connection error. Please refresh the page.</div>
+                    </div>
+                `;
+            }
+        }, 5000);
     </script>
 </body>
 </html>

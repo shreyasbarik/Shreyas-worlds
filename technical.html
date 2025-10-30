@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Technical Workspace - Sharvika</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Firebase Compat SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
     <style>
         * {
             margin: 0;
@@ -1110,24 +1116,22 @@
 
     <div class="toast" id="toast"></div>
 
-    <!-- Firebase Compat SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-
     <script>
-        // Firebase Configuration - REPLACE WITH YOUR CONFIG
+        // Firebase Configuration
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_AUTH_DOMAIN",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_STORAGE_BUCKET",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
+            apiKey: "AIzaSyBYEol3wDIUihPTLaM1EjqVkpvjvJ-1_O4",
+            authDomain: "my-website-backend-957db.firebaseapp.com",
+            projectId: "my-website-backend-957db",
+            storageBucket: "my-website-backend-957db.firebasestorage.app",
+            messagingSenderId: "75667291929",
+            appId: "1:75667291929:web:10878882c9c30574144f88",
+            measurementId: "G-8H93W7QZGT"
         };
 
         // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
         const auth = firebase.auth();
         const db = firebase.firestore();
 
@@ -1196,6 +1200,9 @@
 
                     updateCounts();
                     displayContent();
+                }, (error) => {
+                    console.error('Error loading messages:', error);
+                    showToast('Error loading messages', 'error');
                 });
         }
 
@@ -1259,7 +1266,7 @@
 
         function createMessageHTML(msg) {
             const timeAgo = msg.timestamp ? formatTime(msg.timestamp.toDate()) : 'now';
-            const initial = msg.author.charAt(0).toUpperCase();
+            const initial = msg.author ? msg.author.charAt(0).toUpperCase() : '?';
             const msgJSON = JSON.stringify(msg).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
             return `
@@ -1269,13 +1276,13 @@
                         <div class="message-author-info">
                             <div class="author-avatar">${initial}</div>
                             <div class="author-details">
-                                <div class="author-name">${msg.author}</div>
-                                <div class="author-email">${msg.authorEmail}</div>
+                                <div class="author-name">${msg.author || 'Anonymous'}</div>
+                                <div class="author-email">${msg.authorEmail || 'No email'}</div>
                             </div>
                         </div>
                         <div class="message-time">${timeAgo}</div>
                     </div>
-                    <div class="message-text">${msg.text}</div>
+                    <div class="message-text">${escapeHtml(msg.text || '')}</div>
                     <div class="message-meta">
                         ${msg.pinned ? '<span class="meta-badge badge-pinned">📌 Pinned</span>' : ''}
                         ${msg.highlighted ? '<span class="meta-badge badge-highlighted">★ Highlighted</span>' : ''}
@@ -1286,6 +1293,12 @@
                     </div>
                 </div>
             `;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
 
         window.selectMessage = function(message) {
@@ -1317,9 +1330,9 @@
             actionsBody.innerHTML = `
                 <div class="selected-info">
                     <div class="selected-label">Selected Message</div>
-                    <div class="selected-name">${selectedItem.author}</div>
-                    <div class="selected-email">${selectedItem.authorEmail}</div>
-                    <div class="selected-text">${selectedItem.text}</div>
+                    <div class="selected-name">${selectedItem.author || 'Anonymous'}</div>
+                    <div class="selected-email">${selectedItem.authorEmail || 'No email'}</div>
+                    <div class="selected-text">${escapeHtml(selectedItem.text || '')}</div>
                 </div>
 
                 <div class="action-section">
@@ -1387,6 +1400,7 @@
                 });
                 showToast(selectedItem.pinned ? 'Message unpinned' : 'Message pinned to top', 'success');
             } catch (error) {
+                console.error('Error:', error);
                 showToast('Error updating message', 'error');
             }
         };
@@ -1399,6 +1413,7 @@
                 });
                 showToast('Highlight updated', 'success');
             } catch (error) {
+                console.error('Error:', error);
                 showToast('Error updating message', 'error');
             }
         };
@@ -1411,6 +1426,7 @@
                 });
                 showToast(selectedItem.hidden ? 'Message shown' : 'Message hidden', 'success');
             } catch (error) {
+                console.error('Error:', error);
                 showToast('Error updating message', 'error');
             }
         };
@@ -1424,6 +1440,7 @@
                 });
                 showToast(selectedItem.archived ? 'Message unarchived' : 'Message archived', 'success');
             } catch (error) {
+                console.error('Error:', error);
                 showToast('Error updating message', 'error');
             }
         };
@@ -1436,6 +1453,7 @@
                 });
                 showToast(selectedItem.flagged ? 'Flag removed' : 'Message flagged', 'success');
             } catch (error) {
+                console.error('Error:', error);
                 showToast('Error updating message', 'error');
             }
         };
@@ -1448,6 +1466,7 @@
                 });
                 showToast('Category updated', 'success');
             } catch (error) {
+                console.error('Error:', error);
                 showToast('Error updating category', 'error');
             }
         };
@@ -1468,6 +1487,7 @@
                 document.getElementById('replyText').value = '';
                 showToast('Reply sent successfully', 'success');
             } catch (error) {
+                console.error('Error:', error);
                 showToast('Error sending reply', 'error');
             }
         };
@@ -1482,34 +1502,40 @@
                 selectedItem = null;
                 updateActionsPanel();
             } catch (error) {
+                console.error('Error:', error);
                 showToast('Error deleting message', 'error');
             }
         };
 
         window.exportData = function() {
-            const data = allMessages.map(m => ({
-                author: m.author,
-                email: m.authorEmail,
-                message: m.text,
-                time: m.timestamp ? m.timestamp.toDate().toISOString() : '',
-                pinned: m.pinned || false,
-                archived: m.archived || false,
-                category: m.category || ''
-            }));
+            try {
+                const data = allMessages.map(m => ({
+                    author: m.author || 'Anonymous',
+                    email: m.authorEmail || '',
+                    message: m.text || '',
+                    time: m.timestamp ? m.timestamp.toDate().toISOString() : '',
+                    pinned: m.pinned || false,
+                    archived: m.archived || false,
+                    category: m.category || ''
+                }));
 
-            const csv = [
-                ['Author', 'Email', 'Message', 'Time', 'Pinned', 'Archived', 'Category'],
-                ...data.map(d => [d.author, d.email, `"${d.message.replace(/"/g, '""')}"`, d.time, d.pinned, d.archived, d.category])
-            ].map(row => row.join(',')).join('\n');
+                const csv = [
+                    ['Author', 'Email', 'Message', 'Time', 'Pinned', 'Archived', 'Category'],
+                    ...data.map(d => [d.author, d.email, `"${d.message.replace(/"/g, '""')}"`, d.time, d.pinned, d.archived, d.category])
+                ].map(row => row.join(',')).join('\n');
 
-            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `sharvika-messages-${new Date().toISOString().split('T')[0]}.csv`;
-            a.click();
-            URL.revokeObjectURL(url);
-            showToast('Data exported successfully', 'success');
+                const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `sharvika-messages-${new Date().toISOString().split('T')[0]}.csv`;
+                a.click();
+                URL.revokeObjectURL(url);
+                showToast('Data exported successfully', 'success');
+            } catch (error) {
+                console.error('Export error:', error);
+                showToast('Error exporting data', 'error');
+            }
         };
 
         window.refreshData = function() {
@@ -1551,11 +1577,15 @@
         function loadSettings() {
             const saved = localStorage.getItem('adminSettings');
             if (saved) {
-                settings = JSON.parse(saved);
-                if (settings.autoMod) document.getElementById('autoModToggle').classList.add('active');
-                if (settings.profanity) document.getElementById('profanityToggle').classList.add('active');
-                if (settings.readOnly) document.getElementById('readOnlyToggle').classList.add('active');
-                if (settings.slowMode) document.getElementById('slowModeInput').value = settings.slowMode;
+                try {
+                    settings = JSON.parse(saved);
+                    if (settings.autoMod) document.getElementById('autoModToggle').classList.add('active');
+                    if (settings.profanity) document.getElementById('profanityToggle').classList.add('active');
+                    if (settings.readOnly) document.getElementById('readOnlyToggle').classList.add('active');
+                    if (settings.slowMode) document.getElementById('slowModeInput').value = settings.slowMode;
+                } catch (error) {
+                    console.error('Error loading settings:', error);
+                }
             }
         }
 
@@ -1586,12 +1616,19 @@
                 try {
                     if (unsubscribe) unsubscribe();
                     await auth.signOut();
+                    sessionStorage.clear();
                     window.location.href = 'signin.html';
                 } catch (error) {
                     console.error('Logout error:', error);
+                    showToast('Error logging out', 'error');
                 }
             }
         };
+
+        // Fallback error handling
+        window.addEventListener('error', function(e) {
+            console.error('Global error:', e.error);
+        });
     </script>
 </body>
 </html>
