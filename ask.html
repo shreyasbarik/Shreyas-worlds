@@ -2,12 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Community Hub - Sharvika</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Load Firebase Config -->
-    <script src="firebase-config.js"></script>
     
     <style>
         * {
@@ -22,27 +19,29 @@
             color: #ffffff;
             height: 100vh;
             overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Layout */
         .app-container {
             display: grid;
             grid-template-columns: 320px 1fr;
             height: 100vh;
         }
 
-        /* Sidebar */
         .sidebar {
             background: #1a1a1a;
             border-right: 1px solid #2a2a2a;
             display: flex;
             flex-direction: column;
             height: 100vh;
+            overflow: hidden;
         }
 
         .sidebar-header {
             padding: 20px;
             border-bottom: 1px solid #2a2a2a;
+            flex-shrink: 0;
         }
 
         .app-title {
@@ -60,6 +59,7 @@
         .sidebar-search {
             padding: 12px 16px;
             border-bottom: 1px solid #2a2a2a;
+            flex-shrink: 0;
         }
 
         .search-input {
@@ -80,6 +80,7 @@
         .sidebar-menu {
             flex: 1;
             overflow-y: auto;
+            overflow-x: hidden;
         }
 
         .menu-item {
@@ -133,6 +134,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            flex-shrink: 0;
         }
 
         .user-avatar {
@@ -146,16 +148,21 @@
             justify-content: center;
             font-weight: 600;
             font-size: 16px;
+            flex-shrink: 0;
         }
 
         .user-info {
             flex: 1;
+            min-width: 0;
         }
 
         .user-name {
             font-size: 14px;
             font-weight: 500;
             color: #ffffff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .user-status {
@@ -172,18 +179,19 @@
             justify-content: center;
             cursor: pointer;
             transition: background 0.2s;
+            flex-shrink: 0;
         }
 
         .logout-icon:hover {
             background: #2a2a2a;
         }
 
-        /* Main Chat Area */
         .chat-container {
             display: flex;
             flex-direction: column;
             height: 100vh;
             background: #0e0e0e;
+            overflow: hidden;
         }
 
         .chat-header {
@@ -193,6 +201,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            flex-shrink: 0;
         }
 
         .chat-avatar {
@@ -210,6 +219,7 @@
 
         .chat-info {
             flex: 1;
+            min-width: 0;
         }
 
         .chat-title {
@@ -223,10 +233,10 @@
             color: #8e8e93;
         }
 
-        /* Messages Area */
         .messages-container {
             flex: 1;
             overflow-y: auto;
+            overflow-x: hidden;
             padding: 20px 24px;
             display: flex;
             flex-direction: column;
@@ -246,7 +256,6 @@
             border-radius: 3px;
         }
 
-        /* Message Bubble */
         .message {
             display: flex;
             gap: 10px;
@@ -282,6 +291,7 @@
         .message-content {
             flex: 1;
             max-width: 65%;
+            min-width: 0;
         }
 
         .message-header {
@@ -289,6 +299,7 @@
             align-items: baseline;
             gap: 8px;
             margin-bottom: 4px;
+            flex-wrap: wrap;
         }
 
         .message-author {
@@ -324,6 +335,7 @@
             line-height: 1.5;
             color: #ffffff;
             word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .admin-reply {
@@ -364,11 +376,11 @@
             font-weight: 600;
         }
 
-        /* Input Area */
         .input-container {
             padding: 16px 24px;
             background: #1a1a1a;
             border-top: 1px solid #2a2a2a;
+            flex-shrink: 0;
         }
 
         .input-wrapper {
@@ -397,6 +409,7 @@
             resize: none;
             max-height: 120px;
             font-family: inherit;
+            min-height: 20px;
         }
 
         .message-input::placeholder {
@@ -407,6 +420,7 @@
             font-size: 11px;
             color: #6e6e73;
             white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .send-button {
@@ -436,12 +450,12 @@
             background: #2a2a2a;
             color: #6e6e73;
             cursor: not-allowed;
+            transform: none;
         }
 
-        /* Loading */
         .loading {
             text-align: center;
-            padding: 40px;
+            padding: 40px 20px;
             color: #6e6e73;
         }
 
@@ -459,7 +473,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Empty State */
         .empty-state {
             text-align: center;
             padding: 80px 20px;
@@ -476,7 +489,6 @@
             font-size: 15px;
         }
 
-        /* Toast */
         .toast {
             position: fixed;
             bottom: 24px;
@@ -497,7 +509,6 @@
             transform: translateX(-50%) translateY(0);
         }
 
-        /* Mobile Menu Toggle */
         .mobile-menu-toggle {
             display: none;
             position: fixed;
@@ -511,7 +522,34 @@
             cursor: pointer;
         }
 
-        /* Responsive */
+        .mobile-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+        }
+
+        .mobile-overlay.show {
+            display: block;
+        }
+
+        .sidebar-menu::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar-menu::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .sidebar-menu::-webkit-scrollbar-thumb {
+            background: #2a2a2a;
+            border-radius: 3px;
+        }
+
         @media (max-width: 768px) {
             .app-container {
                 grid-template-columns: 1fr;
@@ -547,40 +585,29 @@
             .input-container {
                 padding: 12px 16px;
             }
+
+            .chat-header {
+                padding: 12px 16px;
+            }
         }
 
-        .sidebar-menu::-webkit-scrollbar {
-            width: 6px;
-        }
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 90%;
+                max-width: 300px;
+            }
 
-        .sidebar-menu::-webkit-scrollbar-track {
-            background: transparent;
-        }
+            .message-content {
+                max-width: 85%;
+            }
 
-        .sidebar-menu::-webkit-scrollbar-thumb {
-            background: #2a2a2a;
-            border-radius: 3px;
-        }
-
-        /* Mobile Overlay */
-        .mobile-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 999;
-        }
-
-        .mobile-overlay.show {
-            display: block;
+            .app-title {
+                font-size: 18px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Mobile Menu Toggle -->
     <div class="mobile-menu-toggle" id="mobileMenuToggle" onclick="toggleSidebar()">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2">
             <line x1="3" y1="12" x2="21" y2="12"/>
@@ -589,11 +616,9 @@
         </svg>
     </div>
 
-    <!-- Mobile Overlay -->
     <div class="mobile-overlay" id="mobileOverlay" onclick="toggleSidebar()"></div>
 
     <div class="app-container">
-        <!-- Sidebar -->
         <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="app-title">SHARVIKA</div>
@@ -634,7 +659,6 @@
             </div>
         </div>
 
-        <!-- Chat Container -->
         <div class="chat-container">
             <div class="chat-header">
                 <div class="chat-avatar" id="chatAvatar">C</div>
@@ -660,8 +684,6 @@
                             placeholder="Write a message..."
                             rows="1"
                             maxlength="1000"
-                            oninput="autoResize(this); updateCharCount()"
-                            onkeydown="handleKeyPress(event)"
                         ></textarea>
                         <span class="char-counter" id="charCounter">0/1000</span>
                     </div>
@@ -675,11 +697,10 @@
         </div>
     </div>
 
-    <!-- Toast -->
     <div class="toast" id="toast"></div>
 
+    <script src="firebase-config.js"></script>
     <script>
-        // Wait for Firebase to be ready
         window.addEventListener('firebaseReady', initializePage);
 
         let currentUser = null;
@@ -687,9 +708,8 @@
         let messagesUnsubscribe = null;
 
         function initializePage() {
-            console.log('✅ Firebase ready, initializing community hub...');
+            console.log('✅ Initializing community hub...');
 
-            // Check Auth
             auth.onAuthStateChanged((user) => {
                 if (user) {
                     currentUser = user;
@@ -705,47 +725,53 @@
                 }
             });
 
-            // Search functionality
-            document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', function(e) {
                 const searchTerm = e.target.value.toLowerCase();
                 const messages = document.querySelectorAll('.message');
                 
                 messages.forEach(msg => {
-                    const text = msg.querySelector('.message-text').textContent.toLowerCase();
-                    const author = msg.querySelector('.message-author').textContent.toLowerCase();
-                    
-                    if (text.includes(searchTerm) || author.includes(searchTerm)) {
-                        msg.style.display = 'flex';
-                    } else {
-                        msg.style.display = 'none';
+                    const textEl = msg.querySelector('.message-text');
+                    const authorEl = msg.querySelector('.message-author');
+                    if (textEl && authorEl) {
+                        const text = textEl.textContent.toLowerCase();
+                        const author = authorEl.textContent.toLowerCase();
+                        msg.style.display = (text.includes(searchTerm) || author.includes(searchTerm)) ? 'flex' : 'none';
                     }
                 });
             });
+
+            const messageInput = document.getElementById('messageInput');
+            messageInput.addEventListener('input', function() {
+                autoResize(this);
+                updateCharCount();
+            });
+
+            messageInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
         }
 
-        // Mobile Sidebar Toggle
         window.toggleSidebar = function() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('mobileOverlay');
-            
             sidebar.classList.toggle('show');
             overlay.classList.toggle('show');
         };
 
-        // Switch Channel
         window.switchChannel = function(channel) {
             currentChannel = channel;
             
-            // Close mobile sidebar
             if (window.innerWidth <= 768) {
                 toggleSidebar();
             }
             
-            // Update active state
             document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
             event.currentTarget.classList.add('active');
 
-            // Update header
             if (channel === 'community') {
                 document.getElementById('chatAvatar').textContent = 'C';
                 document.getElementById('chatTitle').textContent = 'Community Chat';
@@ -761,33 +787,21 @@
             loadMessages();
         };
 
-        // Open Support Email
         window.openSupport = function() {
             window.location.href = 'mailto:teamsharvika.inbox@gmail.com';
         };
 
-        // Auto-resize textarea
-        window.autoResize = function(textarea) {
+        function autoResize(textarea) {
             textarea.style.height = 'auto';
             textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
-        };
+        }
 
-        // Update character count
-        window.updateCharCount = function() {
+        function updateCharCount() {
             const input = document.getElementById('messageInput');
             const counter = document.getElementById('charCounter');
             counter.textContent = `${input.value.length}/1000`;
-        };
+        }
 
-        // Handle Enter key
-        window.handleKeyPress = function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
-            }
-        };
-
-        // Send Message
         window.sendMessage = async function() {
             if (currentChannel !== 'community') return;
             if (!currentUser) {
@@ -820,7 +834,6 @@
                 autoResize(input);
                 sendBtn.disabled = false;
 
-                // Scroll to bottom
                 const container = document.getElementById('messagesContainer');
                 setTimeout(() => {
                     container.scrollTop = container.scrollHeight;
@@ -832,17 +845,14 @@
             }
         };
 
-        // Load Messages
         function loadMessages() {
             const container = document.getElementById('messagesContainer');
             const collectionName = currentChannel === 'community' ? 'communityComments' : 'announcements';
             
-            // Unsubscribe from previous listener
             if (messagesUnsubscribe) {
                 messagesUnsubscribe();
             }
 
-            // Show loading
             container.innerHTML = `
                 <div class="loading">
                     <div class="loading-spinner"></div>
@@ -850,7 +860,6 @@
                 </div>
             `;
 
-            // Listen to messages
             messagesUnsubscribe = db.collection(collectionName)
                 .orderBy('timestamp', 'asc')
                 .onSnapshot((snapshot) => {
@@ -875,7 +884,7 @@
                                 <div class="message-avatar">${initial}</div>
                                 <div class="message-content">
                                     <div class="message-header">
-                                        <span class="message-author">${msg.author || 'Anonymous'}</span>
+                                        <span class="message-author">${escapeHtml(msg.author || 'Anonymous')}</span>
                                         <span class="message-time">${timeAgo}</span>
                                     </div>
                                     <div class="message-bubble ${msg.highlighted ? 'highlighted' : ''} ${currentChannel === 'announcements' ? 'announcement' : ''}">
@@ -899,12 +908,6 @@
 
                     container.innerHTML = html;
 
-                    // Update announcement badge
-                    if (currentChannel === 'announcements') {
-                        document.getElementById('announcementBadge').style.display = 'none';
-                    }
-
-                    // Auto-scroll to bottom
                     setTimeout(() => {
                         container.scrollTop = container.scrollHeight;
                     }, 100);
@@ -919,14 +922,12 @@
                 });
         }
 
-        // Escape HTML to prevent XSS
         function escapeHtml(text) {
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
         }
 
-        // Format Time
         function formatTime(date) {
             const now = new Date();
             const diff = now - date;
@@ -943,7 +944,6 @@
             return date.toLocaleDateString();
         }
 
-        // Show Toast
         function showToast(message) {
             const toast = document.getElementById('toast');
             toast.textContent = message;
@@ -951,22 +951,15 @@
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        window.showToast = showToast;
-
-        // Logout
         window.logout = async function() {
             if (confirm('Are you sure you want to logout?')) {
                 try {
-                    // Unsubscribe from listeners
                     if (messagesUnsubscribe) {
                         messagesUnsubscribe();
                     }
                     
                     await auth.signOut();
-                    
-                    // Clear session
                     sessionStorage.clear();
-                    
                     window.location.href = 'signin.html';
                 } catch (error) {
                     console.error('Logout error:', error);
@@ -975,7 +968,6 @@
             }
         };
 
-        // Fallback if Firebase doesn't load
         setTimeout(() => {
             if (typeof auth === 'undefined') {
                 console.error('❌ Firebase failed to load');

@@ -2,14 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Technical Workspace - Sharvika</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Firebase Compat SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     
     <style>
         * {
@@ -27,9 +22,9 @@
             font-family: 'Roboto', sans-serif;
             background: #0e0e0e;
             color: #ffffff;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Mobile Header */
         .mobile-header {
             display: none;
             padding: 12px 16px;
@@ -37,6 +32,7 @@
             border-bottom: 1px solid #2a2a2a;
             align-items: center;
             justify-content: space-between;
+            flex-shrink: 0;
         }
 
         .mobile-menu-btn {
@@ -58,7 +54,6 @@
             font-weight: 500;
         }
 
-        /* Workspace Grid */
         .workspace {
             display: grid;
             grid-template-columns: 280px 1fr 420px;
@@ -67,7 +62,6 @@
             overflow: hidden;
         }
 
-        /* Left Panel */
         .left-panel {
             background: #1a1a1a;
             border-right: 1px solid #2a2a2a;
@@ -98,7 +92,6 @@
             flex: 1;
             overflow-y: auto;
             overflow-x: hidden;
-            -webkit-overflow-scrolling: touch;
         }
 
         .nav-sections-wrapper::-webkit-scrollbar {
@@ -282,11 +275,15 @@
 
         .admin-info {
             flex: 1;
+            min-width: 0;
         }
 
         .admin-name {
             font-size: 14px;
             font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .admin-role {
@@ -303,13 +300,13 @@
             justify-content: center;
             cursor: pointer;
             transition: background 0.2s;
+            flex-shrink: 0;
         }
 
         .logout-btn:hover {
             background: #2a2a2a;
         }
 
-        /* Middle Panel */
         .middle-panel {
             background: #0e0e0e;
             display: flex;
@@ -332,6 +329,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            min-width: 0;
         }
 
         .header-icon {
@@ -342,6 +340,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
         }
 
         .header-title {
@@ -371,6 +370,7 @@
             display: flex;
             align-items: center;
             gap: 6px;
+            white-space: nowrap;
         }
 
         .action-btn:hover {
@@ -382,8 +382,6 @@
             overflow-y: auto;
             overflow-x: hidden;
             padding: 20px 24px;
-            -webkit-overflow-scrolling: touch;
-            scroll-behavior: smooth;
         }
 
         .content-area::-webkit-scrollbar {
@@ -399,7 +397,6 @@
             border-radius: 4px;
         }
 
-        /* Message Items */
         .message-item {
             background: #1a1a1a;
             border: 1px solid #2a2a2a;
@@ -454,6 +451,8 @@
         .message-author-info {
             display: flex;
             gap: 12px;
+            min-width: 0;
+            flex: 1;
         }
 
         .author-avatar {
@@ -467,25 +466,34 @@
             justify-content: center;
             font-weight: 600;
             font-size: 14px;
+            flex-shrink: 0;
         }
 
         .author-details {
             flex: 1;
+            min-width: 0;
         }
 
         .author-name {
             font-size: 14px;
             font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .author-email {
             font-size: 12px;
             color: #8e8e93;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .message-time {
             font-size: 12px;
             color: #8e8e93;
+            white-space: nowrap;
         }
 
         .message-text {
@@ -494,6 +502,7 @@
             color: #ffffff;
             margin-bottom: 12px;
             word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .message-meta {
@@ -539,7 +548,6 @@
             color: #ff9500;
         }
 
-        /* Right Panel */
         .right-panel {
             background: #1a1a1a;
             border-left: 1px solid #2a2a2a;
@@ -565,8 +573,6 @@
             overflow-y: auto;
             overflow-x: hidden;
             padding: 20px;
-            -webkit-overflow-scrolling: touch;
-            scroll-behavior: smooth;
         }
 
         .actions-body::-webkit-scrollbar {
@@ -655,12 +661,14 @@
             font-size: 16px;
             font-weight: 600;
             margin-bottom: 4px;
+            word-wrap: break-word;
         }
 
         .selected-email {
             font-size: 13px;
             color: #8e8e93;
             margin-bottom: 12px;
+            word-wrap: break-word;
         }
 
         .selected-text {
@@ -788,7 +796,6 @@
             color: #ffffff;
         }
 
-        /* Overlay for mobile menus */
         .overlay {
             display: none;
             position: fixed;
@@ -804,7 +811,6 @@
             display: block;
         }
 
-        /* Responsive */
         @media (max-width: 1400px) {
             .workspace {
                 grid-template-columns: 260px 1fr 360px;
@@ -821,6 +827,7 @@
                 right: -420px;
                 top: 0;
                 width: 420px;
+                height: 100vh;
                 transition: right 0.3s ease;
                 z-index: 1001;
                 box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
@@ -916,22 +923,24 @@
                 height: 32px;
                 font-size: 12px;
             }
+
+            .left-panel {
+                width: 90%;
+                max-width: 300px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Mobile Header -->
     <div class="mobile-header">
         <button class="mobile-menu-btn" onclick="toggleLeftPanel()">☰</button>
         <div class="mobile-title">Technical Workspace</div>
         <button class="mobile-menu-btn" onclick="toggleRightPanel()">⋮</button>
     </div>
 
-    <!-- Overlay for mobile -->
     <div class="overlay" id="overlay" onclick="closeAllPanels()"></div>
 
     <div class="workspace">
-        <!-- Left Panel -->
         <div class="left-panel" id="leftPanel">
             <div class="panel-header">
                 <div class="workspace-title">SHARVIKA</div>
@@ -1058,7 +1067,6 @@
             </div>
         </div>
 
-        <!-- Middle Panel -->
         <div class="middle-panel">
             <div class="content-header">
                 <div class="header-info">
@@ -1079,14 +1087,14 @@
                             <polyline points="7 10 12 15 17 10"/>
                             <line x1="12" y1="15" x2="12" y2="3"/>
                         </svg>
-                        Export
+                        <span>Export</span>
                     </button>
                     <button class="action-btn" onclick="refreshData()">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <polyline points="23 4 23 10 17 10"/>
                             <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
                         </svg>
-                        Refresh
+                        <span>Refresh</span>
                     </button>
                 </div>
             </div>
@@ -1099,7 +1107,6 @@
             </div>
         </div>
 
-        <!-- Right Panel -->
         <div class="right-panel" id="rightPanel">
             <div class="actions-header">
                 <div class="actions-title">Quick Actions</div>
@@ -1116,24 +1123,9 @@
 
     <div class="toast" id="toast"></div>
 
+    <script src="firebase-config.js"></script>
     <script>
-        // Firebase Configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyBYEol3wDIUihPTLaM1EjqVkpvjvJ-1_O4",
-            authDomain: "my-website-backend-957db.firebaseapp.com",
-            projectId: "my-website-backend-957db",
-            storageBucket: "my-website-backend-957db.firebasestorage.app",
-            messagingSenderId: "75667291929",
-            appId: "1:75667291929:web:10878882c9c30574144f88",
-            measurementId: "G-8H93W7QZGT"
-        };
-
-        // Initialize Firebase
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-        }
-        const auth = firebase.auth();
-        const db = firebase.firestore();
+        window.addEventListener('firebaseReady', initializePage);
 
         let currentView = 'all';
         let selectedItem = null;
@@ -1154,7 +1146,22 @@
             { title: 'Not Bug', text: 'This is working as intended. Check our documentation for more info.' }
         ];
 
-        // Mobile Panel Toggles
+        function initializePage() {
+            console.log('✅ Initializing technical workspace...');
+
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    const name = user.displayName || user.email.split('@')[0];
+                    document.getElementById('adminAvatar').textContent = name.charAt(0).toUpperCase();
+                    document.getElementById('adminName').textContent = name;
+                    loadData();
+                    loadSettings();
+                } else {
+                    window.location.href = 'signin.html';
+                }
+            });
+        }
+
         window.toggleLeftPanel = function() {
             const panel = document.getElementById('leftPanel');
             const overlay = document.getElementById('overlay');
@@ -1174,18 +1181,6 @@
             document.getElementById('rightPanel').classList.remove('show');
             document.getElementById('overlay').classList.remove('show');
         };
-
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                const name = user.displayName || user.email.split('@')[0];
-                document.getElementById('adminAvatar').textContent = name.charAt(0).toUpperCase();
-                document.getElementById('adminName').textContent = name;
-                loadData();
-                loadSettings();
-            } else {
-                window.location.href = 'signin.html';
-            }
-        });
 
         function loadData() {
             if (unsubscribe) unsubscribe();
@@ -1267,17 +1262,16 @@
         function createMessageHTML(msg) {
             const timeAgo = msg.timestamp ? formatTime(msg.timestamp.toDate()) : 'now';
             const initial = msg.author ? msg.author.charAt(0).toUpperCase() : '?';
-            const msgJSON = JSON.stringify(msg).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
             return `
-                <div class="message-item ${selectedItem?.id === msg.id ? 'selected' : ''} ${msg.pinned ? 'pinned' : ''} ${msg.hidden ? 'hidden' : ''}" onclick='selectMessage(${msgJSON})'>
+                <div class="message-item ${selectedItem?.id === msg.id ? 'selected' : ''} ${msg.pinned ? 'pinned' : ''} ${msg.hidden ? 'hidden' : ''}" onclick='selectMessage(${JSON.stringify(msg).replace(/'/g, "&#39;")})'>
                     ${msg.pinned ? '<div class="pin-indicator">📌</div>' : ''}
                     <div class="message-header">
                         <div class="message-author-info">
                             <div class="author-avatar">${initial}</div>
                             <div class="author-details">
-                                <div class="author-name">${msg.author || 'Anonymous'}</div>
-                                <div class="author-email">${msg.authorEmail || 'No email'}</div>
+                                <div class="author-name">${escapeHtml(msg.author || 'Anonymous')}</div>
+                                <div class="author-email">${escapeHtml(msg.authorEmail || 'No email')}</div>
                             </div>
                         </div>
                         <div class="message-time">${timeAgo}</div>
@@ -1307,7 +1301,6 @@
             event.currentTarget.classList.add('selected');
             updateActionsPanel();
             
-            // Auto-open right panel on mobile
             if (window.innerWidth <= 1200) {
                 document.getElementById('rightPanel').classList.add('show');
                 document.getElementById('overlay').classList.add('show');
@@ -1330,8 +1323,8 @@
             actionsBody.innerHTML = `
                 <div class="selected-info">
                     <div class="selected-label">Selected Message</div>
-                    <div class="selected-name">${selectedItem.author || 'Anonymous'}</div>
-                    <div class="selected-email">${selectedItem.authorEmail || 'No email'}</div>
+                    <div class="selected-name">${escapeHtml(selectedItem.author || 'Anonymous')}</div>
+                    <div class="selected-email">${escapeHtml(selectedItem.authorEmail || 'No email')}</div>
                     <div class="selected-text">${escapeHtml(selectedItem.text || '')}</div>
                 </div>
 
@@ -1625,10 +1618,14 @@
             }
         };
 
-        // Fallback error handling
-        window.addEventListener('error', function(e) {
-            console.error('Global error:', e.error);
-        });
+        setTimeout(() => {
+            if (typeof auth === 'undefined') {
+                console.error('❌ Firebase failed to load');
+                document.getElementById('contentArea').innerHTML = `
+                    <div class="loading">Connection error. Please refresh the page.</div>
+                `;
+            }
+        }, 5000);
     </script>
 </body>
 </html>
