@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <meta name="description" content="Sharvika Store - Download premium games for PC and mobile devices">
     <meta name="theme-color" content="#01875f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Sharvika Store - Download Games for PC & Mobile</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,6 +21,7 @@
         html {
             -webkit-text-size-adjust: 100%;
             -ms-text-size-adjust: 100%;
+            scroll-behavior: smooth;
         }
 
         body {
@@ -55,6 +58,7 @@
             align-items: center;
             gap: 12px;
             text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .store-logo {
@@ -94,6 +98,7 @@
             height: 20px;
             opacity: 0.6;
             pointer-events: none;
+            z-index: 1;
         }
 
         .search-box {
@@ -113,12 +118,21 @@
             box-shadow: 0 1px 6px rgba(32,33,36,0.28);
         }
 
+        .mobile-search {
+            display: none;
+        }
+
         /* Navigation */
         .nav-tabs {
             background: #fff;
             border-bottom: 1px solid #dadce0;
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .nav-tabs::-webkit-scrollbar {
+            display: none;
         }
 
         .nav-container {
@@ -127,12 +141,6 @@
             padding: 0 24px;
             display: flex;
             gap: 40px;
-            scrollbar-width: none;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .nav-container::-webkit-scrollbar {
-            display: none;
         }
 
         .nav-tab {
@@ -196,6 +204,7 @@
             cursor: pointer;
             box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
             -webkit-tap-highlight-color: transparent;
+            position: relative;
         }
 
         .game-item:hover {
@@ -341,12 +350,14 @@
             text-decoration: none;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 6px;
             transition: all 0.2s;
             box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
             white-space: nowrap;
+            min-height: 40px;
         }
 
         .install-btn:hover {
@@ -526,27 +537,61 @@
             margin-bottom: 8px;
         }
 
-        /* Tablet Responsive (768px - 968px) */
-        @media (max-width: 968px) {
+        /* No Results Message */
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #5f6368;
+            display: none;
+        }
+
+        .no-results-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.3;
+        }
+
+        .no-results-text {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .no-results-subtext {
+            font-size: 14px;
+        }
+
+        /* ========================================
+           MOBILE RESPONSIVE (PLAY STORE STYLE)
+        ======================================== */
+
+        /* Tablet (768px - 1024px) */
+        @media (max-width: 1024px) {
+            .header-container {
+                max-width: 100%;
+            }
+
+            .nav-container,
+            .main,
+            .footer-content {
+                max-width: 100%;
+            }
+
             .search-container {
-                max-width: 400px;
-            }
-
-            .nav-container {
-                gap: 24px;
-            }
-
-            .modal-content {
-                width: 92%;
-                margin: 8% auto;
+                max-width: 500px;
             }
         }
 
-        /* Mobile Responsive (up to 768px) */
+        /* Mobile & Tablet (up to 768px) */
         @media (max-width: 768px) {
+            body {
+                font-size: 14px;
+            }
+
+            /* Header Mobile */
             .header-container {
                 padding: 0 16px;
                 height: 56px;
+                gap: 12px;
             }
 
             .store-logo {
@@ -558,185 +603,119 @@
                 font-size: 18px;
             }
 
+            /* Hide desktop search on mobile */
             .search-container {
                 display: none;
             }
 
+            /* Mobile Search Bar */
+            .mobile-search {
+                display: block;
+                padding: 8px 16px;
+                background: #fff;
+                border-bottom: 1px solid #dadce0;
+            }
+
+            .mobile-search .search-wrapper {
+                position: relative;
+                display: flex;
+                align-items: center;
+            }
+
+            .mobile-search .search-box {
+                width: 100%;
+                height: 44px;
+                background: #f1f3f4;
+                border: none;
+                border-radius: 8px;
+                padding: 0 16px 0 44px;
+                font-size: 16px;
+                outline: none;
+                transition: all 0.2s;
+            }
+
+            .mobile-search .search-icon {
+                position: absolute;
+                left: 14px;
+                width: 20px;
+                height: 20px;
+                opacity: 0.6;
+                pointer-events: none;
+            }
+
+            .mobile-search .search-box:focus {
+                background: #fff;
+                box-shadow: 0 1px 6px rgba(32,33,36,0.28);
+            }
+
+            /* Navigation Mobile */
+            .nav-tabs {
+                overflow-x: scroll;
+                scroll-snap-type: x proximity;
+            }
+
             .nav-container {
                 padding: 0 16px;
-                gap: 20px;
+                gap: 24px;
             }
 
             .nav-tab {
                 padding: 14px 0;
-                font-size: 13px;
+                font-size: 14px;
+                scroll-snap-align: start;
             }
 
+            /* Main Content Mobile */
             .main {
-                padding: 16px;
+                padding: 12px 16px 16px;
+            }
+
+            .section-header {
+                margin-bottom: 12px;
             }
 
             .section-title {
                 font-size: 18px;
+                font-weight: 500;
             }
 
+            /* Games List Mobile - Play Store Style */
             .games-list {
-                gap: 10px;
+                gap: 8px;
             }
 
             .game-item {
                 padding: 12px;
                 gap: 12px;
-            }
-
-            .game-icon {
-                width: 70px;
-                height: 70px;
-                border-radius: 12px;
-            }
-
-            .game-title {
-                font-size: 15px;
-            }
-
-            .game-developer {
-                font-size: 12px;
-            }
-
-            .game-stats {
-                gap: 8px;
-            }
-
-            .game-version {
-                font-size: 11px;
-            }
-
-            .password-box {
-                padding: 6px 10px;
-            }
-
-            .password-text {
-                font-size: 14px;
-            }
-
-            .game-actions {
-                margin-top: 8px;
-                width: 100%;
-            }
-
-            .install-btn {
-                width: 100%;
-                justify-content: center;
-                padding: 12px 24px;
-                font-size: 14px;
-            }
-
-            .footer {
-                padding: 20px 16px;
-                margin-top: 40px;
-            }
-
-            .footer-content {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .footer-links {
-                justify-content: center;
-                gap: 16px;
-            }
-
-            .footer-link {
-                font-size: 12px;
-            }
-
-            .modal-content {
-                width: 95%;
-                margin: 20px auto;
-                max-height: calc(100vh - 40px);
                 border-radius: 8px;
-            }
-
-            .modal-header {
-                padding: 16px;
-            }
-
-            .modal-header h2 {
-                font-size: 18px;
-            }
-
-            .close {
-                width: 36px;
-                height: 36px;
-                font-size: 24px;
-            }
-
-            .modal-body {
-                padding: 16px;
-                font-size: 14px;
-            }
-
-            .modal-body h3 {
-                font-size: 15px;
-                margin-top: 16px;
-            }
-        }
-
-        /* Small Mobile (up to 480px) */
-        @media (max-width: 480px) {
-            .header-container {
-                gap: 8px;
-                padding: 0 12px;
-            }
-
-            .store-logo {
-                width: 32px;
-                height: 32px;
-            }
-
-            .store-name {
-                font-size: 16px;
-            }
-
-            .nav-container {
-                gap: 16px;
-                padding: 0 12px;
-            }
-
-            .main {
-                padding: 12px;
-            }
-
-            .section-header {
-                margin-bottom: 16px;
-            }
-
-            .section-title {
-                font-size: 16px;
-            }
-
-            .games-list {
-                gap: 8px;
-            }
-
-            .game-item {
-                padding: 10px;
-                gap: 10px;
+                flex-wrap: nowrap;
             }
 
             .game-icon {
                 width: 64px;
                 height: 64px;
-                border-radius: 10px;
+                border-radius: 12px;
+            }
+
+            .game-details {
+                flex: 1;
+                min-width: 0;
             }
 
             .game-title {
                 font-size: 14px;
+                line-height: 1.3;
+                margin-bottom: 2px;
                 -webkit-line-clamp: 2;
             }
 
             .game-developer {
-                font-size: 11px;
+                font-size: 12px;
+                margin-bottom: 6px;
+            }
+
+            .game-stats {
+                gap: 8px;
                 margin-bottom: 6px;
             }
 
@@ -755,12 +734,14 @@
             }
 
             .game-version {
-                font-size: 10px;
+                font-size: 11px;
+                margin: 4px 0;
+                -webkit-line-clamp: 1;
             }
 
             .password-box {
-                padding: 6px 8px;
-                margin: 6px 0;
+                padding: 6px 10px;
+                margin: 6px 0 0 0;
             }
 
             .password-label {
@@ -769,16 +750,218 @@
 
             .password-text {
                 font-size: 13px;
+                letter-spacing: 1.5px;
+            }
+
+            /* Install Button Mobile */
+            .game-actions {
+                flex-shrink: 0;
+                width: auto;
+            }
+
+            .install-btn {
+                padding: 8px 20px;
+                font-size: 13px;
+                min-height: 36px;
+                border-radius: 20px;
+            }
+
+            /* Footer Mobile */
+            .footer {
+                padding: 20px 16px;
+                margin-top: 40px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 12px;
+            }
+
+            .footer-links {
+                justify-content: center;
+                gap: 16px;
+                flex-wrap: wrap;
+            }
+
+            .footer-link {
+                font-size: 12px;
+                padding: 8px;
+            }
+
+            .footer-text {
+                font-size: 11px;
+            }
+
+            /* Modal Mobile */
+            .modal-content {
+                width: 96%;
+                margin: 20px auto;
+                max-height: calc(100vh - 40px);
+                border-radius: 12px;
+            }
+
+            .modal-header {
+                padding: 16px;
+            }
+
+            .modal-header h2 {
+                font-size: 18px;
+            }
+
+            .close {
+                width: 36px;
+                height: 36px;
+                font-size: 26px;
+            }
+
+            .modal-body {
+                padding: 16px;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+
+            .modal-body h3 {
+                font-size: 15px;
+                margin-top: 16px;
+                margin-bottom: 8px;
+            }
+
+            .modal-body p {
+                margin-bottom: 12px;
+            }
+
+            .modal-body ul {
+                margin-left: 16px;
+                margin-bottom: 12px;
+            }
+
+            .modal-body li {
+                margin-bottom: 6px;
+            }
+        }
+
+        /* Small Mobile (up to 480px) */
+        @media (max-width: 480px) {
+            .header-container {
+                padding: 0 12px;
+                height: 56px;
+                gap: 8px;
+            }
+
+            .store-logo {
+                width: 32px;
+                height: 32px;
+            }
+
+            .store-name {
+                font-size: 16px;
+                letter-spacing: -0.3px;
+            }
+
+            .mobile-search {
+                padding: 8px 12px;
+            }
+
+            .mobile-search .search-box {
+                height: 42px;
+                font-size: 15px;
+            }
+
+            .nav-container {
+                padding: 0 12px;
+                gap: 20px;
+            }
+
+            .nav-tab {
+                padding: 12px 0;
+                font-size: 13px;
+            }
+
+            .main {
+                padding: 12px;
+            }
+
+            .section-header {
+                margin-bottom: 10px;
+            }
+
+            .section-title {
+                font-size: 16px;
+            }
+
+            .games-list {
+                gap: 8px;
+            }
+
+            .game-item {
+                padding: 10px;
+                gap: 10px;
+            }
+
+            .game-icon {
+                width: 56px;
+                height: 56px;
+                border-radius: 10px;
+            }
+
+            .game-title {
+                font-size: 13px;
+                line-height: 1.2;
+            }
+
+            .game-developer {
+                font-size: 11px;
+                margin-bottom: 4px;
+            }
+
+            .game-stats {
+                gap: 6px;
+            }
+
+            .rating-badge {
+                font-size: 10px;
+                padding: 2px 5px;
+            }
+
+            .stat-item {
+                font-size: 10px;
+            }
+
+            .category-badge {
+                font-size: 10px;
+                padding: 2px 6px;
+            }
+
+            .game-version {
+                font-size: 10px;
+                margin: 3px 0;
+            }
+
+            .password-box {
+                padding: 5px 8px;
+                margin: 5px 0 0 0;
+            }
+
+            .password-label {
+                font-size: 9px;
+            }
+
+            .password-text {
+                font-size: 12px;
                 letter-spacing: 1px;
             }
 
             .install-btn {
-                padding: 10px 20px;
-                font-size: 13px;
+                padding: 7px 16px;
+                font-size: 12px;
+                min-height: 32px;
+                border-radius: 16px;
             }
 
             .footer {
                 padding: 16px 12px;
+                margin-top: 32px;
             }
 
             .footer-links {
@@ -788,10 +971,87 @@
 
             .footer-link {
                 font-size: 11px;
+                padding: 6px;
             }
 
             .footer-text {
+                font-size: 10px;
+            }
+
+            .modal-content {
+                width: 98%;
+                margin: 10px auto;
+                max-height: calc(100vh - 20px);
+                border-radius: 8px;
+            }
+
+            .modal-header {
+                padding: 12px;
+            }
+
+            .modal-header h2 {
+                font-size: 16px;
+            }
+
+            .close {
+                width: 32px;
+                height: 32px;
+                font-size: 24px;
+            }
+
+            .modal-body {
+                padding: 12px;
+                font-size: 13px;
+            }
+
+            .modal-body h3 {
+                font-size: 14px;
+            }
+        }
+
+        /* Very Small Mobile (up to 360px) */
+        @media (max-width: 360px) {
+            .header-container {
+                padding: 0 8px;
+                gap: 6px;
+            }
+
+            .store-logo {
+                width: 28px;
+                height: 28px;
+            }
+
+            .store-name {
+                font-size: 14px;
+            }
+
+            .mobile-search {
+                padding: 6px 8px;
+            }
+
+            .nav-container {
+                padding: 0 8px;
+                gap: 16px;
+            }
+
+            .main {
+                padding: 8px;
+            }
+
+            .game-item {
+                padding: 8px;
+                gap: 8px;
+            }
+
+            .game-icon {
+                width: 52px;
+                height: 52px;
+            }
+
+            .install-btn {
+                padding: 6px 12px;
                 font-size: 11px;
+                min-height: 30px;
             }
         }
 
@@ -807,11 +1067,11 @@
             }
 
             .modal-header {
-                padding: 12px 16px;
+                padding: 10px 16px;
             }
 
             .modal-body {
-                padding: 12px 16px;
+                padding: 10px 16px;
             }
         }
 
@@ -822,6 +1082,15 @@
             .main,
             .footer-content {
                 max-width: 1440px;
+            }
+
+            .game-icon {
+                width: 90px;
+                height: 90px;
+            }
+
+            .game-title {
+                font-size: 17px;
             }
         }
 
@@ -850,23 +1119,18 @@
             .close:hover {
                 background: none;
             }
-        }
 
-        /* Print Styles */
-        @media print {
-            .header,
-            .nav-tabs,
-            .footer,
-            .modal {
-                display: none;
+            /* Larger touch targets for mobile */
+            .nav-tab {
+                min-height: 48px;
+                display: flex;
+                align-items: center;
             }
 
-            .main {
-                padding: 0;
-            }
-
-            .game-item {
-                page-break-inside: avoid;
+            .footer-link {
+                min-height: 44px;
+                display: inline-flex;
+                align-items: center;
             }
         }
 
@@ -893,7 +1157,7 @@
             border: 0;
         }
 
-        /* Focus Styles for Keyboard Navigation */
+        /* Focus Styles */
         *:focus-visible {
             outline: 2px solid #01875f;
             outline-offset: 2px;
@@ -904,6 +1168,61 @@
         .footer-link:focus-visible {
             outline: 2px solid #01875f;
             outline-offset: 2px;
+        }
+
+        /* Print Styles */
+        @media print {
+            .header,
+            .nav-tabs,
+            .footer,
+            .modal,
+            .mobile-search {
+                display: none;
+            }
+
+            .main {
+                padding: 0;
+            }
+
+            .game-item {
+                page-break-inside: avoid;
+            }
+        }
+
+        /* Reduce Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Dark Mode Support (Optional) */
+        @media (prefers-color-scheme: dark) {
+            /* Uncomment to enable dark mode */
+            /*
+            body {
+                background: #121212;
+                color: #e8e8e8;
+            }
+            
+            .header,
+            .nav-tabs,
+            .game-item,
+            .footer,
+            .modal-content {
+                background: #1e1e1e;
+                color: #e8e8e8;
+            }
+            
+            .search-box {
+                background: #2c2c2c;
+                color: #e8e8e8;
+            }
+            */
         }
     </style>
 </head>
@@ -927,26 +1246,38 @@
                 </svg>
                 <div class="store-name"><span class="highlight">Sharvika</span> Store</div>
             </a>
+            
+            <!-- Desktop Search -->
             <div class="search-container">
                 <div class="search-wrapper">
                     <svg class="search-icon" viewBox="0 0 24 24" fill="#5f6368" aria-hidden="true">
                         <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
                     </svg>
-                    <input type="search" class="search-box" placeholder="Search for games" aria-label="Search games">
+                    <input type="search" class="search-box" id="desktopSearch" placeholder="Search for games" aria-label="Search games">
                 </div>
             </div>
         </div>
     </header>
 
+    <!-- Mobile Search (Shows only on mobile) -->
+    <div class="mobile-search">
+        <div class="search-wrapper">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="#5f6368" aria-hidden="true">
+                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+            </svg>
+            <input type="search" class="search-box" id="mobileSearch" placeholder="Search for games" aria-label="Search games">
+        </div>
+    </div>
+
     <!-- Navigation Tabs -->
     <nav class="nav-tabs" role="navigation" aria-label="Main navigation">
         <div class="nav-container">
-            <div class="nav-tab active" role="button" tabindex="0">For you</div>
-            <div class="nav-tab" role="button" tabindex="0">Top charts</div>
-            <div class="nav-tab" role="button" tabindex="0">Kids</div>
-            <div class="nav-tab" role="button" tabindex="0">Premium</div>
-            <div class="nav-tab" role="button" tabindex="0">Categories</div>
-            <div class="nav-tab" role="button" tabindex="0">Editor's Choice</div>
+            <div class="nav-tab active" role="button" tabindex="0" aria-pressed="true">For you</div>
+            <div class="nav-tab" role="button" tabindex="0" aria-pressed="false">Top charts</div>
+            <div class="nav-tab" role="button" tabindex="0" aria-pressed="false">Kids</div>
+            <div class="nav-tab" role="button" tabindex="0" aria-pressed="false">Premium</div>
+            <div class="nav-tab" role="button" tabindex="0" aria-pressed="false">Categories</div>
+            <div class="nav-tab" role="button" tabindex="0" aria-pressed="false">Editor's Choice</div>
         </div>
     </nav>
 
@@ -956,9 +1287,9 @@
             <h2 class="section-title">Recommended for you</h2>
         </div>
 
-        <div class="games-list" role="list">
+        <div class="games-list" role="list" id="gamesList">
             <!-- Game 1: GTA V -->
-            <article class="game-item" role="listitem">
+            <article class="game-item" role="listitem" data-title="Grand Theft Auto V Redux" data-developer="Rockstar Games">
                 <div class="game-icon-wrapper">
                     <img src="https://upload.wikimedia.org/wikipedia/en/a/a5/Grand_Theft_Auto_V.png" 
                          alt="Grand Theft Auto V game cover" 
@@ -977,13 +1308,13 @@
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="#5f6368" aria-hidden="true">
                                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                             </svg>
-                            Rated for 18+
+                            18+
                         </span>
                         <span class="category-badge">Action</span>
                     </div>
                     <div class="game-version">Build 2189 / v1.52 Online / v1.10 Redux + All DLCs</div>
                     <div class="password-box">
-                        <span class="password-label">Password Required:</span>
+                        <span class="password-label">Password:</span>
                         <span class="password-text">3175</span>
                     </div>
                 </div>
@@ -1002,7 +1333,7 @@
             </article>
 
             <!-- Game 2: Ranch Simulator -->
-            <article class="game-item" role="listitem">
+            <article class="game-item" role="listitem" data-title="Ranch Simulator: Build, Hunt, Farm" data-developer="Toxic Dog">
                 <div class="game-icon-wrapper">
                     <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1119730/header.jpg" 
                          alt="Ranch Simulator game cover" 
@@ -1021,13 +1352,13 @@
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="#5f6368" aria-hidden="true">
                                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                             </svg>
-                            Rated for 12+
+                            12+
                         </span>
                         <span class="category-badge">Simulation</span>
                     </div>
                     <div class="game-version">v1.152 + All DLCs Included</div>
                     <div class="password-box">
-                        <span class="password-label">Password Required:</span>
+                        <span class="password-label">Password:</span>
                         <span class="password-text">3175</span>
                     </div>
                 </div>
@@ -1046,7 +1377,7 @@
             </article>
 
             <!-- Game 3: Green Hell -->
-            <article class="game-item" role="listitem">
+            <article class="game-item" role="listitem" data-title="Green Hell" data-developer="Creepy Jar">
                 <div class="game-icon-wrapper">
                     <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/815370/header.jpg" 
                          alt="Green Hell game cover" 
@@ -1065,13 +1396,13 @@
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="#5f6368" aria-hidden="true">
                                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                             </svg>
-                            Rated for 16+
+                            16+
                         </span>
                         <span class="category-badge">Survival</span>
                     </div>
                     <div class="game-version">v2.9.3 | Build 100110 - Latest Version</div>
                     <div class="password-box">
-                        <span class="password-label">Password Required:</span>
+                        <span class="password-label">Password:</span>
                         <span class="password-text">3175</span>
                     </div>
                 </div>
@@ -1090,7 +1421,7 @@
             </article>
 
             <!-- Game 4: COD MW3 -->
-            <article class="game-item" role="listitem">
+            <article class="game-item" role="listitem" data-title="Call of Duty: Modern Warfare III" data-developer="Activision Publishing, Inc.">
                 <div class="game-icon-wrapper">
                     <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2519060/header.jpg" 
                          alt="Call of Duty Modern Warfare III game cover" 
@@ -1109,13 +1440,13 @@
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="#5f6368" aria-hidden="true">
                                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                             </svg>
-                            Rated for 18+
+                            18+
                         </span>
                         <span class="category-badge">Action</span>
                     </div>
                     <div class="game-version">Campaign Only - v10.4 | Build 23098619</div>
                     <div class="password-box">
-                        <span class="password-label">Password Required:</span>
+                        <span class="password-label">Password:</span>
                         <span class="password-text">3175</span>
                     </div>
                 </div>
@@ -1134,7 +1465,7 @@
             </article>
 
             <!-- Game 5: Forza Horizon 5 -->
-            <article class="game-item" role="listitem">
+            <article class="game-item" role="listitem" data-title="Forza Horizon 5 - Premium Edition" data-developer="Playground Games">
                 <div class="game-icon-wrapper">
                     <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1551360/header.jpg" 
                          alt="Forza Horizon 5 game cover" 
@@ -1153,13 +1484,13 @@
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="#5f6368" aria-hidden="true">
                                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                             </svg>
-                            Rated for Everyone
+                            Everyone
                         </span>
                         <span class="category-badge">Racing</span>
                     </div>
                     <div class="game-version">v1.687.302.0 | Build 19909478 + All DLCs</div>
                     <div class="password-box">
-                        <span class="password-label">Password Required:</span>
+                        <span class="password-label">Password:</span>
                         <span class="password-text">3175</span>
                     </div>
                 </div>
@@ -1178,7 +1509,7 @@
             </article>
 
             <!-- Game 6: GTA San Andreas -->
-            <article class="game-item" role="listitem">
+            <article class="game-item" role="listitem" data-title="Grand Theft Auto: San Andreas" data-developer="Rockstar Games">
                 <div class="game-icon-wrapper">
                     <img src="https://upload.wikimedia.org/wikipedia/en/c/ce/GTA_San_Andreas_Box.jpg" 
                          alt="Grand Theft Auto San Andreas game cover" 
@@ -1197,13 +1528,13 @@
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="#5f6368" aria-hidden="true">
                                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                             </svg>
-                            Rated for 18+
+                            18+
                         </span>
                         <span class="category-badge">Action</span>
                     </div>
                     <div class="game-version">v6 - Complete Edition</div>
                     <div class="password-box">
-                        <span class="password-label">Password Required:</span>
+                        <span class="password-label">Password:</span>
                         <span class="password-text">3175</span>
                     </div>
                 </div>
@@ -1222,7 +1553,7 @@
             </article>
 
             <!-- Game 7: Far Cry 6 -->
-            <article class="game-item" role="listitem">
+            <article class="game-item" role="listitem" data-title="Far Cry 6 - Ultimate Edition" data-developer="Ubisoft">
                 <div class="game-icon-wrapper">
                     <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/2369390/header.jpg" 
                          alt="Far Cry 6 game cover" 
@@ -1241,13 +1572,13 @@
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="#5f6368" aria-hidden="true">
                                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                             </svg>
-                            Rated for 18+
+                            18+
                         </span>
                         <span class="category-badge">Action</span>
                     </div>
                     <div class="game-version">v1.5.0 + All DLCs</div>
                     <div class="password-box">
-                        <span class="password-label">Password Required:</span>
+                        <span class="password-label">Password:</span>
                         <span class="password-text">3175</span>
                     </div>
                 </div>
@@ -1264,6 +1595,13 @@
                     </a>
                 </div>
             </article>
+        </div>
+
+        <!-- No Results Message -->
+        <div class="no-results" id="noResults">
+            <div class="no-results-icon">🔍</div>
+            <div class="no-results-text">No games found</div>
+            <div class="no-results-subtext">Try searching for something else</div>
         </div>
     </main>
 
@@ -1420,10 +1758,9 @@
             // Focus trap for accessibility
             const focusableElements = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
             const firstElement = focusableElements[0];
-            const lastElement = focusableElements[focusableElements.length - 1];
             
             if (firstElement) {
-                firstElement.focus();
+                setTimeout(() => firstElement.focus(), 100);
             }
         }
 
@@ -1453,37 +1790,65 @@
             }
         });
 
-        // Search functionality with debounce
-        const searchBox = document.querySelector('.search-box');
-        let searchTimeout;
-        
-        if (searchBox) {
-            searchBox.addEventListener('input', function(e) {
+        // Enhanced Search functionality (works for both mobile and desktop)
+        function setupSearch(searchInput) {
+            let searchTimeout;
+            
+            searchInput.addEventListener('input', function(e) {
                 clearTimeout(searchTimeout);
                 searchTimeout = setTimeout(() => {
                     const searchTerm = e.target.value.toLowerCase().trim();
                     const gameItems = document.querySelectorAll('.game-item');
+                    const noResults = document.getElementById('noResults');
+                    let visibleCount = 0;
                     
                     gameItems.forEach(item => {
-                        const title = item.querySelector('.game-title').textContent.toLowerCase();
-                        const developer = item.querySelector('.game-developer').textContent.toLowerCase();
+                        const title = item.getAttribute('data-title').toLowerCase();
+                        const developer = item.getAttribute('data-developer').toLowerCase();
                         
                         if (title.includes(searchTerm) || developer.includes(searchTerm) || searchTerm === '') {
                             item.style.display = 'flex';
+                            visibleCount++;
                         } else {
                             item.style.display = 'none';
                         }
                     });
+                    
+                    // Show/hide no results message
+                    if (visibleCount === 0 && searchTerm !== '') {
+                        noResults.style.display = 'block';
+                    } else {
+                        noResults.style.display = 'none';
+                    }
+                    
+                    // Sync search boxes
+                    const otherSearch = searchInput.id === 'desktopSearch' ? 
+                        document.getElementById('mobileSearch') : 
+                        document.getElementById('desktopSearch');
+                    if (otherSearch && otherSearch.value !== e.target.value) {
+                        otherSearch.value = e.target.value;
+                    }
                 }, 300);
             });
         }
+
+        // Setup search for both inputs
+        const desktopSearch = document.getElementById('desktopSearch');
+        const mobileSearch = document.getElementById('mobileSearch');
+        
+        if (desktopSearch) setupSearch(desktopSearch);
+        if (mobileSearch) setupSearch(mobileSearch);
 
         // Tab switching with keyboard support
         const tabs = document.querySelectorAll('.nav-tab');
         tabs.forEach((tab, index) => {
             tab.addEventListener('click', function() {
-                tabs.forEach(t => t.classList.remove('active'));
+                tabs.forEach(t => {
+                    t.classList.remove('active');
+                    t.setAttribute('aria-pressed', 'false');
+                });
                 this.classList.add('active');
+                this.setAttribute('aria-pressed', 'true');
             });
             
             // Keyboard navigation
@@ -1497,12 +1862,14 @@
                     e.preventDefault();
                     const nextTab = tabs[index + 1] || tabs[0];
                     nextTab.focus();
+                    nextTab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
                 }
                 
                 if (e.key === 'ArrowLeft') {
                     e.preventDefault();
                     const prevTab = tabs[index - 1] || tabs[tabs.length - 1];
                     prevTab.focus();
+                    prevTab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
                 }
             });
         });
@@ -1517,34 +1884,28 @@
             });
         });
 
-        // Lazy loading images
+        // Lazy loading images fallback
         if ('loading' in HTMLImageElement.prototype) {
             const images = document.querySelectorAll('img[loading="lazy"]');
             images.forEach(img => {
                 img.src = img.src;
             });
         } else {
-            // Fallback for browsers that don't support lazy loading
-            const script = document.createElement('script');
-            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js';
-            document.body.appendChild(script);
-        }
+            // Intersection Observer fallback
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.src;
+                        observer.unobserve(img);
+                    }
+                });
+            });
 
-        // Service Worker for offline support (optional)
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                // Uncomment to enable service worker
-                // navigator.serviceWorker.register('/sw.js');
+            document.querySelectorAll('img[loading="lazy"]').forEach(img => {
+                imageObserver.observe(img);
             });
         }
-
-        // Performance monitoring
-        window.addEventListener('load', () => {
-            if (window.performance && window.performance.timing) {
-                const loadTime = window.performance.timing.domContentLoadedEventEnd - window.performance.timing.navigationStart;
-                console.log('Page load time:', loadTime + 'ms');
-            }
-        });
 
         // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1559,6 +1920,48 @@
                 }
             });
         });
+
+        // Performance monitoring
+        window.addEventListener('load', () => {
+            if (window.performance && window.performance.timing) {
+                const loadTime = window.performance.timing.domContentLoadedEventEnd - window.performance.timing.navigationStart;
+                console.log('Page load time:', loadTime + 'ms');
+            }
+        });
+
+        // Touch feedback for game items
+        const gameItems = document.querySelectorAll('.game-item');
+        gameItems.forEach(item => {
+            item.addEventListener('touchstart', function() {
+                this.style.opacity = '0.8';
+            });
+            
+            item.addEventListener('touchend', function() {
+                this.style.opacity = '1';
+            });
+        });
+
+        // Prevent zoom on double tap for iOS
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        // Service Worker Registration (Progressive Web App)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                // Uncomment to enable PWA functionality
+                // navigator.serviceWorker.register('/sw.js').then(registration => {
+                //     console.log('ServiceWorker registered:', registration);
+                // }).catch(err => {
+                //     console.log('ServiceWorker registration failed:', err);
+                // });
+            });
+        }
     </script>
 </body>
 </html>

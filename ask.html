@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Hub - Sharvika</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0e0e0e;
+            color: #ffffff;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Layout */
+        .app-container {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: #1a1a1a;
+            border-right: 1px solid #2a2a2a;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .app-title {
+            font-size: 20px;
+            font-weight: 500;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .app-subtitle {
+            font-size: 13px;
+            color: #8e8e93;
+        }
+
+        .sidebar-search {
+            padding: 12px 16px;
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 16px;
+            background: #2a2a2a;
+            border: none;
+            border-radius: 20px;
+            color: #ffffff;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search-input::placeholder {
+            color: #6e6e73;
+        }
+
+        .sidebar-menu {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .menu-item {
+            padding: 16px 20px;
+            border-bottom: 1px solid #2a2a2a;
+            cursor: pointer;
+            transition: background 0.2s;
+            position: relative;
+        }
+
+        .menu-item:hover {
+            background: #2a2a2a;
+        }
+
+        .menu-item.active {
+            background: #2a2a2a;
+        }
+
+        .menu-item-title {
+            font-size: 15px;
+            font-weight: 500;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .menu-item-subtitle {
+            font-size: 13px;
+            color: #8e8e93;
+        }
+
+        .unread-badge {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            background: #ffffff;
+            color: #000000;
+            width: 22px;
+            height: 22px;
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .sidebar-footer {
+            padding: 16px 20px;
+            border-top: 1px solid #2a2a2a;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: #ffffff;
+            color: #000000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .user-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        .user-status {
+            font-size: 12px;
+            color: #8e8e93;
+        }
+
+        .logout-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .logout-icon:hover {
+            background: #2a2a2a;
+        }
+
+        /* Main Chat Area */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background: #0e0e0e;
+        }
+
+        .chat-header {
+            padding: 16px 24px;
+            background: #1a1a1a;
+            border-bottom: 1px solid #2a2a2a;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .chat-avatar {
+            width: 40px;
+            height: 40px;
+            background: #ffffff;
+            color: #000000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .chat-info {
+            flex: 1;
+        }
+
+        .chat-title {
+            font-size: 15px;
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        .chat-subtitle {
+            font-size: 13px;
+            color: #8e8e93;
+        }
+
+        /* Messages Area */
+        .messages-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .messages-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .messages-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .messages-container::-webkit-scrollbar-thumb {
+            background: #2a2a2a;
+            border-radius: 3px;
+        }
+
+        /* Message Bubble */
+        .message {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+            animation: messageSlideIn 0.2s ease-out;
+        }
+
+        @keyframes messageSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message-avatar {
+            width: 36px;
+            height: 36px;
+            background: #ffffff;
+            color: #000000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .message-content {
+            flex: 1;
+            max-width: 65%;
+        }
+
+        .message-header {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .message-author {
+            font-size: 14px;
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        .message-time {
+            font-size: 12px;
+            color: #6e6e73;
+        }
+
+        .message-bubble {
+            background: #1a1a1a;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border-top-left-radius: 4px;
+        }
+
+        .message-bubble.highlighted {
+            background: #2a2a2a;
+            border-left: 3px solid #ffffff;
+        }
+
+        .message-bubble.announcement {
+            background: #2a2a2a;
+            border-left: 3px solid #ffffff;
+        }
+
+        .message-text {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #ffffff;
+            word-wrap: break-word;
+        }
+
+        .admin-reply {
+            background: #2a2a2a;
+            padding: 10px 14px;
+            border-radius: 8px;
+            margin-top: 8px;
+            border-left: 2px solid #6e6e73;
+        }
+
+        .reply-label {
+            font-size: 11px;
+            color: #6e6e73;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .reply-text {
+            font-size: 13px;
+            color: #ffffff;
+            line-height: 1.4;
+        }
+
+        .message-footer {
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .highlight-badge {
+            background: #ffffff;
+            color: #000000;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* Input Area */
+        .input-container {
+            padding: 16px 24px;
+            background: #1a1a1a;
+            border-top: 1px solid #2a2a2a;
+        }
+
+        .input-wrapper {
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .input-box {
+            flex: 1;
+            background: #2a2a2a;
+            border-radius: 24px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .message-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 14px;
+            outline: none;
+            resize: none;
+            max-height: 120px;
+            font-family: inherit;
+        }
+
+        .message-input::placeholder {
+            color: #6e6e73;
+        }
+
+        .char-counter {
+            font-size: 11px;
+            color: #6e6e73;
+            white-space: nowrap;
+        }
+
+        .send-button {
+            width: 44px;
+            height: 44px;
+            background: #ffffff;
+            color: #000000;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .send-button:hover {
+            transform: scale(1.05);
+        }
+
+        .send-button:active {
+            transform: scale(0.95);
+        }
+
+        .send-button:disabled {
+            background: #2a2a2a;
+            color: #6e6e73;
+            cursor: not-allowed;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #6e6e73;
+        }
+
+        .loading-spinner {
+            width: 32px;
+            height: 32px;
+            border: 3px solid #2a2a2a;
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 12px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: #6e6e73;
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .empty-text {
+            font-size: 15px;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #ffffff;
+            color: #000000;
+            padding: 12px 24px;
+            border-radius: 24px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            transition: transform 0.3s;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .app-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .messages-container {
+                padding: 16px;
+            }
+
+            .message-content {
+                max-width: 80%;
+            }
+
+            .input-container {
+                padding: 12px 16px;
+            }
+        }
+
+        .sidebar-menu::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar-menu::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .sidebar-menu::-webkit-scrollbar-thumb {
+            background: #2a2a2a;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="app-title">SHARVIKA</div>
+                <div class="app-subtitle">Community Hub</div>
+            </div>
+
+            <div class="sidebar-search">
+                <input type="text" class="search-input" placeholder="Search messages...">
+            </div>
+
+            <div class="sidebar-menu">
+                <div class="menu-item active" onclick="switchChannel('community')">
+                    <div class="menu-item-title">Community Chat</div>
+                    <div class="menu-item-subtitle">Public discussion</div>
+                </div>
+                <div class="menu-item" onclick="switchChannel('announcements')">
+                    <div class="menu-item-title">Announcements</div>
+                    <div class="menu-item-subtitle">Official updates</div>
+                    <span class="unread-badge" id="announcementBadge" style="display: none;">0</span>
+                </div>
+                <div class="menu-item" onclick="openSupport()">
+                    <div class="menu-item-title">Support</div>
+                    <div class="menu-item-subtitle">teamsharvika.inbox@gmail.com</div>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="user-avatar" id="sidebarAvatar">U</div>
+                <div class="user-info">
+                    <div class="user-name" id="sidebarName">User</div>
+                    <div class="user-status">online</div>
+                </div>
+                <div class="logout-icon" onclick="logout()" title="Logout">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Container -->
+        <div class="chat-container">
+            <div class="chat-header">
+                <div class="chat-avatar" id="chatAvatar">C</div>
+                <div class="chat-info">
+                    <div class="chat-title" id="chatTitle">Community Chat</div>
+                    <div class="chat-subtitle" id="chatSubtitle">Public discussion</div>
+                </div>
+            </div>
+
+            <div class="messages-container" id="messagesContainer">
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <div>Loading messages...</div>
+                </div>
+            </div>
+
+            <div class="input-container" id="inputContainer">
+                <div class="input-wrapper">
+                    <div class="input-box">
+                        <textarea 
+                            class="message-input" 
+                            id="messageInput" 
+                            placeholder="Write a message..."
+                            rows="1"
+                            maxlength="1000"
+                            oninput="autoResize(this); updateCharCount()"
+                            onkeydown="handleKeyPress(event)"
+                        ></textarea>
+                        <span class="char-counter" id="charCounter">0/1000</span>
+                    </div>
+                    <button class="send-button" id="sendBtn" onclick="sendMessage()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script type="module">
+        import { 
+            auth, 
+            db,
+            onAuthStateChanged,
+            signOut,
+            collection,
+            addDoc,
+            query,
+            orderBy,
+            onSnapshot,
+            serverTimestamp
+        } from './firebase-config.js';
+
+        let currentUser = null;
+        let currentChannel = 'community';
+
+        // Check Auth
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+                const name = user.displayName || user.email.split('@')[0];
+                const initial = name.charAt(0).toUpperCase();
+                
+                document.getElementById('sidebarAvatar').textContent = initial;
+                document.getElementById('sidebarName').textContent = name;
+                
+                loadMessages();
+            } else {
+                window.location.href = 'signin.html';
+            }
+        });
+
+        // Switch Channel
+        window.switchChannel = function(channel) {
+            currentChannel = channel;
+            
+            // Update active state
+            document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            // Update header
+            if (channel === 'community') {
+                document.getElementById('chatAvatar').textContent = 'C';
+                document.getElementById('chatTitle').textContent = 'Community Chat';
+                document.getElementById('chatSubtitle').textContent = 'Public discussion';
+                document.getElementById('inputContainer').style.display = 'block';
+            } else if (channel === 'announcements') {
+                document.getElementById('chatAvatar').textContent = 'A';
+                document.getElementById('chatTitle').textContent = 'Announcements';
+                document.getElementById('chatSubtitle').textContent = 'Official updates from team';
+                document.getElementById('inputContainer').style.display = 'none';
+            }
+
+            loadMessages();
+        };
+
+        // Open Support Email
+        window.openSupport = function() {
+            window.location.href = 'mailto:teamsharvika.inbox@gmail.com';
+        };
+
+        // Auto-resize textarea
+        window.autoResize = function(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
+        };
+
+        // Update character count
+        window.updateCharCount = function() {
+            const input = document.getElementById('messageInput');
+            const counter = document.getElementById('charCounter');
+            counter.textContent = `${input.value.length}/1000`;
+        };
+
+        // Handle Enter key
+        window.handleKeyPress = function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        };
+
+        // Send Message
+        window.sendMessage = async function() {
+            if (currentChannel !== 'community') return;
+
+            const input = document.getElementById('messageInput');
+            const text = input.value.trim();
+            const sendBtn = document.getElementById('sendBtn');
+
+            if (!text) return;
+
+            sendBtn.disabled = true;
+
+            try {
+                await addDoc(collection(db, 'communityComments'), {
+                    text: text,
+                    author: currentUser.displayName || currentUser.email.split('@')[0],
+                    authorEmail: currentUser.email,
+                    authorUID: currentUser.uid,
+                    timestamp: serverTimestamp(),
+                    highlighted: false,
+                    adminReply: null,
+                    channel: 'community'
+                });
+
+                input.value = '';
+                updateCharCount();
+                autoResize(input);
+                sendBtn.disabled = false;
+
+                // Scroll to bottom
+                const container = document.getElementById('messagesContainer');
+                setTimeout(() => {
+                    container.scrollTop = container.scrollHeight;
+                }, 100);
+            } catch (error) {
+                console.error('Error sending message:', error);
+                showToast('Error sending message');
+                sendBtn.disabled = false;
+            }
+        };
+
+        // Load Messages
+        function loadMessages() {
+            const container = document.getElementById('messagesContainer');
+            const collectionName = currentChannel === 'community' ? 'communityComments' : 'announcements';
+            const q = query(collection(db, collectionName), orderBy('timestamp', 'asc'));
+
+            onSnapshot(q, (snapshot) => {
+                if (snapshot.empty) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-icon">💬</div>
+                            <div class="empty-text">No messages yet${currentChannel === 'announcements' ? '. Waiting for team updates...' : '. Start the conversation!'}</div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                let html = '';
+                snapshot.forEach((doc) => {
+                    const msg = doc.data();
+                    const timeAgo = msg.timestamp ? formatTime(msg.timestamp.toDate()) : 'now';
+                    const initial = msg.author.charAt(0).toUpperCase();
+
+                    html += `
+                        <div class="message">
+                            <div class="message-avatar">${initial}</div>
+                            <div class="message-content">
+                                <div class="message-header">
+                                    <span class="message-author">${msg.author}</span>
+                                    <span class="message-time">${timeAgo}</span>
+                                </div>
+                                <div class="message-bubble ${msg.highlighted ? 'highlighted' : ''} ${currentChannel === 'announcements' ? 'announcement' : ''}">
+                                    <div class="message-text">${msg.text}</div>
+                                    ${msg.adminReply ? `
+                                        <div class="admin-reply">
+                                            <div class="reply-label">Team Response</div>
+                                            <div class="reply-text">${msg.adminReply}</div>
+                                        </div>
+                                    ` : ''}
+                                </div>
+                                ${msg.highlighted ? `
+                                    <div class="message-footer">
+                                        <span class="highlight-badge">Highlighted</span>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                container.innerHTML = html;
+
+                // Update announcement badge
+                if (currentChannel === 'announcements') {
+                    document.getElementById('announcementBadge').style.display = 'none';
+                }
+
+                // Auto-scroll to bottom
+                setTimeout(() => {
+                    container.scrollTop = container.scrollHeight;
+                }, 100);
+            });
+        }
+
+        // Format Time
+        function formatTime(date) {
+            const now = new Date();
+            const diff = now - date;
+            const seconds = Math.floor(diff / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const hours = Math.floor(minutes / 60);
+            const days = Math.floor(hours / 24);
+
+            if (seconds < 60) return 'just now';
+            if (minutes < 60) return `${minutes}m ago`;
+            if (hours < 24) return `${hours}h ago`;
+            if (days < 7) return `${days}d ago`;
+            
+            return date.toLocaleDateString();
+        }
+
+        // Show Toast
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        window.showToast = showToast;
+
+        // Logout
+        window.logout = async function() {
+            if (confirm('Are you sure you want to logout?')) {
+                try {
+                    await signOut(auth);
+                    window.location.href = 'signin.html';
+                } catch (error) {
+                    console.error('Logout error:', error);
+                }
+            }
+        };
+    </script>
+</body>
+</html>

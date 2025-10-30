@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Helpline - Sharvika</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Helpline Workspace - Sharvika</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -14,601 +13,848 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: #fafafa;
-            color: #0a0a0a;
-        }
-
-        .container {
-            display: grid;
-            grid-template-columns: 240px 1fr;
-            min-height: 100vh;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            background: white;
-            border-right: 1px solid #e5e5e5;
-            padding: 20px;
-            position: fixed;
-            width: 240px;
+            font-family: 'Roboto', sans-serif;
+            background: #0e0e0e;
+            color: #ffffff;
             height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Layout */
+        .workspace {
+            display: grid;
+            grid-template-columns: 320px 1fr 380px;
+            height: 100vh;
+        }
+
+        /* Left Panel - Channels */
+        .channels-panel {
+            background: #1a1a1a;
+            border-right: 1px solid #2a2a2a;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-header {
+            padding: 20px;
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .workspace-title {
+            font-size: 20px;
+            font-weight: 500;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .workspace-subtitle {
+            font-size: 13px;
+            color: #8e8e93;
+        }
+
+        .channels-list {
+            flex: 1;
             overflow-y: auto;
         }
 
-        .logo {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: #0a0a0a;
+        .channel-item {
+            padding: 16px 20px;
+            border-bottom: 1px solid #2a2a2a;
+            cursor: pointer;
+            transition: background 0.2s;
+            position: relative;
         }
 
-        .logo-subtitle {
+        .channel-item:hover {
+            background: #2a2a2a;
+        }
+
+        .channel-item.active {
+            background: #2a2a2a;
+        }
+
+        .channel-name {
+            font-size: 15px;
+            font-weight: 500;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .channel-desc {
+            font-size: 13px;
+            color: #8e8e93;
+        }
+
+        .message-count {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            background: #ffffff;
+            color: #000000;
+            padding: 2px 8px;
+            border-radius: 10px;
             font-size: 12px;
-            color: #737373;
-            margin-bottom: 24px;
-        }
-
-        .user-card {
-            background: #fafafa;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 24px;
-        }
-
-        .user-card h3 {
-            font-size: 14px;
             font-weight: 600;
-            margin-bottom: 4px;
         }
 
-        .user-card p {
-            font-size: 12px;
-            color: #737373;
-        }
-
-        .nav {
-            list-style: none;
-        }
-
-        .nav-item {
-            margin-bottom: 4px;
-        }
-
-        .nav-link {
+        .panel-footer {
+            padding: 16px 20px;
+            border-top: 1px solid #2a2a2a;
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 8px 12px;
-            color: #737373;
-            text-decoration: none;
-            border-radius: 6px;
+        }
+
+        .admin-avatar {
+            width: 40px;
+            height: 40px;
+            background: #ffffff;
+            color: #000000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .admin-info {
+            flex: 1;
+        }
+
+        .admin-name {
             font-size: 14px;
-            transition: all 0.2s;
+            font-weight: 500;
+            color: #ffffff;
         }
 
-        .nav-link:hover {
-            background: #fafafa;
-            color: #0a0a0a;
-        }
-
-        .nav-link.active {
-            background: #0a0a0a;
-            color: white;
-        }
-
-        .nav-link i {
-            width: 16px;
-            text-align: center;
+        .admin-role {
+            font-size: 12px;
+            color: #8e8e93;
         }
 
         .logout-btn {
-            width: 100%;
-            margin-top: 24px;
-            padding: 8px;
-            background: #fafafa;
-            border: none;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 500;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
-            color: #dc2626;
-            transition: all 0.2s;
+            transition: background 0.2s;
         }
 
         .logout-btn:hover {
-            background: #fee2e2;
+            background: #2a2a2a;
         }
 
-        /* Main Content */
-        .main {
-            margin-left: 240px;
-            padding: 40px;
-        }
-
-        .header {
-            margin-bottom: 40px;
-        }
-
-        .header h1 {
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .header p {
-            color: #737373;
-            font-size: 15px;
-        }
-
-        /* Feature Grid */
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .feature-card {
-            background: white;
-            border: 1px solid #e5e5e5;
-            border-radius: 12px;
-            padding: 24px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .feature-card:hover {
-            border-color: #0a0a0a;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        }
-
-        .feature-icon {
-            width: 48px;
-            height: 48px;
-            background: #fafafa;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 16px;
-            font-size: 20px;
-        }
-
-        .feature-card h3 {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .feature-card p {
-            font-size: 13px;
-            color: #737373;
-            line-height: 1.6;
-        }
-
-        .status-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            margin-top: 12px;
-            font-size: 12px;
-            color: #059669;
-            font-weight: 500;
-        }
-
-        .status-dot {
-            width: 6px;
-            height: 6px;
-            background: #059669;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 16px;
-            width: 90%;
-            max-width: 700px;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .modal-header {
-            padding: 24px;
-            border-bottom: 1px solid #e5e5e5;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            background: white;
-            z-index: 10;
-        }
-
-        .modal-header h2 {
-            font-size: 18px;
-            font-weight: 600;
-        }
-
-        .close-modal {
-            width: 32px;
-            height: 32px;
-            border: none;
-            background: #fafafa;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 18px;
-            color: #737373;
-        }
-
-        .close-modal:hover {
-            background: #e5e5e5;
-        }
-
-        .modal-body {
-            padding: 24px;
-        }
-
-        /* Issue List */
-        .issue-list {
+        /* Middle Panel - Messages */
+        .messages-panel {
             display: flex;
             flex-direction: column;
+            background: #0e0e0e;
+        }
+
+        .messages-header {
+            padding: 16px 24px;
+            background: #1a1a1a;
+            border-bottom: 1px solid #2a2a2a;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-info {
+            display: flex;
+            align-items: center;
             gap: 12px;
         }
 
-        .issue-item {
-            background: #fafafa;
-            border: 1px solid #e5e5e5;
-            border-radius: 8px;
-            padding: 16px;
-            transition: all 0.2s;
-        }
-
-        .issue-item:hover {
-            background: white;
-            border-color: #d4d4d4;
-        }
-
-        .issue-header {
+        .header-avatar {
+            width: 40px;
+            height: 40px;
+            background: #ffffff;
+            color: #000000;
+            border-radius: 50%;
             display: flex;
-            justify-content: space-between;
-            align-items: start;
-            margin-bottom: 8px;
-        }
-
-        .issue-title {
-            font-size: 14px;
+            align-items: center;
+            justify-content: center;
             font-weight: 600;
-            color: #0a0a0a;
+            font-size: 16px;
         }
 
-        .issue-time {
+        .header-title {
+            font-size: 15px;
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        .header-subtitle {
+            font-size: 13px;
+            color: #8e8e93;
+        }
+
+        .messages-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 24px;
+        }
+
+        .messages-area::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .messages-area::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .messages-area::-webkit-scrollbar-thumb {
+            background: #2a2a2a;
+            border-radius: 3px;
+        }
+
+        .message-item {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: #1a1a1a;
+            border-radius: 12px;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        .message-item:hover {
+            background: #2a2a2a;
+        }
+
+        .message-item.selected {
+            background: #2a2a2a;
+        }
+
+        .message-avatar {
+            width: 36px;
+            height: 36px;
+            background: #ffffff;
+            color: #000000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .message-body {
+            flex: 1;
+        }
+
+        .message-author {
+            font-size: 14px;
+            font-weight: 500;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .message-text {
+            font-size: 14px;
+            color: #8e8e93;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .message-time {
             font-size: 12px;
-            color: #737373;
+            color: #6e6e73;
             white-space: nowrap;
         }
 
-        .issue-desc {
-            font-size: 13px;
-            color: #525252;
-            line-height: 1.6;
-            margin-bottom: 12px;
+        /* Input for announcements */
+        .announcement-input {
+            padding: 16px 24px;
+            background: #1a1a1a;
+            border-top: 1px solid #2a2a2a;
         }
 
-        .issue-meta {
+        .input-wrapper {
             display: flex;
             gap: 12px;
-            font-size: 12px;
-            color: #737373;
+            align-items: flex-end;
         }
 
-        .badge {
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 600;
+        .input-box {
+            flex: 1;
+            background: #2a2a2a;
+            border-radius: 24px;
+            padding: 12px 20px;
         }
 
-        .badge-warning {
-            background: #fef3c7;
-            color: #b45309;
+        .textarea-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 14px;
+            outline: none;
+            resize: none;
+            max-height: 120px;
+            font-family: inherit;
         }
 
-        .badge-success {
-            background: #d1fae5;
-            color: #065f46;
+        .textarea-input::placeholder {
+            color: #6e6e73;
         }
 
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
+        .send-btn {
+            width: 44px;
+            height: 44px;
+            background: #ffffff;
+            color: #000000;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
         }
 
-        .empty-state i {
-            font-size: 48px;
-            color: #d4d4d4;
-            margin-bottom: 16px;
+        .send-btn:hover {
+            transform: scale(1.05);
         }
 
-        .empty-state h3 {
+        .send-btn:disabled {
+            background: #2a2a2a;
+            color: #6e6e73;
+            cursor: not-allowed;
+        }
+
+        /* Right Panel - Actions */
+        .actions-panel {
+            background: #1a1a1a;
+            border-left: 1px solid #2a2a2a;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .actions-header {
+            padding: 20px;
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .actions-title {
             font-size: 16px;
-            font-weight: 600;
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        .actions-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .selected-message {
+            background: #2a2a2a;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
+
+        .selected-author {
+            font-size: 14px;
+            font-weight: 500;
+            color: #ffffff;
             margin-bottom: 8px;
         }
 
-        .empty-state p {
+        .selected-text {
             font-size: 14px;
-            color: #737373;
+            color: #8e8e93;
+            line-height: 1.5;
         }
 
-        @media (max-width: 1024px) {
-            .container {
-                grid-template-columns: 1fr;
+        .action-button {
+            width: 100%;
+            padding: 14px;
+            background: #2a2a2a;
+            border: 1px solid #3a3a3a;
+            color: #ffffff;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .action-button:hover {
+            background: #3a3a3a;
+        }
+
+        .action-button.delete {
+            background: rgba(255, 59, 48, 0.1);
+            border-color: rgba(255, 59, 48, 0.3);
+            color: #ff3b30;
+        }
+
+        .action-button.delete:hover {
+            background: rgba(255, 59, 48, 0.2);
+        }
+
+        .reply-section {
+            margin-top: 24px;
+        }
+
+        .reply-label {
+            font-size: 13px;
+            color: #8e8e93;
+            margin-bottom: 12px;
+        }
+
+        .reply-textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 12px;
+            background: #2a2a2a;
+            border: 1px solid #3a3a3a;
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+            outline: none;
+        }
+
+        .reply-textarea:focus {
+            border-color: #4a4a4a;
+        }
+
+        .reply-send {
+            width: 100%;
+            padding: 12px;
+            background: #ffffff;
+            color: #000000;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 12px;
+        }
+
+        .no-selection {
+            text-align: center;
+            padding: 40px 20px;
+            color: #6e6e73;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #6e6e73;
+        }
+
+        .loading-spinner {
+            width: 32px;
+            height: 32px;
+            border: 3px solid #2a2a2a;
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 12px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .workspace {
+                grid-template-columns: 280px 1fr;
             }
-            .sidebar {
-                position: static;
-                width: 100%;
-                height: auto;
-                border-right: none;
-                border-bottom: 1px solid #e5e5e5;
-            }
-            .main {
-                margin-left: 0;
+
+            .actions-panel {
+                display: none;
             }
         }
 
         @media (max-width: 768px) {
-            .main {
-                padding: 20px;
-            }
-            .header h1 {
-                font-size: 24px;
-            }
-            .feature-grid {
+            .workspace {
                 grid-template-columns: 1fr;
             }
+
+            .channels-panel {
+                display: none;
+            }
+        }
+
+        .channels-list::-webkit-scrollbar,
+        .actions-body::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .channels-list::-webkit-scrollbar-track,
+        .actions-body::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .channels-list::-webkit-scrollbar-thumb,
+        .actions-body::-webkit-scrollbar-thumb {
+            background: #2a2a2a;
+            border-radius: 3px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <aside class="sidebar">
-            <div class="logo">SHARVIKA</div>
-            <div class="logo-subtitle">Helpline Portal</div>
-
-            <div class="user-card">
-                <h3 id="userName">User</h3>
-                <p id="userPosition">Position</p>
+    <div class="workspace">
+        <!-- Left Panel -->
+        <div class="channels-panel">
+            <div class="panel-header">
+                <div class="workspace-title">SHARVIKA</div>
+                <div class="workspace-subtitle">Admin Workspace</div>
             </div>
 
-            <ul class="nav">
-                <li class="nav-item">
-                    <a href="#" class="nav-link active">
-                        <i class="fas fa-grid-2"></i>
-                        <span>Overview</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-headset"></i>
-                        <span>Support</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-comments"></i>
-                        <span>Messages</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-chart-simple"></i>
-                        <span>Analytics</span>
-                    </a>
-                </li>
-            </ul>
-
-            <button class="logout-btn" onclick="logout()">
-                <i class="fas fa-arrow-right-from-bracket"></i> Logout
-            </button>
-        </aside>
-
-        <main class="main">
-            <div class="header">
-                <h1>Support Center</h1>
-                <p>Manage customer queries and issues</p>
+            <div class="channels-list">
+                <div class="channel-item active" onclick="switchChannel('community')">
+                    <div class="channel-name">Community Chat</div>
+                    <div class="channel-desc">User discussions</div>
+                    <span class="message-count" id="communityCount">0</span>
+                </div>
+                <div class="channel-item" onclick="switchChannel('announcements')">
+                    <div class="channel-name">Announcements</div>
+                    <div class="channel-desc">Post official updates</div>
+                    <span class="message-count" id="announcementCount">0</span>
+                </div>
             </div>
 
-            <div class="feature-grid">
-                <div class="feature-card" onclick="openModal('queries')">
-                    <div class="feature-icon">
-                        <i class="fas fa-circle-question"></i>
-                    </div>
-                    <h3>Customer Queries</h3>
-                    <p>View and respond to customer questions</p>
-                    <div class="status-indicator">
-                        <div class="status-dot"></div>
-                        <span>Active</span>
-                    </div>
+            <div class="panel-footer">
+                <div class="admin-avatar" id="adminAvatar">A</div>
+                <div class="admin-info">
+                    <div class="admin-name" id="adminName">Admin</div>
+                    <div class="admin-role">Helpline Team</div>
                 </div>
-
-                <div class="feature-card" onclick="openModal('issues')">
-                    <div class="feature-icon">
-                        <i class="fas fa-triangle-exclamation"></i>
-                    </div>
-                    <h3>Technical Issues</h3>
-                    <p>Handle website and platform issues</p>
-                    <div class="status-indicator">
-                        <div class="status-dot"></div>
-                        <span>Active</span>
-                    </div>
+                <div class="logout-btn" onclick="logout()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>
+                    </svg>
                 </div>
+            </div>
+        </div>
 
-                <div class="feature-card" onclick="openModal('messages')">
-                    <div class="feature-icon">
-                        <i class="fas fa-envelope"></i>
-                    </div>
-                    <h3>Messages</h3>
-                    <p>User messages and communications</p>
-                    <div class="status-indicator">
-                        <div class="status-dot"></div>
-                        <span>Active</span>
+        <!-- Middle Panel -->
+        <div class="messages-panel">
+            <div class="messages-header">
+                <div class="header-info">
+                    <div class="header-avatar" id="headerAvatar">C</div>
+                    <div>
+                        <div class="header-title" id="headerTitle">Community Chat</div>
+                        <div class="header-subtitle" id="headerSubtitle">User discussions</div>
                     </div>
                 </div>
             </div>
-        </main>
-    </div>
 
-    <div class="modal" id="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="modalTitle">Title</h2>
-                <button class="close-modal" onclick="closeModal()">×</button>
+            <div class="messages-area" id="messagesArea">
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <div>Loading messages...</div>
+                </div>
             </div>
-            <div class="modal-body" id="modalBody"></div>
+
+            <div class="announcement-input" id="announcementInput" style="display: none;">
+                <div class="input-wrapper">
+                    <div class="input-box">
+                        <textarea 
+                            class="textarea-input" 
+                            id="announcementText" 
+                            placeholder="Write an announcement..."
+                            rows="1"
+                            oninput="autoResize(this)"
+                        ></textarea>
+                    </div>
+                    <button class="send-btn" onclick="sendAnnouncement()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel -->
+        <div class="actions-panel">
+            <div class="actions-header">
+                <div class="actions-title">Message Actions</div>
+            </div>
+
+            <div class="actions-body" id="actionsBody">
+                <div class="no-selection">
+                    Select a message to perform actions
+                </div>
+            </div>
         </div>
     </div>
 
-    <script>
-        const authUser = sessionStorage.getItem('authUser');
-        const authName = sessionStorage.getItem('authName');
-        const authPosition = sessionStorage.getItem('authPosition');
+    <script type="module">
+        import { 
+            auth, 
+            db,
+            onAuthStateChanged,
+            signOut,
+            collection,
+            addDoc,
+            query,
+            orderBy,
+            onSnapshot,
+            deleteDoc,
+            doc,
+            updateDoc,
+            serverTimestamp
+        } from './firebase-config.js';
 
-        if (!authUser) {
-            window.location.href = 'authority.html';
-        }
+        let currentChannel = 'community';
+        let selectedMessage = null;
 
-        document.getElementById('userName').textContent = authName;
-        document.getElementById('userPosition').textContent = authPosition;
+        // Check Auth
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                const name = user.displayName || user.email.split('@')[0];
+                const initial = name.charAt(0).toUpperCase();
+                document.getElementById('adminAvatar').textContent = initial;
+                document.getElementById('adminName').textContent = name;
+                loadMessages();
+            } else {
+                window.location.href = 'signin.html';
+            }
+        });
 
-        const issuesData = [
-            { title: 'Login not working', desc: 'Cannot access account after password reset', user: 'User #1243', time: '5 min ago', status: 'pending' },
-            { title: 'Video player issue', desc: 'Videos not playing in HD quality', user: 'User #1187', time: '12 min ago', status: 'pending' },
-            { title: 'Page loading slow', desc: 'Website taking too long to load', user: 'User #1156', time: '23 min ago', status: 'resolved' },
-            { title: 'Search not working', desc: 'Search function returning no results', user: 'User #1098', time: '1 hour ago', status: 'pending' },
-        ];
+        // Switch Channel
+        window.switchChannel = function(channel) {
+            currentChannel = channel;
+            selectedMessage = null;
 
-        const queriesData = [
-            { title: 'Account access', desc: 'How do I reset my password?', user: 'User #1267', time: '8 min ago' },
-            { title: 'Feature question', desc: 'How to enable notifications?', user: 'User #1234', time: '15 min ago' },
-            { title: 'Usage help', desc: 'Need help with dashboard navigation', user: 'User #1201', time: '34 min ago' },
-        ];
+            // Update active state
+            document.querySelectorAll('.channel-item').forEach(item => item.classList.remove('active'));
+            event.currentTarget.classList.add('active');
 
-        const messagesData = [
-            { title: 'Feedback', desc: 'Great platform! Would love dark mode', user: 'User #1289', time: '3 min ago' },
-            { title: 'Question', desc: 'When will mobile app be available?', user: 'User #1245', time: '18 min ago' },
-        ];
-
-        function timeAgo(timeStr) {
-            return timeStr;
-        }
-
-        function openModal(type) {
-            const modal = document.getElementById('modal');
-            const title = document.getElementById('modalTitle');
-            const body = document.getElementById('modalBody');
-
-            let content = '';
-            let titleText = '';
-
-            if (type === 'issues') {
-                titleText = 'Technical Issues';
-                content = '<div class="issue-list">';
-                issuesData.forEach(issue => {
-                    content += `
-                        <div class="issue-item">
-                            <div class="issue-header">
-                                <div class="issue-title">${issue.title}</div>
-                                <div class="issue-time">${issue.time}</div>
-                            </div>
-                            <div class="issue-desc">${issue.desc}</div>
-                            <div class="issue-meta">
-                                <span><i class="fas fa-user"></i> ${issue.user}</span>
-                                <span class="badge badge-${issue.status === 'pending' ? 'warning' : 'success'}">
-                                    ${issue.status.toUpperCase()}
-                                </span>
-                            </div>
-                        </div>
-                    `;
-                });
-                content += '</div>';
-            } else if (type === 'queries') {
-                titleText = 'Customer Queries';
-                content = '<div class="issue-list">';
-                queriesData.forEach(query => {
-                    content += `
-                        <div class="issue-item">
-                            <div class="issue-header">
-                                <div class="issue-title">${query.title}</div>
-                                <div class="issue-time">${query.time}</div>
-                            </div>
-                            <div class="issue-desc">${query.desc}</div>
-                            <div class="issue-meta">
-                                <span><i class="fas fa-user"></i> ${query.user}</span>
-                            </div>
-                        </div>
-                    `;
-                });
-                content += '</div>';
-            } else if (type === 'messages') {
-                titleText = 'Messages';
-                content = '<div class="issue-list">';
-                messagesData.forEach(msg => {
-                    content += `
-                        <div class="issue-item">
-                            <div class="issue-header">
-                                <div class="issue-title">${msg.title}</div>
-                                <div class="issue-time">${msg.time}</div>
-                            </div>
-                            <div class="issue-desc">${msg.desc}</div>
-                            <div class="issue-meta">
-                                <span><i class="fas fa-user"></i> ${msg.user}</span>
-                            </div>
-                        </div>
-                    `;
-                });
-                content += '</div>';
+            // Update header
+            if (channel === 'community') {
+                document.getElementById('headerAvatar').textContent = 'C';
+                document.getElementById('headerTitle').textContent = 'Community Chat';
+                document.getElementById('headerSubtitle').textContent = 'User discussions';
+                document.getElementById('announcementInput').style.display = 'none';
+            } else {
+                document.getElementById('headerAvatar').textContent = 'A';
+                document.getElementById('headerTitle').textContent = 'Announcements';
+                document.getElementById('headerSubtitle').textContent = 'Post official updates';
+                document.getElementById('announcementInput').style.display = 'block';
             }
 
-            title.textContent = titleText;
-            body.innerHTML = content;
-            modal.classList.add('active');
+            loadMessages();
+            updateActionsPanel();
+        };
+
+        // Auto-resize textarea
+        window.autoResize = function(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
+        };
+
+        // Send Announcement
+        window.sendAnnouncement = async function() {
+            const input = document.getElementById('announcementText');
+            const text = input.value.trim();
+
+            if (!text) return;
+
+            try {
+                await addDoc(collection(db, 'announcements'), {
+                    text: text,
+                    author: 'Sharvika Team',
+                    authorEmail: auth.currentUser.email,
+                    authorUID: auth.currentUser.uid,
+                    timestamp: serverTimestamp()
+                });
+
+                input.value = '';
+                autoResize(input);
+            } catch (error) {
+                console.error('Error sending announcement:', error);
+                alert('Error sending announcement');
+            }
+        };
+
+        // Load Messages
+        function loadMessages() {
+            const messagesArea = document.getElementById('messagesArea');
+            const collectionName = currentChannel === 'community' ? 'communityComments' : 'announcements';
+            const q = query(collection(db, collectionName), orderBy('timestamp', 'desc'));
+
+            onSnapshot(q, (snapshot) => {
+                // Update count
+                if (currentChannel === 'community') {
+                    document.getElementById('communityCount').textContent = snapshot.size;
+                } else {
+                    document.getElementById('announcementCount').textContent = snapshot.size;
+                }
+
+                if (snapshot.empty) {
+                    messagesArea.innerHTML = '<div class="loading">No messages yet</div>';
+                    return;
+                }
+
+                let html = '';
+                snapshot.forEach((docSnapshot) => {
+                    const msg = { id: docSnapshot.id, ...docSnapshot.data() };
+                    const timeAgo = msg.timestamp ? formatTime(msg.timestamp.toDate()) : 'now';
+                    const initial = msg.author.charAt(0).toUpperCase();
+
+                    html += `
+                        <div class="message-item ${selectedMessage?.id === msg.id ? 'selected' : ''}" onclick='selectMessage(${JSON.stringify(msg).replace(/'/g, "&apos;")})'>
+                            <div class="message-avatar">${initial}</div>
+                            <div class="message-body">
+                                <div class="message-author">${msg.author}</div>
+                                <div class="message-text">${msg.text}</div>
+                            </div>
+                            <div class="message-time">${timeAgo}</div>
+                        </div>
+                    `;
+                });
+
+                messagesArea.innerHTML = html;
+            });
         }
 
-        function closeModal() {
-            document.getElementById('modal').classList.remove('active');
+        // Select Message
+        window.selectMessage = function(message) {
+            selectedMessage = message;
+            document.querySelectorAll('.message-item').forEach(item => item.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+            updateActionsPanel();
+        };
+
+        // Update Actions Panel
+        function updateActionsPanel() {
+            const actionsBody = document.getElementById('actionsBody');
+
+            if (!selectedMessage) {
+                actionsBody.innerHTML = '<div class="no-selection">Select a message to perform actions</div>';
+                return;
+            }
+
+            actionsBody.innerHTML = `
+                <div class="selected-message">
+                    <div class="selected-author">${selectedMessage.author}</div>
+                    <div class="selected-text">${selectedMessage.text}</div>
+                </div>
+
+                ${currentChannel === 'community' ? `
+                    <button class="action-button" onclick="toggleHighlight()">
+                        ${selectedMessage.highlighted ? '★ Remove Highlight' : '☆ Highlight Message'}
+                    </button>
+
+                    <button class="action-button delete" onclick="deleteMessage()">
+                        × Delete Message
+                    </button>
+
+                    <div class="reply-section">
+                        <div class="reply-label">Send Reply</div>
+                        <textarea class="reply-textarea" id="replyText" placeholder="Write your reply..."></textarea>
+                        <button class="reply-send" onclick="sendReply()">Send Reply</button>
+                    </div>
+                ` : `
+                    <button class="action-button delete" onclick="deleteMessage()">
+                        × Delete Announcement
+                    </button>
+                `}
+            `;
         }
 
-        function logout() {
-            sessionStorage.clear();
-            window.location.href = 'authority.html';
+        // Toggle Highlight
+        window.toggleHighlight = async function() {
+            if (!selectedMessage) return;
+
+            try {
+                await updateDoc(doc(db, 'communityComments', selectedMessage.id), {
+                    highlighted: !selectedMessage.highlighted
+                });
+                selectedMessage.highlighted = !selectedMessage.highlighted;
+                updateActionsPanel();
+            } catch (error) {
+                console.error('Error toggling highlight:', error);
+                alert('Error updating message');
+            }
+        };
+
+        // Send Reply
+        window.sendReply = async function() {
+            const replyText = document.getElementById('replyText').value.trim();
+            if (!replyText || !selectedMessage) return;
+
+            try {
+                await updateDoc(doc(db, 'communityComments', selectedMessage.id), {
+                    adminReply: replyText
+                });
+                document.getElementById('replyText').value = '';
+                alert('Reply sent successfully');
+            } catch (error) {
+                console.error('Error sending reply:', error);
+                alert('Error sending reply');
+            }
+        };
+
+        // Delete Message
+        window.deleteMessage = async function() {
+            if (!selectedMessage) return;
+            if (!confirm('Are you sure you want to delete this message?')) return;
+
+            try {
+                const collectionName = currentChannel === 'community' ? 'communityComments' : 'announcements';
+                await deleteDoc(doc(db, collectionName, selectedMessage.id));
+                selectedMessage = null;
+                updateActionsPanel();
+            } catch (error) {
+                console.error('Error deleting message:', error);
+                alert('Error deleting message');
+            }
+        };
+
+        // Format Time
+        function formatTime(date) {
+            const now = new Date();
+            const diff = now - date;
+            const seconds = Math.floor(diff / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const hours = Math.floor(minutes / 60);
+
+            if (seconds < 60) return 'now';
+            if (minutes < 60) return `${minutes}m`;
+            if (hours < 24) return `${hours}h`;
+            
+            return date.toLocaleDateString();
         }
+
+        // Logout
+        window.logout = async function() {
+            if (confirm('Logout from workspace?')) {
+                try {
+                    await signOut(auth);
+                    window.location.href = 'signin.html';
+                } catch (error) {
+                    console.error('Logout error:', error);
+                }
+            }
+        };
     </script>
 </body>
 </html>
