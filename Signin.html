@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Load Firebase Config -->
+    <!-- Load Firebase Config FIRST -->
     <script src="firebase-config.js"></script>
     
     <style>
@@ -667,8 +667,30 @@
     </div>
 
     <script>
+        console.log('📄 Sign-in page loaded');
+
+        // Toast Notification Function
+        function showToast(type, title, message) {
+            const toast = document.getElementById('toast');
+            const icon = document.getElementById('toastIcon');
+            
+            toast.className = `toast ${type}`;
+            icon.textContent = type === 'error' ? '✕' : '✓';
+            document.getElementById('toastTitle').textContent = title;
+            document.getElementById('toastMessage').textContent = message;
+            
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 4000);
+        }
+
         // Wait for Firebase to be ready
         window.addEventListener('firebaseReady', initializePage);
+
+        // Handle Firebase loading errors
+        window.addEventListener('firebaseError', (e) => {
+            console.error('Firebase Error:', e.detail);
+            showToast('error', 'Connection Error', 'Please refresh the page');
+        });
 
         function initializePage() {
             console.log('✅ Firebase ready, initializing sign-in page...');
@@ -705,27 +727,16 @@
                 this.textContent = type === 'password' ? 'SHOW' : 'HIDE';
             });
 
-            // Toast Notification
-            function showToast(type, title, message) {
-                const toast = document.getElementById('toast');
-                const icon = document.getElementById('toastIcon');
-                
-                toast.className = `toast ${type}`;
-                icon.textContent = type === 'error' ? '✕' : '✓';
-                document.getElementById('toastTitle').textContent = title;
-                document.getElementById('toastMessage').textContent = message;
-                
-                toast.classList.add('show');
-                setTimeout(() => toast.classList.remove('show'), 4000);
-            }
-
             // Google Sign In
             document.getElementById('googleSignInBtn').addEventListener('click', async () => {
-                document.getElementById('loading').classList.add('active');
-                document.getElementById('loadingText').textContent = 'Signing in with Google...';
+                const loadingEl = document.getElementById('loading');
+                const loadingText = document.getElementById('loadingText');
+                
+                loadingEl.classList.add('active');
+                loadingText.textContent = 'Signing in with Google...';
 
                 try {
-                    const result = await auth.signInWithPopup(googleProvider);
+                    const result = await window.auth.signInWithPopup(window.googleProvider);
                     const user = result.user;
 
                     // Store user session
@@ -734,19 +745,17 @@
                     sessionStorage.setItem('isLoggedIn', 'true');
                     sessionStorage.setItem('authUID', user.uid);
 
-                    document.getElementById('loading').classList.remove('active');
+                    loadingEl.classList.remove('active');
                     showToast('success', 'Welcome Back!', `Signed in as ${user.displayName}`);
 
-                    if (navigator.vibrate) {
-                        navigator.vibrate([100, 50, 100]);
-                    }
+                    if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
 
                     setTimeout(() => {
                         window.location.href = 'index.html';
                     }, 1500);
 
                 } catch (error) {
-                    document.getElementById('loading').classList.remove('active');
+                    loadingEl.classList.remove('active');
                     console.error('Google Sign-In Error:', error);
                     
                     let errorMessage = 'Failed to sign in with Google';
@@ -783,12 +792,13 @@
                 }
 
                 // Show Loading
-                document.getElementById('loading').classList.add('active');
-                document.getElementById('loadingText').textContent = 'Signing you in...';
+                const loadingEl = document.getElementById('loading');
+                const loadingText = document.getElementById('loadingText');
+                loadingEl.classList.add('active');
+                loadingText.textContent = 'Signing you in...';
 
                 try {
-                    // Sign in with email and password
-                    const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                    const userCredential = await window.auth.signInWithEmailAndPassword(email, password);
                     const user = userCredential.user;
 
                     // Store user session
@@ -797,20 +807,17 @@
                     sessionStorage.setItem('isLoggedIn', 'true');
                     sessionStorage.setItem('authUID', user.uid);
 
-                    document.getElementById('loading').classList.remove('active');
+                    loadingEl.classList.remove('active');
                     showToast('success', 'Welcome Back!', 'Signed in successfully');
 
-                    if (navigator.vibrate) {
-                        navigator.vibrate([100, 50, 100]);
-                    }
+                    if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
 
-                    // Redirect to home page
                     setTimeout(() => {
                         window.location.href = 'index.html';
                     }, 1500);
 
                 } catch (error) {
-                    document.getElementById('loading').classList.remove('active');
+                    loadingEl.classList.remove('active');
                     console.error('Sign-In Error:', error);
 
                     let errorMessage = 'Failed to sign in';
@@ -845,39 +852,31 @@
                 }
             });
 
-            // Prevent zoom on double tap
-            let lastTouchEnd = 0;
-            document.addEventListener('touchend', function(e) {
-                const now = Date.now();
-                if (now - lastTouchEnd <= 300) {
-                    e.preventDefault();
-                }
-                lastTouchEnd = now;
-            }, false);
-
             // Check if already logged in
-            auth.onAuthStateChanged((user) => {
-                if (user && window.location.pathname.includes('signin.html')) {
-                    console.log('User already logged in, redirecting...');
-                    // Optionally redirect to home if already logged in
-                    // window.location.href = 'index.html';
+            window.auth.onAuthStateChanged((user) => {
+                if (user) {
+                    console.log('✅ User already logged in:', user.email);
                 }
             });
         }
 
-        // Fallback if Firebase doesn't load
-        setTimeout(() => {
-            if (typeof auth === 'undefined') {
-                console.error('❌ Firebase failed to load');
-                document.getElementById('loading').classList.remove('active');
-                const toast = document.getElementById('toast');
-                toast.className = 'toast error';
-                document.getElementById('toastIcon').textContent = '✕';
-                document.getElementById('toastTitle').textContent = 'Connection Error';
-                document.getElementById('toastMessage').textContent = 'Please refresh the page';
-                toast.classList.add('show');
+        // Prevent zoom on double tap
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(e) {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                e.preventDefault();
             }
-        }, 5000);
+            lastTouchEnd = now;
+        }, false);
+
+        // Fallback timeout
+        setTimeout(() => {
+            if (typeof window.auth === 'undefined') {
+                console.error('❌ Firebase failed to load within 10 seconds');
+                showToast('error', 'Loading Error', 'Please refresh the page');
+            }
+        }, 10000);
     </script>
 </body>
 </html>

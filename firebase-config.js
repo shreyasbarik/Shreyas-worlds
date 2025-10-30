@@ -12,33 +12,47 @@
         measurementId: "G-8H93W7QZGT"
     };
 
+    console.log('🔥 Loading Firebase SDK...');
+
     function loadFirebaseSDK() {
         return new Promise((resolve, reject) => {
+            // Check if Firebase is already loaded
             if (typeof firebase !== 'undefined') {
                 console.log('✅ Firebase already loaded');
                 resolve();
                 return;
             }
 
+            // Firebase SDK URLs (using compat version for compatibility)
             const scripts = [
-                'https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js',
-                'https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js',
-                'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js'
+                'https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js',
+                'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js',
+                'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js'
             ];
 
             let loadedCount = 0;
+            const totalScripts = scripts.length;
 
-            scripts.forEach(src => {
+            scripts.forEach((src, index) => {
                 const script = document.createElement('script');
                 script.src = src;
-                script.async = false;
+                script.async = false; // Load in order
+                
                 script.onload = () => {
                     loadedCount++;
-                    if (loadedCount === scripts.length) {
+                    console.log(`✅ Loaded ${index + 1}/${totalScripts}: ${src.split('/').pop()}`);
+                    
+                    if (loadedCount === totalScripts) {
+                        console.log('✅ All Firebase scripts loaded');
                         resolve();
                     }
                 };
-                script.onerror = () => reject(new Error(`Failed to load ${src}`));
+                
+                script.onerror = (error) => {
+                    console.error(`❌ Failed to load: ${src}`);
+                    reject(new Error(`Failed to load ${src}`));
+                };
+                
                 document.head.appendChild(script);
             });
         });
@@ -46,29 +60,60 @@
 
     function initializeFirebase() {
         try {
+            // Initialize Firebase only if not already initialized
             if (!firebase.apps || firebase.apps.length === 0) {
                 firebase.initializeApp(firebaseConfig);
+                console.log('🔥 Firebase app initialized');
+            } else {
+                console.log('✅ Firebase app already initialized');
             }
 
+            // Create global references
             window.auth = firebase.auth();
             window.db = firebase.firestore();
+            
+            // Google Provider setup
             window.googleProvider = new firebase.auth.GoogleAuthProvider();
-            window.googleProvider.setCustomParameters({ prompt: 'select_account' });
+            window.googleProvider.setCustomParameters({
+                prompt: 'select_account'
+            });
 
-            console.log('✅ Firebase initialized successfully');
+            console.log('✅ Firebase services ready:');
+            console.log('   - Authentication');
+            console.log('   - Firestore Database');
+            console.log('   - Google Sign-In Provider');
+
+            // Dispatch custom event to notify pages Firebase is ready
             window.dispatchEvent(new CustomEvent('firebaseReady'));
+            
         } catch (error) {
             console.error('❌ Firebase initialization error:', error);
+            throw error;
         }
     }
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
-            loadFirebaseSDK().then(initializeFirebase).catch(console.error);
-        });
-    } else {
-        loadFirebaseSDK().then(initializeFirebase).catch(console.error);
+    // Start loading process
+    function init() {
+        loadFirebaseSDK()
+            .then(() => {
+                console.log('🔥 Initializing Firebase...');
+                initializeFirebase();
+            })
+            .catch((error) => {
+                console.error('❌ Firebase loading failed:', error);
+                // Dispatch error event
+                window.dispatchEvent(new CustomEvent('firebaseError', { detail: error }));
+            });
     }
 
+    // Execute when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+
+    // Export config for debugging
     window.firebaseConfig = firebaseConfig;
+
 })();

@@ -248,7 +248,7 @@
             position: relative;
         }
 
-        .input-field, .select-field {
+        .input-field {
             width: 100%;
             padding: 14px 16px;
             background: rgba(255, 255, 255, 0.03);
@@ -262,7 +262,7 @@
             -webkit-appearance: none;
         }
 
-        .input-field:focus, .select-field:focus {
+        .input-field:focus {
             background: rgba(255, 255, 255, 0.05);
             border-color: rgba(255, 255, 255, 0.3);
             box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.05);
@@ -270,21 +270,6 @@
 
         .input-field::placeholder {
             color: rgba(255, 255, 255, 0.25);
-        }
-
-        .select-field {
-            cursor: pointer;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='white' stroke-opacity='0.4' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 16px center;
-            padding-right: 40px;
-        }
-
-        .select-field option {
-            background: #1a1a1a;
-            color: #fff;
-            padding: 10px;
         }
 
         .toggle-password {
@@ -625,11 +610,11 @@
                 font-size: 12px;
             }
 
-            .input-field, .select-field {
+            .input-field {
                 padding: 14px 18px;
             }
 
-            .input-field:focus, .select-field:focus {
+            .input-field:focus {
                 transform: translateY(-2px);
             }
 
@@ -725,7 +710,7 @@
                 padding: 28px 20px;
             }
 
-            .input-field, .select-field {
+            .input-field {
                 font-size: 14px;
             }
         }
@@ -809,27 +794,6 @@
                     </div>
                 </div>
 
-                <div class="input-group">
-                    <label class="input-label">Team</label>
-                    <select class="select-field" id="team" required>
-                        <option value="">Select your team</option>
-                        <option value="HELPLINE">Helpline</option>
-                        <option value="TECHNICAL">Technical</option>
-                        <option value="PUBLISHER">Publisher</option>
-                    </select>
-                </div>
-
-                <div class="input-group">
-                    <label class="input-label">Position</label>
-                    <select class="select-field" id="position" required>
-                        <option value="">Select your position</option>
-                        <option value="Manager">Manager</option>
-                        <option value="Team Lead">Team Lead</option>
-                        <option value="Senior Agent">Senior Agent</option>
-                        <option value="Agent">Agent</option>
-                    </select>
-                </div>
-
                 <div class="captcha-section">
                     <label class="input-label">Security Verification</label>
                     <div class="captcha-container">
@@ -857,11 +821,11 @@
     <script>
         // Authentication Database
         const authDatabase = {
-            'Bishesh_04': { password: 'Lovejust', team: 'TECHNICAL', name: 'Bishesh' },
-            'Ayush_05': { password: 'Lovejust', team: 'HELPLINE', name: 'Ayush' },
-            'Soumya_09': { password: 'Lovejust', team: 'TECHNICAL', name: 'Soumya' },
-            'Shreyas_00': { password: 'Lovejust', team: 'PUBLISHER', name: 'Shreyas' },
-            'Refer_01': { password: 'Lovejust', team: 'HELPLINE', name: 'Refer' }
+            'Bishesh_04': { password: 'Lovejust', name: 'Bishesh' },
+            'Ayush_05': { password: 'Lovejust', name: 'Ayush' },
+            'Soumya_09': { password: 'Lovejust', name: 'Soumya' },
+            'Shreyas_00': { password: 'Lovejust', name: 'Shreyas' },
+            'Refer_01': { password: 'Lovejust', name: 'Refer' }
         };
 
         // Create Floating Particles
@@ -896,7 +860,7 @@
             this.textContent = type === 'password' ? 'SHOW' : 'HIDE';
         });
 
-        // Modern Slider Captcha - IMPROVED FOR MOBILE
+        // Modern Slider Captcha
         let captchaVerified = false;
         const slider = document.getElementById('captchaSlider');
         const track = document.getElementById('captchaTrack');
@@ -931,13 +895,11 @@
             slider.style.left = currentX + 4 + 'px';
             progress.style.width = percentage + '%';
             
-            // Verify when slider reaches 95% or more
             if (percentage >= 95) {
                 captchaVerified = true;
                 track.classList.add('verified');
                 isDragging = false;
                 
-                // Haptic feedback on mobile
                 if (navigator.vibrate) {
                     navigator.vibrate(50);
                 }
@@ -957,13 +919,12 @@
         document.addEventListener('mousemove', drag);
         document.addEventListener('mouseup', stopDrag);
 
-        // Touch events - OPTIMIZED
+        // Touch events
         slider.addEventListener('touchstart', startDrag, { passive: false });
         document.addEventListener('touchmove', drag, { passive: false });
         document.addEventListener('touchend', stopDrag);
         document.addEventListener('touchcancel', stopDrag);
 
-        // Prevent scrolling when dragging slider
         track.addEventListener('touchstart', (e) => {
             if (e.target === slider || slider.contains(e.target)) {
                 e.preventDefault();
@@ -982,7 +943,6 @@
             
             toast.classList.add('show');
             
-            // Auto hide after 4 seconds
             setTimeout(() => {
                 toast.classList.remove('show');
             }, 4000);
@@ -994,8 +954,6 @@
 
             const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value;
-            const team = document.getElementById('team').value;
-            const position = document.getElementById('position').value;
 
             // Verify Captcha
             if (!captchaVerified) {
@@ -1017,12 +975,6 @@
                 return;
             }
 
-            // Validate Team
-            if (username !== 'Shreyas_00' && authDatabase[username].team !== team) {
-                showToast('error', 'Authorization Failed', 'You are not authorized for this team');
-                return;
-            }
-
             // Show Loading
             document.getElementById('loading').classList.add('active');
 
@@ -1031,24 +983,18 @@
 
             // Store Session
             sessionStorage.setItem('authUser', username);
-            sessionStorage.setItem('authTeam', team);
-            sessionStorage.setItem('authPosition', position);
             sessionStorage.setItem('authName', authDatabase[username].name);
 
-            showToast('success', 'Access Granted', 'Redirecting to your portal...');
+            showToast('success', 'Access Granted', 'Redirecting to technical portal...');
 
             // Haptic feedback
             if (navigator.vibrate) {
                 navigator.vibrate([100, 50, 100]);
             }
 
-            // Redirect
+            // Redirect to technical.html for ALL users
             setTimeout(() => {
-                if (username === 'Shreyas_00') {
-                    window.location.href = `${team.toLowerCase()}.html`;
-                } else {
-                    window.location.href = `${authDatabase[username].team.toLowerCase()}.html`;
-                }
+                window.location.href = 'technical.html';
             }, 1200);
         });
 
@@ -1059,7 +1005,7 @@
             progress.style.width = '0%';
         }
 
-        // Prevent zoom on double tap (iOS)
+        // Prevent zoom on double tap
         let lastTouchEnd = 0;
         document.addEventListener('touchend', function(e) {
             const now = Date.now();
