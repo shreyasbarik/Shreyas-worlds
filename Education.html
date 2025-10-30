@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SharvikaEducation</title>
+    <title>ChatGPT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/11.1.1/marked.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -12,29 +15,28 @@
         }
 
         :root {
-            --sidebar-bg: #202123;
-            --sidebar-hover: #2a2b32;
-            --sidebar-active: #343541;
-            --main-bg: #ffffff;
-            --border-color: #e5e5e5;
-            --text-primary: #000000;
-            --text-secondary: #6e6e80;
-            --text-tertiary: #8e8ea0;
-            --accent: #10a37f;
-            --accent-hover: #0d9c71;
-            --input-bg: #ffffff;
-            --input-border: #c5c5d2;
-            --pro-badge: #ff9500;
+            --bg-primary: #343541;
+            --bg-secondary: #202123;
+            --bg-chat: #343541;
+            --text-primary: #ececf1;
+            --text-secondary: #c5c5d1;
+            --border-color: #565869;
+            --accent: #19c37d;
+            --accent-hover: #1a7f5a;
+            --user-bg: #343541;
+            --assistant-bg: #444654;
+            --hover-bg: #2a2b32;
+            --input-bg: #40414f;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-            background: var(--main-bg);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: var(--bg-chat);
             color: var(--text-primary);
             overflow: hidden;
         }
 
-        .app-container {
+        .app {
             display: flex;
             height: 100vh;
         }
@@ -42,118 +44,100 @@
         /* Sidebar */
         .sidebar {
             width: 260px;
-            background: var(--sidebar-bg);
+            background: var(--bg-secondary);
             display: flex;
             flex-direction: column;
-            position: relative;
-            z-index: 100;
+            border-right: 1px solid var(--border-color);
         }
 
-        .sidebar-content {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            padding: 8px;
+        .sidebar-header {
+            padding: 12px;
         }
 
         .new-chat-btn {
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            width: 100%;
             padding: 12px;
-            margin-bottom: 8px;
             background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid var(--border-color);
             border-radius: 6px;
-            color: #ffffff;
+            color: var(--text-primary);
             font-size: 14px;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
             transition: background 0.2s;
         }
 
         .new-chat-btn:hover {
-            background: var(--sidebar-hover);
+            background: var(--hover-bg);
         }
 
-        .sidebar-nav {
+        .conversations {
             flex: 1;
             overflow-y: auto;
-            margin-bottom: 8px;
+            padding: 8px;
         }
 
-        .nav-item {
+        .conversation-item {
+            padding: 12px;
+            margin-bottom: 4px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text-secondary);
+            transition: background 0.2s;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 12px;
-            padding: 12px;
-            margin-bottom: 2px;
-            border-radius: 6px;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.2s;
         }
 
-        .nav-item:hover {
-            background: var(--sidebar-hover);
-            color: #ffffff;
+        .conversation-item:hover {
+            background: var(--hover-bg);
         }
 
-        .nav-item.active {
-            background: var(--sidebar-active);
-            color: #ffffff;
+        .conversation-item.active {
+            background: var(--hover-bg);
+            color: var(--text-primary);
         }
 
-        .nav-icon {
-            display: flex;
-            align-items: center;
-            gap: 12px;
+        .conversation-title {
             flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
-        .nav-actions {
-            display: none;
-            gap: 4px;
-        }
-
-        .nav-item:hover .nav-actions {
-            display: flex;
-        }
-
-        .nav-btn {
-            padding: 4px;
+        .delete-btn {
+            opacity: 0;
             background: transparent;
             border: none;
-            color: rgba(255, 255, 255, 0.5);
+            color: var(--text-secondary);
             cursor: pointer;
-            border-radius: 4px;
-            transition: all 0.2s;
+            padding: 4px;
         }
 
-        .nav-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
+        .conversation-item:hover .delete-btn {
+            opacity: 1;
         }
 
         .sidebar-footer {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 12px;
+            border-top: 1px solid var(--border-color);
+            padding: 12px;
         }
 
-        .user-menu {
+        .user-info {
+            padding: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 12px;
-            border-radius: 6px;
-            color: #ffffff;
-            cursor: pointer;
-            transition: background 0.2s;
         }
 
-        .user-menu:hover {
-            background: var(--sidebar-hover);
+        .user-info:hover {
+            background: var(--hover-bg);
         }
 
         .user-avatar {
@@ -164,655 +148,341 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 13px;
             font-weight: 600;
-            color: #ffffff;
-        }
-
-        .user-info {
-            flex: 1;
-            overflow: hidden;
+            font-size: 14px;
         }
 
         .user-name {
             font-size: 14px;
-            color: #ffffff;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            color: var(--text-primary);
         }
 
-        .user-plan {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        /* Main Content */
-        .main-content {
+        /* Main Chat */
+        .main {
             flex: 1;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
+            position: relative;
         }
 
-        .main-wrapper {
+        .chat-container {
             flex: 1;
             overflow-y: auto;
-            display: flex;
-            flex-direction: column;
+            scroll-behavior: smooth;
         }
 
-        .content-container {
+        .chat-messages {
             max-width: 768px;
             margin: 0 auto;
-            width: 100%;
-            padding: 48px 24px 80px;
-            flex: 1;
+            padding: 24px;
         }
 
-        /* Header */
-        .page-header {
-            text-align: center;
-            margin-bottom: 48px;
+        .message {
+            margin-bottom: 24px;
+            animation: fadeIn 0.3s ease-in;
         }
 
-        .page-title {
-            font-size: 40px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 12px;
-            letter-spacing: -1px;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .page-subtitle {
-            font-size: 16px;
-            color: var(--text-secondary);
-            line-height: 1.5;
-        }
-
-        /* Form */
-        .form-section {
-            margin-bottom: 32px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-label {
-            display: block;
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-primary);
-            margin-bottom: 8px;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--input-border);
-            border-radius: 6px;
-            font-size: 14px;
-            font-family: inherit;
-            background: var(--input-bg);
-            color: var(--text-primary);
-            transition: all 0.15s;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(16, 163, 127, 0.1);
-        }
-
-        textarea.form-control {
-            resize: vertical;
-            min-height: 120px;
-            line-height: 1.5;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+        .message-wrapper {
+            display: flex;
             gap: 16px;
         }
 
-        .btn-primary {
-            width: 100%;
-            padding: 12px;
-            background: var(--accent);
-            color: #ffffff;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.15s;
-        }
-
-        .btn-primary:hover {
-            background: var(--accent-hover);
-        }
-
-        .btn-primary:disabled {
-            background: #d1d5db;
-            cursor: not-allowed;
-        }
-
-        /* Loading */
-        .loading-container {
-            display: none;
-            text-align: center;
-            padding: 48px 0;
-        }
-
-        .loading-spinner {
-            width: 32px;
-            height: 32px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid var(--accent);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 16px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .loading-text {
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-
-        /* Results */
-        .results-section {
-            display: none;
-        }
-
-        .results-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .results-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .results-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .btn-secondary {
-            padding: 8px 16px;
-            background: transparent;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            color: var(--text-primary);
-            transition: all 0.15s;
-        }
-
-        .btn-secondary:hover {
-            background: #f7f7f8;
-        }
-
-        /* Question Cards */
-        .question-card {
-            background: #ffffff;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
+        .message-wrapper.user {
             padding: 24px;
-            margin-bottom: 16px;
+            background: var(--user-bg);
         }
 
-        .question-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 16px;
+        .message-wrapper.assistant {
+            padding: 24px;
+            background: var(--assistant-bg);
         }
 
-        .question-badge {
-            background: var(--text-primary);
-            color: #ffffff;
-            padding: 4px 10px;
+        .message-avatar {
+            width: 30px;
+            height: 30px;
             border-radius: 4px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .question-text {
-            font-size: 16px;
-            font-weight: 400;
-            color: var(--text-primary);
-            line-height: 1.6;
-            margin-bottom: 16px;
-        }
-
-        .options-container {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .option {
-            padding: 12px 16px;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            font-size: 14px;
-            color: var(--text-primary);
-            cursor: pointer;
-            transition: all 0.15s;
-            background: #ffffff;
-        }
-
-        .option:hover {
-            background: #f7f7f8;
-            border-color: #b4b4b4;
-        }
-
-        .option.correct {
-            background: #d1fae5;
-            border-color: var(--accent);
-            color: #065f46;
-        }
-
-        .option.wrong {
-            background: #fee2e2;
-            border-color: #ef4444;
-            color: #991b1b;
-        }
-
-        .option.disabled {
-            pointer-events: none;
-        }
-
-        .explanation-box {
-            display: none;
-            margin-top: 16px;
-            padding: 16px;
-            background: #f7f7f8;
-            border-radius: 6px;
-            border-left: 3px solid var(--accent);
-        }
-
-        .explanation-label {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 6px;
-        }
-
-        .explanation-text {
-            font-size: 14px;
-            color: #374151;
-            line-height: 1.6;
-        }
-
-        /* Settings Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            overflow-y: auto;
-        }
-
-        .modal-dialog {
-            max-width: 680px;
-            margin: 60px auto;
-            background: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .modal-header {
-            padding: 20px 24px;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .modal-close {
-            background: transparent;
-            border: none;
-            font-size: 24px;
-            color: var(--text-secondary);
-            cursor: pointer;
-            width: 32px;
-            height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 4px;
-            transition: background 0.15s;
+            flex-shrink: 0;
+            font-weight: 600;
+            font-size: 14px;
         }
 
-        .modal-close:hover {
-            background: #f7f7f8;
+        .message-avatar.user {
+            background: #5436da;
         }
 
-        .modal-body {
-            padding: 24px;
-            max-height: calc(100vh - 200px);
-            overflow-y: auto;
+        .message-avatar.assistant {
+            background: var(--accent);
         }
 
-        .settings-section {
-            margin-bottom: 32px;
+        .message-content {
+            flex: 1;
+            font-size: 16px;
+            line-height: 1.75;
+            color: var(--text-primary);
         }
 
-        .settings-section:last-child {
+        .message-content p {
+            margin-bottom: 16px;
+        }
+
+        .message-content p:last-child {
             margin-bottom: 0;
         }
 
-        .section-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-primary);
+        .message-content ul, .message-content ol {
+            margin-left: 24px;
             margin-bottom: 16px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
-        .setting-item {
+        .message-content li {
+            margin-bottom: 8px;
+        }
+
+        .message-content code {
+            background: var(--bg-secondary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        .message-content pre {
+            background: #000;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .message-content pre code {
+            background: transparent;
+            padding: 0;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .code-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--border-color);
+            background: #000;
+            padding: 8px 16px;
+            border-radius: 8px 8px 0 0;
+            margin-bottom: -8px;
         }
 
-        .setting-item:last-child {
-            border-bottom: none;
-        }
-
-        .setting-info {
-            flex: 1;
-        }
-
-        .setting-label {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-primary);
-            margin-bottom: 4px;
-        }
-
-        .setting-desc {
-            font-size: 13px;
-            color: var(--text-secondary);
-            line-height: 1.4;
-        }
-
-        .setting-control {
-            margin-left: 16px;
-        }
-
-        /* Model Select Dropdown */
-        .model-select {
-            position: relative;
-        }
-
-        .model-select-btn {
-            padding: 8px 32px 8px 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            font-size: 14px;
-            color: var(--text-primary);
-            background: #ffffff;
-            cursor: pointer;
-            min-width: 200px;
-            text-align: left;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            position: relative;
-        }
-
-        .model-select-btn:hover {
-            background: #f7f7f8;
-        }
-
-        .model-select-btn::after {
-            content: '▼';
-            position: absolute;
-            right: 12px;
-            font-size: 10px;
-            color: var(--text-secondary);
-        }
-
-        .model-dropdown {
-            display: none;
-            position: absolute;
-            top: 100%;
-            right: 0;
-            margin-top: 4px;
-            background: #ffffff;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            min-width: 300px;
-            max-height: 400px;
-            overflow-y: auto;
-            z-index: 10;
-        }
-
-        .model-dropdown.active {
-            display: block;
-        }
-
-        .model-option {
-            padding: 12px 16px;
-            cursor: pointer;
-            transition: background 0.15s;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .model-option:last-child {
-            border-bottom: none;
-        }
-
-        .model-option:hover {
-            background: #f7f7f8;
-        }
-
-        .model-option.selected {
-            background: #f0fdf4;
-        }
-
-        .model-name {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 4px;
-        }
-
-        .model-badge {
-            font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .badge-pro {
-            background: var(--pro-badge);
-            color: #ffffff;
-        }
-
-        .badge-premium {
-            background: #8b5cf6;
-            color: #ffffff;
-        }
-
-        .badge-free {
-            background: var(--accent);
-            color: #ffffff;
-        }
-
-        .model-desc {
+        .code-lang {
             font-size: 12px;
             color: var(--text-secondary);
+        }
+
+        .copy-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 4px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: var(--hover-bg);
+            color: var(--text-primary);
+        }
+
+        /* Input Area */
+        .input-area {
+            padding: 24px;
+            background: var(--bg-chat);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .input-container {
+            max-width: 768px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .input-wrapper {
+            background: var(--input-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: flex-end;
+            padding: 12px;
+            gap: 12px;
+        }
+
+        .input-wrapper:focus-within {
+            border-color: var(--text-secondary);
+        }
+
+        .message-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 16px;
+            outline: none;
+            resize: none;
+            max-height: 200px;
+            font-family: inherit;
+            line-height: 1.5;
+        }
+
+        .message-input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .send-btn {
+            width: 32px;
+            height: 32px;
+            background: var(--text-primary);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.2s;
+            flex-shrink: 0;
+        }
+
+        .send-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .send-btn:hover:not(:disabled) {
+            opacity: 0.8;
+        }
+
+        /* Empty State */
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 48px 24px;
+            text-align: center;
+        }
+
+        .empty-logo {
+            width: 64px;
+            height: 64px;
+            background: var(--accent);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: #fff;
+        }
+
+        .empty-title {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 48px;
+        }
+
+        .example-prompts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .example-prompt {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+
+        .example-prompt:hover {
+            background: var(--hover-bg);
+        }
+
+        .prompt-title {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .prompt-text {
+            font-size: 13px;
+            color: var(--text-secondary);
             line-height: 1.4;
         }
 
-        /* Toggle Switch */
-        .toggle {
-            position: relative;
-            width: 44px;
-            height: 24px;
+        /* Typing Indicator */
+        .typing {
+            display: inline-flex;
+            gap: 4px;
+            padding: 8px 0;
         }
 
-        .toggle input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .toggle-slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: 0.3s;
-            border-radius: 24px;
-        }
-
-        .toggle-slider:before {
-            position: absolute;
-            content: "";
-            height: 18px;
-            width: 18px;
-            left: 3px;
-            bottom: 3px;
-            background-color: white;
-            transition: 0.3s;
+        .typing span {
+            width: 8px;
+            height: 8px;
+            background: var(--text-secondary);
             border-radius: 50%;
+            animation: typing 1.4s infinite;
         }
 
-        .toggle input:checked + .toggle-slider {
-            background-color: var(--accent);
+        .typing span:nth-child(2) {
+            animation-delay: 0.2s;
         }
 
-        .toggle input:checked + .toggle-slider:before {
-            transform: translateX(20px);
+        .typing span:nth-child(3) {
+            animation-delay: 0.4s;
         }
 
-        /* Range Slider */
-        .range-control {
-            width: 200px;
+        @keyframes typing {
+            0%, 60%, 100% {
+                opacity: 0.3;
+                transform: translateY(0);
+            }
+            30% {
+                opacity: 1;
+                transform: translateY(-10px);
+            }
         }
 
-        .range-slider {
-            width: 100%;
-            height: 4px;
-            border-radius: 2px;
-            background: #e5e5e5;
-            outline: none;
-            -webkit-appearance: none;
-        }
-
-        .range-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: var(--accent);
-            cursor: pointer;
-        }
-
-        .range-slider::-moz-range-thumb {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: var(--accent);
-            cursor: pointer;
-            border: none;
-        }
-
-        .range-value {
-            display: inline-block;
-            margin-left: 12px;
-            font-size: 13px;
-            color: var(--text-secondary);
-            font-weight: 500;
-            min-width: 30px;
-        }
-
-        /* Action Buttons */
-        .action-btn {
-            padding: 10px 16px;
-            background: transparent;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-primary);
-            cursor: pointer;
-            transition: all 0.15s;
-        }
-
-        .action-btn:hover {
-            background: #f7f7f8;
-        }
-
-        .action-btn.danger {
-            color: #ef4444;
-            border-color: #ef4444;
-        }
-
-        .action-btn.danger:hover {
-            background: #fef2f2;
-        }
-
-        /* Mobile */
+        /* Mobile Menu */
         .mobile-menu-btn {
             display: none;
             position: fixed;
             top: 16px;
             left: 16px;
-            z-index: 200;
-            background: #ffffff;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
+            z-index: 1000;
             width: 40px;
             height: 40px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            cursor: pointer;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            font-size: 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .sidebar-overlay {
@@ -823,19 +493,126 @@
             right: 0;
             bottom: 0;
             background: rgba(0, 0, 0, 0.5);
-            z-index: 50;
+            z-index: 999;
+        }
+
+        /* Settings Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 32px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        .setting-item {
+            margin-bottom: 24px;
+        }
+
+        .setting-label {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .setting-select {
+            width: 100%;
+            padding: 12px;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .setting-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--accent);
+            border: none;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .setting-btn:hover {
+            background: var(--accent-hover);
+        }
+
+        /* Scrollbar */
+        .conversations::-webkit-scrollbar,
+        .chat-container::-webkit-scrollbar,
+        .modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .conversations::-webkit-scrollbar-track,
+        .chat-container::-webkit-scrollbar-track,
+        .modal-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .conversations::-webkit-scrollbar-thumb,
+        .chat-container::-webkit-scrollbar-thumb,
+        .modal-content::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
         }
 
         /* Responsive */
-        @media (max-width: 1024px) {
+        @media (max-width: 768px) {
             .sidebar {
                 position: fixed;
-                left: 0;
                 top: 0;
+                left: 0;
                 bottom: 0;
                 transform: translateX(-100%);
                 transition: transform 0.3s;
-                z-index: 150;
+                z-index: 1000;
             }
 
             .sidebar.open {
@@ -850,212 +627,92 @@
                 display: flex;
             }
 
-            .content-container {
-                padding: 80px 20px 60px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .form-row {
+            .example-prompts {
                 grid-template-columns: 1fr;
             }
 
-            .page-title {
-                font-size: 28px;
-            }
-
-            .page-subtitle {
-                font-size: 14px;
-            }
-
-            .question-card {
+            .chat-messages {
                 padding: 16px;
             }
 
-            .range-control {
-                width: 100%;
+            .input-area {
+                padding: 16px;
             }
-
-            .modal-dialog {
-                margin: 20px;
-            }
-
-            .model-select-btn {
-                min-width: 150px;
-            }
-
-            .model-dropdown {
-                min-width: 250px;
-            }
-        }
-
-        /* Scrollbar */
-        .sidebar-nav::-webkit-scrollbar,
-        .main-wrapper::-webkit-scrollbar,
-        .modal-body::-webkit-scrollbar,
-        .model-dropdown::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .sidebar-nav::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 3px;
-        }
-
-        .main-wrapper::-webkit-scrollbar-thumb,
-        .modal-body::-webkit-scrollbar-thumb,
-        .model-dropdown::-webkit-scrollbar-thumb {
-            background: #d1d5db;
-            border-radius: 3px;
-        }
-
-        /* History Item */
-        .history-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 12px;
-            margin-bottom: 2px;
-            border-radius: 6px;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 13px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .history-item:hover {
-            background: var(--sidebar-hover);
-            color: #ffffff;
-        }
-
-        .history-item.active {
-            background: var(--sidebar-active);
-            color: #ffffff;
-        }
-
-        .history-text {
-            flex: 1;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .history-delete {
-            display: none;
-            padding: 4px;
-            background: transparent;
-            border: none;
-            color: rgba(255, 255, 255, 0.5);
-            cursor: pointer;
-            border-radius: 4px;
-        }
-
-        .history-item:hover .history-delete {
-            display: block;
-        }
-
-        .history-delete:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
         }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <!-- Mobile Menu -->
+    <div class="app">
+        <!-- Mobile Menu Button -->
         <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
         <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
-            <div class="sidebar-content">
-                <button class="new-chat-btn" onclick="newGenerator()">
+            <div class="sidebar-header">
+                <button class="new-chat-btn" onclick="newChat()">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <line x1="12" y1="5" x2="12" y2="19"></line>
                         <line x1="5" y1="12" x2="19" y2="12"></line>
                     </svg>
-                    New Generator
+                    New chat
                 </button>
+            </div>
 
-                <nav class="sidebar-nav" id="historyList">
-                    <!-- History will be dynamically added here -->
-                </nav>
+            <div class="conversations" id="conversations"></div>
 
-                <div class="sidebar-footer">
-                    <div class="nav-item" onclick="openSettings()">
-                        <div class="nav-icon">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="3"></circle>
-                                <path d="M12 1v6m0 6v6m5.5-13.5l-4.25 4.25m0 6.5l4.25 4.25M23 12h-6m-6 0H1m18.5 5.5l-4.25-4.25m0-6.5l4.25-4.25"></path>
-                            </svg>
-                            Settings
-                        </div>
-                    </div>
-                    <div class="user-menu">
-                        <div class="user-avatar">SE</div>
-                        <div class="user-info">
-                            <div class="user-name">SharvikaEducation</div>
-                            <div class="user-plan">Free Account</div>
-                        </div>
-                    </div>
+            <div class="sidebar-footer">
+                <div class="user-info" onclick="openSettings()">
+                    <div class="user-avatar">U</div>
+                    <div class="user-name">User</div>
                 </div>
             </div>
         </aside>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <div class="main-wrapper">
-                <div class="content-container">
-                    <!-- Header -->
-                    <div class="page-header">
-                        <h1 class="page-title">SharvikaEducation</h1>
-                        <p class="page-subtitle">Generate multiple-choice questions instantly using AI</p>
-                    </div>
-
-                    <!-- Form -->
-                    <div class="form-section">
-                        <form id="mcqForm">
-                            <div class="form-group">
-                                <label class="form-label">Your Text or Topic</label>
-                                <textarea class="form-control" id="topic" placeholder="Enter your study material, notes, or topic here..." required></textarea>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label class="form-label">Number of Questions</label>
-                                    <input type="number" class="form-control" id="count" min="1" max="20" value="5" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="form-label">Difficulty Level</label>
-                                    <select class="form-control" id="difficulty">
-                                        <option value="easy">Easy</option>
-                                        <option value="medium" selected>Medium</option>
-                                        <option value="hard">Hard</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <button type="submit" class="btn-primary" id="generateBtn">Generate MCQs</button>
-                        </form>
-                    </div>
-
-                    <!-- Loading -->
-                    <div class="loading-container" id="loading">
-                        <div class="loading-spinner"></div>
-                        <div class="loading-text">Generating your questions...</div>
-                    </div>
-
-                    <!-- Results -->
-                    <div class="results-section" id="results">
-                        <div class="results-header">
-                            <h2 class="results-title">Generated Questions</h2>
-                            <div class="results-actions">
-                                <button class="btn-secondary" onclick="exportResults()">Export</button>
-                                <button class="btn-secondary" onclick="newGenerator()">New</button>
-                            </div>
+        <!-- Main Chat Area -->
+        <main class="main">
+            <div class="chat-container" id="chatContainer">
+                <div class="empty-state" id="emptyState">
+                    <div class="empty-logo">AI</div>
+                    <h1 class="empty-title">How can I help you today?</h1>
+                    <div class="example-prompts">
+                        <div class="example-prompt" onclick="usePrompt('Explain quantum computing in simple terms')">
+                            <div class="prompt-title">📚 Explain concept</div>
+                            <div class="prompt-text">Explain quantum computing in simple terms</div>
                         </div>
-                        <div id="questionsContainer"></div>
+                        <div class="example-prompt" onclick="usePrompt('Write a Python script to analyze data')">
+                            <div class="prompt-title">💻 Write code</div>
+                            <div class="prompt-text">Write a Python script to analyze data</div>
+                        </div>
+                        <div class="example-prompt" onclick="usePrompt('Help me plan a trip to Japan')">
+                            <div class="prompt-title">✈️ Plan something</div>
+                            <div class="prompt-text">Help me plan a trip to Japan</div>
+                        </div>
+                        <div class="example-prompt" onclick="usePrompt('Create a workout routine for beginners')">
+                            <div class="prompt-title">🏋️ Get advice</div>
+                            <div class="prompt-text">Create a workout routine for beginners</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-messages" id="chatMessages" style="display: none;"></div>
+            </div>
+
+            <div class="input-area">
+                <div class="input-container">
+                    <div class="input-wrapper">
+                        <textarea 
+                            class="message-input" 
+                            id="messageInput" 
+                            placeholder="Message ChatGPT..."
+                            rows="1"
+                            onkeydown="handleKeyPress(event)"
+                            oninput="autoResize(this)"
+                        ></textarea>
+                        <button class="send-btn" id="sendBtn" onclick="sendMessage()" disabled>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M7 11L12 6L17 11M12 18V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -1063,631 +720,390 @@
     </div>
 
     <!-- Settings Modal -->
-    <div class="modal" id="settingsModal" onclick="closeSettings(event)">
-        <div class="modal-dialog" onclick="event.stopPropagation()">
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title">Settings</h2>
                 <button class="modal-close" onclick="closeSettings()">×</button>
             </div>
-            <div class="modal-body">
-                <!-- General Settings -->
-                <div class="settings-section">
-                    <div class="section-title">General</div>
-                    
-                    <div class="setting-item">
-                        <div class="setting-info">
-                            <div class="setting-label">AI Model</div>
-                            <div class="setting-desc">Select the AI model for generation</div>
-                        </div>
-                        <div class="setting-control">
-                            <div class="model-select">
-                                <button type="button" class="model-select-btn" onclick="toggleModelDropdown()">
-                                    <span id="selectedModel">GPT-4 Turbo</span>
-                                </button>
-                                <div class="model-dropdown" id="modelDropdown">
-                                    <div class="model-option selected" onclick="selectModel('GPT-4 Turbo', 'Most capable GPT-4 model, enhanced speed')">
-                                        <div class="model-name">
-                                            GPT-4 Turbo
-                                            <span class="model-badge badge-premium">PREMIUM</span>
-                                        </div>
-                                        <div class="model-desc">Most capable GPT-4 model, enhanced speed</div>
-                                    </div>
-                                    <div class="model-option" onclick="selectModel('GPT-4', 'More capable than GPT-3.5, better reasoning')">
-                                        <div class="model-name">
-                                            GPT-4
-                                            <span class="model-badge badge-premium">PREMIUM</span>
-                                        </div>
-                                        <div class="model-desc">More capable than GPT-3.5, better reasoning</div>
-                                    </div>
-                                    <div class="model-option" onclick="selectModel('GPT-3.5 Turbo', 'Fast and efficient for most tasks')">
-                                        <div class="model-name">
-                                            GPT-3.5 Turbo
-                                            <span class="model-badge badge-pro">PRO</span>
-                                        </div>
-                                        <div class="model-desc">Fast and efficient for most tasks</div>
-                                    </div>
-                                    <div class="model-option" onclick="selectModel('Claude 3 Opus', 'Most powerful Claude model, best performance')">
-                                        <div class="model-name">
-                                            Claude 3 Opus
-                                            <span class="model-badge badge-premium">PREMIUM</span>
-                                        </div>
-                                        <div class="model-desc">Most powerful Claude model, best performance</div>
-                                    </div>
-                                    <div class="model-option" onclick="selectModel('Claude 3 Sonnet', 'Balanced performance and speed')">
-                                        <div class="model-name">
-                                            Claude 3 Sonnet
-                                            <span class="model-badge badge-pro">PRO</span>
-                                        </div>
-                                        <div class="model-desc">Balanced performance and speed</div>
-                                    </div>
-                                    <div class="model-option" onclick="selectModel('Claude 3 Haiku', 'Fastest Claude model for quick tasks')">
-                                        <div class="model-name">
-                                            Claude 3 Haiku
-                                            <span class="model-badge badge-pro">PRO</span>
-                                        </div>
-                                        <div class="model-desc">Fastest Claude model for quick tasks</div>
-                                    </div>
-                                    <div class="model-option" onclick="selectModel('PaLM 2', 'Google advanced language model')">
-                                        <div class="model-name">
-                                            PaLM 2
-                                            <span class="model-badge badge-premium">PREMIUM</span>
-                                        </div>
-                                        <div class="model-desc">Google advanced language model</div>
-                                    </div>
-                                    <div class="model-option" onclick="selectModel('LLaMA 3 70B', 'Meta most capable open model')">
-                                        <div class="model-name">
-                                            LLaMA 3 70B
-                                            <span class="model-badge badge-pro">PRO</span>
-                                        </div>
-                                        <div class="model-desc">Meta most capable open model</div>
-                                    </div>
-                                    <div class="model-option" onclick="selectModel('Mistral Large', 'High-performance European AI model')">
-                                        <div class="model-name">
-                                            Mistral Large
-                                            <span class="model-badge badge-premium">PREMIUM</span>
-                                        </div>
-                                        <div class="model-desc">High-performance European AI model</div>
-                                    </div>
-                                    <div class="model-option" onclick="selectModel('Command R+', 'Cohere enterprise-grade model')">
-                                        <div class="model-name">
-                                            Command R+
-                                            <span class="model-badge badge-pro">PRO</span>
-                                        </div>
-                                        <div class="model-desc">Cohere enterprise-grade model</div>
-                                    </div>
-                                    <div class="model-option" onclick="selectModel('Gemini Ultra', 'Google most capable AI model')">
-                                        <div class="model-name">
-                                            Gemini Ultra
-                                            <span class="model-badge badge-premium">PREMIUM</span>
-                                        </div>
-                                        <div class="model-desc">Google most capable AI model</div>
-                                    </div>
-                                    <div class="model-option" onclick="selectModel('Gemini Pro', 'Balanced performance for various tasks')">
-                                        <div class="model-name">
-                                            Gemini Pro
-                                            <span class="model-badge badge-pro">PRO</span>
-                                        </div>
-                                        <div class="model-desc">Balanced performance for various tasks</div>
-                                    </div>
-                                    <div class="model-option" onclick="selectModel('Gemini Flash', 'Fast and efficient Google AI')">
-                                        <div class="model-name">
-                                            Gemini Flash
-                                            <span class="model-badge badge-free">FREE</span>
-                                        </div>
-                                        <div class="model-desc">Fast and efficient Google AI</div>
-                                    </div>
-                                    <div class="model-option" onclick="selectModel('GPT-4 Vision', 'Advanced multimodal AI with image understanding')">
-                                        <div class="model-name">
-                                            GPT-4 Vision
-                                            <span class="model-badge badge-premium">PREMIUM</span>
-                                        </div>
-                                        <div class="model-desc">Advanced multimodal AI with image understanding</div>
-                                    </div>
-                                    <div class="model-option" onclick="selectModel('Bard Advanced', 'Google experimental advanced model')">
-                                        <div class="model-name">
-                                            Bard Advanced
-                                            <span class="model-badge badge-premium">PREMIUM</span>
-                                        </div>
-                                        <div class="model-desc">Google experimental advanced model</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="setting-item">
-                        <div class="setting-info">
-                            <div class="setting-label">Temperature</div>
-                            <div class="setting-desc">Controls randomness in generation (0.0 - 1.0)</div>
-                        </div>
-                        <div class="setting-control range-control">
-                            <input type="range" class="range-slider" id="temperatureRange" min="0" max="10" value="7" oninput="updateTemperature(this.value)">
-                            <span class="range-value" id="temperatureValue">0.7</span>
-                        </div>
-                    </div>
+            <div class="setting-item">
+                <label class="setting-label">Model</label>
+                <select class="setting-select" id="modelSelect">
+                    <option value="gemini-1.5-flash">Gemini 1.5 Flash (Fast)</option>
+                    <option value="gemini-1.5-pro">Gemini 1.5 Pro (Powerful)</option>
+                    <option value="gemini-pro">Gemini Pro</option>
+                </select>
+            </div>
 
-                    <div class="setting-item">
-                        <div class="setting-info">
-                            <div class="setting-label">Auto-save History</div>
-                            <div class="setting-desc">Automatically save generation history</div>
-                        </div>
-                        <div class="setting-control">
-                            <label class="toggle">
-                                <input type="checkbox" id="autoSaveToggle" checked onchange="toggleAutoSave(this.checked)">
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-                    </div>
+            <div class="setting-item">
+                <label class="setting-label">Temperature</label>
+                <select class="setting-select" id="temperatureSelect">
+                    <option value="0.3">More Focused</option>
+                    <option value="0.7" selected>Balanced</option>
+                    <option value="1.0">More Creative</option>
+                </select>
+            </div>
 
-                    <div class="setting-item">
-                        <div class="setting-info">
-                            <div class="setting-label">Show Explanations</div>
-                            <div class="setting-desc">Show answer explanations by default</div>
-                        </div>
-                        <div class="setting-control">
-                            <label class="toggle">
-                                <input type="checkbox" id="explanationsToggle" checked onchange="toggleExplanations(this.checked)">
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
+            <div class="setting-item">
+                <button class="setting-btn" onclick="clearAllChats()">Clear All Chats</button>
+            </div>
 
-                <!-- Advanced Settings -->
-                <div class="settings-section">
-                    <div class="section-title">Advanced</div>
-                    
-                    <div class="setting-item">
-                        <div class="setting-info">
-                            <div class="setting-label">Max Tokens</div>
-                            <div class="setting-desc">Maximum length of generated content</div>
-                        </div>
-                        <div class="setting-control range-control">
-                            <input type="range" class="range-slider" id="tokensRange" min="500" max="4000" value="2000" step="100" oninput="updateTokens(this.value)">
-                            <span class="range-value" id="tokensValue">2000</span>
-                        </div>
-                    </div>
-
-                    <div class="setting-item">
-                        <div class="setting-info">
-                            <div class="setting-label">Include Hints</div>
-                            <div class="setting-desc">Add helpful hints to questions</div>
-                        </div>
-                        <div class="setting-control">
-                            <label class="toggle">
-                                <input type="checkbox" id="hintsToggle" onchange="toggleHints(this.checked)">
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Data & Privacy -->
-                <div class="settings-section">
-                    <div class="section-title">Data & Privacy</div>
-                    
-                    <div class="setting-item">
-                        <div class="setting-info">
-                            <div class="setting-label">Clear History</div>
-                            <div class="setting-desc">Delete all saved generation history</div>
-                        </div>
-                        <div class="setting-control">
-                            <button class="action-btn danger" onclick="clearHistory()">Clear All</button>
-                        </div>
-                    </div>
-
-                    <div class="setting-item">
-                        <div class="setting-info">
-                            <div class="setting-label">Export Data</div>
-                            <div class="setting-desc">Download all your data as JSON</div>
-                        </div>
-                        <div class="setting-control">
-                            <button class="action-btn" onclick="exportAllData()">Export</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Support -->
-                <div class="settings-section">
-                    <div class="section-title">Support</div>
-                    
-                    <div class="setting-item">
-                        <div class="setting-info">
-                            <div class="setting-label">Email Support</div>
-<div class="setting-desc">teamsharvika.inbox@gmail.com</div>
-                        <div class="setting-control">
-                            <button class="action-btn" onclick="openGmail()">Contact</button>
-                        </div>
-                    </div>
-
-                    <div class="setting-item">
-                        <div class="setting-info">
-                            <div class="setting-label">Call Helpline</div>
-                            <div class="setting-desc">Available 3:00 PM - 6:00 PM</div>
-                        </div>
-                        <div class="setting-control">
-                            <button class="action-btn" onclick="makeCall()">Call</button>
-                        </div>
-                    </div>
-                </div>
+            <div class="setting-item">
+                <button class="setting-btn" onclick="exportChats()">Export Chats</button>
             </div>
         </div>
     </div>
 
     <script>
         // Configuration
-        const API_KEY = 'AIzaSyDKxa8AgUG3bZhmthybPGdFf-qLeQsxH8E';
-        const ACTUAL_MODEL = 'gemini-1.5-flash'; // Always use Gemini Flash regardless of selection
-        let API_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${ACTUAL_MODEL}:generateContent`;
-        
-        // Settings
-        let settings = {
-            model: 'GPT-4 Turbo', // Display model (fake)
-            temperature: 0.7,
-            maxTokens: 2000,
-            autoSave: true,
-            showExplanations: true,
-            includeHints: false
-        };
+        const API_KEY = 'AIzaSyAQ__fupm_Ll4AawchbtEvFvx2fLn7kkCg';
+        let currentModel = 'gemini-1.5-flash';
+        let currentTemperature = 0.7;
 
-        // History
-        let history = [];
+        // State
+        let conversations = [];
+        let currentConversationId = null;
+        let isGenerating = false;
 
-        // Load settings and history
-        function loadSettings() {
-            const saved = localStorage.getItem('sharvikaSettings');
-            if (saved) {
-                settings = JSON.parse(saved);
-                applySettings();
-            }
-        }
+        // Initialize
+        loadConversations();
+        updateSendButton();
 
-        function saveSettings() {
-            localStorage.setItem('sharvikaSettings', JSON.stringify(settings));
-        }
+        // Input handling
+        const messageInput = document.getElementById('messageInput');
+        const sendBtn = document.getElementById('sendBtn');
 
-        function applySettings() {
-            document.getElementById('selectedModel').textContent = settings.model;
-            document.getElementById('temperatureRange').value = settings.temperature * 10;
-            document.getElementById('temperatureValue').textContent = settings.temperature.toFixed(1);
-            document.getElementById('tokensRange').value = settings.maxTokens;
-            document.getElementById('tokensValue').textContent = settings.maxTokens;
-            document.getElementById('autoSaveToggle').checked = settings.autoSave;
-            document.getElementById('explanationsToggle').checked = settings.showExplanations;
-            document.getElementById('hintsToggle').checked = settings.includeHints;
-        }
-
-        function loadHistory() {
-            const saved = localStorage.getItem('sharvikaHistory');
-            if (saved) {
-                history = JSON.parse(saved);
-                renderHistory();
-            }
-        }
-
-        function saveHistory() {
-            localStorage.setItem('sharvikaHistory', JSON.stringify(history));
-        }
-
-        function renderHistory() {
-            const container = document.getElementById('historyList');
-            container.innerHTML = '';
-
-            history.forEach((item, index) => {
-                const historyItem = document.createElement('div');
-                historyItem.className = 'history-item';
-                historyItem.innerHTML = `
-                    <div class="history-text">${item.title}</div>
-                    <button class="history-delete" onclick="deleteHistory(${index})">×</button>
-                `;
-                historyItem.onclick = (e) => {
-                    if (!e.target.classList.contains('history-delete')) {
-                        loadSession(index);
-                    }
-                };
-                container.appendChild(historyItem);
-            });
-        }
-
-        function addToHistory(title, data) {
-            if (!settings.autoSave) return;
-
-            const session = {
-                id: Date.now(),
-                title: title.substring(0, 50),
-                data: data,
-                timestamp: new Date().toISOString()
-            };
-
-            history.unshift(session);
-            if (history.length > 50) history.pop();
-            
-            saveHistory();
-            renderHistory();
-        }
-
-        function deleteHistory(index) {
-            history.splice(index, 1);
-            saveHistory();
-            renderHistory();
-        }
-
-        function clearHistory() {
-            if (confirm('Are you sure you want to clear all history? This cannot be undone.')) {
-                history = [];
-                saveHistory();
-                renderHistory();
-            }
-        }
-
-        function loadSession(index) {
-            const session = history[index];
-            if (session && session.data) {
-                displayQuestions(session.data.questions);
-                if (window.innerWidth <= 1024) toggleSidebar();
-            }
-        }
-
-        // Model Selection (Fake - always uses Gemini)
-        function toggleModelDropdown() {
-            const dropdown = document.getElementById('modelDropdown');
-            dropdown.classList.toggle('active');
-        }
-
-        function selectModel(modelName, modelDesc) {
-            // Update display only
-            settings.model = modelName;
-            document.getElementById('selectedModel').textContent = modelName;
-            
-            // Update selected state
-            const options = document.querySelectorAll('.model-option');
-            options.forEach(opt => opt.classList.remove('selected'));
-            event.target.closest('.model-option').classList.add('selected');
-            
-            // Close dropdown
-            document.getElementById('modelDropdown').classList.remove('active');
-            
-            // Save settings (but API still uses Gemini)
-            saveSettings();
-        }
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!e.target.closest('.model-select')) {
-                document.getElementById('modelDropdown').classList.remove('active');
-            }
+        messageInput.addEventListener('input', () => {
+            updateSendButton();
         });
 
-        // Settings Functions
-        function updateTemperature(value) {
-            const temp = value / 10;
-            settings.temperature = temp;
-            document.getElementById('temperatureValue').textContent = temp.toFixed(1);
-            saveSettings();
+        function updateSendButton() {
+            const hasText = messageInput.value.trim().length > 0;
+            sendBtn.disabled = !hasText || isGenerating;
         }
 
-        function updateTokens(value) {
-            settings.maxTokens = parseInt(value);
-            document.getElementById('tokensValue').textContent = value;
-            saveSettings();
+        function autoResize(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 200) + 'px';
         }
 
-        function toggleAutoSave(checked) {
-            settings.autoSave = checked;
-            saveSettings();
+        function handleKeyPress(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
         }
 
-        function toggleExplanations(checked) {
-            settings.showExplanations = checked;
-            saveSettings();
-        }
+        // Send message
+        async function sendMessage() {
+            const message = messageInput.value.trim();
+            if (!message || isGenerating) return;
 
-        function toggleHints(checked) {
-            settings.includeHints = checked;
-            saveSettings();
-        }
+            if (!currentConversationId) {
+                currentConversationId = Date.now().toString();
+                conversations.unshift({
+                    id: currentConversationId,
+                    title: message.substring(0, 50),
+                    messages: [],
+                    createdAt: new Date().toISOString()
+                });
+            }
 
-        // Export Functions
-        function exportResults() {
-            const container = document.getElementById('questionsContainer');
-            if (!container.children.length) return;
-
-            let text = 'SharvikaEducation - Generated MCQs\n\n';
-            const questions = Array.from(container.children);
+            const conversation = conversations.find(c => c.id === currentConversationId);
             
-            questions.forEach((card, index) => {
-                const question = card.querySelector('.question-text').textContent;
-                const options = Array.from(card.querySelectorAll('.option')).map(o => o.textContent);
-                
-                text += `Question ${index + 1}:\n${question}\n\n`;
-                options.forEach(opt => text += `${opt}\n`);
-                text += '\n---\n\n';
+            // Add user message
+            conversation.messages.push({
+                role: 'user',
+                content: message
             });
 
-            const blob = new Blob([text], { type: 'text/plain' });
+            messageInput.value = '';
+            autoResize(messageInput);
+            updateSendButton();
+            
+            displayMessages();
+            saveConversations();
+            renderConversations();
+
+            // Show typing indicator
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message';
+            typingDiv.innerHTML = `
+                <div class="message-wrapper assistant">
+                    <div class="message-avatar assistant">AI</div>
+                    <div class="message-content">
+                        <div class="typing">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('chatMessages').appendChild(typingDiv);
+            scrollToBottom();
+
+            isGenerating = true;
+            updateSendButton();
+
+            try {
+                const response = await generateResponse(conversation.messages);
+                
+                // Remove typing indicator
+                typingDiv.remove();
+
+                // Add assistant message
+                conversation.messages.push({
+                    role: 'assistant',
+                    content: response
+                });
+
+                displayMessages();
+                saveConversations();
+
+            } catch (error) {
+                console.error('Error:', error);
+                typingDiv.remove();
+                
+                conversation.messages.push({
+                    role: 'assistant',
+                    content: 'Sorry, I encountered an error. Please try again.'
+                });
+                
+                displayMessages();
+            }
+
+            isGenerating = false;
+            updateSendButton();
+        }
+
+        // Generate AI response
+        async function generateResponse(messages) {
+            const contents = messages.map(msg => ({
+                role: msg.role === 'user' ? 'user' : 'model',
+                parts: [{ text: msg.content }]
+            }));
+
+            const response = await fetch(
+                `https://generativelanguage.googleapis.com/v1beta/models/${currentModel}:generateContent?key=${API_KEY}`,
+                {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: contents,
+                        generationConfig: {
+                            temperature: currentTemperature,
+                            maxOutputTokens: 8192,
+                        }
+                    })
+                }
+            );
+
+            const data = await response.json();
+            
+            if (!response.ok) {
+                throw new Error(data.error?.message || 'API Error');
+            }
+
+            return data.candidates[0].content.parts[0].text;
+        }
+
+        // Display messages
+        function displayMessages() {
+            const conversation = conversations.find(c => c.id === currentConversationId);
+            if (!conversation) return;
+
+            document.getElementById('emptyState').style.display = 'none';
+            document.getElementById('chatMessages').style.display = 'block';
+
+            const messagesContainer = document.getElementById('chatMessages');
+            messagesContainer.innerHTML = '';
+
+            conversation.messages.forEach((msg, index) => {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message';
+
+                const isUser = msg.role === 'user';
+                const avatar = isUser ? 'U' : 'AI';
+                const content = isUser ? escapeHtml(msg.content) : formatMarkdown(msg.content);
+
+                messageDiv.innerHTML = `
+                    <div class="message-wrapper ${isUser ? 'user' : 'assistant'}">
+                        <div class="message-avatar ${isUser ? 'user' : 'assistant'}">${avatar}</div>
+                        <div class="message-content">${content}</div>
+                    </div>
+                `;
+
+                messagesContainer.appendChild(messageDiv);
+            });
+
+            // Highlight code blocks
+            document.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightElement(block);
+            });
+
+            scrollToBottom();
+        }
+
+        // Format markdown
+        function formatMarkdown(text) {
+            // Convert markdown to HTML
+            let html = marked.parse(text);
+
+            // Add copy buttons to code blocks
+            html = html.replace(/<pre><code class="language-(\w+)">/g, (match, lang) => {
+                return `<div class="code-header">
+                    <span class="code-lang">${lang}</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy code</button>
+                </div><pre><code class="language-${lang}">`;
+            });
+
+            html = html.replace(/<pre><code>/g, 
+                `<div class="code-header">
+                    <span class="code-lang">code</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy code</button>
+                </div><pre><code>`
+            );
+
+            return html;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Copy code
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-header').nextElementSibling.querySelector('code');
+            navigator.clipboard.writeText(codeBlock.textContent);
+            btn.textContent = 'Copied!';
+            setTimeout(() => btn.textContent = 'Copy code', 2000);
+        }
+
+        // Scroll to bottom
+        function scrollToBottom() {
+            const container = document.getElementById('chatContainer');
+            setTimeout(() => {
+                container.scrollTop = container.scrollHeight;
+            }, 100);
+        }
+
+        // Conversations management
+        function loadConversations() {
+            const saved = localStorage.getItem('chatgpt_conversations');
+            if (saved) {
+                conversations = JSON.parse(saved);
+                renderConversations();
+            }
+        }
+
+        function saveConversations() {
+            localStorage.setItem('chatgpt_conversations', JSON.stringify(conversations));
+        }
+
+        function renderConversations() {
+            const container = document.getElementById('conversations');
+            container.innerHTML = '';
+
+            conversations.forEach(conv => {
+                const div = document.createElement('div');
+                div.className = `conversation-item ${conv.id === currentConversationId ? 'active' : ''}`;
+                div.innerHTML = `
+                    <span class="conversation-title">${conv.title}</span>
+                    <button class="delete-btn" onclick="deleteConversation('${conv.id}', event)">×</button>
+                `;
+                div.onclick = (e) => {
+                    if (!e.target.classList.contains('delete-btn')) {
+                        loadConversation(conv.id);
+                    }
+                };
+                container.appendChild(div);
+            });
+        }
+
+        function newChat() {
+            currentConversationId = null;
+            document.getElementById('emptyState').style.display = 'flex';
+            document.getElementById('chatMessages').style.display = 'none';
+            renderConversations();
+            if (window.innerWidth <= 768) toggleSidebar();
+        }
+
+        function loadConversation(id) {
+            currentConversationId = id;
+            displayMessages();
+            renderConversations();
+            if (window.innerWidth <= 768) toggleSidebar();
+        }
+
+        function deleteConversation(id, event) {
+            event.stopPropagation();
+            if (confirm('Delete this conversation?')) {
+                conversations = conversations.filter(c => c.id !== id);
+                if (currentConversationId === id) {
+                    newChat();
+                }
+                saveConversations();
+                renderConversations();
+            }
+        }
+
+        function clearAllChats() {
+            if (confirm('Clear all conversations? This cannot be undone.')) {
+                conversations = [];
+                currentConversationId = null;
+                saveConversations();
+                renderConversations();
+                newChat();
+                closeSettings();
+            }
+        }
+
+        function exportChats() {
+            const data = JSON.stringify(conversations, null, 2);
+            const blob = new Blob([data], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `mcq-${Date.now()}.txt`;
+            a.download = `chatgpt-export-${Date.now()}.json`;
             a.click();
         }
 
-        function exportAllData() {
-            const data = {
-                settings: settings,
-                history: history,
-                exportDate: new Date().toISOString()
-            };
-
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `sharvika-data-${Date.now()}.json`;
-            a.click();
+        // Example prompts
+        function usePrompt(prompt) {
+            messageInput.value = prompt;
+            updateSendButton();
+            autoResize(messageInput);
+            messageInput.focus();
         }
 
-        // Contact Functions
-        function openGmail() {
-    window.open('https://mail.google.com/mail/?view=cm&fs=1&to=teamsharvika.inbox@gmail.com&su=Support Request - SharvikaEducation&body=Hello Sharvika Team,%0D%0A%0D%0AI need help with:%0D%0A', '_blank');
-}
-
-        function makeCall() {
-            window.location.href = 'call.html';
+        // Settings
+        function openSettings() {
+            document.getElementById('settingsModal').classList.add('show');
+            document.getElementById('modelSelect').value = currentModel;
+            document.getElementById('temperatureSelect').value = currentTemperature;
         }
 
-        // UI Functions
+        function closeSettings() {
+            document.getElementById('settingsModal').classList.remove('show');
+            currentModel = document.getElementById('modelSelect').value;
+            currentTemperature = parseFloat(document.getElementById('temperatureSelect').value);
+        }
+
+        // Mobile sidebar
         function toggleSidebar() {
             document.getElementById('sidebar').classList.toggle('open');
             document.getElementById('sidebarOverlay').classList.toggle('active');
         }
 
-        function openSettings() {
-            document.getElementById('settingsModal').style.display = 'block';
-            if (window.innerWidth <= 1024) toggleSidebar();
-        }
-
-        function closeSettings(event) {
-            if (!event || event.target.id === 'settingsModal' || event.target.className === 'modal-close') {
-                document.getElementById('settingsModal').style.display = 'none';
-            }
-        }
-
-        function newGenerator() {
-            document.getElementById('mcqForm').reset();
-            document.getElementById('results').style.display = 'none';
-            document.getElementById('questionsContainer').innerHTML = '';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            if (window.innerWidth <= 1024) toggleSidebar();
-        }
-
-        // Form Submission (Always uses Gemini regardless of selected model)
-        document.getElementById('mcqForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const topic = document.getElementById('topic').value;
-            const count = document.getElementById('count').value;
-            const difficulty = document.getElementById('difficulty').value;
-
-            document.getElementById('loading').style.display = 'block';
-            document.getElementById('results').style.display = 'none';
-            document.getElementById('generateBtn').disabled = true;
-
-            try {
-                const response = await fetch(`${API_ENDPOINT}?key=${API_KEY}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{
-                            parts: [{
-                                text: `Generate ${count} multiple-choice questions on the following topic with ${difficulty} difficulty.
-
-Topic: ${topic}
-
-Format as JSON:
-{
-  "questions": [
-    {
-      "question": "Question text?",
-      "options": ["A", "B", "C", "D"],
-      "correct": 0,
-      "explanation": "Explanation"
-    }
-  ]
-}
-
-Return only valid JSON.`
-                            }]
-                        }],
-                        generationConfig: {
-                            temperature: settings.temperature,
-                            maxOutputTokens: settings.maxTokens
-                        }
-                    })
-                });
-
-                const data = await response.json();
-                const text = data.candidates[0].content.parts[0].text;
-                const jsonMatch = text.match(/\{[\s\S]*\}/);
-                const mcqData = JSON.parse(jsonMatch[0]);
-
-                displayQuestions(mcqData.questions);
-                addToHistory(topic, mcqData);
-            } catch (error) {
-                alert('Failed to generate MCQs. Please check your API key and try again.');
-                console.error(error);
-            } finally {
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('generateBtn').disabled = false;
-            }
+        // Configure marked
+        marked.setOptions({
+            breaks: true,
+            gfm: true
         });
-
-        // Display Questions
-        function displayQuestions(questions) {
-            const container = document.getElementById('questionsContainer');
-            container.innerHTML = '';
-            document.getElementById('results').style.display = 'block';
-
-            questions.forEach((q, index) => {
-                const card = document.createElement('div');
-                card.className = 'question-card';
-
-                let optionsHTML = '';
-                q.options.forEach((option, i) => {
-                    optionsHTML += `
-                        <div class="option" onclick="selectAnswer(this, ${i}, ${q.correct}, ${index})">
-                            ${String.fromCharCode(65 + i)}. ${option}
-                        </div>
-                    `;
-                });
-
-                card.innerHTML = `
-                    <div class="question-header">
-                        <span class="question-badge">Q${index + 1}</span>
-                    </div>
-                    <div class="question-text">${q.question}</div>
-                    <div class="options-container">${optionsHTML}</div>
-                    <div class="explanation-box" id="explanation-${index}">
-                        <div class="explanation-label">Correct Answer: ${String.fromCharCode(65 + q.correct)}</div>
-                        <div class="explanation-text">${q.explanation}</div>
-                    </div>
-                `;
-
-                container.appendChild(card);
-            });
-
-            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function selectAnswer(element, selected, correct, questionIndex) {
-            const options = element.parentElement.children;
-            
-            Array.from(options).forEach(opt => opt.classList.add('disabled'));
-
-            if (selected === correct) {
-                element.classList.add('correct');
-            } else {
-                element.classList.add('wrong');
-                options[correct].classList.add('correct');
-            }
-
-            document.getElementById(`explanation-${questionIndex}`).style.display = 'block';
-        }
-
-        // Keyboard Shortcuts
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeSettings();
-            }
-            if (e.ctrlKey && e.key === 'n') {
-                e.preventDefault();
-                newGenerator();
-            }
-        });
-
-        // Initialize
-        loadSettings();
-        loadHistory();
     </script>
 </body>
 </html>
