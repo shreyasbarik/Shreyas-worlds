@@ -73,18 +73,6 @@
             gap: 1.2rem;
         }
 
-        .nav-right a {
-            text-decoration: none;
-            color: #000;
-            font-weight: 500;
-            transition: 0.2s;
-            font-size: 0.95rem;
-        }
-
-        .nav-right a:hover {
-            color: #0071e3;
-        }
-
         /* ✅ Side Menu */
         .side-menu {
             position: fixed;
@@ -118,7 +106,7 @@
         }
 
         .side-menu ul li {
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
 
         .side-menu ul li a {
@@ -127,10 +115,19 @@
             color: #333;
             transition: 0.2s;
             font-weight: 500;
+            display: block;
+            padding: 0.5rem 0;
         }
 
         .side-menu ul li a:hover {
             color: #0071e3;
+        }
+
+        .side-menu .menu-subtitle {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.25rem;
+            font-weight: 400;
         }
 
         /* ✅ App Container */
@@ -661,11 +658,6 @@
 
         /* ✅ Mobile Responsive */
         @media (max-width: 768px) {
-            .nav-right a {
-                font-size: 0.85rem;
-                margin-left: 0.8rem;
-            }
-
             .app-container {
                 grid-template-columns: 1fr;
                 margin-top: 60px;
@@ -855,10 +847,7 @@
             <span class="brand">Sharvika</span>
         </div>
         <div class="nav-right">
-            <a href="index.html">Home</a>
-            <a href="signup.html">Sign Up</a>
-            <a href="signin.html">Sign In</a>
-            <a href="authority.html">Authority Login</a>
+            <!-- Navigation items removed as requested -->
         </div>
     </header>
 
@@ -866,14 +855,22 @@
     <div class="side-menu" id="sideMenu">
         <button class="close-btn" id="menuClose">×</button>
         <ul>
-            <li><a href="chakragallery.html">Chakra Gallery</a></li>
-            <li><a href="ignitestream.html">IgniteStream</a></li>
-            <li><a href="childishhub.html">Childish Hub</a></li>
-            <li><a href="quitestrange.html">Quite Strange</a></li>
-            <li><a href="Education.html">SharvikaEducation</a></li>
-            <li><a href="Games.html">Sharvika Store</a></li> 
-            <li><a href="ask.html">Community Hub</a></li>
-            <li><a href="art.html">Art Studio</a></li>
+            <li>
+                <a href="#" onclick="switchChannelFromMenu('community')">Community Chat</a>
+                <div class="menu-subtitle">Public discussion</div>
+            </li>
+            <li>
+                <a href="#" onclick="switchChannelFromMenu('announcements')">Announcements</a>
+                <div class="menu-subtitle">Official updates</div>
+            </li>
+            <li>
+                <a href="#" onclick="openCallSupportFromMenu()">Call Technical Support</a>
+                <div class="menu-subtitle">Live voice and video assistance</div>
+            </li>
+            <li>
+                <a href="mailto:teamsharvika.inbox@gmail.com">Email Support</a>
+                <div class="menu-subtitle">teamsharvika.inbox@gmail.com</div>
+            </li>
         </ul>
     </div>
 
@@ -990,6 +987,17 @@
                 sideMenu.classList.remove("open");
             }
         });
+
+        // ✅ HAMBURGER MENU FUNCTIONS
+        function switchChannelFromMenu(channel) {
+            sideMenu.classList.remove("open");
+            switchChannel(channel);
+        }
+
+        function openCallSupportFromMenu() {
+            sideMenu.classList.remove("open");
+            openCallSupport();
+        }
 
         // ✅ COMMUNITY HUB LOGIC
         window.addEventListener('firebaseReady', initializePage);
