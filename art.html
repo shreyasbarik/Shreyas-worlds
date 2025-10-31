@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Art Studio - Sharvika</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
     <style>
+        /* ✅ Universal Styles */
         * {
             margin: 0;
             padding: 0;
@@ -14,62 +18,175 @@
 
         html, body {
             height: 100%;
-            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            background-color: #0e0e0e;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        body {
-            font-family: 'Roboto', sans-serif;
-            background: #0e0e0e;
+        /* ✅ Top Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 60px;
+            background: #1a1a1a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1.5rem;
+            z-index: 1000;
+            box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-left .brand {
+            font-weight: 600;
+            font-size: 1.1rem;
             color: #ffffff;
         }
 
+        .hamburger {
+            font-size: 1.4rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #ffffff;
+            padding: 0.5rem;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+
+        .hamburger:hover {
+            background: #2a2a2a;
+        }
+
+        .nav-right {
+            display: flex;
+            gap: 1.2rem;
+        }
+
+        /* ✅ Side Menu */
+        .side-menu {
+            position: fixed;
+            top: 0;
+            left: -280px;
+            width: 260px;
+            height: 100%;
+            background: #1a1a1a;
+            padding: 2rem 1.5rem;
+            box-shadow: 2px 0 20px rgba(0, 0, 0, 0.5);
+            transition: left 0.4s ease;
+            z-index: 999;
+            border-right: 1px solid #2a2a2a;
+        }
+
+        .side-menu.open {
+            left: 0;
+        }
+
+        .side-menu .close-btn {
+            background: none;
+            font-size: 1.6rem;
+            border: none;
+            margin-bottom: 1.5rem;
+            cursor: pointer;
+            color: #ffffff;
+        }
+
+        .side-menu ul {
+            list-style: none;
+        }
+
+        .side-menu ul li {
+            margin-bottom: 1.5rem;
+        }
+
+        .side-menu ul li a {
+            text-decoration: none;
+            font-size: 1rem;
+            color: #ffffff;
+            transition: 0.2s;
+            font-weight: 500;
+            display: block;
+            padding: 0.5rem 0;
+        }
+
+        .side-menu ul li a:hover {
+            color: #8e8e93;
+        }
+
+        .side-menu .menu-subtitle {
+            font-size: 0.8rem;
+            color: #8e8e93;
+            margin-top: 0.25rem;
+            font-weight: 400;
+        }
+
+        /* ✅ App Container */
         .app-container {
             display: grid;
             grid-template-columns: 320px 1fr;
             height: 100vh;
+            margin-top: 60px;
         }
 
+        /* ✅ Sidebar */
         .sidebar {
             background: #1a1a1a;
             border-right: 1px solid #2a2a2a;
             display: flex;
             flex-direction: column;
-            height: 100vh;
+            height: calc(100vh - 60px);
             overflow: hidden;
         }
 
         .sidebar-header {
-            padding: 20px;
+            padding: 1.5rem;
             border-bottom: 1px solid #2a2a2a;
             flex-shrink: 0;
         }
 
         .app-title {
-            font-size: 20px;
-            font-weight: 500;
-            margin-bottom: 4px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 0.25rem;
         }
 
         .app-subtitle {
-            font-size: 13px;
+            font-size: 0.85rem;
             color: #8e8e93;
+            font-weight: 500;
         }
 
         .sidebar-search {
-            padding: 12px 16px;
+            padding: 1rem 1.5rem;
             border-bottom: 1px solid #2a2a2a;
             flex-shrink: 0;
         }
 
         .search-input {
             width: 100%;
-            padding: 10px 16px;
+            padding: 0.75rem 1rem;
             background: #2a2a2a;
             border: none;
             border-radius: 20px;
             color: #ffffff;
-            font-size: 14px;
+            font-size: 0.9rem;
             outline: none;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .search-input:focus {
+            background: #3a3a3a;
         }
 
         .search-input::placeholder {
@@ -79,27 +196,20 @@
         .sidebar-menu {
             flex: 1;
             overflow-y: auto;
+            overflow-x: hidden;
             -webkit-overflow-scrolling: touch;
         }
 
-        .sidebar-menu::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .sidebar-menu::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .sidebar-menu::-webkit-scrollbar-thumb {
-            background: #2a2a2a;
-            border-radius: 3px;
-        }
-
         .menu-item {
-            padding: 16px 20px;
+            padding: 1rem 1.5rem;
             border-bottom: 1px solid #2a2a2a;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: all 0.2s;
+            position: relative;
+            min-height: 65px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .menu-item:hover {
@@ -111,83 +221,97 @@
         }
 
         .menu-item-title {
-            font-size: 15px;
-            font-weight: 500;
-            margin-bottom: 4px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 0.25rem;
         }
 
         .menu-item-subtitle {
-            font-size: 13px;
+            font-size: 0.8rem;
             color: #8e8e93;
+            font-weight: 500;
         }
 
         .sidebar-footer {
-            padding: 16px 20px;
+            padding: 1.5rem;
             border-top: 1px solid #2a2a2a;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 0.75rem;
             flex-shrink: 0;
         }
 
         .user-avatar {
             width: 40px;
             height: 40px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #ffffff;
+            background: #ffffff;
+            color: #000000;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 600;
-            font-size: 16px;
+            font-size: 1rem;
+            flex-shrink: 0;
         }
 
         .user-info {
             flex: 1;
+            min-width: 0;
         }
 
         .user-name {
-            font-size: 14px;
-            font-weight: 500;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #ffffff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .user-status {
-            font-size: 12px;
+            font-size: 0.75rem;
             color: #8e8e93;
+            font-weight: 500;
         }
 
         .logout-icon {
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: background 0.2s;
+            flex-shrink: 0;
+            color: #6e6e73;
         }
 
         .logout-icon:hover {
             background: #2a2a2a;
+            color: #ffffff;
         }
 
+        /* ✅ Chat Container */
         .chat-container {
             display: flex;
             flex-direction: column;
-            height: 100vh;
+            height: calc(100vh - 60px);
             background: #0e0e0e;
             overflow: hidden;
         }
 
         .chat-header {
-            padding: 16px 24px;
+            padding: 1rem 1.5rem;
             background: #1a1a1a;
             border-bottom: 1px solid #2a2a2a;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 0.75rem;
             flex-shrink: 0;
+            min-height: 70px;
         }
 
         .chat-icon {
@@ -198,36 +322,42 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
         }
 
         .chat-info {
             flex: 1;
+            min-width: 0;
         }
 
         .chat-title {
-            font-size: 15px;
-            font-weight: 500;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 0.125rem;
         }
 
         .chat-subtitle {
-            font-size: 13px;
+            font-size: 0.85rem;
             color: #8e8e93;
+            font-weight: 500;
         }
 
+        /* ✅ Messages Container */
         .messages-container {
             flex: 1;
             overflow-y: auto;
             overflow-x: hidden;
-            padding: 20px 24px;
+            padding: 1.5rem;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 0.5rem;
             -webkit-overflow-scrolling: touch;
             scroll-behavior: smooth;
         }
 
         .messages-container::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
 
         .messages-container::-webkit-scrollbar-track {
@@ -236,23 +366,21 @@
 
         .messages-container::-webkit-scrollbar-thumb {
             background: #2a2a2a;
-            border-radius: 4px;
-        }
-
-        .messages-container::-webkit-scrollbar-thumb:hover {
-            background: #3a3a3a;
+            border-radius: 3px;
         }
 
         .message {
             display: flex;
-            gap: 12px;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
             animation: messageSlideIn 0.3s ease-out;
+            max-width: 100%;
         }
 
         @keyframes messageSlideIn {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(10px);
             }
             to {
                 opacity: 1;
@@ -263,15 +391,16 @@
         .message-avatar {
             width: 36px;
             height: 36px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #ffffff;
+            background: #ffffff;
+            color: #000000;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 600;
-            font-size: 14px;
+            font-size: 0.9rem;
             flex-shrink: 0;
+            align-self: flex-start;
             position: relative;
         }
 
@@ -296,44 +425,52 @@
 
         .message-content {
             flex: 1;
-            max-width: 600px;
+            max-width: calc(100% - 44px);
+            min-width: 0;
         }
 
         .message-header {
             display: flex;
             align-items: baseline;
-            gap: 8px;
-            margin-bottom: 6px;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
         }
 
         .message-author {
-            font-size: 14px;
+            font-size: 0.9rem;
             font-weight: 600;
             color: #ffffff;
         }
 
         .message-time {
-            font-size: 12px;
+            font-size: 0.75rem;
             color: #6e6e73;
+            font-weight: 500;
         }
 
         .message-bubble {
             background: #1a1a1a;
-            padding: 12px 16px;
-            border-radius: 16px;
+            padding: 0.875rem 1rem;
+            border-radius: 12px;
             border-top-left-radius: 4px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            max-width: 100%;
         }
 
         .message-text {
-            font-size: 14px;
+            font-size: 0.9rem;
             line-height: 1.5;
             color: #ffffff;
             word-wrap: break-word;
-            margin-bottom: 8px;
+            overflow-wrap: break-word;
+            white-space: pre-wrap;
+            margin-bottom: 0.5rem;
         }
 
         .message-image {
-            margin-top: 8px;
+            margin-top: 0.5rem;
             border-radius: 12px;
             overflow: hidden;
             max-width: 100%;
@@ -353,16 +490,17 @@
             object-fit: cover;
         }
 
+        /* ✅ Input Container */
         .input-container {
-            padding: 16px 24px;
+            padding: 1rem 1.5rem;
             background: #1a1a1a;
             border-top: 1px solid #2a2a2a;
             flex-shrink: 0;
         }
 
         .image-preview {
-            margin-bottom: 12px;
-            padding: 12px;
+            margin-bottom: 0.75rem;
+            padding: 0.75rem;
             background: #2a2a2a;
             border-radius: 12px;
             display: none;
@@ -376,12 +514,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
+            margin-bottom: 0.75rem;
         }
 
         .preview-title {
-            font-size: 13px;
+            font-size: 0.8rem;
             color: #8e8e93;
+            font-weight: 500;
         }
 
         .preview-close {
@@ -389,13 +528,19 @@
             border: none;
             color: #ffffff;
             cursor: pointer;
-            font-size: 20px;
+            font-size: 1.5rem;
             padding: 0;
             width: 24px;
             height: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+
+        .preview-close:hover {
+            background: #3a3a3a;
         }
 
         .preview-image {
@@ -407,7 +552,7 @@
 
         .input-wrapper {
             display: flex;
-            gap: 12px;
+            gap: 0.75rem;
             align-items: flex-end;
         }
 
@@ -415,10 +560,16 @@
             flex: 1;
             background: #2a2a2a;
             border-radius: 24px;
-            padding: 12px 20px;
+            padding: 0.75rem 1rem;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 0.75rem;
+            min-height: 44px;
+            transition: all 0.2s;
+        }
+
+        .input-box:focus-within {
+            background: #3a3a3a;
         }
 
         .attach-button {
@@ -446,11 +597,12 @@
             background: transparent;
             border: none;
             color: #ffffff;
-            font-size: 14px;
+            font-size: 0.9rem;
             outline: none;
             resize: none;
             max-height: 120px;
-            font-family: inherit;
+            font-family: 'Inter', sans-serif;
+            min-height: 20px;
         }
 
         .message-input::placeholder {
@@ -472,7 +624,7 @@
             flex-shrink: 0;
         }
 
-        .send-button:hover {
+        .send-button:hover:not(:disabled) {
             transform: scale(1.05);
         }
 
@@ -484,16 +636,99 @@
             background: #2a2a2a;
             color: #6e6e73;
             cursor: not-allowed;
+            transform: none;
         }
 
+        /* ✅ Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: #1a1a1a;
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 400px;
+            width: 90%;
+            border: 1px solid #2a2a2a;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+        }
+
+        .modal-subtitle {
+            font-size: 0.9rem;
+            color: #8e8e93;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: #2a2a2a;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 0.95rem;
+            outline: none;
+            margin-bottom: 1.5rem;
+            transition: border-color 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .modal-input:focus {
+            border-color: #ffffff;
+        }
+
+        .modal-button {
+            width: 100%;
+            padding: 0.875rem;
+            background: #ffffff;
+            color: #000000;
+            border: none;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .modal-button:hover {
+            transform: scale(1.02);
+        }
+
+        .modal-button:disabled {
+            background: #2a2a2a;
+            color: #6e6e73;
+            cursor: not-allowed;
+        }
+
+        /* ✅ Upload Progress */
         .upload-progress {
             position: fixed;
-            bottom: 24px;
-            right: 24px;
+            bottom: 2rem;
+            right: 2rem;
             background: #1a1a1a;
             border: 1px solid #2a2a2a;
             border-radius: 12px;
-            padding: 16px;
+            padding: 1rem;
             min-width: 280px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
             display: none;
@@ -505,9 +740,10 @@
         }
 
         .progress-text {
-            font-size: 13px;
+            font-size: 0.8rem;
             color: #8e8e93;
-            margin-bottom: 8px;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
         }
 
         .progress-bar {
@@ -524,84 +760,7 @@
             transition: width 0.3s;
         }
 
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-
-        .modal-overlay.show {
-            display: flex;
-        }
-
-        .modal {
-            background: #1a1a1a;
-            border-radius: 16px;
-            padding: 32px;
-            max-width: 400px;
-            width: 90%;
-            border: 1px solid #2a2a2a;
-        }
-
-        .modal-title {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .modal-subtitle {
-            font-size: 14px;
-            color: #8e8e93;
-            margin-bottom: 24px;
-        }
-
-        .modal-input {
-            width: 100%;
-            padding: 14px 16px;
-            background: #2a2a2a;
-            border: 2px solid transparent;
-            border-radius: 12px;
-            color: #ffffff;
-            font-size: 15px;
-            outline: none;
-            margin-bottom: 24px;
-            transition: border-color 0.2s;
-        }
-
-        .modal-input:focus {
-            border-color: #ffffff;
-        }
-
-        .modal-button {
-            width: 100%;
-            padding: 14px;
-            background: #ffffff;
-            color: #000000;
-            border: none;
-            border-radius: 12px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .modal-button:hover {
-            transform: scale(1.02);
-        }
-
-        .modal-button:disabled {
-            background: #2a2a2a;
-            color: #6e6e73;
-            cursor: not-allowed;
-        }
-
+        /* ✅ Lightbox */
         .lightbox {
             position: fixed;
             top: 0;
@@ -626,29 +785,33 @@
             object-fit: contain;
         }
 
+        /* ✅ Toast */
         .toast {
             position: fixed;
-            bottom: 24px;
+            bottom: 2rem;
             left: 50%;
             transform: translateX(-50%) translateY(100px);
             background: #ffffff;
             color: #000000;
-            padding: 12px 24px;
+            padding: 0.75rem 1.5rem;
             border-radius: 24px;
-            font-size: 14px;
+            font-size: 0.9rem;
             font-weight: 500;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
             z-index: 1000;
-            transition: transform 0.3s;
+            transition: transform 0.3s ease;
+            max-width: 90%;
+            text-align: center;
         }
 
         .toast.show {
             transform: translateX(-50%) translateY(0);
         }
 
+        /* ✅ Loading & States */
         .loading {
             text-align: center;
-            padding: 60px 20px;
+            padding: 3rem 1.5rem;
             color: #6e6e73;
         }
 
@@ -659,46 +822,253 @@
             border-top-color: #ffffff;
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 0 auto 12px;
+            margin: 0 auto 0.75rem;
         }
 
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
 
+        .empty-state {
+            text-align: center;
+            padding: 4rem 1.5rem;
+            color: #6e6e73;
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* ✅ Mobile Overlay */
+        .mobile-overlay {
+            display: none;
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            height: calc(100vh - 60px);
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+        }
+
+        .mobile-overlay.show {
+            display: block;
+        }
+
+        /* ✅ Scrollbar for Sidebar */
+        .sidebar-menu::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar-menu::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .sidebar-menu::-webkit-scrollbar-thumb {
+            background: #2a2a2a;
+            border-radius: 3px;
+        }
+
+        /* ✅ Focus States */
+        .menu-item:focus,
+        .send-button:focus,
+        .logout-icon:focus,
+        .hamburger:focus {
+            outline: 2px solid #ffffff;
+            outline-offset: 2px;
+        }
+
+        .search-input:focus,
+        .message-input:focus {
+            outline: none;
+        }
+
+        /* ✅ Mobile Responsive */
         @media (max-width: 768px) {
             .app-container {
                 grid-template-columns: 1fr;
+                margin-top: 60px;
             }
 
             .sidebar {
-                display: none;
+                position: fixed;
+                left: -100%;
+                top: 60px;
+                width: 280px;
+                height: calc(100vh - 60px);
+                transition: left 0.4s ease;
+                z-index: 1000;
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+                background: #1a1a1a;
+            }
+
+            .sidebar.show {
+                left: 0;
             }
 
             .messages-container {
-                padding: 16px;
+                padding: 1rem;
+            }
+
+            .message {
+                gap: 0.5rem;
+                margin-bottom: 0.875rem;
+            }
+
+            .message-avatar {
+                width: 32px;
+                height: 32px;
+                font-size: 0.8rem;
             }
 
             .message-content {
-                max-width: 85%;
+                max-width: calc(100% - 40px);
+            }
+
+            .message-bubble {
+                padding: 0.75rem 0.875rem;
+                border-radius: 12px;
+            }
+
+            .message-text {
+                font-size: 0.875rem;
             }
 
             .input-container {
-                padding: 12px 16px;
+                padding: 0.875rem 1rem;
+            }
+
+            .input-box {
+                padding: 0.625rem 0.875rem;
+                min-height: 40px;
+            }
+
+            .send-button {
+                width: 40px;
+                height: 40px;
+            }
+
+            .chat-header {
+                padding: 0.875rem 1rem;
+                min-height: 65px;
+            }
+
+            .upload-progress {
+                bottom: 1.5rem;
+                right: 1rem;
+                left: 1rem;
+                min-width: auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 90%;
+                max-width: 300px;
+            }
+
+            .messages-container {
+                padding: 0.875rem;
+            }
+
+            .message {
+                gap: 0.5rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .message-avatar {
+                width: 30px;
+                height: 30px;
+                font-size: 0.75rem;
+            }
+
+            .message-content {
+                max-width: calc(100% - 38px);
+            }
+
+            .message-bubble {
+                padding: 0.625rem 0.75rem;
+                border-radius: 10px;
+            }
+
+            .input-container {
+                padding: 0.75rem 0.875rem;
+            }
+
+            .input-box {
+                padding: 0.5rem 0.75rem;
+                min-height: 36px;
+            }
+
+            .send-button {
+                width: 36px;
+                height: 36px;
+            }
+
+            .chat-header {
+                padding: 0.75rem 0.875rem;
+                min-height: 60px;
+            }
+
+            .app-title {
+                font-size: 1.2rem;
+            }
+
+            .toast {
+                bottom: 1.5rem;
+                font-size: 0.85rem;
+                padding: 0.625rem 1.25rem;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-overlay {
+                display: none !important;
             }
         }
     </style>
 </head>
 <body>
+    <!-- ✅ Top Navigation -->
+    <header class="navbar">
+        <div class="nav-left">
+            <button class="hamburger" id="menuToggle">☰</button>
+            <span class="brand">Sharvika</span>
+        </div>
+        <div class="nav-right">
+            <!-- Navigation items can be added here if needed -->
+        </div>
+    </header>
+
+    <!-- ✅ Hamburger Slide Menu -->
+    <div class="side-menu" id="sideMenu">
+        <button class="close-btn" id="menuClose">×</button>
+        <ul>
+            <li>
+                <a href="#" onclick="closeSideMenu()">Art Gallery</a>
+                <div class="menu-subtitle">Community artwork</div>
+            </li>
+            <li>
+                <a href="mailto:teamsharvika.inbox@gmail.com">Email Support</a>
+                <div class="menu-subtitle">teamsharvika.inbox@gmail.com</div>
+            </li>
+        </ul>
+    </div>
+
+    <!-- ✅ Mobile Overlay -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
     <div class="app-container">
-        <div class="sidebar">
+        <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <div class="app-title">ART STUDIO</div>
+                <div class="app-title">Art Studio</div>
                 <div class="app-subtitle">Share Your Creativity</div>
             </div>
 
             <div class="sidebar-search">
-                <input type="text" class="search-input" placeholder="Search artists..." id="searchInput" oninput="searchArtists()">
+                <input type="text" class="search-input" placeholder="Search artists..." id="searchInput">
             </div>
 
             <div class="sidebar-menu">
@@ -716,10 +1086,10 @@
                 <div class="user-avatar" id="sidebarAvatar">U</div>
                 <div class="user-info">
                     <div class="user-name" id="sidebarName">User</div>
-                    <div class="user-status">online</div>
+                    <div class="user-status" id="userStatus">online</div>
                 </div>
                 <div class="logout-icon" onclick="logout()" title="Logout">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>
                     </svg>
                 </div>
@@ -771,12 +1141,10 @@
                             placeholder="Describe your artwork..."
                             rows="1"
                             maxlength="500"
-                            oninput="autoResize(this)"
-                            onkeydown="handleKeyPress(event)"
                         ></textarea>
                     </div>
                     <button class="send-button" id="sendBtn" onclick="sendMessage()">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
                         </svg>
                     </button>
@@ -785,6 +1153,7 @@
         </div>
     </div>
 
+    <!-- ✅ Username Modal -->
     <div class="modal-overlay" id="usernameModal">
         <div class="modal">
             <div class="modal-title">Choose Your Artist Name</div>
@@ -794,6 +1163,7 @@
         </div>
     </div>
 
+    <!-- ✅ Upload Progress -->
     <div class="upload-progress" id="uploadProgress">
         <div class="progress-text">Uploading artwork...</div>
         <div class="progress-bar">
@@ -801,10 +1171,12 @@
         </div>
     </div>
 
+    <!-- ✅ Lightbox -->
     <div class="lightbox" id="lightbox" onclick="closeLightbox()">
         <img id="lightboxImg" alt="Full size">
     </div>
 
+    <!-- ✅ Toast -->
     <div class="toast" id="toast"></div>
 
     <script type="module">
@@ -832,6 +1204,46 @@
         let userUsername = null;
         let allArtworks = [];
 
+        // ✅ HAMBURGER MENU LOGIC
+        const hamburger = document.getElementById("menuToggle");
+        const sideMenu = document.getElementById("sideMenu");
+        const closeBtn = document.getElementById("menuClose");
+        const mobileOverlay = document.getElementById("mobileOverlay");
+        const sidebar = document.getElementById("sidebar");
+
+        hamburger.addEventListener("click", () => {
+            if (window.innerWidth <= 768) {
+                sidebar.classList.toggle('show');
+                mobileOverlay.classList.toggle('show');
+            } else {
+                sideMenu.classList.add("open");
+            }
+        });
+
+        closeBtn.addEventListener("click", () => {
+            sideMenu.classList.remove("open");
+        });
+
+        mobileOverlay.addEventListener('click', () => {
+            sidebar.classList.remove('show');
+            mobileOverlay.classList.remove('show');
+        });
+
+        // ✅ CLICK OUTSIDE TO CLOSE MENU
+        document.addEventListener("click", function (event) {
+            if (
+                !sideMenu.contains(event.target) &&
+                !hamburger.contains(event.target)
+            ) {
+                sideMenu.classList.remove("open");
+            }
+        });
+
+        window.closeSideMenu = function() {
+            sideMenu.classList.remove("open");
+        };
+
+        // ✅ AUTHENTICATION
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
@@ -901,6 +1313,7 @@
             document.getElementById('sidebarName').textContent = username;
         }
 
+        // ✅ IMAGE HANDLING
         window.handleImageSelect = function(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -954,18 +1367,21 @@
             }
         }
 
-        window.autoResize = function(textarea) {
-            textarea.style.height = 'auto';
-            textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
-        };
+        // ✅ MESSAGE INPUT
+        const messageInput = document.getElementById('messageInput');
+        messageInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+        });
 
-        window.handleKeyPress = function(e) {
+        messageInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 sendMessage();
             }
-        };
+        });
 
+        // ✅ SEND MESSAGE
         window.sendMessage = async function() {
             const input = document.getElementById('messageInput');
             const text = input.value.trim();
@@ -986,7 +1402,6 @@
                     document.getElementById('uploadProgress').classList.remove('show');
                 }
 
-                // Get user's verification status
                 const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
                 const isVerified = userDoc.exists() ? userDoc.data().verified : false;
 
@@ -1001,8 +1416,8 @@
                 });
 
                 input.value = '';
+                input.style.height = 'auto';
                 clearImage();
-                autoResize(input);
                 sendBtn.disabled = false;
 
                 setTimeout(() => {
@@ -1019,6 +1434,7 @@
             }
         };
 
+        // ✅ LOAD MESSAGES
         function loadMessages() {
             const container = document.getElementById('messagesContainer');
             const q = query(collection(db, 'artworks'), orderBy('timestamp', 'desc'));
@@ -1026,15 +1442,15 @@
             onSnapshot(q, async (snapshot) => {
                 if (snapshot.empty) {
                     container.innerHTML = `
-                        <div class="loading">
-                            <div style="font-size: 48px; margin-bottom: 16px; opacity: 0.3;">
+                        <div class="empty-state">
+                            <div class="empty-icon">
                                 <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
                                     <circle cx="8.5" cy="8.5" r="1.5"/>
                                     <polyline points="21 15 16 10 5 21"/>
                                 </svg>
                             </div>
-                            <div>No artwork yet. Be the first to share!</div>
+                            <div style="font-size: 0.95rem; font-weight: 500;">No artwork yet. Be the first to share!</div>
                         </div>
                     `;
                     allArtworks = [];
@@ -1048,12 +1464,11 @@
                     const art = docSnap.data();
                     allArtworks.push(art);
                     
-                    // Check if user is blocked
                     const userDoc = await getDoc(doc(db, 'users', art.authorUID));
                     const isBlocked = userDoc.exists() ? userDoc.data().blocked : false;
                     
                     if (isBlocked && art.authorUID !== currentUser.uid) {
-                        continue; // Skip blocked users' posts
+                        continue;
                     }
                     
                     const timeAgo = art.timestamp ? formatTime(art.timestamp.toDate()) : 'now';
@@ -1073,11 +1488,11 @@
                             </div>
                             <div class="message-content">
                                 <div class="message-header">
-                                    <span class="message-author">${art.author}</span>
+                                    <span class="message-author">${escapeHtml(art.author)}</span>
                                     <span class="message-time">${timeAgo}</span>
                                 </div>
                                 <div class="message-bubble">
-                                    ${art.text ? `<div class="message-text">${art.text}</div>` : ''}
+                                    ${art.text ? `<div class="message-text">${escapeHtml(art.text)}</div>` : ''}
                                     ${art.imageUrl ? `
                                         <div class="message-image" onclick="openLightbox('${art.imageUrl}')">
                                             <img src="${art.imageUrl}" alt="Artwork" loading="lazy">
@@ -1093,8 +1508,10 @@
             });
         }
 
-        window.searchArtists = function() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        // ✅ SEARCH
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
             const messages = document.querySelectorAll('.message');
 
             messages.forEach(msg => {
@@ -1105,8 +1522,9 @@
                     msg.style.display = 'none';
                 }
             });
-        };
+        });
 
+        // ✅ LIGHTBOX
         window.openLightbox = function(imageUrl) {
             document.getElementById('lightboxImg').src = imageUrl;
             document.getElementById('lightbox').classList.add('show');
@@ -1115,6 +1533,13 @@
         window.closeLightbox = function() {
             document.getElementById('lightbox').classList.remove('show');
         };
+
+        // ✅ UTILITIES
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
 
         function formatTime(date) {
             const now = new Date();
@@ -1155,6 +1580,14 @@
                 }
             }
         };
+
+        // ✅ HANDLE WINDOW RESIZE
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                sidebar.classList.remove('show');
+                mobileOverlay.classList.remove('show');
+            }
+        });
     </script>
 </body>
 </html>
