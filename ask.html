@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Sharvika Community Studio</title>
+    <title>Community Hub - Sharvika</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
@@ -16,156 +16,139 @@
 
         body {
             font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #000000;
+            background: #0e0e0e;
             color: #ffffff;
             height: 100vh;
             overflow: hidden;
             -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
             -webkit-tap-highlight-color: transparent;
         }
 
         .app-container {
             display: grid;
-            grid-template-columns: 280px 1fr;
+            grid-template-columns: 320px 1fr;
             height: 100vh;
-            position: relative;
         }
 
         .sidebar {
-            background: #0a0a0a;
-            border-right: 1px solid #1a1a1a;
+            background: #1a1a1a;
+            border-right: 1px solid #2a2a2a;
             display: flex;
             flex-direction: column;
             height: 100vh;
             overflow: hidden;
-            position: relative;
         }
 
         .sidebar-header {
-            padding: 24px 20px;
-            border-bottom: 1px solid #1a1a1a;
+            padding: 20px;
+            border-bottom: 1px solid #2a2a2a;
             flex-shrink: 0;
         }
 
         .app-title {
-            font-size: 24px;
-            font-weight: 600;
+            font-size: 20px;
+            font-weight: 500;
             color: #ffffff;
             margin-bottom: 4px;
         }
 
         .app-subtitle {
-            font-size: 14px;
-            color: #666666;
+            font-size: 13px;
+            color: #8e8e93;
         }
 
         .sidebar-search {
-            padding: 16px 20px;
-            border-bottom: 1px solid #1a1a1a;
+            padding: 12px 16px;
+            border-bottom: 1px solid #2a2a2a;
             flex-shrink: 0;
         }
 
         .search-input {
             width: 100%;
             padding: 12px 16px;
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
-            border-radius: 8px;
+            background: #2a2a2a;
+            border: none;
+            border-radius: 20px;
             color: #ffffff;
-            font-size: 14px;
+            font-size: 16px;
             outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .search-input:focus {
-            border-color: #3a3a3a;
         }
 
         .search-input::placeholder {
-            color: #666666;
+            color: #6e6e73;
         }
 
         .sidebar-menu {
             flex: 1;
             overflow-y: auto;
             overflow-x: hidden;
-            padding-top: 8px;
+            -webkit-overflow-scrolling: touch;
         }
 
         .menu-item {
-            padding: 16px 20px;
-            border-bottom: 1px solid #1a1a1a;
+            padding: 18px 20px;
+            border-bottom: 1px solid #2a2a2a;
             cursor: pointer;
             transition: background 0.2s;
             position: relative;
-            min-height: 56px;
+            min-height: 60px;
             display: flex;
-            align-items: center;
-            touch-action: manipulation;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .menu-item:hover {
-            background: #1a1a1a;
+            background: #2a2a2a;
         }
 
         .menu-item.active {
-            background: #1a1a1a;
-            border-right: 3px solid #ffffff;
-        }
-
-        .menu-item-icon {
-            width: 20px;
-            height: 20px;
-            margin-right: 12px;
-            flex-shrink: 0;
-            opacity: 0.7;
-        }
-
-        .menu-item.active .menu-item-icon {
-            opacity: 1;
+            background: #2a2a2a;
         }
 
         .menu-item-title {
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 500;
             color: #ffffff;
-            flex: 1;
+            margin-bottom: 4px;
         }
 
         .menu-item-subtitle {
-            font-size: 12px;
-            color: #666666;
-            margin-top: 2px;
+            font-size: 14px;
+            color: #8e8e93;
         }
 
         .unread-badge {
             position: absolute;
-            top: 16px;
+            top: 50%;
             right: 20px;
-            background: #ff0000;
-            color: #ffffff;
-            min-width: 20px;
-            height: 20px;
-            border-radius: 10px;
+            transform: translateY(-50%);
+            background: #ffffff;
+            color: #000000;
+            min-width: 24px;
+            height: 24px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 600;
+            padding: 0 8px;
         }
 
         .sidebar-footer {
-            padding: 16px 20px;
-            border-top: 1px solid #1a1a1a;
+            padding: 18px 20px;
+            border-top: 1px solid #2a2a2a;
             display: flex;
             align-items: center;
             gap: 12px;
             flex-shrink: 0;
+            min-height: 70px;
         }
 
         .user-avatar {
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             background: #ffffff;
             color: #000000;
             border-radius: 50%;
@@ -173,7 +156,7 @@
             align-items: center;
             justify-content: center;
             font-weight: 600;
-            font-size: 16px;
+            font-size: 18px;
             flex-shrink: 0;
         }
 
@@ -183,7 +166,7 @@
         }
 
         .user-name {
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 500;
             color: #ffffff;
             white-space: nowrap;
@@ -192,8 +175,8 @@
         }
 
         .user-status {
-            font-size: 12px;
-            color: #666666;
+            font-size: 13px;
+            color: #8e8e93;
         }
 
         .logout-icon {
@@ -206,159 +189,105 @@
             cursor: pointer;
             transition: background 0.2s;
             flex-shrink: 0;
-            touch-action: manipulation;
         }
 
         .logout-icon:hover {
-            background: #1a1a1a;
+            background: #2a2a2a;
         }
 
-        .studio-container {
+        .chat-container {
             display: flex;
             flex-direction: column;
             height: 100vh;
-            background: #000000;
+            background: #0e0e0e;
             overflow: hidden;
         }
 
-        .studio-header {
-            padding: 20px 24px;
-            background: #0a0a0a;
-            border-bottom: 1px solid #1a1a1a;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            flex-shrink: 0;
-            min-height: 72px;
-        }
-
-        .header-avatar {
-            width: 40px;
-            height: 40px;
-            background: #ffffff;
-            color: #000000;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 16px;
-            flex-shrink: 0;
-        }
-
-        .header-info {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .header-title {
-            font-size: 20px;
-            font-weight: 500;
-            color: #ffffff;
-            margin-bottom: 2px;
-        }
-
-        .header-subtitle {
-            font-size: 14px;
-            color: #666666;
-        }
-
-        .main-content {
-            flex: 1;
-            overflow-y: auto;
-            overflow-x: hidden;
-            padding: 24px;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 32px;
-        }
-
-        .stat-card {
-            background: #0a0a0a;
-            border: 1px solid #1a1a1a;
-            border-radius: 12px;
-            padding: 24px;
-            transition: border-color 0.2s;
-        }
-
-        .stat-card:hover {
-            border-color: #2a2a2a;
-        }
-
-        .stat-value {
-            font-size: 32px;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 8px;
-        }
-
-        .stat-label {
-            font-size: 14px;
-            color: #666666;
-        }
-
-        .comments-section {
-            background: #0a0a0a;
-            border: 1px solid #1a1a1a;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .section-header {
-            padding: 20px 24px;
+        .chat-header {
+            padding: 18px 24px;
             background: #1a1a1a;
             border-bottom: 1px solid #2a2a2a;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            gap: 12px;
+            flex-shrink: 0;
+            min-height: 72px;
         }
 
-        .section-title {
+        .chat-avatar {
+            width: 44px;
+            height: 44px;
+            background: #ffffff;
+            color: #000000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
             font-size: 18px;
+        }
+
+        .chat-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .chat-title {
+            font-size: 16px;
             font-weight: 500;
             color: #ffffff;
         }
 
-        .section-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .btn {
-            padding: 8px 16px;
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
-            border-radius: 6px;
-            color: #ffffff;
+        .chat-subtitle {
             font-size: 14px;
-            cursor: pointer;
-            transition: background 0.2s;
-            touch-action: manipulation;
+            color: #8e8e93;
         }
 
-        .btn:hover {
-            background: #2a2a2a;
-        }
-
-        .comments-list {
-            max-height: 400px;
+        .messages-container {
+            flex: 1;
             overflow-y: auto;
-        }
-
-        .comment-item {
+            overflow-x: hidden;
             padding: 20px 24px;
-            border-bottom: 1px solid #1a1a1a;
             display: flex;
-            gap: 16px;
-            align-items: flex-start;
+            flex-direction: column;
+            gap: 8px;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
         }
 
-        .comment-avatar {
+        .messages-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .messages-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .messages-container::-webkit-scrollbar-thumb {
+            background: #2a2a2a;
+            border-radius: 3px;
+        }
+
+        .message {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+            animation: messageSlideIn 0.2s ease-out;
+            max-width: 100%;
+        }
+
+        @keyframes messageSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message-avatar {
             width: 40px;
             height: 40px;
             background: #ffffff;
@@ -370,75 +299,105 @@
             font-weight: 600;
             font-size: 16px;
             flex-shrink: 0;
+            align-self: flex-start;
         }
 
-        .comment-content {
+        .message-content {
             flex: 1;
+            max-width: calc(100% - 52px);
             min-width: 0;
         }
 
-        .comment-header {
+        .message-header {
             display: flex;
-            align-items: center;
+            align-items: baseline;
             gap: 8px;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
+            flex-wrap: wrap;
         }
 
-        .comment-author {
-            font-size: 14px;
+        .message-author {
+            font-size: 15px;
             font-weight: 500;
             color: #ffffff;
         }
 
-        .comment-time {
-            font-size: 12px;
-            color: #666666;
+        .message-time {
+            font-size: 13px;
+            color: #6e6e73;
         }
 
-        .comment-text {
-            font-size: 14px;
+        .message-bubble {
+            background: #1a1a1a;
+            padding: 14px 18px;
+            border-radius: 12px;
+            border-top-left-radius: 4px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            max-width: 100%;
+        }
+
+        .message-bubble.highlighted {
+            background: #2a2a2a;
+            border-left: 3px solid #ffffff;
+        }
+
+        .message-bubble.announcement {
+            background: #2a2a2a;
+            border-left: 3px solid #ffffff;
+        }
+
+        .message-text {
+            font-size: 15px;
             line-height: 1.5;
             color: #ffffff;
             word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: pre-wrap;
         }
 
-        .analytics-chart {
-            background: #0a0a0a;
-            border: 1px solid #1a1a1a;
-            border-radius: 12px;
-            padding: 24px;
-            height: 300px;
+        .admin-reply {
+            background: #2a2a2a;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-top: 10px;
+            border-left: 2px solid #6e6e73;
+        }
+
+        .reply-label {
+            font-size: 12px;
+            color: #6e6e73;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .reply-text {
+            font-size: 14px;
+            color: #ffffff;
+            line-height: 1.4;
+        }
+
+        .message-footer {
+            margin-top: 10px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            color: #666666;
-            font-size: 16px;
+            gap: 12px;
         }
 
-        .moderation-list {
-            background: #0a0a0a;
-            border: 1px solid #1a1a1a;
+        .highlight-badge {
+            background: #ffffff;
+            color: #000000;
+            padding: 4px 10px;
             border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .moderation-item {
-            padding: 20px 24px;
-            border-bottom: 1px solid #1a1a1a;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .moderation-actions {
-            display: flex;
-            gap: 8px;
+            font-size: 11px;
+            font-weight: 600;
         }
 
         .input-container {
-            padding: 20px 24px;
-            background: #0a0a0a;
-            border-top: 1px solid #1a1a1a;
+            padding: 18px 24px;
+            background: #1a1a1a;
+            border-top: 1px solid #2a2a2a;
             flex-shrink: 0;
         }
 
@@ -446,19 +405,17 @@
             display: flex;
             gap: 12px;
             align-items: flex-end;
-            width: 100%;
         }
 
         .input-box {
             flex: 1;
-            background: #1a1a1a;
-            border-radius: 8px;
-            padding: 16px 20px;
+            background: #2a2a2a;
+            border-radius: 24px;
+            padding: 14px 20px;
             display: flex;
             align-items: center;
             gap: 12px;
-            border: 1px solid #2a2a2a;
-            min-height: 48px;
+            min-height: 52px;
         }
 
         .message-input {
@@ -466,72 +423,89 @@
             background: transparent;
             border: none;
             color: #ffffff;
-            font-size: 14px;
+            font-size: 16px;
             outline: none;
             resize: none;
             max-height: 120px;
             font-family: inherit;
-            min-height: 20px;
-            line-height: 1.4;
+            min-height: 22px;
         }
 
         .message-input::placeholder {
-            color: #666666;
+            color: #6e6e73;
         }
 
         .char-counter {
-            font-size: 11px;
-            color: #666666;
+            font-size: 12px;
+            color: #6e6e73;
             white-space: nowrap;
             flex-shrink: 0;
         }
 
         .send-button {
-            width: 48px;
-            height: 48px;
+            width: 52px;
+            height: 52px;
             background: #ffffff;
             color: #000000;
             border: none;
-            border-radius: 8px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: all 0.2s;
             flex-shrink: 0;
-            touch-action: manipulation;
-            min-height: 44px;
-            min-width: 44px;
         }
 
-        .send-button:hover:not(:disabled) {
-            background: #e0e0e0;
+        .send-button:hover {
+            transform: scale(1.05);
+        }
+
+        .send-button:active {
+            transform: scale(0.95);
         }
 
         .send-button:disabled {
-            background: #1a1a1a;
-            color: #666666;
+            background: #2a2a2a;
+            color: #6e6e73;
             cursor: not-allowed;
+            transform: none;
         }
 
         .loading {
             text-align: center;
-            padding: 60px 20px;
-            color: #666666;
+            padding: 40px 20px;
+            color: #6e6e73;
         }
 
         .loading-spinner {
             width: 32px;
             height: 32px;
-            border: 3px solid #1a1a1a;
+            border: 3px solid #2a2a2a;
             border-top-color: #ffffff;
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 0 auto 16px;
+            margin: 0 auto 12px;
         }
 
         @keyframes spin {
             to { transform: rotate(360deg); }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: #6e6e73;
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .empty-text {
+            font-size: 15px;
         }
 
         .toast {
@@ -541,9 +515,9 @@
             transform: translateX(-50%) translateY(100px);
             background: #ffffff;
             color: #000000;
-            padding: 12px 24px;
-            border-radius: 6px;
-            font-size: 14px;
+            padding: 14px 24px;
+            border-radius: 24px;
+            font-size: 15px;
             font-weight: 500;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
             z-index: 1000;
@@ -562,16 +536,15 @@
             top: 20px;
             left: 20px;
             z-index: 1001;
-            background: #0a0a0a;
-            border: 1px solid #1a1a1a;
-            border-radius: 8px;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 10px;
             padding: 12px;
             cursor: pointer;
-            width: 48px;
-            height: 48px;
+            width: 52px;
+            height: 52px;
             align-items: center;
             justify-content: center;
-            touch-action: manipulation;
         }
 
         .mobile-overlay {
@@ -589,21 +562,21 @@
             display: block;
         }
 
-        .sidebar-menu::-webkit-scrollbar,
-        .main-content::-webkit-scrollbar,
-        .comments-list::-webkit-scrollbar {
+        .sidebar-menu::-webkit-scrollbar {
             width: 6px;
         }
 
-        .sidebar-menu::-webkit-scrollbar-thumb,
-        .main-content::-webkit-scrollbar-thumb,
-        .comments-list::-webkit-scrollbar-thumb {
-            background: #1a1a1a;
+        .sidebar-menu::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .sidebar-menu::-webkit-scrollbar-thumb {
+            background: #2a2a2a;
             border-radius: 3px;
         }
 
         /* Mobile Optimizations */
-        @media (max-width: 900px) {
+        @media (max-width: 768px) {
             .app-container {
                 grid-template-columns: 1fr;
             }
@@ -612,11 +585,11 @@
                 position: fixed;
                 left: -100%;
                 top: 0;
-                width: 280px;
-                max-width: 85vw;
+                width: 300px;
                 height: 100vh;
                 transition: left 0.3s ease;
                 z-index: 1000;
+                box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
             }
 
             .sidebar.show {
@@ -627,242 +600,183 @@
                 display: flex;
             }
 
-            .studio-header {
-                padding-left: 80px;
-                padding-top: 20px;
-                padding-bottom: 20px;
-            }
-
-            .studio-container {
-                position: relative;
-            }
-
-            .main-content {
-                padding: 16px;
-            }
-
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-                gap: 16px;
-            }
-
-            .comments-section,
-            .moderation-list {
-                margin-bottom: 16px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .app-title {
-                font-size: 20px;
-            }
-
-            .app-subtitle {
-                font-size: 13px;
-            }
-
-            .sidebar-header {
-                padding: 16px 20px;
-            }
-
-            .sidebar-search {
-                padding: 12px 16px;
-            }
-
-            .search-input {
-                padding: 12px 16px;
-                font-size: 16px;
-            }
-
-            .menu-item {
+            .messages-container {
                 padding: 16px 16px;
-                min-height: 56px;
             }
 
-            .menu-item-title {
-                font-size: 16px;
+            .message {
+                gap: 10px;
+                margin-bottom: 14px;
             }
 
-            .menu-item-subtitle {
-                font-size: 13px;
-            }
-
-            .unread-badge {
-                right: 16px;
-                min-width: 22px;
-                height: 22px;
-                font-size: 12px;
-            }
-
-            .studio-header {
-                min-height: 68px;
-                gap: 12px;
-                padding: 16px 20px 16px 72px;
-            }
-
-            .header-avatar {
+            .message-avatar {
                 width: 36px;
                 height: 36px;
                 font-size: 14px;
             }
 
-            .header-title {
-                font-size: 18px;
+            .message-content {
+                max-width: calc(100% - 46px);
             }
 
-            .header-subtitle {
-                font-size: 13px;
-            }
-
-            .main-content {
-                padding: 12px 16px;
-            }
-
-            .stat-card {
-                padding: 20px;
-            }
-
-            .stat-value {
-                font-size: 28px;
-            }
-
-            .section-header {
-                padding: 16px 20px;
-            }
-
-            .section-title {
-                font-size: 16px;
-            }
-
-            .comment-item {
-                padding: 16px 20px;
-                gap: 12px;
-            }
-
-            .comment-avatar {
-                width: 32px;
-                height: 32px;
+            .message-text {
                 font-size: 14px;
             }
 
-            .input-container {
-                padding: 16px 20px;
+            .message-author {
+                font-size: 14px;
             }
 
-            .input-wrapper {
-                gap: 8px;
+            .message-time {
+                font-size: 12px;
+            }
+
+            .input-container {
+                padding: 14px 16px;
             }
 
             .input-box {
-                padding: 12px 16px;
-                gap: 8px;
-                min-height: 50px;
+                padding: 12px 18px;
+                min-height: 48px;
             }
 
             .message-input {
                 font-size: 16px;
-                min-height: 22px;
             }
 
             .send-button {
-                width: 44px;
-                height: 44px;
+                width: 48px;
+                height: 48px;
             }
 
-            .analytics-chart {
-                height: 250px;
-                padding: 20px;
-                font-size: 14px;
+            .chat-header {
+                padding: 14px 16px 14px 88px;
+                min-height: 68px;
+            }
+
+            .chat-avatar {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+
+            .chat-title {
+                font-size: 15px;
+            }
+
+            .chat-subtitle {
+                font-size: 13px;
             }
         }
 
         @media (max-width: 480px) {
             .sidebar {
-                width: 260px;
-                max-width: 95vw;
+                width: 280px;
+                max-width: 85vw;
+            }
+
+            .messages-container {
+                padding: 12px 14px;
+            }
+
+            .message {
+                gap: 8px;
+                margin-bottom: 12px;
+            }
+
+            .message-avatar {
+                width: 32px;
+                height: 32px;
+                font-size: 13px;
+            }
+
+            .message-content {
+                max-width: calc(100% - 40px);
+            }
+
+            .message-bubble {
+                padding: 12px 16px;
+            }
+
+            .message-text {
+                font-size: 14px;
+            }
+
+            .input-container {
+                padding: 12px 14px;
+            }
+
+            .input-box {
+                padding: 10px 16px;
+                min-height: 44px;
+            }
+
+            .send-button {
+                width: 44px;
+                height: 44px;
+            }
+
+            .chat-header {
+                padding: 12px 14px 12px 80px;
+                min-height: 64px;
+            }
+
+            .app-title {
+                font-size: 18px;
             }
 
             .mobile-menu-toggle {
                 top: 16px;
                 left: 16px;
-                width: 44px;
-                height: 44px;
+                width: 48px;
+                height: 48px;
             }
 
-            .studio-header {
-                padding: 12px 16px 12px 64px;
-                min-height: 64px;
-            }
-
-            .main-content {
-                padding: 8px 12px;
-            }
-
-            .dashboard-grid {
-                gap: 12px;
-            }
-
-            .stat-card {
-                padding: 16px;
-            }
-
-            .stat-value {
-                font-size: 24px;
-            }
-
-            .comment-item {
-                padding: 12px 16px;
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 8px;
-            }
-
-            .comment-header {
-                width: 100%;
-                justify-content: space-between;
-            }
-
-            .input-container {
-                padding: 12px 16px;
-            }
-
-            .input-wrapper {
-                gap: 6px;
-            }
-
-            .input-box {
-                padding: 10px 12px;
-                gap: 6px;
-                min-height: 48px;
-            }
-
-            .send-button {
-                width: 42px;
-                height: 42px;
-            }
-
-            .loading {
-                padding: 40px 12px;
-            }
-
-            .loading-spinner {
-                width: 28px;
-                height: 28px;
+            .toast {
+                bottom: 20px;
+                font-size: 14px;
+                padding: 12px 20px;
             }
         }
 
-        /* Extra small screens */
         @media (max-width: 360px) {
-            .studio-header {
-                padding-left: 60px;
+            .sidebar {
+                width: 260px;
+                max-width: 88vw;
             }
 
-            .input-box {
-                padding: 8px 10px;
+            .messages-container {
+                padding: 10px 12px;
             }
 
-            .comment-item {
-                padding: 8px 12px;
+            .input-container {
+                padding: 10px 12px;
+            }
+
+            .chat-header {
+                padding: 10px 12px 10px 76px;
+            }
+        }
+
+        /* Focus states for accessibility */
+        .menu-item:focus,
+        .send-button:focus,
+        .logout-icon:focus,
+        .mobile-menu-toggle:focus {
+            outline: 2px solid #ffffff;
+            outline-offset: 2px;
+        }
+
+        .search-input:focus,
+        .message-input:focus {
+            outline: none;
+        }
+
+        /* Prevent zoom on input focus on mobile */
+        @media screen and (max-width: 767px) {
+            .message-input,
+            .search-input {
+                font-size: 16px !important;
             }
         }
     </style>
@@ -882,82 +796,36 @@
         <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="app-title">SHARVIKA</div>
-                <div class="app-subtitle">Community Studio</div>
+                <div class="app-subtitle">Community Hub</div>
             </div>
 
             <div class="sidebar-search">
-                <input type="text" class="search-input" placeholder="Search..." id="searchInput">
+                <input type="text" class="search-input" placeholder="Search messages..." id="searchInput">
             </div>
 
             <div class="sidebar-menu">
-                <div class="menu-item active" data-section="dashboard">
-                    <svg class="menu-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                    </svg>
-                    <div>
-                        <div class="menu-item-title">Dashboard</div>
-                        <div class="menu-item-subtitle">Overview & stats</div>
-                    </div>
+                <div class="menu-item active" onclick="switchChannel('community')">
+                    <div class="menu-item-title">Community Chat</div>
+                    <div class="menu-item-subtitle">Public discussion</div>
                 </div>
-                <div class="menu-item" data-section="comments">
-                    <svg class="menu-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                    </svg>
-                    <div>
-                        <div class="menu-item-title">Comments</div>
-                        <div class="menu-item-subtitle">Manage discussions</div>
-                    </div>
-                    <span class="unread-badge" id="commentsBadge" style="display: none;">3</span>
-                </div>
-                <div class="menu-item" data-section="analytics">
-                    <svg class="menu-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-                    </svg>
-                    <div>
-                        <div class="menu-item-title">Analytics</div>
-                        <div class="menu-item-subtitle">Insights & trends</div>
-                    </div>
-                </div>
-                <div class="menu-item" data-section="moderation">
-                    <svg class="menu-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="15" y1="9" x2="9" y2="15"></line>
-                        <line x1="9" y1="9" x2="15" y2="15"></line>
-                    </svg>
-                    <div>
-                        <div class="menu-item-title">Moderation</div>
-                        <div class="menu-item-subtitle">Review & actions</div>
-                    </div>
-                </div>
-                <div class="menu-item" onclick="openCallSupport()">
-                    <svg class="menu-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                    </svg>
-                    <div>
-                        <div class="menu-item-title">Call Support</div>
-                        <div class="menu-item-subtitle">Live assistance</div>
-                    </div>
+                <div class="menu-item" onclick="switchChannel('announcements')">
+                    <div class="menu-item-title">Announcements</div>
+                    <div class="menu-item-subtitle">Official updates</div>
+                    <span class="unread-badge" id="announcementBadge" style="display: none;">0</span>
                 </div>
                 <div class="menu-item" onclick="openSupport()">
-                    <svg class="menu-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                        <polyline points="22,6 12,13 2,6"></polyline>
-                    </svg>
-                    <div>
-                        <div class="menu-item-title">Email Support</div>
-                        <div class="menu-item-subtitle">Contact team</div>
-                    </div>
+                    <div class="menu-item-title">Support</div>
+                    <div class="menu-item-subtitle">teamsharvika.inbox@gmail.com</div>
                 </div>
             </div>
 
             <div class="sidebar-footer">
                 <div class="user-avatar" id="sidebarAvatar">U</div>
                 <div class="user-info">
-                    <div class="user-name" id="sidebarName">Studio Admin</div>
-                    <div class="user-status" id="userStatus">Online</div>
+                    <div class="user-name" id="sidebarName">User</div>
+                    <div class="user-status">online</div>
                 </div>
-                <div class="logout-icon" onclick="logout()">
+                <div class="logout-icon" onclick="logout()" title="Logout">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>
                     </svg>
@@ -965,134 +833,39 @@
             </div>
         </div>
 
-        <div class="studio-container">
-            <div class="studio-header">
-                <div class="header-avatar" id="headerAvatar">D</div>
-                <div class="header-info">
-                    <div class="header-title" id="headerTitle">Dashboard</div>
-                    <div class="header-subtitle" id="headerSubtitle">Welcome to Sharvika Community Studio</div>
+        <div class="chat-container">
+            <div class="chat-header">
+                <div class="chat-avatar" id="chatAvatar">C</div>
+                <div class="chat-info">
+                    <div class="chat-title" id="chatTitle">Community Chat</div>
+                    <div class="chat-subtitle" id="chatSubtitle">Public discussion</div>
                 </div>
             </div>
 
-            <div class="main-content" id="mainContent">
-                <!-- Dashboard View -->
-                <div id="dashboardView" class="section">
-                    <div class="dashboard-grid">
-                        <div class="stat-card">
-                            <div class="stat-value">1,247</div>
-                            <div class="stat-label">Total Comments</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value">456</div>
-                            <div class="stat-label">Active Users</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value">89%</div>
-                            <div class="stat-label">Engagement Rate</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value">12</div>
-                            <div class="stat-label">Pending Moderations</div>
-                        </div>
-                    </div>
-                    <div class="comments-section">
-                        <div class="section-header">
-                            <div class="section-title">Recent Activity</div>
-                            <div class="section-actions">
-                                <button class="btn">View All</button>
-                            </div>
-                        </div>
-                        <div class="comments-list" id="recentActivity">
-                            <div class="loading">
-                                <div class="loading-spinner"></div>
-                                <div>Loading recent activity...</div>
-                            </div>
-                        </div>
-                    </div>
+            <div class="messages-container" id="messagesContainer">
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <div>Loading messages...</div>
                 </div>
+            </div>
 
-                <!-- Comments View -->
-                <div id="commentsView" class="section" style="display: none;">
-                    <div class="comments-section">
-                        <div class="section-header">
-                            <div class="section-title">Community Comments</div>
-                            <div class="section-actions">
-                                <button class="btn" onclick="replyToComment()">Reply</button>
-                                <button class="btn">Moderate</button>
-                            </div>
-                        </div>
-                        <div class="comments-list" id="commentsList">
-                            <div class="loading">
-                                <div class="loading-spinner"></div>
-                                <div>Loading comments...</div>
-                            </div>
-                        </div>
+            <div class="input-container" id="inputContainer">
+                <div class="input-wrapper">
+                    <div class="input-box">
+                        <textarea 
+                            class="message-input" 
+                            id="messageInput" 
+                            placeholder="Write a message..."
+                            rows="1"
+                            maxlength="1000"
+                        ></textarea>
+                        <span class="char-counter" id="charCounter">0/1000</span>
                     </div>
-                    <div id="restrictionBanner"></div>
-                    <div class="input-container" id="inputContainer">
-                        <div class="input-wrapper">
-                            <div class="input-box">
-                                <textarea 
-                                    class="message-input" 
-                                    id="messageInput" 
-                                    placeholder="Reply to comment or post update..."
-                                    rows="1"
-                                    maxlength="1000"
-                                ></textarea>
-                                <span class="char-counter" id="charCounter">0/1000</span>
-                            </div>
-                            <button class="send-button" id="sendBtn" onclick="sendMessage()">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Analytics View -->
-                <div id="analyticsView" class="section" style="display: none;">
-                    <div class="analytics-chart">
-                        Analytics chart placeholder - Engagement over time
-                    </div>
-                    <div style="margin-top: 24px; font-size: 14px; color: #666666;">
-                        Detailed analytics coming soon. Track user engagement, comment trends, and more.
-                    </div>
-                </div>
-
-                <!-- Moderation View -->
-                <div id="moderationView" class="section" style="display: none;">
-                    <div class="moderation-list">
-                        <div class="section-header">
-                            <div class="section-title">Flagged Content</div>
-                            <div class="section-actions">
-                                <button class="btn">Review All</button>
-                            </div>
-                        </div>
-                        <div class="comments-list">
-                            <div class="moderation-item">
-                                <div>
-                                    <div class="comment-author">User123 - Spam detected</div>
-                                    <div class="comment-text">Suspicious link in comment</div>
-                                </div>
-                                <div class="moderation-actions">
-                                    <button class="btn">Approve</button>
-                                    <button class="btn">Delete</button>
-                                </div>
-                            </div>
-                            <div class="moderation-item">
-                                <div>
-                                    <div class="comment-author">Anon456 - Inappropriate</div>
-                                    <div class="comment-text">Violates guidelines</div>
-                                </div>
-                                <div class="moderation-actions">
-                                    <button class="btn">Approve</button>
-                                    <button class="btn">Delete</button>
-                                </div>
-                            </div>
-                            <!-- More items can be loaded dynamically -->
-                        </div>
-                    </div>
+                    <button class="send-button" id="sendBtn" onclick="sendMessage()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                        </svg>
+                    </button>
                 </div>
             </div>
         </div>
@@ -1105,27 +878,47 @@
         window.addEventListener('firebaseReady', initializePage);
 
         let currentUser = null;
-        let currentSection = 'dashboard';
+        let currentChannel = 'community';
         let messagesUnsubscribe = null;
 
         function initializePage() {
+            console.log('✅ Initializing community hub...');
+
             auth.onAuthStateChanged((user) => {
                 if (user) {
                     currentUser = user;
                     const name = user.displayName || user.email.split('@')[0];
-                    document.getElementById('sidebarAvatar').textContent = name.charAt(0).toUpperCase();
+                    const initial = name.charAt(0).toUpperCase();
+                    
+                    document.getElementById('sidebarAvatar').textContent = initial;
                     document.getElementById('sidebarName').textContent = name;
-                    loadDashboard();
+                    
+                    loadMessages();
                 } else {
                     window.location.href = 'signin.html';
                 }
             });
 
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                const messages = document.querySelectorAll('.message');
+                
+                messages.forEach(msg => {
+                    const textEl = msg.querySelector('.message-text');
+                    const authorEl = msg.querySelector('.message-author');
+                    if (textEl && authorEl) {
+                        const text = textEl.textContent.toLowerCase();
+                        const author = authorEl.textContent.toLowerCase();
+                        msg.style.display = (text.includes(searchTerm) || author.includes(searchTerm)) ? 'flex' : 'none';
+                    }
+                });
+            });
+
             const messageInput = document.getElementById('messageInput');
             messageInput.addEventListener('input', function() {
-                this.style.height = 'auto';
-                this.style.height = Math.min(this.scrollHeight, 120) + 'px';
-                document.getElementById('charCounter').textContent = `${this.value.length}/1000`;
+                autoResize(this);
+                updateCharCount();
             });
 
             messageInput.addEventListener('keydown', function(e) {
@@ -1133,14 +926,6 @@
                     e.preventDefault();
                     sendMessage();
                 }
-            });
-
-            // Attach event listeners to menu items
-            document.querySelectorAll('.menu-item[data-section]').forEach(item => {
-                item.addEventListener('click', (e) => {
-                    const section = e.currentTarget.dataset.section;
-                    switchSection(section);
-                });
             });
         }
 
@@ -1151,54 +936,60 @@
             overlay.classList.toggle('show');
         };
 
-        window.switchSection = function(section) {
-            currentSection = section;
-            if (window.innerWidth <= 900) toggleSidebar();
-
-            // Update active state
+        window.switchChannel = function(channel) {
+            currentChannel = channel;
+            
+            if (window.innerWidth <= 768) {
+                toggleSidebar();
+            }
+            
             document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
-            const activeItem = document.querySelector(`[data-section="${section}"]`);
-            if (activeItem) activeItem.classList.add('active');
+            event.currentTarget.classList.add('active');
 
-            // Update header
-            const headers = {
-                dashboard: { avatar: 'D', title: 'Dashboard', subtitle: 'Welcome to Sharvika Community Studio' },
-                comments: { avatar: 'C', title: 'Comments', subtitle: 'Manage community discussions' },
-                analytics: { avatar: 'A', title: 'Analytics', subtitle: 'View insights and trends' },
-                moderation: { avatar: 'M', title: 'Moderation', subtitle: 'Review flagged content' }
-            };
-            const header = headers[section] || headers.dashboard;
-            document.getElementById('headerAvatar').textContent = header.avatar;
-            document.getElementById('headerTitle').textContent = header.title;
-            document.getElementById('headerSubtitle').textContent = header.subtitle;
+            if (channel === 'community') {
+                document.getElementById('chatAvatar').textContent = 'C';
+                document.getElementById('chatTitle').textContent = 'Community Chat';
+                document.getElementById('chatSubtitle').textContent = 'Public discussion';
+                document.getElementById('inputContainer').style.display = 'block';
+            } else if (channel === 'announcements') {
+                document.getElementById('chatAvatar').textContent = 'A';
+                document.getElementById('chatTitle').textContent = 'Announcements';
+                document.getElementById('chatSubtitle').textContent = 'Official updates from team';
+                document.getElementById('inputContainer').style.display = 'none';
+            }
 
-            // Show/hide sections
-            document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
-            document.getElementById(`${section}View`).style.display = 'block';
-
-            // Load section data
-            if (section === 'dashboard') loadDashboard();
-            else if (section === 'comments') loadComments();
-            else if (section === 'analytics') loadAnalytics();
-            else if (section === 'moderation') loadModeration();
-        };
-
-        window.openCallSupport = function() {
-            if (window.innerWidth <= 900) toggleSidebar();
-            window.location.href = 'support.html';
+            loadMessages();
         };
 
         window.openSupport = function() {
-            if (window.innerWidth <= 900) toggleSidebar();
             window.location.href = 'mailto:teamsharvika.inbox@gmail.com';
         };
 
+        function autoResize(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
+        }
+
+        function updateCharCount() {
+            const input = document.getElementById('messageInput');
+            const counter = document.getElementById('charCounter');
+            counter.textContent = `${input.value.length}/1000`;
+        }
+
         window.sendMessage = async function() {
-            if (currentSection !== 'comments' || !currentUser) return;
+            if (currentChannel !== 'community') return;
+            if (!currentUser) {
+                showToast('Please sign in to send messages');
+                return;
+            }
 
             const input = document.getElementById('messageInput');
             const text = input.value.trim();
+            const sendBtn = document.getElementById('sendBtn');
+
             if (!text) return;
+
+            sendBtn.disabled = true;
 
             try {
                 await db.collection('communityComments').add({
@@ -1207,66 +998,52 @@
                     authorEmail: currentUser.email,
                     authorUID: currentUser.uid,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                    channel: 'community',
-                    type: 'admin-reply'
+                    highlighted: false,
+                    adminReply: null,
+                    channel: 'community'
                 });
 
                 input.value = '';
-                input.style.height = 'auto';
-                document.getElementById('charCounter').textContent = '0/1000';
+                updateCharCount();
+                autoResize(input);
+                sendBtn.disabled = false;
+
+                const container = document.getElementById('messagesContainer');
+                setTimeout(() => {
+                    container.scrollTop = container.scrollHeight;
+                }, 100);
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Error sending message:', error);
+                showToast('Error sending message');
+                sendBtn.disabled = false;
             }
         };
 
-        function loadDashboard() {
-            const container = document.getElementById('recentActivity');
-            // Simulate recent activity with comments
-            db.collection('communityComments')
-                .orderBy('timestamp', 'desc')
-                .limit(5)
-                .onSnapshot((snapshot) => {
-                    if (snapshot.empty) {
-                        container.innerHTML = '<div class="loading">No recent activity</div>';
-                        return;
-                    }
-
-                    let html = '';
-                    snapshot.forEach((doc) => {
-                        const msg = doc.data();
-                        const timeAgo = msg.timestamp ? formatTime(msg.timestamp.toDate()) : 'now';
-                        const initial = msg.author ? msg.author.charAt(0).toUpperCase() : '?';
-
-                        html += `
-                            <div class="comment-item">
-                                <div class="comment-avatar">${initial}</div>
-                                <div class="comment-content">
-                                    <div class="comment-header">
-                                        <span class="comment-author">${escapeHtml(msg.author || 'Anonymous')}</span>
-                                        <span class="comment-time">${timeAgo}</span>
-                                    </div>
-                                    <div class="comment-text">${escapeHtml(msg.text)}</div>
-                                </div>
-                            </div>
-                        `;
-                    });
-
-                    container.innerHTML = html;
-                });
-        }
-
-        function loadComments() {
-            const container = document.getElementById('commentsList');
-            const collectionName = 'communityComments';
+        function loadMessages() {
+            const container = document.getElementById('messagesContainer');
+            const collectionName = currentChannel === 'community' ? 'communityComments' : 'announcements';
             
-            if (messagesUnsubscribe) messagesUnsubscribe();
+            if (messagesUnsubscribe) {
+                messagesUnsubscribe();
+            }
+
+            container.innerHTML = `
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <div>Loading messages...</div>
+                </div>
+            `;
 
             messagesUnsubscribe = db.collection(collectionName)
                 .orderBy('timestamp', 'asc')
-                .limit(50)
                 .onSnapshot((snapshot) => {
                     if (snapshot.empty) {
-                        container.innerHTML = '<div class="loading">No comments yet</div>';
+                        container.innerHTML = `
+                            <div class="empty-state">
+                                <div class="empty-icon">💬</div>
+                                <div class="empty-text">No messages yet${currentChannel === 'announcements' ? '. Waiting for team updates...' : '. Start the conversation!'}</div>
+                            </div>
+                        `;
                         return;
                     }
 
@@ -1277,18 +1054,25 @@
                         const initial = msg.author ? msg.author.charAt(0).toUpperCase() : '?';
 
                         html += `
-                            <div class="comment-item">
-                                <div class="comment-avatar">${initial}</div>
-                                <div class="comment-content">
-                                    <div class="comment-header">
-                                        <span class="comment-author">${escapeHtml(msg.author || 'Anonymous')}</span>
-                                        <span class="comment-time">${timeAgo}</span>
+                            <div class="message">
+                                <div class="message-avatar">${initial}</div>
+                                <div class="message-content">
+                                    <div class="message-header">
+                                        <span class="message-author">${escapeHtml(msg.author || 'Anonymous')}</span>
+                                        <span class="message-time">${timeAgo}</span>
                                     </div>
-                                    <div class="comment-text">${escapeHtml(msg.text)}</div>
-                                    ${msg.adminReply ? `
-                                        <div style="margin-top: 12px; padding: 8px 12px; background: #1a1a1a; border-radius: 6px; border-left: 3px solid #ffffff;">
-                                            <div style="font-size: 12px; color: #666; margin-bottom: 4px;">Team Reply</div>
-                                            <div style="font-size: 13px;">${escapeHtml(msg.adminReply)}</div>
+                                    <div class="message-bubble ${msg.highlighted ? 'highlighted' : ''} ${currentChannel === 'announcements' ? 'announcement' : ''}">
+                                        <div class="message-text">${escapeHtml(msg.text)}</div>
+                                        ${msg.adminReply ? `
+                                            <div class="admin-reply">
+                                                <div class="reply-label">Team Response</div>
+                                                <div class="reply-text">${escapeHtml(msg.adminReply)}</div>
+                                            </div>
+                                        ` : ''}
+                                    </div>
+                                    ${msg.highlighted ? `
+                                        <div class="message-footer">
+                                            <span class="highlight-badge">Highlighted</span>
                                         </div>
                                     ` : ''}
                                 </div>
@@ -1297,23 +1081,20 @@
                     });
 
                     container.innerHTML = html;
-                    setTimeout(() => container.scrollTop = container.scrollHeight, 100);
+
+                    setTimeout(() => {
+                        container.scrollTop = container.scrollHeight;
+                    }, 100);
+                }, (error) => {
+                    console.error('Error loading messages:', error);
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-icon">⚠️</div>
+                            <div class="empty-text">Error loading messages. Please refresh.</div>
+                        </div>
+                    `;
                 });
         }
-
-        function loadAnalytics() {
-            // Placeholder for analytics data
-            console.log('Loading analytics...');
-        }
-
-        function loadModeration() {
-            // Placeholder for moderation data
-            console.log('Loading moderation queue...');
-        }
-
-        window.replyToComment = function() {
-            showToast('Reply functionality coming soon!');
-        };
 
         function escapeHtml(text) {
             const div = document.createElement('div');
@@ -1322,15 +1103,18 @@
         }
 
         function formatTime(date) {
-            const diff = Date.now() - date;
-            const minutes = Math.floor(diff / 60000);
+            const now = new Date();
+            const diff = now - date;
+            const seconds = Math.floor(diff / 1000);
+            const minutes = Math.floor(seconds / 60);
             const hours = Math.floor(minutes / 60);
             const days = Math.floor(hours / 24);
 
-            if (minutes < 1) return 'now';
+            if (seconds < 60) return 'just now';
             if (minutes < 60) return `${minutes}m ago`;
             if (hours < 24) return `${hours}h ago`;
             if (days < 7) return `${days}d ago`;
+            
             return date.toLocaleDateString();
         }
 
@@ -1342,23 +1126,42 @@
         }
 
         window.logout = async function() {
-            if (confirm('Logout?')) {
-                if (messagesUnsubscribe) messagesUnsubscribe();
-                await auth.signOut();
-                window.location.href = 'signin.html';
+            if (confirm('Are you sure you want to logout?')) {
+                try {
+                    if (messagesUnsubscribe) {
+                        messagesUnsubscribe();
+                    }
+                    
+                    await auth.signOut();
+                    sessionStorage.clear();
+                    window.location.href = 'signin.html';
+                } catch (error) {
+                    console.error('Logout error:', error);
+                    showToast('Error logging out');
+                }
             }
         };
 
-        // Handle resize
+        // Handle window resize
         window.addEventListener('resize', () => {
-            if (window.innerWidth > 900) {
+            if (window.innerWidth > 768) {
                 document.getElementById('sidebar').classList.remove('show');
                 document.getElementById('mobileOverlay').classList.remove('show');
             }
         });
 
-        // Initialize default section
-        switchSection('dashboard');
+        // Fallback for Firebase loading
+        setTimeout(() => {
+            if (typeof auth === 'undefined') {
+                console.error('❌ Firebase failed to load');
+                document.getElementById('messagesContainer').innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">⚠️</div>
+                        <div class="empty-text">Connection error. Please refresh the page.</div>
+                    </div>
+                `;
+            }
+        }, 5000);
     </script>
 </body>
 </html>
