@@ -1,5 +1,4 @@
-
-
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,6 +21,7 @@
             height: 100vh;
             overflow: hidden;
             -webkit-font-smoothing: antialiased;
+            touch-action: manipulation; /* Improves mobile touch responsiveness */
         }
 
         .app-container {
@@ -97,6 +97,7 @@
             transition: background 0.2s;
             position: relative;
             min-height: 60px;
+            touch-action: manipulation; /* Touch-friendly */
         }
 
         .menu-item:hover {
@@ -189,6 +190,7 @@
             cursor: pointer;
             transition: background 0.2s;
             flex-shrink: 0;
+            touch-action: manipulation;
         }
 
         .logout-icon:hover {
@@ -253,6 +255,7 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
         }
 
         .messages-container::-webkit-scrollbar {
@@ -339,54 +342,6 @@
             border-color: #2a2a2a;
         }
 
-        .message-bubble.announcement {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
-            border-color: #3a3a3a;
-            position: relative;
-        }
-
-        .message-bubble.announcement.info {
-            border-left: 4px solid #4a90e2;
-        }
-
-        .message-bubble.announcement.warning {
-            border-left: 4px solid #f5a623;
-        }
-
-        .message-bubble.announcement.critical {
-            border-left: 4px solid #d0021b;
-        }
-
-        .announcement-header {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 8px;
-        }
-
-        .announcement-badge {
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .announcement-badge.info {
-            background: #4a90e2;
-            color: white;
-        }
-
-        .announcement-badge.warning {
-            background: #f5a623;
-            color: black;
-        }
-
-        .announcement-badge.critical {
-            background: #d0021b;
-            color: white;
-        }
-
         .message-text {
             font-size: 14px;
             line-height: 1.5;
@@ -436,18 +391,6 @@
             font-size: 13px;
             font-weight: 500;
             line-height: 1.4;
-        }
-
-        .restriction-banner.warning {
-            background: #2a1a1a;
-            color: #ffcc00;
-            border-color: #443322;
-        }
-
-        .restriction-banner.error {
-            background: #1a0a0a;
-            color: #ff4444;
-            border-color: #330000;
         }
 
         .input-wrapper {
@@ -504,6 +447,9 @@
             cursor: pointer;
             transition: all 0.2s;
             flex-shrink: 0;
+            touch-action: manipulation;
+            min-height: 44px; /* Minimum touch target for mobile */
+            min-width: 44px;
         }
 
         .send-button:hover:not(:disabled) {
@@ -561,8 +507,8 @@
         .mobile-menu-toggle {
             display: none;
             position: fixed;
-            top: 20px;
-            left: 20px;
+            top: 16px; /* Slightly adjusted for better mobile fit */
+            left: 16px;
             z-index: 1001;
             background: #0a0a0a;
             border: 1px solid #1a1a1a;
@@ -573,6 +519,9 @@
             height: 48px;
             align-items: center;
             justify-content: center;
+            touch-action: manipulation;
+            min-height: 44px;
+            min-width: 44px;
         }
 
         .mobile-overlay {
@@ -584,10 +533,12 @@
             height: 100%;
             background: rgba(0, 0, 0, 0.8);
             z-index: 999;
+            transition: opacity 0.3s ease; /* Smoother overlay like Telegram */
         }
 
         .mobile-overlay.show {
             display: block;
+            opacity: 1;
         }
 
         .sidebar-menu::-webkit-scrollbar {
@@ -599,7 +550,22 @@
             border-radius: 3px;
         }
 
-        @media (max-width: 900px) {
+        /* Desktop optimizations: Ensure sidebar doesn't shrink too much on ultra-wide screens */
+        @media (min-width: 1400px) {
+            .sidebar {
+                min-width: 320px;
+            }
+            
+            .chat-header,
+            .messages-container,
+            .input-container {
+                padding-left: 24px;
+                padding-right: 24px;
+            }
+        }
+
+        /* Tablet and Mobile: Slide-in sidebar like Telegram */
+        @media (max-width: 1024px) {
             .app-container {
                 grid-template-columns: 1fr;
             }
@@ -608,11 +574,12 @@
                 position: fixed;
                 left: -100%;
                 top: 0;
-                width: 300px;
+                width: 280px; /* Slightly narrower for tablets */
                 max-width: 85vw;
                 height: 100vh;
-                transition: left 0.3s;
+                transition: left 0.3s ease; /* Smooth slide like Telegram */
                 z-index: 1000;
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
             }
 
             .sidebar.show {
@@ -624,21 +591,187 @@
             }
 
             .chat-header {
-                padding-left: 80px;
+                padding-left: 72px; /* Account for toggle width */
+                padding-top: 16px;
+                padding-bottom: 16px;
             }
         }
 
+        /* Mobile-specific: Compact layout like Telegram mobile */
         @media (max-width: 768px) {
-            .messages-container {
-                padding: 16px 12px;
+            .app-container {
+                grid-template-columns: 1fr;
             }
 
-            .input-container {
-                padding: 12px;
+            .sidebar {
+                width: 100%;
+                max-width: 100vw;
+            }
+
+            .sidebar-header {
+                padding: 16px;
+            }
+
+            .app-title {
+                font-size: 18px;
+            }
+
+            .app-subtitle {
+                font-size: 12px;
+            }
+
+            .sidebar-search {
+                padding: 8px 12px;
+            }
+
+            .search-input {
+                padding: 8px 12px;
+                font-size: 16px; /* Larger for mobile input */
+            }
+
+            .menu-item {
+                padding: 14px 16px;
+                min-height: 56px; /* Touch-friendly height */
+            }
+
+            .menu-item-title {
+                font-size: 16px; /* Slightly larger for readability */
+            }
+
+            .menu-item-subtitle {
+                font-size: 12px;
+            }
+
+            .sidebar-footer {
+                padding: 12px 16px;
+            }
+
+            .user-avatar,
+            .logout-icon {
+                width: 36px;
+                height: 36px;
+            }
+
+            .user-name {
+                font-size: 13px;
+            }
+
+            .user-status {
+                font-size: 11px;
+            }
+
+            .mobile-menu-toggle {
+                top: 12px;
+                left: 12px;
+                width: 44px;
+                height: 44px;
+                padding: 8px;
+            }
+
+            .mobile-overlay {
+                background: rgba(0, 0, 0, 0.7); /* Slightly lighter for better UX */
             }
 
             .chat-header {
-                padding: 12px 16px 12px 76px;
+                padding: 12px 16px 12px 68px; /* Adjusted for mobile toggle */
+                min-height: 64px;
+            }
+
+            .chat-avatar {
+                width: 36px;
+                height: 36px;
+                font-size: 14px;
+            }
+
+            .chat-title {
+                font-size: 16px;
+            }
+
+            .chat-subtitle {
+                font-size: 12px;
+            }
+
+            .messages-container {
+                padding: 12px 8px;
+                gap: 6px;
+            }
+
+            .message {
+                margin-bottom: 8px;
+            }
+
+            .message-avatar {
+                width: 32px;
+                height: 32px;
+                font-size: 13px;
+            }
+
+            .message-content {
+                max-width: calc(100% - 42px);
+            }
+
+            .message-bubble {
+                padding: 10px 12px;
+            }
+
+            .message-text {
+                font-size: 15px; /* Telegram-like message font size */
+                line-height: 1.4;
+            }
+
+            .input-container {
+                padding: 12px 8px;
+            }
+
+            .input-wrapper {
+                gap: 8px;
+            }
+
+            .input-box {
+                padding: 10px 16px;
+                border-radius: 20px; /* More rounded like Telegram */
+            }
+
+            .message-input {
+                font-size: 16px; /* Mobile-optimized input size */
+                min-height: 24px;
+            }
+
+            .send-button {
+                width: 44px;
+                height: 44px;
+                border-radius: 50%; /* Circular like Telegram send button */
+            }
+
+            .restriction-banner {
+                padding: 10px 8px;
+                font-size: 12px;
+            }
+
+            .toast {
+                bottom: 20px;
+                padding: 10px 16px;
+                font-size: 14px;
+                max-width: 95%;
+            }
+        }
+
+        /* Extra small mobile */
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 100vw;
+            }
+
+            .chat-header {
+                padding-left: 64px;
+            }
+
+            .messages-container {
+                padding: 8px 4px;
+            }
+
+            .input-container {
+                padding: 8px 4px;
             }
         }
     </style>
@@ -748,32 +881,6 @@
         let currentUser = null;
         let currentChannel = 'community';
         let messagesUnsubscribe = null;
-        let settingsUnsubscribe = null;
-        let userStatusUnsubscribe = null;
-        let announcementsUnsubscribe = null;
-        let lastMessageTime = 0;
-        let slowModeTimer = null;
-        let unreadAnnouncements = 0;
-        let acknowledgedAnnouncements = [];
-
-        // System settings from technical.html
-        let systemSettings = {
-            readOnly: false,
-            slowMode: 0,
-            profanity: false,
-            autoMod: false
-        };
-
-        // User status
-        let userStatus = {
-            isMuted: false,
-            isBanned: false,
-            mutedUntil: null,
-            banReason: null
-        };
-
-        // Profanity filter word list
-        const profanityWords = ['damn', 'hell', 'shit', 'fuck', 'bitch', 'ass', 'asshole', 'bastard', 'crap', 'dick'];
 
         function initializePage() {
             auth.onAuthStateChanged((user) => {
@@ -782,15 +889,6 @@
                     const name = user.displayName || user.email.split('@')[0];
                     document.getElementById('sidebarAvatar').textContent = name.charAt(0).toUpperCase();
                     document.getElementById('sidebarName').textContent = name;
-                    
-                    // Load acknowledged announcements from localStorage
-                    const saved = localStorage.getItem('acknowledgedAnnouncements');
-                    if (saved) {
-                        acknowledgedAnnouncements = JSON.parse(saved);
-                    }
-                    
-                    loadSystemSettings();
-                    loadUserStatus();
                     loadMessages();
                 } else {
                     window.location.href = 'signin.html';
@@ -812,121 +910,6 @@
             });
         }
 
-        function loadSystemSettings() {
-            if (settingsUnsubscribe) settingsUnsubscribe();
-            
-            settingsUnsubscribe = db.collection('systemSettings').doc('moderation')
-                .onSnapshot((doc) => {
-                    if (doc.exists) {
-                        systemSettings = {
-                            readOnly: doc.data().readOnly || false,
-                            slowMode: doc.data().slowMode || 0,
-                            profanity: doc.data().profanity || false,
-                            autoMod: doc.data().autoMod || false
-                        };
-                    }
-                    updateRestrictions();
-                });
-        }
-
-        function loadUserStatus() {
-            if (!currentUser) return;
-            if (userStatusUnsubscribe) userStatusUnsubscribe();
-            
-            // Check if user is banned
-            userStatusUnsubscribe = db.collection('bannedUsers').doc(currentUser.email)
-                .onSnapshot((doc) => {
-                    if (doc.exists) {
-                        userStatus.isBanned = true;
-                        userStatus.banReason = doc.data().reason;
-                    } else {
-                        userStatus.isBanned = false;
-                        userStatus.banReason = null;
-                    }
-                    updateRestrictions();
-                });
-            
-            // Check if user is muted
-            db.collection('mutedUsers').doc(currentUser.email)
-                .onSnapshot((doc) => {
-                    if (doc.exists) {
-                        const data = doc.data();
-                        userStatus.isMuted = true;
-                        userStatus.mutedUntil = data.mutedUntil ? data.mutedUntil.toDate() : null;
-                        
-                        // Check if mute has expired
-                        if (userStatus.mutedUntil && userStatus.mutedUntil < new Date()) {
-                            db.collection('mutedUsers').doc(currentUser.email).delete();
-                            userStatus.isMuted = false;
-                            userStatus.mutedUntil = null;
-                        }
-                    } else {
-                        userStatus.isMuted = false;
-                        userStatus.mutedUntil = null;
-                    }
-                    updateRestrictions();
-                });
-        }
-
-        function updateRestrictions() {
-            const banner = document.getElementById('restrictionBanner');
-            const inputContainer = document.getElementById('inputContainer');
-            const sendBtn = document.getElementById('sendBtn');
-            const messageInput = document.getElementById('messageInput');
-            
-            let bannerHtml = '';
-            let disableInput = false;
-            
-            if (userStatus.isBanned) {
-                bannerHtml = `<div class="restriction-banner error">
-                    <strong>Account Banned</strong><br>
-                    Reason: ${userStatus.banReason || 'Violation of community guidelines'}
-                </div>`;
-                disableInput = true;
-            } else if (userStatus.isMuted) {
-                const timeLeft = userStatus.mutedUntil ? 
-                    Math.ceil((userStatus.mutedUntil - new Date()) / 60000) : 30;
-                bannerHtml = `<div class="restriction-banner warning">
-                    <strong>You are muted</strong><br>
-                    Muted for ${timeLeft} more minute${timeLeft !== 1 ? 's' : ''}
-                </div>`;
-                disableInput = true;
-            } else if (systemSettings.readOnly) {
-                bannerHtml = `<div class="restriction-banner">
-                    <strong>Read-Only Mode</strong><br>
-                    Chat is currently in read-only mode by administrators
-                </div>`;
-                disableInput = true;
-            } else if (systemSettings.slowMode > 0) {
-                const timeLeft = Math.ceil((systemSettings.slowMode * 1000 - (Date.now() - lastMessageTime)) / 1000);
-                if (timeLeft > 0) {
-                    bannerHtml = `<div class="restriction-banner warning">
-                        <strong>Slow Mode Active</strong><br>
-                        Please wait ${timeLeft} second${timeLeft !== 1 ? 's' : ''} before sending another message
-                    </div>`;
-                    disableInput = true;
-                }
-            }
-            
-            banner.innerHTML = bannerHtml;
-            inputContainer.style.display = disableInput ? 'none' : 'block';
-            sendBtn.disabled = disableInput;
-            messageInput.disabled = disableInput;
-            
-            if (disableInput) {
-                messageInput.placeholder = 'Messaging disabled';
-            } else {
-                messageInput.placeholder = 'Write a message...';
-            }
-        }
-
-        function checkProfanity(text) {
-            if (!systemSettings.profanity) return false;
-            
-            const lowerText = text.toLowerCase();
-            return profanityWords.some(word => lowerText.includes(word));
-        }
-
         window.toggleSidebar = function() {
             document.getElementById('sidebar').classList.toggle('show');
             document.getElementById('mobileOverlay').classList.toggle('show');
@@ -934,7 +917,7 @@
 
         window.switchChannel = function(channel) {
             currentChannel = channel;
-            if (window.innerWidth <= 900) toggleSidebar();
+            if (window.innerWidth <= 1024) toggleSidebar();
             
             document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
             event.currentTarget.classList.add('active');
@@ -943,19 +926,12 @@
                 document.getElementById('chatAvatar').textContent = 'C';
                 document.getElementById('chatTitle').textContent = 'Community Chat';
                 document.getElementById('chatSubtitle').textContent = 'Public discussion';
-                document.getElementById('inputContainer').style.display = 
-                    (userStatus.isBanned || userStatus.isMuted || systemSettings.readOnly) ? 'none' : 'block';
+                document.getElementById('inputContainer').style.display = 'block';
             } else if (channel === 'announcements') {
                 document.getElementById('chatAvatar').textContent = 'A';
                 document.getElementById('chatTitle').textContent = 'Announcements';
                 document.getElementById('chatSubtitle').textContent = 'Official updates from team';
                 document.getElementById('inputContainer').style.display = 'none';
-                
-                // Mark announcements as read
-                if (unreadAnnouncements > 0) {
-                    document.getElementById('announcementBadge').style.display = 'none';
-                    unreadAnnouncements = 0;
-                }
             }
 
             loadMessages();
@@ -976,22 +952,6 @@
             const text = input.value.trim();
             if (!text) return;
 
-            // Check slow mode
-            if (systemSettings.slowMode > 0) {
-                const timeSinceLastMessage = Date.now() - lastMessageTime;
-                if (timeSinceLastMessage < systemSettings.slowMode * 1000) {
-                    const waitTime = Math.ceil((systemSettings.slowMode * 1000 - timeSinceLastMessage) / 1000);
-                    showToast(`Please wait ${waitTime} second${waitTime !== 1 ? 's' : ''} before sending another message`);
-                    return;
-                }
-            }
-
-            // Check profanity
-            if (checkProfanity(text)) {
-                showToast('Message contains inappropriate language');
-                return;
-            }
-
             try {
                 await db.collection('communityComments').add({
                     text: text,
@@ -1002,167 +962,61 @@
                     channel: 'community'
                 });
 
-                lastMessageTime = Date.now();
                 input.value = '';
                 input.style.height = 'auto';
                 document.getElementById('charCounter').textContent = '0/1000';
-                updateRestrictions(); // Update slow mode timer
             } catch (error) {
                 console.error('Error:', error);
-                showToast('Failed to send message');
             }
         };
 
         function loadMessages() {
             const container = document.getElementById('messagesContainer');
-            let collectionName, query;
-            
-            if (currentChannel === 'community') {
-                collectionName = 'communityComments';
-                query = db.collection(collectionName)
-                    .where('hidden', '!=', true)
-                    .orderBy('timestamp', 'asc')
-                    .limit(100);
-            } else if (currentChannel === 'announcements') {
-                collectionName = 'announcements';
-                query = db.collection(collectionName)
-                    .where('status', '==', 'active')
-                    .orderBy('timestamp', 'desc')
-                    .limit(50);
-            }
+            const collectionName = currentChannel === 'community' ? 'communityComments' : 'announcements';
             
             if (messagesUnsubscribe) messagesUnsubscribe();
-            if (announcementsUnsubscribe) announcementsUnsubscribe();
 
-            if (currentChannel === 'announcements') {
-                announcementsUnsubscribe = query.onSnapshot((snapshot) => {
-                    displayAnnouncements(snapshot);
-                });
-            } else {
-                messagesUnsubscribe = query.onSnapshot((snapshot) => {
-                    displayCommunityMessages(snapshot);
-                });
-            }
-        }
+            messagesUnsubscribe = db.collection(collectionName)
+                .orderBy('timestamp', 'asc')
+                .limit(100)
+                .onSnapshot((snapshot) => {
+                    if (snapshot.empty) {
+                        container.innerHTML = '<div class="loading">No messages yet</div>';
+                        return;
+                    }
 
-        function displayCommunityMessages(snapshot) {
-            const container = document.getElementById('messagesContainer');
-            
-            if (snapshot.empty) {
-                container.innerHTML = '<div class="loading">No messages yet</div>';
-                return;
-            }
+                    let html = '';
+                    snapshot.forEach((doc) => {
+                        const msg = doc.data();
+                        const timeAgo = msg.timestamp ? formatTime(msg.timestamp.toDate()) : 'now';
+                        const initial = msg.author ? msg.author.charAt(0).toUpperCase() : '?';
 
-            let html = '';
-            snapshot.forEach((doc) => {
-                const msg = doc.data();
-                const timeAgo = msg.timestamp ? formatTime(msg.timestamp.toDate()) : 'now';
-                const initial = msg.author ? msg.author.charAt(0).toUpperCase() : '?';
-
-                html += `
-                    <div class="message">
-                        <div class="message-avatar">${initial}</div>
-                        <div class="message-content">
-                            <div class="message-header">
-                                <span class="message-author">${escapeHtml(msg.author || 'Anonymous')}</span>
-                                <span class="message-time">${timeAgo}</span>
-                            </div>
-                            <div class="message-bubble ${msg.highlighted ? 'highlighted' : ''}">
-                                <div class="message-text">${escapeHtml(msg.text)}</div>
-                                ${msg.adminReply ? `
-                                    <div class="admin-reply">
-                                        <div class="reply-label">Team Response</div>
-                                        <div class="reply-text">${escapeHtml(msg.adminReply)}</div>
+                        html += `
+                            <div class="message">
+                                <div class="message-avatar">${initial}</div>
+                                <div class="message-content">
+                                    <div class="message-header">
+                                        <span class="message-author">${escapeHtml(msg.author || 'Anonymous')}</span>
+                                        <span class="message-time">${timeAgo}</span>
                                     </div>
-                                ` : ''}
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-
-            container.innerHTML = html;
-            setTimeout(() => container.scrollTop = container.scrollHeight, 100);
-        }
-
-        function displayAnnouncements(snapshot) {
-            const container = document.getElementById('messagesContainer');
-            
-            if (snapshot.empty) {
-                container.innerHTML = '<div class="loading">No announcements yet</div>';
-                return;
-            }
-
-            let html = '';
-            let newUnreadCount = 0;
-            
-            snapshot.forEach((doc) => {
-                const msg = doc.data();
-                const timeAgo = msg.timestamp ? formatTime(msg.timestamp.toDate()) : 'now';
-                const type = msg.type || 'INFO';
-                
-                // Check if this announcement needs acknowledgment
-                if (msg.requireAck && !acknowledgedAnnouncements.includes(doc.id)) {
-                    newUnreadCount++;
-                }
-                
-                html += `
-                    <div class="message">
-                        <div class="message-content" style="max-width: 100%;">
-                            <div class="message-bubble announcement ${type.toLowerCase()}">
-                                <div class="announcement-header">
-                                    <span class="announcement-badge ${type.toLowerCase()}">${type}</span>
-                                    <span class="message-time">${timeAgo}</span>
-                                </div>
-                                ${msg.title ? `<div style="font-weight: 600; margin-bottom: 8px;">${escapeHtml(msg.title)}</div>` : ''}
-                                <div class="message-text">${escapeHtml(msg.message)}</div>
-                                <div style="margin-top: 8px; font-size: 12px; color: #666666;">
-                                    By: ${escapeHtml(msg.sender || 'Admin')}
-                                    ${msg.requireAck ? `
-                                        <button onclick="acknowledgeAnnouncement('${doc.id}')" 
-                                                style="margin-left: 12px; padding: 4px 12px; background: #ffffff; color: #000000; 
-                                                       border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">
-                                            Acknowledge
-                                        </button>
-                                    ` : ''}
+                                    <div class="message-bubble ${msg.highlighted ? 'highlighted' : ''}">
+                                        <div class="message-text">${escapeHtml(msg.text)}</div>
+                                        ${msg.adminReply ? `
+                                            <div class="admin-reply">
+                                                <div class="reply-label">Team Response</div>
+                                                <div class="reply-text">${escapeHtml(msg.adminReply)}</div>
+                                            </div>
+                                        ` : ''}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                `;
-            });
+                        `;
+                    });
 
-            // Update unread count if not currently viewing announcements
-            if (currentChannel !== 'announcements' && newUnreadCount > 0) {
-                unreadAnnouncements = newUnreadCount;
-                const badge = document.getElementById('announcementBadge');
-                badge.textContent = unreadAnnouncements;
-                badge.style.display = 'flex';
-            }
-
-            container.innerHTML = html;
-            setTimeout(() => container.scrollTop = container.scrollHeight, 100);
+                    container.innerHTML = html;
+                    setTimeout(() => container.scrollTop = container.scrollHeight, 100);
+                });
         }
-
-        window.acknowledgeAnnouncement = function(announcementId) {
-            if (!acknowledgedAnnouncements.includes(announcementId)) {
-                acknowledgedAnnouncements.push(announcementId);
-                localStorage.setItem('acknowledgedAnnouncements', JSON.stringify(acknowledgedAnnouncements));
-                
-                // Update unread count
-                unreadAnnouncements = Math.max(0, unreadAnnouncements - 1);
-                const badge = document.getElementById('announcementBadge');
-                if (unreadAnnouncements > 0) {
-                    badge.textContent = unreadAnnouncements;
-                } else {
-                    badge.style.display = 'none';
-                }
-                
-                // Reload announcements to update UI
-                loadMessages();
-                showToast('Announcement acknowledged');
-            }
-        };
 
         function escapeHtml(text) {
             const div = document.createElement('div');
@@ -1183,19 +1037,9 @@
             return date.toLocaleDateString();
         }
 
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
-        }
-
         window.logout = async function() {
             if (confirm('Logout?')) {
                 if (messagesUnsubscribe) messagesUnsubscribe();
-                if (settingsUnsubscribe) settingsUnsubscribe();
-                if (userStatusUnsubscribe) userStatusUnsubscribe();
-                if (announcementsUnsubscribe) announcementsUnsubscribe();
                 await auth.signOut();
                 window.location.href = 'signin.html';
             }
@@ -1204,4 +1048,3 @@
 </body>
 </html>
 ```
-
