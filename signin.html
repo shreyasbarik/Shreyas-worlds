@@ -671,14 +671,15 @@
     <script>
         console.log('📄 Sign-in page loaded');
 
-        // Firebase Configuration (REPLACE WITH YOUR ACTUAL CONFIG)
+        // Firebase Configuration - YOUR ACTUAL CONFIG
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_AUTH_DOMAIN",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_STORAGE_BUCKET",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
+            apiKey: "AIzaSyBYEol3wDIUihPTLaM1EjqVkpvjvJ-1_O4",
+            authDomain: "my-website-backend-957db.firebaseapp.com",
+            projectId: "my-website-backend-957db",
+            storageBucket: "my-website-backend-957db.firebasestorage.app",
+            messagingSenderId: "75667291929",
+            appId: "1:75667291929:web:10878882c9c30574144f88",
+            measurementId: "G-8H93W7QZGT"
         };
 
         // Initialize Firebase
@@ -690,6 +691,9 @@
             }
             auth = firebase.auth();
             googleProvider = new firebase.auth.GoogleAuthProvider();
+            googleProvider.setCustomParameters({
+                prompt: 'select_account'
+            });
             console.log('✅ Firebase initialized successfully');
         } catch (error) {
             console.error('❌ Firebase initialization error:', error);
