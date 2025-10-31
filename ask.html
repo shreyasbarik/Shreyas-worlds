@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,23 +17,23 @@
 
         body {
             font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #0e0e0e;
+            background: #000000;
             color: #ffffff;
             height: 100vh;
             overflow: hidden;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
         .app-container {
             display: grid;
             grid-template-columns: 320px 1fr;
             height: 100vh;
+            position: relative;
         }
 
         .sidebar {
-            background: #1a1a1a;
-            border-right: 1px solid #2a2a2a;
+            background: #0a0a0a;
+            border-right: 1px solid #1a1a1a;
             display: flex;
             flex-direction: column;
             height: 100vh;
@@ -40,7 +42,7 @@
 
         .sidebar-header {
             padding: 20px;
-            border-bottom: 1px solid #2a2a2a;
+            border-bottom: 1px solid #1a1a1a;
             flex-shrink: 0;
         }
 
@@ -53,28 +55,33 @@
 
         .app-subtitle {
             font-size: 13px;
-            color: #8e8e93;
+            color: #666666;
         }
 
         .sidebar-search {
             padding: 12px 16px;
-            border-bottom: 1px solid #2a2a2a;
+            border-bottom: 1px solid #1a1a1a;
             flex-shrink: 0;
         }
 
         .search-input {
             width: 100%;
             padding: 10px 16px;
-            background: #2a2a2a;
-            border: none;
-            border-radius: 20px;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 6px;
             color: #ffffff;
             font-size: 14px;
             outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: #3a3a3a;
         }
 
         .search-input::placeholder {
-            color: #6e6e73;
+            color: #666666;
         }
 
         .sidebar-menu {
@@ -85,18 +92,19 @@
 
         .menu-item {
             padding: 16px 20px;
-            border-bottom: 1px solid #2a2a2a;
+            border-bottom: 1px solid #1a1a1a;
             cursor: pointer;
             transition: background 0.2s;
             position: relative;
+            min-height: 60px;
         }
 
         .menu-item:hover {
-            background: #2a2a2a;
+            background: #1a1a1a;
         }
 
         .menu-item.active {
-            background: #2a2a2a;
+            background: #1a1a1a;
         }
 
         .menu-item-title {
@@ -108,7 +116,7 @@
 
         .menu-item-subtitle {
             font-size: 13px;
-            color: #8e8e93;
+            color: #666666;
         }
 
         .unread-badge {
@@ -118,7 +126,7 @@
             transform: translateY(-50%);
             background: #ffffff;
             color: #000000;
-            width: 22px;
+            min-width: 22px;
             height: 22px;
             border-radius: 11px;
             display: flex;
@@ -126,11 +134,12 @@
             justify-content: center;
             font-size: 12px;
             font-weight: 600;
+            padding: 0 6px;
         }
 
         .sidebar-footer {
             padding: 16px 20px;
-            border-top: 1px solid #2a2a2a;
+            border-top: 1px solid #1a1a1a;
             display: flex;
             align-items: center;
             gap: 12px;
@@ -167,20 +176,12 @@
 
         .user-status {
             font-size: 12px;
-            color: #34c759;
-        }
-
-        .user-status.banned {
-            color: #ff3b30;
-        }
-
-        .user-status.muted {
-            color: #ff9500;
+            color: #666666;
         }
 
         .logout-icon {
-            width: 32px;
-            height: 32px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -191,25 +192,26 @@
         }
 
         .logout-icon:hover {
-            background: #2a2a2a;
+            background: #1a1a1a;
         }
 
         .chat-container {
             display: flex;
             flex-direction: column;
             height: 100vh;
-            background: #0e0e0e;
+            background: #000000;
             overflow: hidden;
         }
 
         .chat-header {
             padding: 16px 24px;
-            background: #1a1a1a;
-            border-bottom: 1px solid #2a2a2a;
+            background: #0a0a0a;
+            border-bottom: 1px solid #1a1a1a;
             display: flex;
             align-items: center;
             gap: 12px;
             flex-shrink: 0;
+            min-height: 72px;
         }
 
         .chat-avatar {
@@ -223,6 +225,7 @@
             justify-content: center;
             font-weight: 600;
             font-size: 16px;
+            flex-shrink: 0;
         }
 
         .chat-info {
@@ -234,11 +237,12 @@
             font-size: 15px;
             font-weight: 500;
             color: #ffffff;
+            margin-bottom: 2px;
         }
 
         .chat-subtitle {
             font-size: 13px;
-            color: #8e8e93;
+            color: #666666;
         }
 
         .messages-container {
@@ -260,7 +264,7 @@
         }
 
         .messages-container::-webkit-scrollbar-thumb {
-            background: #2a2a2a;
+            background: #1a1a1a;
             border-radius: 3px;
         }
 
@@ -298,7 +302,7 @@
 
         .message-content {
             flex: 1;
-            max-width: 65%;
+            max-width: calc(100% - 46px);
             min-width: 0;
         }
 
@@ -318,24 +322,69 @@
 
         .message-time {
             font-size: 12px;
-            color: #6e6e73;
+            color: #666666;
         }
 
         .message-bubble {
-            background: #1a1a1a;
+            background: #0a0a0a;
             padding: 12px 16px;
-            border-radius: 12px;
-            border-top-left-radius: 4px;
+            border-radius: 8px;
+            border: 1px solid #1a1a1a;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .message-bubble.highlighted {
-            background: #2a2a2a;
-            border-left: 3px solid #ffffff;
+            background: #1a1a1a;
+            border-color: #2a2a2a;
         }
 
         .message-bubble.announcement {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-            border-left: 3px solid #667eea;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border-color: #3a3a3a;
+            position: relative;
+        }
+
+        .message-bubble.announcement.info {
+            border-left: 4px solid #4a90e2;
+        }
+
+        .message-bubble.announcement.warning {
+            border-left: 4px solid #f5a623;
+        }
+
+        .message-bubble.announcement.critical {
+            border-left: 4px solid #d0021b;
+        }
+
+        .announcement-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .announcement-badge {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .announcement-badge.info {
+            background: #4a90e2;
+            color: white;
+        }
+
+        .announcement-badge.warning {
+            background: #f5a623;
+            color: black;
+        }
+
+        .announcement-badge.critical {
+            background: #d0021b;
+            color: white;
         }
 
         .message-text {
@@ -344,19 +393,20 @@
             color: #ffffff;
             word-wrap: break-word;
             overflow-wrap: break-word;
+            white-space: pre-wrap;
         }
 
         .admin-reply {
-            background: #2a2a2a;
+            background: #1a1a1a;
             padding: 10px 14px;
-            border-radius: 8px;
+            border-radius: 6px;
             margin-top: 8px;
-            border-left: 2px solid #34c759;
+            border-left: 2px solid #ffffff;
         }
 
         .reply-label {
             font-size: 11px;
-            color: #34c759;
+            color: #666666;
             margin-bottom: 4px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -367,51 +417,37 @@
             font-size: 13px;
             color: #ffffff;
             line-height: 1.4;
-        }
-
-        .message-footer {
-            margin-top: 8px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .highlight-badge {
-            background: #ffffff;
-            color: #000000;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
+            word-wrap: break-word;
         }
 
         .input-container {
             padding: 16px 24px;
-            background: #1a1a1a;
-            border-top: 1px solid #2a2a2a;
+            background: #0a0a0a;
+            border-top: 1px solid #1a1a1a;
             flex-shrink: 0;
         }
 
         .restriction-banner {
             padding: 12px 24px;
-            background: rgba(255, 59, 48, 0.1);
-            border-top: 1px solid rgba(255, 59, 48, 0.3);
-            color: #ff3b30;
+            background: #1a1a1a;
+            border-top: 1px solid #2a2a2a;
+            color: #666666;
             text-align: center;
             font-size: 13px;
             font-weight: 500;
+            line-height: 1.4;
         }
 
-        .restriction-banner.muted {
-            background: rgba(255, 149, 0, 0.1);
-            border-top-color: rgba(255, 149, 0, 0.3);
-            color: #ff9500;
+        .restriction-banner.warning {
+            background: #2a1a1a;
+            color: #ffcc00;
+            border-color: #443322;
         }
 
-        .restriction-banner.readonly {
-            background: rgba(142, 142, 147, 0.1);
-            border-top-color: rgba(142, 142, 147, 0.3);
-            color: #8e8e93;
+        .restriction-banner.error {
+            background: #1a0a0a;
+            color: #ff4444;
+            border-color: #330000;
         }
 
         .input-wrapper {
@@ -422,12 +458,13 @@
 
         .input-box {
             flex: 1;
-            background: #2a2a2a;
-            border-radius: 24px;
+            background: #1a1a1a;
+            border-radius: 6px;
             padding: 12px 20px;
             display: flex;
             align-items: center;
             gap: 12px;
+            border: 1px solid #2a2a2a;
         }
 
         .message-input {
@@ -444,28 +481,23 @@
         }
 
         .message-input::placeholder {
-            color: #6e6e73;
-        }
-
-        .message-input:disabled {
-            color: #6e6e73;
-            cursor: not-allowed;
+            color: #666666;
         }
 
         .char-counter {
             font-size: 11px;
-            color: #6e6e73;
+            color: #666666;
             white-space: nowrap;
             flex-shrink: 0;
         }
 
         .send-button {
-            width: 44px;
-            height: 44px;
+            width: 48px;
+            height: 48px;
             background: #ffffff;
             color: #000000;
             border: none;
-            border-radius: 50%;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -475,30 +507,25 @@
         }
 
         .send-button:hover:not(:disabled) {
-            transform: scale(1.05);
-        }
-
-        .send-button:active:not(:disabled) {
-            transform: scale(0.95);
+            background: #e0e0e0;
         }
 
         .send-button:disabled {
-            background: #2a2a2a;
-            color: #6e6e73;
+            background: #1a1a1a;
+            color: #666666;
             cursor: not-allowed;
-            transform: none;
         }
 
         .loading {
             text-align: center;
             padding: 40px 20px;
-            color: #6e6e73;
+            color: #666666;
         }
 
         .loading-spinner {
             width: 32px;
             height: 32px;
-            border: 3px solid #2a2a2a;
+            border: 3px solid #1a1a1a;
             border-top-color: #ffffff;
             border-radius: 50%;
             animation: spin 1s linear infinite;
@@ -509,22 +536,6 @@
             to { transform: rotate(360deg); }
         }
 
-        .empty-state {
-            text-align: center;
-            padding: 80px 20px;
-            color: #6e6e73;
-        }
-
-        .empty-icon {
-            font-size: 48px;
-            margin-bottom: 16px;
-            opacity: 0.5;
-        }
-
-        .empty-text {
-            font-size: 15px;
-        }
-
         .toast {
             position: fixed;
             bottom: 24px;
@@ -533,34 +544,35 @@
             background: #ffffff;
             color: #000000;
             padding: 12px 24px;
-            border-radius: 24px;
+            border-radius: 6px;
             font-size: 14px;
             font-weight: 500;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
             z-index: 1000;
             transition: transform 0.3s;
+            max-width: 90%;
+            text-align: center;
         }
 
         .toast.show {
             transform: translateX(-50%) translateY(0);
         }
 
-        .toast.error {
-            background: #ff3b30;
-            color: #ffffff;
-        }
-
         .mobile-menu-toggle {
             display: none;
             position: fixed;
-            top: 16px;
-            left: 16px;
+            top: 20px;
+            left: 20px;
             z-index: 1001;
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
-            border-radius: 8px;
-            padding: 10px;
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            border-radius: 6px;
+            padding: 12px;
             cursor: pointer;
+            width: 48px;
+            height: 48px;
+            align-items: center;
+            justify-content: center;
         }
 
         .mobile-overlay {
@@ -570,7 +582,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.8);
             z-index: 999;
         }
 
@@ -582,16 +594,12 @@
             width: 6px;
         }
 
-        .sidebar-menu::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
         .sidebar-menu::-webkit-scrollbar-thumb {
-            background: #2a2a2a;
+            background: #1a1a1a;
             border-radius: 3px;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
             .app-container {
                 grid-template-columns: 1fr;
             }
@@ -600,11 +608,11 @@
                 position: fixed;
                 left: -100%;
                 top: 0;
-                width: 280px;
+                width: 300px;
+                max-width: 85vw;
                 height: 100vh;
-                transition: left 0.3s ease;
+                transition: left 0.3s;
                 z-index: 1000;
-                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
             }
 
             .sidebar.show {
@@ -612,42 +620,25 @@
             }
 
             .mobile-menu-toggle {
-                display: block;
-            }
-
-            .messages-container {
-                padding: 16px;
-            }
-
-            .message-content {
-                max-width: 80%;
-            }
-
-            .input-container {
-                padding: 12px 16px;
+                display: flex;
             }
 
             .chat-header {
-                padding: 12px 16px;
-            }
-
-            .restriction-banner {
-                padding: 10px 16px;
+                padding-left: 80px;
             }
         }
 
-        @media (max-width: 480px) {
-            .sidebar {
-                width: 90%;
-                max-width: 300px;
+        @media (max-width: 768px) {
+            .messages-container {
+                padding: 16px 12px;
             }
 
-            .message-content {
-                max-width: 85%;
+            .input-container {
+                padding: 12px;
             }
 
-            .app-title {
-                font-size: 18px;
+            .chat-header {
+                padding: 12px 16px 12px 76px;
             }
         }
     </style>
@@ -684,8 +675,12 @@
                     <div class="menu-item-subtitle">Official updates</div>
                     <span class="unread-badge" id="announcementBadge" style="display: none;">0</span>
                 </div>
+                <div class="menu-item" onclick="openCallSupport()">
+                    <div class="menu-item-title">Call Technical Support</div>
+                    <div class="menu-item-subtitle">Live voice and video assistance</div>
+                </div>
                 <div class="menu-item" onclick="openSupport()">
-                    <div class="menu-item-title">Support</div>
+                    <div class="menu-item-title">Email Support</div>
                     <div class="menu-item-subtitle">teamsharvika.inbox@gmail.com</div>
                 </div>
             </div>
@@ -694,9 +689,9 @@
                 <div class="user-avatar" id="sidebarAvatar">U</div>
                 <div class="user-info">
                     <div class="user-name" id="sidebarName">User</div>
-                    <div class="user-status" id="userStatus">online</div>
+                    <div class="user-status" id="userStatus">Online</div>
                 </div>
-                <div class="logout-icon" onclick="logout()" title="Logout">
+                <div class="logout-icon" onclick="logout()">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>
                     </svg>
@@ -753,19 +748,15 @@
         let currentUser = null;
         let currentChannel = 'community';
         let messagesUnsubscribe = null;
-        let banUnsubscribe = null;
-        let muteUnsubscribe = null;
         let settingsUnsubscribe = null;
+        let userStatusUnsubscribe = null;
+        let announcementsUnsubscribe = null;
         let lastMessageTime = 0;
-        
-        let userRestrictions = {
-            banned: false,
-            muted: false,
-            muteUntil: null,
-            banReason: '',
-            muteReason: ''
-        };
+        let slowModeTimer = null;
+        let unreadAnnouncements = 0;
+        let acknowledgedAnnouncements = [];
 
+        // System settings from technical.html
         let systemSettings = {
             readOnly: false,
             slowMode: 0,
@@ -773,54 +764,44 @@
             autoMod: false
         };
 
-        function initializePage() {
-            console.log('✅ Initializing community hub...');
+        // User status
+        let userStatus = {
+            isMuted: false,
+            isBanned: false,
+            mutedUntil: null,
+            banReason: null
+        };
 
+        // Profanity filter word list
+        const profanityWords = ['damn', 'hell', 'shit', 'fuck', 'bitch', 'ass', 'asshole', 'bastard', 'crap', 'dick'];
+
+        function initializePage() {
             auth.onAuthStateChanged((user) => {
                 if (user) {
                     currentUser = user;
                     const name = user.displayName || user.email.split('@')[0];
-                    const initial = name.charAt(0).toUpperCase();
-                    
-                    document.getElementById('sidebarAvatar').textContent = initial;
+                    document.getElementById('sidebarAvatar').textContent = name.charAt(0).toUpperCase();
                     document.getElementById('sidebarName').textContent = name;
                     
-                    // Update user presence
-                    updateUserPresence(user.uid);
+                    // Load acknowledged announcements from localStorage
+                    const saved = localStorage.getItem('acknowledgedAnnouncements');
+                    if (saved) {
+                        acknowledgedAnnouncements = JSON.parse(saved);
+                    }
                     
-                    // Check restrictions
-                    checkUserRestrictions(user.email);
-                    
-                    // Load system settings
                     loadSystemSettings();
-                    
-                    // Load messages
+                    loadUserStatus();
                     loadMessages();
                 } else {
                     window.location.href = 'signin.html';
                 }
             });
 
-            const searchInput = document.getElementById('searchInput');
-            searchInput.addEventListener('input', function(e) {
-                const searchTerm = e.target.value.toLowerCase();
-                const messages = document.querySelectorAll('.message');
-                
-                messages.forEach(msg => {
-                    const textEl = msg.querySelector('.message-text');
-                    const authorEl = msg.querySelector('.message-author');
-                    if (textEl && authorEl) {
-                        const text = textEl.textContent.toLowerCase();
-                        const author = authorEl.textContent.toLowerCase();
-                        msg.style.display = (text.includes(searchTerm) || author.includes(searchTerm)) ? 'flex' : 'none';
-                    }
-                });
-            });
-
             const messageInput = document.getElementById('messageInput');
             messageInput.addEventListener('input', function() {
-                autoResize(this);
-                updateCharCount();
+                this.style.height = 'auto';
+                this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+                document.getElementById('charCounter').textContent = `${this.value.length}/1000`;
             });
 
             messageInput.addEventListener('keydown', function(e) {
@@ -829,90 +810,6 @@
                     sendMessage();
                 }
             });
-
-            // Check mute expiry every 30 seconds
-            setInterval(checkMuteExpiry, 30000);
-        }
-
-        function updateUserPresence(uid) {
-            const presenceRef = db.collection('presence').doc(uid);
-            
-            presenceRef.set({
-                online: true,
-                lastSeen: firebase.firestore.FieldValue.serverTimestamp(),
-                uid: uid,
-                email: currentUser.email,
-                name: currentUser.displayName || currentUser.email.split('@')[0]
-            }, { merge: true });
-
-            // Update on page unload
-            window.addEventListener('beforeunload', () => {
-                presenceRef.set({
-                    online: false,
-                    lastSeen: firebase.firestore.FieldValue.serverTimestamp()
-                }, { merge: true });
-            });
-        }
-
-        function checkUserRestrictions(email) {
-            // Check if user is banned
-            if (banUnsubscribe) banUnsubscribe();
-            banUnsubscribe = db.collection('bannedUsers').doc(email)
-                .onSnapshot((doc) => {
-                    if (doc.exists) {
-                        const data = doc.data();
-                        userRestrictions.banned = true;
-                        userRestrictions.banReason = data.reason || 'Violation of community guidelines';
-                        updateInputState();
-                        document.getElementById('userStatus').textContent = 'banned';
-                        document.getElementById('userStatus').classList.add('banned');
-                    } else {
-                        userRestrictions.banned = false;
-                        userRestrictions.banReason = '';
-                        document.getElementById('userStatus').classList.remove('banned');
-                        if (!userRestrictions.muted) {
-                            document.getElementById('userStatus').textContent = 'online';
-                        }
-                        updateInputState();
-                    }
-                });
-
-            // Check if user is muted
-            if (muteUnsubscribe) muteUnsubscribe();
-            muteUnsubscribe = db.collection('mutedUsers').doc(email)
-                .onSnapshot((doc) => {
-                    if (doc.exists) {
-                        const data = doc.data();
-                        userRestrictions.muted = true;
-                        userRestrictions.muteUntil = data.mutedUntil;
-                        userRestrictions.muteReason = data.reason || 'Temporary restriction';
-                        updateInputState();
-                        document.getElementById('userStatus').textContent = 'muted';
-                        document.getElementById('userStatus').classList.add('muted');
-                    } else {
-                        userRestrictions.muted = false;
-                        userRestrictions.muteUntil = null;
-                        userRestrictions.muteReason = '';
-                        document.getElementById('userStatus').classList.remove('muted');
-                        if (!userRestrictions.banned) {
-                            document.getElementById('userStatus').textContent = 'online';
-                        }
-                        updateInputState();
-                    }
-                });
-        }
-
-        function checkMuteExpiry() {
-            if (userRestrictions.muted && userRestrictions.muteUntil) {
-                const now = new Date();
-                const muteEnd = userRestrictions.muteUntil.toDate();
-                
-                if (now >= muteEnd) {
-                    userRestrictions.muted = false;
-                    userRestrictions.muteUntil = null;
-                    updateInputState();
-                }
-            }
         }
 
         function loadSystemSettings() {
@@ -921,92 +818,123 @@
             settingsUnsubscribe = db.collection('systemSettings').doc('moderation')
                 .onSnapshot((doc) => {
                     if (doc.exists) {
-                        const data = doc.data();
-                        systemSettings.readOnly = data.readOnly || false;
-                        systemSettings.slowMode = data.slowMode || 0;
-                        systemSettings.profanity = data.profanity || false;
-                        systemSettings.autoMod = data.autoMod || false;
-                        updateInputState();
+                        systemSettings = {
+                            readOnly: doc.data().readOnly || false,
+                            slowMode: doc.data().slowMode || 0,
+                            profanity: doc.data().profanity || false,
+                            autoMod: doc.data().autoMod || false
+                        };
                     }
+                    updateRestrictions();
                 });
         }
 
-        function updateInputState() {
-            const input = document.getElementById('messageInput');
-            const sendBtn = document.getElementById('sendBtn');
-            const banner = document.getElementById('restrictionBanner');
+        function loadUserStatus() {
+            if (!currentUser) return;
+            if (userStatusUnsubscribe) userStatusUnsubscribe();
             
-            // Clear previous banner
-            banner.innerHTML = '';
-            banner.className = '';
+            // Check if user is banned
+            userStatusUnsubscribe = db.collection('bannedUsers').doc(currentUser.email)
+                .onSnapshot((doc) => {
+                    if (doc.exists) {
+                        userStatus.isBanned = true;
+                        userStatus.banReason = doc.data().reason;
+                    } else {
+                        userStatus.isBanned = false;
+                        userStatus.banReason = null;
+                    }
+                    updateRestrictions();
+                });
+            
+            // Check if user is muted
+            db.collection('mutedUsers').doc(currentUser.email)
+                .onSnapshot((doc) => {
+                    if (doc.exists) {
+                        const data = doc.data();
+                        userStatus.isMuted = true;
+                        userStatus.mutedUntil = data.mutedUntil ? data.mutedUntil.toDate() : null;
+                        
+                        // Check if mute has expired
+                        if (userStatus.mutedUntil && userStatus.mutedUntil < new Date()) {
+                            db.collection('mutedUsers').doc(currentUser.email).delete();
+                            userStatus.isMuted = false;
+                            userStatus.mutedUntil = null;
+                        }
+                    } else {
+                        userStatus.isMuted = false;
+                        userStatus.mutedUntil = null;
+                    }
+                    updateRestrictions();
+                });
+        }
 
-            // Check banned
-            if (userRestrictions.banned) {
-                input.disabled = true;
-                sendBtn.disabled = true;
-                banner.className = 'restriction-banner';
-                banner.innerHTML = `You have been banned from sending messages. Reason: ${userRestrictions.banReason}`;
-                return;
-            }
-
-            // Check muted
-            if (userRestrictions.muted) {
-                input.disabled = true;
-                sendBtn.disabled = true;
-                
-                if (userRestrictions.muteUntil) {
-                    const remaining = Math.max(0, Math.floor((userRestrictions.muteUntil.toDate() - new Date()) / 60000));
-                    banner.className = 'restriction-banner muted';
-                    banner.innerHTML = `You are temporarily muted (${remaining} minutes remaining). Reason: ${userRestrictions.muteReason}`;
-                } else {
-                    banner.className = 'restriction-banner muted';
-                    banner.innerHTML = `You are temporarily muted. Reason: ${userRestrictions.muteReason}`;
+        function updateRestrictions() {
+            const banner = document.getElementById('restrictionBanner');
+            const inputContainer = document.getElementById('inputContainer');
+            const sendBtn = document.getElementById('sendBtn');
+            const messageInput = document.getElementById('messageInput');
+            
+            let bannerHtml = '';
+            let disableInput = false;
+            
+            if (userStatus.isBanned) {
+                bannerHtml = `<div class="restriction-banner error">
+                    <strong>Account Banned</strong><br>
+                    Reason: ${userStatus.banReason || 'Violation of community guidelines'}
+                </div>`;
+                disableInput = true;
+            } else if (userStatus.isMuted) {
+                const timeLeft = userStatus.mutedUntil ? 
+                    Math.ceil((userStatus.mutedUntil - new Date()) / 60000) : 30;
+                bannerHtml = `<div class="restriction-banner warning">
+                    <strong>You are muted</strong><br>
+                    Muted for ${timeLeft} more minute${timeLeft !== 1 ? 's' : ''}
+                </div>`;
+                disableInput = true;
+            } else if (systemSettings.readOnly) {
+                bannerHtml = `<div class="restriction-banner">
+                    <strong>Read-Only Mode</strong><br>
+                    Chat is currently in read-only mode by administrators
+                </div>`;
+                disableInput = true;
+            } else if (systemSettings.slowMode > 0) {
+                const timeLeft = Math.ceil((systemSettings.slowMode * 1000 - (Date.now() - lastMessageTime)) / 1000);
+                if (timeLeft > 0) {
+                    bannerHtml = `<div class="restriction-banner warning">
+                        <strong>Slow Mode Active</strong><br>
+                        Please wait ${timeLeft} second${timeLeft !== 1 ? 's' : ''} before sending another message
+                    </div>`;
+                    disableInput = true;
                 }
-                return;
             }
-
-            // Check read-only mode
-            if (systemSettings.readOnly) {
-                input.disabled = true;
-                sendBtn.disabled = true;
-                banner.className = 'restriction-banner readonly';
-                banner.innerHTML = 'Community is in read-only mode. Only admins can post messages.';
-                return;
+            
+            banner.innerHTML = bannerHtml;
+            inputContainer.style.display = disableInput ? 'none' : 'block';
+            sendBtn.disabled = disableInput;
+            messageInput.disabled = disableInput;
+            
+            if (disableInput) {
+                messageInput.placeholder = 'Messaging disabled';
+            } else {
+                messageInput.placeholder = 'Write a message...';
             }
+        }
 
-            // Check slow mode
-            if (systemSettings.slowMode > 0) {
-                const timeSinceLastMessage = (Date.now() - lastMessageTime) / 1000;
-                if (timeSinceLastMessage < systemSettings.slowMode) {
-                    const remaining = Math.ceil(systemSettings.slowMode - timeSinceLastMessage);
-                    sendBtn.disabled = true;
-                    banner.className = 'restriction-banner readonly';
-                    banner.innerHTML = `Slow mode: Wait ${remaining} seconds before sending another message`;
-                    
-                    setTimeout(updateInputState, 1000);
-                    return;
-                }
-            }
-
-            // Enable input
-            input.disabled = false;
-            sendBtn.disabled = false;
-            input.placeholder = 'Write a message...';
+        function checkProfanity(text) {
+            if (!systemSettings.profanity) return false;
+            
+            const lowerText = text.toLowerCase();
+            return profanityWords.some(word => lowerText.includes(word));
         }
 
         window.toggleSidebar = function() {
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('mobileOverlay');
-            sidebar.classList.toggle('show');
-            overlay.classList.toggle('show');
+            document.getElementById('sidebar').classList.toggle('show');
+            document.getElementById('mobileOverlay').classList.toggle('show');
         };
 
         window.switchChannel = function(channel) {
             currentChannel = channel;
-            
-            if (window.innerWidth <= 768) {
-                toggleSidebar();
-            }
+            if (window.innerWidth <= 900) toggleSidebar();
             
             document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
             event.currentTarget.classList.add('active');
@@ -1015,84 +943,54 @@
                 document.getElementById('chatAvatar').textContent = 'C';
                 document.getElementById('chatTitle').textContent = 'Community Chat';
                 document.getElementById('chatSubtitle').textContent = 'Public discussion';
-                document.getElementById('inputContainer').style.display = 'block';
-                document.getElementById('restrictionBanner').style.display = 'block';
+                document.getElementById('inputContainer').style.display = 
+                    (userStatus.isBanned || userStatus.isMuted || systemSettings.readOnly) ? 'none' : 'block';
             } else if (channel === 'announcements') {
                 document.getElementById('chatAvatar').textContent = 'A';
                 document.getElementById('chatTitle').textContent = 'Announcements';
                 document.getElementById('chatSubtitle').textContent = 'Official updates from team';
                 document.getElementById('inputContainer').style.display = 'none';
-                document.getElementById('restrictionBanner').style.display = 'none';
+                
+                // Mark announcements as read
+                if (unreadAnnouncements > 0) {
+                    document.getElementById('announcementBadge').style.display = 'none';
+                    unreadAnnouncements = 0;
+                }
             }
 
             loadMessages();
+        };
+
+        window.openCallSupport = function() {
+            window.location.href = 'support.html';
         };
 
         window.openSupport = function() {
             window.location.href = 'mailto:teamsharvika.inbox@gmail.com';
         };
 
-        function autoResize(textarea) {
-            textarea.style.height = 'auto';
-            textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
-        }
-
-        function updateCharCount() {
-            const input = document.getElementById('messageInput');
-            const counter = document.getElementById('charCounter');
-            counter.textContent = `${input.value.length}/1000`;
-        }
-
         window.sendMessage = async function() {
-            if (currentChannel !== 'community') return;
-            
-            // Check all restrictions
-            if (userRestrictions.banned) {
-                showToast('You are banned from sending messages', 'error');
-                return;
-            }
+            if (currentChannel !== 'community' || !currentUser) return;
 
-            if (userRestrictions.muted) {
-                showToast('You are temporarily muted', 'error');
-                return;
-            }
-
-            if (systemSettings.readOnly) {
-                showToast('Community is in read-only mode', 'error');
-                return;
-            }
-
-            if (!currentUser) {
-                showToast('Please sign in to send messages');
-                return;
-            }
+            const input = document.getElementById('messageInput');
+            const text = input.value.trim();
+            if (!text) return;
 
             // Check slow mode
             if (systemSettings.slowMode > 0) {
-                const timeSinceLastMessage = (Date.now() - lastMessageTime) / 1000;
-                if (timeSinceLastMessage < systemSettings.slowMode) {
-                    const remaining = Math.ceil(systemSettings.slowMode - timeSinceLastMessage);
-                    showToast(`Slow mode: Wait ${remaining} seconds`, 'error');
+                const timeSinceLastMessage = Date.now() - lastMessageTime;
+                if (timeSinceLastMessage < systemSettings.slowMode * 1000) {
+                    const waitTime = Math.ceil((systemSettings.slowMode * 1000 - timeSinceLastMessage) / 1000);
+                    showToast(`Please wait ${waitTime} second${waitTime !== 1 ? 's' : ''} before sending another message`);
                     return;
                 }
             }
 
-            const input = document.getElementById('messageInput');
-            let text = input.value.trim();
-            const sendBtn = document.getElementById('sendBtn');
-
-            if (!text) return;
-
-            // Basic profanity filter (if enabled)
-            if (systemSettings.profanity) {
-                const profanityList = ['badword1', 'badword2']; // Add your list
-                profanityList.forEach(word => {
-                    const regex = new RegExp(word, 'gi');
-                    text = text.replace(regex, '***');
-                });
+            // Check profanity
+            if (checkProfanity(text)) {
+                showToast('Message contains inappropriate language');
+                return;
             }
-
-            sendBtn.disabled = true;
 
             try {
                 await db.collection('communityComments').add({
@@ -1101,114 +999,170 @@
                     authorEmail: currentUser.email,
                     authorUID: currentUser.uid,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                    highlighted: false,
-                    hidden: false,
-                    adminReply: null,
                     channel: 'community'
                 });
 
-                input.value = '';
-                updateCharCount();
-                autoResize(input);
-                sendBtn.disabled = false;
-                
-                // Update last message time for slow mode
                 lastMessageTime = Date.now();
-
-                const container = document.getElementById('messagesContainer');
-                setTimeout(() => {
-                    container.scrollTop = container.scrollHeight;
-                }, 100);
+                input.value = '';
+                input.style.height = 'auto';
+                document.getElementById('charCounter').textContent = '0/1000';
+                updateRestrictions(); // Update slow mode timer
             } catch (error) {
-                console.error('Error sending message:', error);
-                showToast('Error sending message', 'error');
-                sendBtn.disabled = false;
+                console.error('Error:', error);
+                showToast('Failed to send message');
             }
         };
 
-        // ✅ FIXED FUNCTION - Removed where() clause to avoid index requirement
         function loadMessages() {
             const container = document.getElementById('messagesContainer');
-            const collectionName = currentChannel === 'community' ? 'communityComments' : 'announcements';
+            let collectionName, query;
             
-            if (messagesUnsubscribe) {
-                messagesUnsubscribe();
+            if (currentChannel === 'community') {
+                collectionName = 'communityComments';
+                query = db.collection(collectionName)
+                    .where('hidden', '!=', true)
+                    .orderBy('timestamp', 'asc')
+                    .limit(100);
+            } else if (currentChannel === 'announcements') {
+                collectionName = 'announcements';
+                query = db.collection(collectionName)
+                    .where('status', '==', 'active')
+                    .orderBy('timestamp', 'desc')
+                    .limit(50);
+            }
+            
+            if (messagesUnsubscribe) messagesUnsubscribe();
+            if (announcementsUnsubscribe) announcementsUnsubscribe();
+
+            if (currentChannel === 'announcements') {
+                announcementsUnsubscribe = query.onSnapshot((snapshot) => {
+                    displayAnnouncements(snapshot);
+                });
+            } else {
+                messagesUnsubscribe = query.onSnapshot((snapshot) => {
+                    displayCommunityMessages(snapshot);
+                });
+            }
+        }
+
+        function displayCommunityMessages(snapshot) {
+            const container = document.getElementById('messagesContainer');
+            
+            if (snapshot.empty) {
+                container.innerHTML = '<div class="loading">No messages yet</div>';
+                return;
             }
 
-            container.innerHTML = `
-                <div class="loading">
-                    <div class="loading-spinner"></div>
-                    <div>Loading messages...</div>
-                </div>
-            `;
+            let html = '';
+            snapshot.forEach((doc) => {
+                const msg = doc.data();
+                const timeAgo = msg.timestamp ? formatTime(msg.timestamp.toDate()) : 'now';
+                const initial = msg.author ? msg.author.charAt(0).toUpperCase() : '?';
 
-            // FIX: Removed .where('hidden', '==', false) to avoid composite index requirement
-            messagesUnsubscribe = db.collection(collectionName)
-                .orderBy('timestamp', 'asc')
-                .limit(100)
-                .onSnapshot((snapshot) => {
-                    if (snapshot.empty) {
-                        container.innerHTML = `
-                            <div class="empty-state">
-                                <div class="empty-icon">💬</div>
-                                <div class="empty-text">No messages yet${currentChannel === 'announcements' ? '. Waiting for team updates...' : '. Start the conversation!'}</div>
+                html += `
+                    <div class="message">
+                        <div class="message-avatar">${initial}</div>
+                        <div class="message-content">
+                            <div class="message-header">
+                                <span class="message-author">${escapeHtml(msg.author || 'Anonymous')}</span>
+                                <span class="message-time">${timeAgo}</span>
                             </div>
-                        `;
-                        return;
-                    }
-
-                    let html = '';
-                    snapshot.forEach((doc) => {
-                        const msg = doc.data();
-                        
-                        // FIX: Filter hidden messages on client-side instead of server-side
-                        if (msg.hidden === true) return;
-                        
-                        const timeAgo = msg.timestamp ? formatTime(msg.timestamp.toDate()) : 'now';
-                        const initial = msg.author ? msg.author.charAt(0).toUpperCase() : '?';
-
-                        html += `
-                            <div class="message">
-                                <div class="message-avatar">${initial}</div>
-                                <div class="message-content">
-                                    <div class="message-header">
-                                        <span class="message-author">${escapeHtml(msg.author || 'Anonymous')}</span>
-                                        <span class="message-time">${timeAgo}</span>
+                            <div class="message-bubble ${msg.highlighted ? 'highlighted' : ''}">
+                                <div class="message-text">${escapeHtml(msg.text)}</div>
+                                ${msg.adminReply ? `
+                                    <div class="admin-reply">
+                                        <div class="reply-label">Team Response</div>
+                                        <div class="reply-text">${escapeHtml(msg.adminReply)}</div>
                                     </div>
-                                    <div class="message-bubble ${msg.highlighted ? 'highlighted' : ''} ${currentChannel === 'announcements' ? 'announcement' : ''}">
-                                        <div class="message-text">${escapeHtml(msg.text)}</div>
-                                        ${msg.adminReply ? `
-                                            <div class="admin-reply">
-                                                <div class="reply-label">Team Response</div>
-                                                <div class="reply-text">${escapeHtml(msg.adminReply)}</div>
-                                            </div>
-                                        ` : ''}
-                                    </div>
-                                    ${msg.highlighted ? `
-                                        <div class="message-footer">
-                                            <span class="highlight-badge">Highlighted</span>
-                                        </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+            setTimeout(() => container.scrollTop = container.scrollHeight, 100);
+        }
+
+        function displayAnnouncements(snapshot) {
+            const container = document.getElementById('messagesContainer');
+            
+            if (snapshot.empty) {
+                container.innerHTML = '<div class="loading">No announcements yet</div>';
+                return;
+            }
+
+            let html = '';
+            let newUnreadCount = 0;
+            
+            snapshot.forEach((doc) => {
+                const msg = doc.data();
+                const timeAgo = msg.timestamp ? formatTime(msg.timestamp.toDate()) : 'now';
+                const type = msg.type || 'INFO';
+                
+                // Check if this announcement needs acknowledgment
+                if (msg.requireAck && !acknowledgedAnnouncements.includes(doc.id)) {
+                    newUnreadCount++;
+                }
+                
+                html += `
+                    <div class="message">
+                        <div class="message-content" style="max-width: 100%;">
+                            <div class="message-bubble announcement ${type.toLowerCase()}">
+                                <div class="announcement-header">
+                                    <span class="announcement-badge ${type.toLowerCase()}">${type}</span>
+                                    <span class="message-time">${timeAgo}</span>
+                                </div>
+                                ${msg.title ? `<div style="font-weight: 600; margin-bottom: 8px;">${escapeHtml(msg.title)}</div>` : ''}
+                                <div class="message-text">${escapeHtml(msg.message)}</div>
+                                <div style="margin-top: 8px; font-size: 12px; color: #666666;">
+                                    By: ${escapeHtml(msg.sender || 'Admin')}
+                                    ${msg.requireAck ? `
+                                        <button onclick="acknowledgeAnnouncement('${doc.id}')" 
+                                                style="margin-left: 12px; padding: 4px 12px; background: #ffffff; color: #000000; 
+                                                       border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">
+                                            Acknowledge
+                                        </button>
                                     ` : ''}
                                 </div>
                             </div>
-                        `;
-                    });
-
-                    container.innerHTML = html;
-
-                    setTimeout(() => {
-                        container.scrollTop = container.scrollHeight;
-                    }, 100);
-                }, (error) => {
-                    console.error('Error loading messages:', error);
-                    container.innerHTML = `
-                        <div class="empty-state">
-                            <div class="empty-icon">⚠️</div>
-                            <div class="empty-text">Error loading messages. Please refresh.</div>
                         </div>
-                    `;
-                });
+                    </div>
+                `;
+            });
+
+            // Update unread count if not currently viewing announcements
+            if (currentChannel !== 'announcements' && newUnreadCount > 0) {
+                unreadAnnouncements = newUnreadCount;
+                const badge = document.getElementById('announcementBadge');
+                badge.textContent = unreadAnnouncements;
+                badge.style.display = 'flex';
+            }
+
+            container.innerHTML = html;
+            setTimeout(() => container.scrollTop = container.scrollHeight, 100);
         }
+
+        window.acknowledgeAnnouncement = function(announcementId) {
+            if (!acknowledgedAnnouncements.includes(announcementId)) {
+                acknowledgedAnnouncements.push(announcementId);
+                localStorage.setItem('acknowledgedAnnouncements', JSON.stringify(acknowledgedAnnouncements));
+                
+                // Update unread count
+                unreadAnnouncements = Math.max(0, unreadAnnouncements - 1);
+                const badge = document.getElementById('announcementBadge');
+                if (unreadAnnouncements > 0) {
+                    badge.textContent = unreadAnnouncements;
+                } else {
+                    badge.style.display = 'none';
+                }
+                
+                // Reload announcements to update UI
+                loadMessages();
+                showToast('Announcement acknowledged');
+            }
+        };
 
         function escapeHtml(text) {
             const div = document.createElement('div');
@@ -1217,71 +1171,37 @@
         }
 
         function formatTime(date) {
-            const now = new Date();
-            const diff = now - date;
-            const seconds = Math.floor(diff / 1000);
-            const minutes = Math.floor(seconds / 60);
+            const diff = Date.now() - date;
+            const minutes = Math.floor(diff / 60000);
             const hours = Math.floor(minutes / 60);
             const days = Math.floor(hours / 24);
 
-            if (seconds < 60) return 'just now';
+            if (minutes < 1) return 'now';
             if (minutes < 60) return `${minutes}m ago`;
             if (hours < 24) return `${hours}h ago`;
             if (days < 7) return `${days}d ago`;
-            
             return date.toLocaleDateString();
         }
 
-        function showToast(message, type = 'normal') {
+        function showToast(message) {
             const toast = document.getElementById('toast');
             toast.textContent = message;
-            toast.className = 'toast';
-            if (type === 'error') {
-                toast.classList.add('error');
-            }
             toast.classList.add('show');
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
         window.logout = async function() {
-            if (confirm('Are you sure you want to logout?')) {
-                try {
-                    // Update presence
-                    if (currentUser) {
-                        await db.collection('presence').doc(currentUser.uid).set({
-                            online: false,
-                            lastSeen: firebase.firestore.FieldValue.serverTimestamp()
-                        }, { merge: true });
-                    }
-                    
-                    // Unsubscribe from listeners
-                    if (messagesUnsubscribe) messagesUnsubscribe();
-                    if (banUnsubscribe) banUnsubscribe();
-                    if (muteUnsubscribe) muteUnsubscribe();
-                    if (settingsUnsubscribe) settingsUnsubscribe();
-                    
-                    await auth.signOut();
-                    sessionStorage.clear();
-                    window.location.href = 'signin.html';
-                } catch (error) {
-                    console.error('Logout error:', error);
-                    showToast('Error logging out', 'error');
-                }
+            if (confirm('Logout?')) {
+                if (messagesUnsubscribe) messagesUnsubscribe();
+                if (settingsUnsubscribe) settingsUnsubscribe();
+                if (userStatusUnsubscribe) userStatusUnsubscribe();
+                if (announcementsUnsubscribe) announcementsUnsubscribe();
+                await auth.signOut();
+                window.location.href = 'signin.html';
             }
         };
-
-        // Check if Firebase loaded properly
-        setTimeout(() => {
-            if (typeof auth === 'undefined') {
-                console.error('❌ Firebase failed to load');
-                document.getElementById('messagesContainer').innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-icon">⚠️</div>
-                        <div class="empty-text">Connection error. Please refresh the page.</div>
-                    </div>
-                `;
-            }
-        }, 5000);
     </script>
 </body>
 </html>
+```
+

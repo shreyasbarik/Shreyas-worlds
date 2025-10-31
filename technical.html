@@ -19,11 +19,48 @@
         }
 
         body {
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #0e0e0e;
+            font-family: 'Roboto', sans-serif;
+            background: #000000;
             color: #ffffff;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .mobile-header {
+            display: none;
+            padding: 12px 16px;
+            background: #0a0a0a;
+            border-bottom: 1px solid #1a1a1a;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .mobile-menu-btn {
+            width: 40px;
+            height: 40px;
+            background: #1a1a1a;
+            border: none;
+            border-radius: 6px;
+            color: #ffffff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .mobile-menu-btn:active {
+            background: #2a2a2a;
+        }
+
+        .mobile-title {
+            font-size: 16px;
+            font-weight: 500;
+            flex: 1;
+            text-align: center;
         }
 
         .workspace {
@@ -35,8 +72,8 @@
         }
 
         .left-panel {
-            background: #1a1a1a;
-            border-right: 1px solid #2a2a2a;
+            background: #0a0a0a;
+            border-right: 1px solid #1a1a1a;
             display: flex;
             flex-direction: column;
             height: 100vh;
@@ -45,7 +82,7 @@
 
         .panel-header {
             padding: 20px;
-            border-bottom: 1px solid #2a2a2a;
+            border-bottom: 1px solid #1a1a1a;
             flex-shrink: 0;
         }
 
@@ -57,37 +94,37 @@
 
         .workspace-subtitle {
             font-size: 13px;
-            color: #8e8e93;
+            color: #666666;
         }
 
-        .nav-sections {
+        .nav-sections-wrapper {
             flex: 1;
             overflow-y: auto;
             overflow-x: hidden;
         }
 
-        .nav-sections::-webkit-scrollbar {
+        .nav-sections-wrapper::-webkit-scrollbar {
             width: 6px;
         }
 
-        .nav-sections::-webkit-scrollbar-track {
+        .nav-sections-wrapper::-webkit-scrollbar-track {
             background: transparent;
         }
 
-        .nav-sections::-webkit-scrollbar-thumb {
-            background: #2a2a2a;
+        .nav-sections-wrapper::-webkit-scrollbar-thumb {
+            background: #1a1a1a;
             border-radius: 3px;
         }
 
         .nav-section {
             padding: 16px 0;
-            border-bottom: 1px solid #2a2a2a;
+            border-bottom: 1px solid #1a1a1a;
         }
 
         .nav-label {
             padding: 0 20px 12px;
             font-size: 11px;
-            color: #6e6e73;
+            color: #666666;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -99,33 +136,44 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            min-height: 44px;
         }
 
         .nav-item:hover {
-            background: #2a2a2a;
+            background: #1a1a1a;
         }
 
         .nav-item.active {
-            background: #2a2a2a;
-            border-left: 3px solid #ffffff;
-            padding-left: 17px;
+            background: #1a1a1a;
+            border-left: 2px solid #ffffff;
+            padding-left: 18px;
+        }
+
+        .nav-item.priority {
+            background: #1a1a1a;
+            border-left: 2px solid #ffffff;
         }
 
         .nav-item-content {
             display: flex;
             align-items: center;
             gap: 12px;
+            flex: 1;
+            min-width: 0;
         }
 
         .nav-icon {
             width: 20px;
             height: 20px;
-            opacity: 0.7;
+            flex-shrink: 0;
         }
 
         .nav-text {
             font-size: 14px;
             font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .nav-badge {
@@ -135,10 +183,16 @@
             border-radius: 10px;
             font-size: 11px;
             font-weight: 600;
+            flex-shrink: 0;
         }
 
-        .nav-badge.online {
-            background: #34c759;
+        .nav-badge.alert {
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50%, 100% { opacity: 1; }
+            25%, 75% { opacity: 0.5; }
         }
 
         .control-section {
@@ -146,15 +200,16 @@
         }
 
         .control-card {
-            background: #2a2a2a;
+            background: #1a1a1a;
             padding: 16px;
-            border-radius: 12px;
+            border-radius: 8px;
             margin-bottom: 12px;
+            border: 1px solid #2a2a2a;
         }
 
         .control-label {
             font-size: 13px;
-            color: #8e8e93;
+            color: #666666;
             margin-bottom: 12px;
             display: flex;
             align-items: center;
@@ -165,7 +220,7 @@
             position: relative;
             width: 44px;
             height: 24px;
-            background: #3a3a3a;
+            background: #2a2a2a;
             border-radius: 12px;
             cursor: pointer;
             transition: background 0.3s;
@@ -173,7 +228,7 @@
         }
 
         .toggle-switch.active {
-            background: #34c759;
+            background: #ffffff;
         }
 
         .toggle-slider {
@@ -182,25 +237,30 @@
             left: 2px;
             width: 20px;
             height: 20px;
-            background: #6e6e73;
+            background: #666666;
             border-radius: 50%;
             transition: all 0.3s;
         }
 
         .toggle-switch.active .toggle-slider {
             left: 22px;
-            background: #ffffff;
+            background: #000000;
         }
 
         .input-field {
             width: 100%;
             padding: 10px;
-            background: #1a1a1a;
-            border: 1px solid #3a3a3a;
-            border-radius: 8px;
+            background: #000000;
+            border: 1px solid #2a2a2a;
+            border-radius: 6px;
             color: #ffffff;
             font-size: 13px;
             outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .input-field:focus {
+            border-color: #3a3a3a;
         }
 
         .stats-grid {
@@ -211,10 +271,17 @@
         }
 
         .stat-mini {
-            background: #2a2a2a;
+            background: #1a1a1a;
             padding: 12px;
             border-radius: 8px;
             text-align: center;
+            cursor: pointer;
+            transition: background 0.2s;
+            border: 1px solid #2a2a2a;
+        }
+
+        .stat-mini:hover {
+            background: #2a2a2a;
         }
 
         .stat-mini-value {
@@ -223,18 +290,14 @@
             margin-bottom: 4px;
         }
 
-        .stat-mini-value.online {
-            color: #34c759;
-        }
-
         .stat-mini-label {
             font-size: 11px;
-            color: #8e8e93;
+            color: #666666;
         }
 
         .admin-footer {
             padding: 16px 20px;
-            border-top: 1px solid #2a2a2a;
+            border-top: 1px solid #1a1a1a;
             display: flex;
             align-items: center;
             gap: 12px;
@@ -269,13 +332,13 @@
 
         .admin-role {
             font-size: 12px;
-            color: #8e8e93;
+            color: #666666;
         }
 
         .logout-btn {
             width: 32px;
             height: 32px;
-            border-radius: 50%;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -285,11 +348,11 @@
         }
 
         .logout-btn:hover {
-            background: #2a2a2a;
+            background: #1a1a1a;
         }
 
         .middle-panel {
-            background: #0e0e0e;
+            background: #000000;
             display: flex;
             flex-direction: column;
             height: 100vh;
@@ -298,12 +361,14 @@
 
         .content-header {
             padding: 16px 24px;
-            background: #1a1a1a;
-            border-bottom: 1px solid #2a2a2a;
+            background: #0a0a0a;
+            border-bottom: 1px solid #1a1a1a;
             display: flex;
             align-items: center;
             justify-content: space-between;
             flex-shrink: 0;
+            flex-wrap: wrap;
+            gap: 12px;
         }
 
         .header-info {
@@ -311,13 +376,14 @@
             align-items: center;
             gap: 12px;
             min-width: 0;
+            flex: 1;
         }
 
         .header-icon {
             width: 40px;
             height: 40px;
-            background: #2a2a2a;
-            border-radius: 50%;
+            background: #1a1a1a;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -331,19 +397,20 @@
 
         .header-subtitle {
             font-size: 13px;
-            color: #8e8e93;
+            color: #666666;
         }
 
         .header-actions {
             display: flex;
             gap: 8px;
+            flex-wrap: wrap;
         }
 
         .action-btn {
             padding: 8px 16px;
-            background: #2a2a2a;
-            border: none;
-            border-radius: 8px;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 6px;
             color: #ffffff;
             font-size: 13px;
             cursor: pointer;
@@ -352,93 +419,79 @@
             align-items: center;
             gap: 6px;
             white-space: nowrap;
+            min-height: 36px;
         }
 
         .action-btn:hover {
-            background: #3a3a3a;
+            background: #2a2a2a;
         }
 
-        .action-btn.danger {
-            background: rgba(255, 59, 48, 0.2);
-            color: #ff3b30;
+        .action-btn:active {
+            transform: scale(0.98);
         }
 
-        .action-btn.success {
-            background: rgba(52, 199, 89, 0.2);
-            color: #34c759;
-        }
-
-        .toolbar {
+        .search-bar {
             padding: 12px 24px;
+            background: #0a0a0a;
+            border-bottom: 1px solid #1a1a1a;
+            flex-shrink: 0;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 16px;
             background: #1a1a1a;
-            border-bottom: 1px solid #2a2a2a;
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            flex-wrap: wrap;
-            flex-shrink: 0;
-        }
-
-        .toolbar-search {
-            flex: 1;
-            min-width: 200px;
-            padding: 8px 16px;
-            background: #2a2a2a;
-            border: 1px solid #3a3a3a;
-            border-radius: 8px;
-            color: #ffffff;
-            font-size: 13px;
-            outline: none;
-        }
-
-        .toolbar-select {
-            padding: 8px 16px;
-            background: #2a2a2a;
-            border: 1px solid #3a3a3a;
-            border-radius: 8px;
-            color: #ffffff;
-            font-size: 13px;
-            outline: none;
-            cursor: pointer;
-        }
-
-        .bulk-actions-bar {
-            padding: 12px 24px;
-            background: #2a2a2a;
-            border-bottom: 1px solid #3a3a3a;
-            display: none;
-            align-items: center;
-            gap: 12px;
-            flex-shrink: 0;
-        }
-
-        .bulk-actions-bar.show {
-            display: flex;
-        }
-
-        .bulk-count {
-            font-size: 13px;
-            color: #8e8e93;
-        }
-
-        .bulk-btn {
-            padding: 6px 12px;
-            background: #3a3a3a;
-            border: none;
+            border: 1px solid #2a2a2a;
             border-radius: 6px;
+            color: #ffffff;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: #3a3a3a;
+        }
+
+        .filter-bar {
+            padding: 12px 24px;
+            background: #0a0a0a;
+            border-bottom: 1px solid #1a1a1a;
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            flex-shrink: 0;
+        }
+
+        .filter-bar::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .filter-bar::-webkit-scrollbar-thumb {
+            background: #1a1a1a;
+            border-radius: 2px;
+        }
+
+        .filter-chip {
+            padding: 6px 14px;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 16px;
             color: #ffffff;
             font-size: 12px;
             cursor: pointer;
-            transition: background 0.2s;
+            white-space: nowrap;
+            transition: all 0.2s;
         }
 
-        .bulk-btn:hover {
-            background: #4a4a4a;
+        .filter-chip.active {
+            background: #ffffff;
+            color: #000000;
+            border-color: #ffffff;
         }
 
-        .bulk-btn.danger {
-            background: rgba(255, 59, 48, 0.2);
-            color: #ff3b30;
+        .filter-chip:hover:not(.active) {
+            background: #2a2a2a;
         }
 
         .content-area {
@@ -457,14 +510,303 @@
         }
 
         .content-area::-webkit-scrollbar-thumb {
-            background: #2a2a2a;
+            background: #1a1a1a;
             border-radius: 4px;
         }
 
-        .message-item {
+        .bulk-actions-bar {
+            padding: 12px 24px;
+            background: #1a1a1a;
+            border-bottom: 1px solid #2a2a2a;
+            display: none;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .bulk-actions-bar.show {
+            display: flex;
+        }
+
+        .bulk-info {
+            flex: 1;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .bulk-btn {
+            padding: 6px 14px;
+            background: #2a2a2a;
+            border: 1px solid #3a3a3a;
+            border-radius: 6px;
+            color: #ffffff;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .bulk-btn:hover {
+            background: #3a3a3a;
+        }
+
+        /* Incoming Call Card */
+        .incoming-call-card {
+            background: #0a0a0a;
+            border: 2px solid #ffffff;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            animation: slideIn 0.3s ease-out;
+            position: relative;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .incoming-call-card:hover {
+            background: #1a1a1a;
+            transform: translateY(-2px);
+        }
+
+        .call-card-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .caller-avatar {
+            width: 60px;
+            height: 60px;
+            background: #1a1a1a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffffff;
+            border: 2px solid #2a2a2a;
+            flex-shrink: 0;
+        }
+
+        .caller-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .caller-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .caller-email {
+            font-size: 14px;
+            color: #666666;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .call-badge {
+            background: #1a1a1a;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #ffffff;
+            border: 1px solid #2a2a2a;
+            flex-shrink: 0;
+        }
+
+        .call-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .call-action-btn {
+            flex: 1;
+            padding: 14px 24px;
+            border: 2px solid #2a2a2a;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .call-action-btn.accept {
+            background: #ffffff;
+            color: #000000;
+            border-color: #ffffff;
+        }
+
+        .call-action-btn.accept:hover {
+            background: #e0e0e0;
+        }
+
+        .call-action-btn.reject {
+            background: transparent;
+            color: #ffffff;
+            border-color: #2a2a2a;
+        }
+
+        .call-action-btn.reject:hover {
+            background: #1a1a1a;
+        }
+
+        /* Video Call Container */
+        .video-call-container {
+            background: #000000;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 20px;
+            border: 1px solid #1a1a1a;
+        }
+
+        #techRemoteVideo {
+            width: 100%;
+            height: 500px;
+            object-fit: contain;
+            display: block;
+            background: #000000;
+        }
+
+        #techLocalVideo {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 200px;
+            height: 150px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 2px solid #2a2a2a;
+        }
+
+        .caller-badge {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 12px 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid #1a1a1a;
+        }
+
+        .caller-badge-avatar {
+            width: 40px;
+            height: 40px;
+            background: #1a1a1a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .caller-badge-info {
+            color: #ffffff;
+        }
+
+        .caller-badge-name {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .caller-badge-email {
+            font-size: 12px;
+            color: #666666;
+        }
+
+        .call-duration-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 600;
+            border: 1px solid #1a1a1a;
+        }
+
+        .video-controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .video-control-btn {
+            flex: 1;
+            padding: 16px;
             background: #1a1a1a;
             border: 1px solid #2a2a2a;
-            border-radius: 12px;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .video-control-btn:hover {
+            background: #2a2a2a;
+        }
+
+        .video-control-btn.active {
+            background: #ffffff;
+            color: #000000;
+            border-color: #ffffff;
+        }
+
+        .video-control-btn.muted {
+            background: #1a1a1a;
+            color: #666666;
+        }
+
+        .video-control-btn.end {
+            background: #1a1a1a;
+            border-color: #2a2a2a;
+        }
+
+        .video-control-btn.end:hover {
+            background: #2a2a2a;
+        }
+
+        /* Message Item */
+        .message-item {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            border-radius: 8px;
             padding: 16px;
             margin-bottom: 12px;
             cursor: pointer;
@@ -473,31 +815,13 @@
         }
 
         .message-item:hover {
-            background: #2a2a2a;
-            border-color: #3a3a3a;
+            background: #1a1a1a;
+            border-color: #2a2a2a;
         }
 
         .message-item.selected {
-            background: #2a2a2a;
+            background: #1a1a1a;
             border-color: #ffffff;
-        }
-
-        .message-item.bulk-selected {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: #ffffff;
-        }
-
-        .message-item.pinned {
-            border-left: 3px solid #ffffff;
-        }
-
-        .message-item.hidden {
-            opacity: 0.4;
-        }
-
-        .message-item.banned-user {
-            background: rgba(255, 59, 48, 0.1);
-            border-color: rgba(255, 59, 48, 0.3);
         }
 
         .message-checkbox {
@@ -506,7 +830,33 @@
             left: 16px;
             width: 20px;
             height: 20px;
+            background: #1a1a1a;
+            border: 2px solid #2a2a2a;
+            border-radius: 4px;
             cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bulk-select-mode .message-checkbox {
+            display: flex;
+        }
+
+        .bulk-select-mode .message-item {
+            padding-left: 50px;
+        }
+
+        .message-checkbox.checked {
+            background: #ffffff;
+            border-color: #ffffff;
+        }
+
+        .message-checkbox.checked::after {
+            content: '✓';
+            color: #000000;
+            font-size: 14px;
+            font-weight: bold;
         }
 
         .message-header {
@@ -514,7 +864,7 @@
             justify-content: space-between;
             align-items: start;
             margin-bottom: 12px;
-            margin-left: 36px;
+            gap: 12px;
         }
 
         .message-author-info {
@@ -536,18 +886,6 @@
             font-weight: 600;
             font-size: 14px;
             flex-shrink: 0;
-            position: relative;
-        }
-
-        .online-indicator {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 12px;
-            height: 12px;
-            background: #34c759;
-            border: 2px solid #1a1a1a;
-            border-radius: 50%;
         }
 
         .author-details {
@@ -565,7 +903,7 @@
 
         .author-email {
             font-size: 12px;
-            color: #8e8e93;
+            color: #666666;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -573,7 +911,7 @@
 
         .message-time {
             font-size: 12px;
-            color: #8e8e93;
+            color: #666666;
             white-space: nowrap;
         }
 
@@ -582,16 +920,13 @@
             line-height: 1.5;
             color: #ffffff;
             margin-bottom: 12px;
-            margin-left: 36px;
             word-wrap: break-word;
-            overflow-wrap: break-word;
         }
 
         .message-meta {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
-            margin-left: 36px;
         }
 
         .meta-badge {
@@ -599,51 +934,15 @@
             border-radius: 12px;
             font-size: 11px;
             font-weight: 600;
-        }
-
-        .badge-highlighted {
-            background: rgba(255, 255, 255, 0.2);
-            color: #ffffff;
-        }
-
-        .badge-pinned {
-            background: rgba(255, 255, 255, 0.2);
-            color: #ffffff;
-        }
-
-        .badge-hidden {
-            background: rgba(255, 59, 48, 0.2);
-            color: #ff3b30;
-        }
-
-        .badge-category {
-            background: rgba(48, 209, 88, 0.2);
-            color: #30d158;
-        }
-
-        .badge-archived {
-            background: rgba(142, 142, 147, 0.2);
-            color: #8e8e93;
-        }
-
-        .badge-banned {
-            background: rgba(255, 59, 48, 0.3);
-            color: #ff3b30;
-        }
-
-        .badge-muted {
-            background: rgba(255, 149, 0, 0.2);
-            color: #ff9500;
-        }
-
-        .badge-online {
-            background: rgba(52, 199, 89, 0.2);
-            color: #34c759;
-        }
-
-        .right-panel {
             background: #1a1a1a;
-            border-left: 1px solid #2a2a2a;
+            color: #666666;
+            border: 1px solid #2a2a2a;
+        }
+
+        /* Right Panel */
+        .right-panel {
+            background: #0a0a0a;
+            border-left: 1px solid #1a1a1a;
             display: flex;
             flex-direction: column;
             height: 100vh;
@@ -652,7 +951,7 @@
 
         .actions-header {
             padding: 20px;
-            border-bottom: 1px solid #2a2a2a;
+            border-bottom: 1px solid #1a1a1a;
             flex-shrink: 0;
         }
 
@@ -672,12 +971,8 @@
             width: 6px;
         }
 
-        .actions-body::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
         .actions-body::-webkit-scrollbar-thumb {
-            background: #2a2a2a;
+            background: #1a1a1a;
             border-radius: 3px;
         }
 
@@ -687,7 +982,7 @@
 
         .action-section-title {
             font-size: 13px;
-            color: #8e8e93;
+            color: #666666;
             margin-bottom: 12px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -696,30 +991,24 @@
         .action-button {
             width: 100%;
             padding: 14px;
-            background: #2a2a2a;
-            border: 1px solid #3a3a3a;
-            border-radius: 12px;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
             color: #ffffff;
             font-size: 14px;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
             margin-bottom: 10px;
-            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+            min-height: 44px;
         }
 
         .action-button:hover {
-            background: #3a3a3a;
-        }
-
-        .action-button.danger {
-            background: rgba(255, 59, 48, 0.1);
-            border-color: rgba(255, 59, 48, 0.3);
-            color: #ff3b30;
-        }
-
-        .action-button.danger:hover {
-            background: rgba(255, 59, 48, 0.2);
+            background: #2a2a2a;
         }
 
         .action-button.primary {
@@ -732,22 +1021,17 @@
             background: #e0e0e0;
         }
 
-        .action-button.success {
-            background: rgba(52, 199, 89, 0.1);
-            border-color: rgba(52, 199, 89, 0.3);
-            color: #34c759;
-        }
-
         .selected-info {
-            background: #2a2a2a;
+            background: #1a1a1a;
             padding: 16px;
-            border-radius: 12px;
+            border-radius: 8px;
             margin-bottom: 24px;
+            border: 1px solid #2a2a2a;
         }
 
         .selected-label {
             font-size: 11px;
-            color: #8e8e93;
+            color: #666666;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-bottom: 8px;
@@ -762,7 +1046,7 @@
 
         .selected-email {
             font-size: 13px;
-            color: #8e8e93;
+            color: #666666;
             margin-bottom: 12px;
             word-wrap: break-word;
         }
@@ -774,38 +1058,13 @@
             word-wrap: break-word;
         }
 
-        .user-stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-            margin-top: 12px;
-        }
-
-        .user-stat-item {
-            background: #1a1a1a;
-            padding: 8px;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        .user-stat-value {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 2px;
-        }
-
-        .user-stat-label {
-            font-size: 10px;
-            color: #8e8e93;
-        }
-
         .reply-textarea {
             width: 100%;
             min-height: 100px;
             padding: 12px;
-            background: #2a2a2a;
-            border: 1px solid #3a3a3a;
-            border-radius: 12px;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
             color: #ffffff;
             font-size: 14px;
             font-family: inherit;
@@ -815,33 +1074,38 @@
         }
 
         .reply-textarea:focus {
-            border-color: #4a4a4a;
+            border-color: #3a3a3a;
         }
 
         .select-input {
             width: 100%;
             padding: 12px;
-            background: #2a2a2a;
-            border: 1px solid #3a3a3a;
-            border-radius: 12px;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
             color: #ffffff;
             font-size: 14px;
             font-family: inherit;
             outline: none;
             margin-bottom: 12px;
+            /* Ensure text color is white on select */
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
         }
 
         .template-item {
-            background: #2a2a2a;
+            background: #1a1a1a;
             padding: 12px;
             border-radius: 8px;
             margin-bottom: 8px;
             cursor: pointer;
             transition: background 0.2s;
+            border: 1px solid #2a2a2a;
         }
 
         .template-item:hover {
-            background: #3a3a3a;
+            background: #2a2a2a;
         }
 
         .template-title {
@@ -852,25 +1116,19 @@
 
         .template-text {
             font-size: 12px;
-            color: #8e8e93;
-        }
-
-        .no-selection {
-            text-align: center;
-            padding: 60px 20px;
-            color: #6e6e73;
+            color: #666666;
         }
 
         .loading {
             text-align: center;
             padding: 60px 20px;
-            color: #6e6e73;
+            color: #666666;
         }
 
         .loading-spinner {
             width: 32px;
             height: 32px;
-            border: 3px solid #2a2a2a;
+            border: 3px solid #1a1a1a;
             border-top-color: #ffffff;
             border-radius: 50%;
             animation: spin 1s linear infinite;
@@ -888,95 +1146,18 @@
             background: #ffffff;
             color: #000000;
             padding: 16px 24px;
-            border-radius: 12px;
+            border-radius: 8px;
             font-size: 14px;
             font-weight: 500;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
             transform: translateX(400px);
             transition: transform 0.3s;
             z-index: 10000;
+            max-width: 400px;
         }
 
         .toast.show {
             transform: translateX(0);
-        }
-
-        .toast.error {
-            background: #ff3b30;
-            color: #ffffff;
-        }
-
-        .toast.success {
-            background: #34c759;
-            color: #ffffff;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 9999;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal.show {
-            display: flex;
-        }
-
-        .modal-content {
-            background: #1a1a1a;
-            border-radius: 16px;
-            padding: 24px;
-            max-width: 500px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .modal-header {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 16px;
-        }
-
-        .modal-body {
-            margin-bottom: 20px;
-        }
-
-        .modal-footer {
-            display: flex;
-            gap: 12px;
-            justify-content: flex-end;
-        }
-
-        .modal-btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .modal-btn.cancel {
-            background: #2a2a2a;
-            color: #ffffff;
-        }
-
-        .modal-btn.confirm {
-            background: #ffffff;
-            color: #000000;
-        }
-
-        .modal-btn.danger {
-            background: #ff3b30;
-            color: #ffffff;
         }
 
         .overlay {
@@ -986,51 +1167,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
             z-index: 999;
         }
 
         .overlay.show {
             display: block;
-        }
-
-        .mobile-header {
-            display: none;
-            padding: 12px 16px;
-            background: #1a1a1a;
-            border-bottom: 1px solid #2a2a2a;
-            align-items: center;
-            justify-content: space-between;
-            flex-shrink: 0;
-        }
-
-        .mobile-menu-btn {
-            width: 40px;
-            height: 40px;
-            background: #2a2a2a;
-            border: none;
-            border-radius: 8px;
-            color: #ffffff;
-            font-size: 20px;
-            cursor: pointer;
-        }
-
-        .mobile-title {
-            font-size: 16px;
-            font-weight: 500;
-        }
-
-        .activity-log {
-            background: #2a2a2a;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            font-size: 13px;
-        }
-
-        .activity-log-time {
-            color: #8e8e93;
-            font-size: 11px;
         }
 
         @media (max-width: 1400px) {
@@ -1049,10 +1192,10 @@
                 right: -420px;
                 top: 0;
                 width: 420px;
+                max-width: 90vw;
                 height: 100vh;
                 transition: right 0.3s ease;
                 z-index: 1001;
-                box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
             }
 
             .right-panel.show {
@@ -1075,10 +1218,10 @@
                 left: -100%;
                 top: 64px;
                 width: 280px;
+                max-width: 85vw;
                 height: calc(100vh - 64px);
                 transition: left 0.3s ease;
                 z-index: 1002;
-                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
             }
 
             .left-panel.show {
@@ -1088,67 +1231,81 @@
             .right-panel {
                 top: 64px;
                 height: calc(100vh - 64px);
-                width: 90%;
-                max-width: 360px;
             }
 
             .content-area {
                 padding: 16px;
             }
 
-            .actions-body {
+            #techRemoteVideo {
+                height: 300px;
+            }
+
+            #techLocalVideo {
+                width: 120px;
+                height: 90px;
+            }
+
+            .incoming-call-card {
                 padding: 16px;
             }
 
-            .content-header {
-                padding: 12px 16px;
-            }
-
-            .message-item {
-                padding: 12px;
-            }
-
-            .toolbar {
-                padding: 8px 16px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .left-panel {
-                width: 90%;
-                max-width: 300px;
-            }
-
-            .header-subtitle {
-                display: none;
-            }
-
-            .action-btn span {
-                display: none;
+            .caller-avatar {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
             }
         }
     </style>
 </head>
 <body>
     <div class="mobile-header">
-        <button class="mobile-menu-btn" onclick="toggleLeftPanel()">&#9776;</button>
+        <button class="mobile-menu-btn" onclick="toggleLeftPanel()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+        </button>
         <div class="mobile-title">Technical Workspace</div>
-        <button class="mobile-menu-btn" onclick="toggleRightPanel()">&#8942;</button>
+        <button class="mobile-menu-btn" onclick="toggleRightPanel()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="5" r="2"/>
+                <circle cx="12" cy="12" r="2"/>
+                <circle cx="12" cy="19" r="2"/>
+            </svg>
+        </button>
     </div>
 
     <div class="overlay" id="overlay" onclick="closeAllPanels()"></div>
 
     <div class="workspace">
+        <!-- LEFT PANEL -->
         <div class="left-panel" id="leftPanel">
             <div class="panel-header">
                 <div class="workspace-title">SHARVIKA</div>
-                <div class="workspace-subtitle">Admin Control Panel</div>
+                <div class="workspace-subtitle">Technical Control</div>
             </div>
 
-            <div class="nav-sections">
+            <div class="nav-sections-wrapper">
+                <!-- Live Calls Section -->
                 <div class="nav-section">
-                    <div class="nav-label">Content Management</div>
-                    <div class="nav-item active" onclick="switchView('all')">
+                    <div class="nav-label">LIVE SUPPORT</div>
+                    <div class="nav-item priority active" onclick="switchView('liveCalls')">
+                        <div class="nav-item-content">
+                            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                            </svg>
+                            <span class="nav-text">Incoming Calls</span>
+                        </div>
+                        <span class="nav-badge alert" id="liveCallsCount">0</span>
+                    </div>
+                </div>
+
+                <!-- Content Management -->
+                <div class="nav-section">
+                    <div class="nav-label">CONTENT MANAGEMENT</div>
+                    <div class="nav-item" onclick="switchView('all')">
                         <div class="nav-item-content">
                             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
@@ -1166,30 +1323,22 @@
                         </div>
                         <span class="nav-badge" id="pinnedCount">0</span>
                     </div>
-                    <div class="nav-item" onclick="switchView('users')">
+                    <div class="nav-item" onclick="switchView('archived')">
                         <div class="nav-item-content">
                             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                                <circle cx="9" cy="7" r="4"/>
-                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                                <polyline points="21 8 21 21 3 21 3 8"/>
+                                <rect x="1" y="3" width="22" height="5"/>
+                                <line x1="10" y1="12" x2="14" y2="12"/>
                             </svg>
-                            <span class="nav-text">Users</span>
+                            <span class="nav-text">Archived</span>
                         </div>
-                        <span class="nav-badge" id="usersCount">0</span>
-                    </div>
-                    <div class="nav-item" onclick="switchView('activity')">
-                        <div class="nav-item-content">
-                            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-                            </svg>
-                            <span class="nav-text">Activity Log</span>
-                        </div>
+                        <span class="nav-badge" id="archivedCount">0</span>
                     </div>
                 </div>
 
+                <!-- Moderation -->
                 <div class="nav-section">
-                    <div class="nav-label">Moderation</div>
+                    <div class="nav-label">MODERATION</div>
                     <div class="nav-item" onclick="switchView('flagged')">
                         <div class="nav-item-content">
                             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1210,29 +1359,45 @@
                         </div>
                         <span class="nav-badge" id="hiddenCount">0</span>
                     </div>
-                    <div class="nav-item" onclick="switchView('banned')">
+                </div>
+
+                <!-- Team Features -->
+                <div class="nav-section">
+                    <div class="nav-label">TEAM MANAGEMENT</div>
+                    <div class="nav-item" onclick="switchView('users')">
                         <div class="nav-item-content">
                             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="10"/>
-                                <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
                             </svg>
-                            <span class="nav-text">Banned Users</span>
+                            <span class="nav-text">Users</span>
                         </div>
-                        <span class="nav-badge" id="bannedCount">0</span>
+                        <span class="nav-badge" id="usersCount">0</span>
                     </div>
-                    <div class="nav-item" onclick="switchView('muted')">
+                    <div class="nav-item" onclick="switchView('announce')">
                         <div class="nav-item-content">
                             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-                                <line x1="23" y1="9" x2="17" y2="15"/>
-                                <line x1="17" y1="9" x2="23" y2="15"/>
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
                             </svg>
-                            <span class="nav-text">Muted Users</span>
+                            <span class="nav-text">Announce Message</span>
                         </div>
-                        <span class="nav-badge" id="mutedCount">0</span>
+                    </div>
+                    <div class="nav-item" onclick="switchView('analytics')">
+                        <div class="nav-item-content">
+                            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="20" x2="12" y2="10"/>
+                                <line x1="18" y1="20" x2="18" y2="4"/>
+                                <line x1="6" y1="20" x2="6" y2="16"/>
+                            </svg>
+                            <span class="nav-text">Analytics</span>
+                        </div>
                     </div>
                 </div>
 
+                <!-- System Controls -->
                 <div class="control-section">
                     <div class="control-card">
                         <div class="control-label">
@@ -1241,13 +1406,6 @@
                                 <div class="toggle-slider"></div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="control-card">
-                        <div class="control-label">
-                            <span>Slow Mode (seconds)</span>
-                        </div>
-                        <input type="number" class="input-field" id="slowModeInput" placeholder="0 = Off" min="0" max="300" onchange="updateSlowMode(this.value)">
                     </div>
 
                     <div class="control-card">
@@ -1261,29 +1419,28 @@
 
                     <div class="control-card">
                         <div class="control-label">
-                            <span>Read Only Mode</span>
+                            <span>Read-Only Mode</span>
                             <div class="toggle-switch" id="readOnlyToggle" onclick="toggleReadOnly()">
                                 <div class="toggle-slider"></div>
                             </div>
                         </div>
                     </div>
 
+                    <div class="control-card">
+                        <div class="control-label">
+                            <span>Slow Mode (seconds)</span>
+                        </div>
+                        <input type="number" class="input-field" id="slowModeInput" placeholder="0 = Off" min="0" max="300" onchange="updateSlowMode(this.value)">
+                    </div>
+
                     <div class="stats-grid">
-                        <div class="stat-mini">
+                        <div class="stat-mini" onclick="switchView('all')">
                             <div class="stat-mini-value" id="totalMessages">0</div>
                             <div class="stat-mini-label">TOTAL</div>
                         </div>
                         <div class="stat-mini">
                             <div class="stat-mini-value" id="todayMessages">0</div>
                             <div class="stat-mini-label">TODAY</div>
-                        </div>
-                        <div class="stat-mini">
-                            <div class="stat-mini-value online" id="activeUsers">0</div>
-                            <div class="stat-mini-label">ONLINE NOW</div>
-                        </div>
-                        <div class="stat-mini">
-                            <div class="stat-mini-value" id="avgResponse">0m</div>
-                            <div class="stat-mini-label">AVG REPLY</div>
                         </div>
                     </div>
                 </div>
@@ -1303,33 +1460,27 @@
             </div>
         </div>
 
+        <!-- MIDDLE PANEL -->
         <div class="middle-panel">
             <div class="content-header">
                 <div class="header-info">
-                    <div class="header-icon">
+                    <div class="header-icon" id="contentIcon">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
                         </svg>
                     </div>
                     <div>
-                        <div class="header-title" id="contentTitle">All Messages</div>
-                        <div class="header-subtitle" id="contentSubtitle">Community messages</div>
+                        <div class="header-title" id="contentTitle">Incoming Calls</div>
+                        <div class="header-subtitle" id="contentSubtitle">Live customer support</div>
                     </div>
                 </div>
                 <div class="header-actions">
-                    <button class="action-btn success" onclick="postAnnouncement()">
+                    <button class="action-btn" onclick="toggleBulkSelect()" id="bulkSelectBtn">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 19l7-7 3 3-7 7-3-3z"/>
-                            <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/>
-                            <path d="M2 2l7.586 7.586"/>
+                            <polyline points="9 11 12 14 22 4"/>
+                            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
                         </svg>
-                        <span>Announce</span>
-                    </button>
-                    <button class="action-btn" onclick="broadcastMessage()">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M22 17H2a3 3 0 0 0 3-3V9a7 7 0 0 1 14 0v5a3 3 0 0 0 3 3zm-8.27 4a2 2 0 0 1-3.46 0"/>
-                        </svg>
-                        <span>Broadcast</span>
+                        <span>Select</span>
                     </button>
                     <button class="action-btn" onclick="exportData()">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1346,134 +1497,48 @@
                         </svg>
                         <span>Refresh</span>
                     </button>
-                    <button class="action-btn danger" id="bulkDeleteBtn" style="display: none;" onclick="bulkDelete()">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="3 6 5 6 21 6"/>
-                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-                        </svg>
-                        <span>Delete</span>
-                    </button>
                 </div>
             </div>
 
-            <div class="toolbar">
-                <input type="text" class="toolbar-search" id="searchInput" placeholder="Search messages, users, emails...">
-                <select class="toolbar-select" id="sortSelect" onchange="sortMessages(this.value)">
-                    <option value="newest">Newest First</option>
-                    <option value="oldest">Oldest First</option>
-                    <option value="author">By Author</option>
-                    <option value="category">By Category</option>
-                </select>
-                <select class="toolbar-select" id="filterSelect" onchange="filterMessages(this.value)">
-                    <option value="all">All Messages</option>
-                    <option value="today">Today</option>
-                    <option value="week">This Week</option>
-                    <option value="replied">Replied</option>
-                    <option value="unreplied">Unreplied</option>
-                </select>
+            <div class="search-bar" id="searchBar" style="display: none;">
+                <input type="text" class="search-input" id="searchInput" placeholder="Search messages, users, or content..." onkeyup="performSearch()">
+            </div>
+
+            <div class="filter-bar" id="filterBar" style="display: none;">
+                <div class="filter-chip active" onclick="filterByType('all')">All</div>
+                <div class="filter-chip" onclick="filterByType('today')">Today</div>
+                <div class="filter-chip" onclick="filterByType('week')">This Week</div>
+                <div class="filter-chip" onclick="filterByType('month')">This Month</div>
             </div>
 
             <div class="bulk-actions-bar" id="bulkActionsBar">
-                <span class="bulk-count" id="bulkCount">0 selected</span>
+                <div class="bulk-info"><span id="selectedCount">0</span> selected</div>
                 <button class="bulk-btn" onclick="bulkPin()">Pin</button>
-                <button class="bulk-btn" onclick="bulkHighlight()">Highlight</button>
                 <button class="bulk-btn" onclick="bulkArchive()">Archive</button>
                 <button class="bulk-btn" onclick="bulkHide()">Hide</button>
-                <button class="bulk-btn danger" onclick="bulkDelete()">Delete</button>
-                <button class="bulk-btn" onclick="clearSelection()">Clear</button>
+                <button class="bulk-btn" onclick="bulkDelete()">Delete</button>
+                <button class="bulk-btn" onclick="clearBulkSelection()">Cancel</button>
             </div>
 
             <div class="content-area" id="contentArea">
                 <div class="loading">
                     <div class="loading-spinner"></div>
-                    <div>Loading messages...</div>
+                    <div>Loading incoming calls...</div>
                 </div>
             </div>
         </div>
 
+        <!-- RIGHT PANEL -->
         <div class="right-panel" id="rightPanel">
             <div class="actions-header">
                 <div class="actions-title">Quick Actions</div>
             </div>
 
             <div class="actions-body" id="actionsBody">
-                <div class="no-selection">
-                    <div>Select a message or user</div>
+                <div class="loading">
+                    <div style="font-size: 48px; margin-bottom: 16px;">...</div>
+                    <div>No active call</div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal" id="announcementModal">
-        <div class="modal-content">
-            <div class="modal-header">Post Announcement</div>
-            <div class="modal-body">
-                <textarea class="reply-textarea" id="announcementText" placeholder="Write your announcement..." style="min-height: 150px;"></textarea>
-                <div class="action-section-title">Options</div>
-                <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px; cursor: pointer;">
-                    <input type="checkbox" id="highlightAnnouncement" checked style="width: 18px; height: 18px;">
-                    <span style="font-size: 14px;">Highlight this announcement</span>
-                </label>
-                <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px; cursor: pointer;">
-                    <input type="checkbox" id="pinAnnouncement" checked style="width: 18px; height: 18px;">
-                    <span style="font-size: 14px;">Pin to top</span>
-                </label>
-            </div>
-            <div class="modal-footer">
-                <button class="modal-btn cancel" onclick="closeModal()">Cancel</button>
-                <button class="modal-btn confirm" onclick="submitAnnouncement()">Post Announcement</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal" id="broadcastModal">
-        <div class="modal-content">
-            <div class="modal-header">Broadcast Message to All Users</div>
-            <div class="modal-body">
-                <textarea class="reply-textarea" id="broadcastText" placeholder="Write broadcast message..." style="min-height: 120px;"></textarea>
-                <p style="color: #8e8e93; font-size: 13px;">This will send a notification to all active users.</p>
-            </div>
-            <div class="modal-footer">
-                <button class="modal-btn cancel" onclick="closeModal()">Cancel</button>
-                <button class="modal-btn confirm" onclick="submitBroadcast()">Send Broadcast</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal" id="banUserModal">
-        <div class="modal-content">
-            <div class="modal-header">Ban User</div>
-            <div class="modal-body">
-                <p style="margin-bottom: 16px; color: #ff3b30; font-weight: 500;">Warning: This user will be permanently banned from sending messages.</p>
-                <div class="selected-info" id="banUserInfo"></div>
-                <textarea class="reply-textarea" id="banReason" placeholder="Reason for ban (required)" style="min-height: 80px;"></textarea>
-            </div>
-            <div class="modal-footer">
-                <button class="modal-btn cancel" onclick="closeModal()">Cancel</button>
-                <button class="modal-btn danger" onclick="confirmBanUser()">Ban User Permanently</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal" id="muteUserModal">
-        <div class="modal-content">
-            <div class="modal-header">Mute User</div>
-            <div class="modal-body">
-                <p style="margin-bottom: 16px; color: #8e8e93;">Temporarily restrict this user from sending messages.</p>
-                <div class="selected-info" id="muteUserInfo"></div>
-                <div class="action-section-title">Mute Duration</div>
-                <select class="select-input" id="muteDuration">
-                    <option value="30">30 minutes</option>
-                    <option value="60">1 hour</option>
-                    <option value="360">6 hours</option>
-                    <option value="1440">24 hours</option>
-                    <option value="10080">7 days</option>
-                </select>
-                <textarea class="reply-textarea" id="muteReason" placeholder="Reason for mute (optional)" style="min-height: 60px;"></textarea>
-            </div>
-            <div class="modal-footer">
-                <button class="modal-btn cancel" onclick="closeModal()">Cancel</button>
-                <button class="modal-btn danger" onclick="confirmMuteUser()">Mute User</button>
             </div>
         </div>
     </div>
@@ -1484,130 +1549,65 @@
     <script>
         window.addEventListener('firebaseReady', initializePage);
 
-        let currentView = 'all';
+        let currentUser = null;
+        let currentView = 'liveCalls';
         let selectedItem = null;
         let allMessages = [];
-        let allUsers = new Map();
-        let activeUsers = new Set();
-        let bannedUsers = new Map();
-        let mutedUsers = new Map();
-        let selectedMessages = new Set();
-        let activityLogs = [];
-        let userPresence = new Map();
+        let allCallRequests = [];
+        let bulkSelectedItems = new Set();
+        let isBulkSelectMode = false;
+        
+        let liveCallsUnsubscribe = null;
+        let messagesUnsubscribe = null;
+        let settingsUnsubscribe = null;
+        let announcementsUnsubscribe = null; // New unsubscribe handle
+        let activeLiveCalls = [];
+        let currentLiveCall = null;
+        let livePeerConnection = null;
+        let liveLocalStream = null;
+        let callDurationInterval = null;
+
         let settings = {
             autoMod: false,
             slowMode: 0,
             profanity: false,
             readOnly: false
         };
-        let unsubscribe = null;
-        let presenceUnsubscribe = null;
-        let sortOrder = 'newest';
-        let filterType = 'all';
+
+        const configuration = {
+            iceServers: [
+                { urls: 'stun:stun.l.google.com:19302' },
+                { urls: 'stun:stun1.l.google.com:19302' },
+                { urls: 'stun:stun2.l.google.com:19302' },
+                { urls: 'stun:stun3.l.google.com:19302' }
+            ]
+        };
 
         const replyTemplates = [
-            { title: 'Thank You', text: 'Thank you for your message! We appreciate your feedback.' },
+            { title: 'Thank You', text: 'Thank you for your message. We appreciate your feedback.' },
             { title: 'Under Review', text: 'Your issue is under review. We will get back to you soon.' },
-            { title: 'Fixed', text: 'This issue has been fixed in the latest update. Please try again.' },
+            { title: 'Fixed', text: 'This issue has been fixed in the latest update.' },
             { title: 'Need Info', text: 'Could you provide more details about this issue?' },
-            { title: 'Not Bug', text: 'This is working as intended. Check our documentation for more info.' },
-            { title: 'Warning', text: 'Please follow our community guidelines. Further violations may result in restrictions.' }
+            { title: 'Not Bug', text: 'This is working as intended. Check our documentation.' }
         ];
 
         function initializePage() {
-            console.log('✅ Initializing admin workspace...');
-
             auth.onAuthStateChanged((user) => {
                 if (user) {
+                    currentUser = user;
                     const name = user.displayName || user.email.split('@')[0];
                     document.getElementById('adminAvatar').textContent = name.charAt(0).toUpperCase();
                     document.getElementById('adminName').textContent = name;
-                    
-                    updateAdminPresence(user.uid);
+                    loadLiveCalls();
                     loadData();
-                    loadSettings();
-                    loadBannedUsers();
-                    loadMutedUsers();
-                    loadUserPresence();
-                    logActivity('Admin logged in', user.email);
+                    loadSystemSettings();
                 } else {
                     window.location.href = 'signin.html';
                 }
             });
-
-            setupSearchListener();
-            setInterval(checkMutedUsers, 60000); // Check muted users every minute
         }
 
-        function updateAdminPresence(uid) {
-            const presenceRef = db.collection('presence').doc(uid);
-            presenceRef.set({
-                online: true,
-                lastSeen: firebase.firestore.FieldValue.serverTimestamp(),
-                role: 'admin'
-            }, { merge: true });
-
-            window.addEventListener('beforeunload', () => {
-                presenceRef.set({
-                    online: false,
-                    lastSeen: firebase.firestore.FieldValue.serverTimestamp()
-                }, { merge: true });
-            });
-        }
-
-        function loadUserPresence() {
-            if (presenceUnsubscribe) presenceUnsubscribe();
-
-            presenceUnsubscribe = db.collection('presence')
-                .where('online', '==', true)
-                .onSnapshot((snapshot) => {
-                    activeUsers.clear();
-                    userPresence.clear();
-                    
-                    snapshot.forEach((doc) => {
-                        const data = doc.data();
-                        userPresence.set(doc.id, data);
-                        if (data.online) {
-                            activeUsers.add(doc.id);
-                        }
-                    });
-
-                    updateCounts();
-                    if (currentView === 'all' || currentView === 'users') {
-                        displayContent();
-                    }
-                });
-        }
-
-        function setupSearchListener() {
-            const searchInput = document.getElementById('searchInput');
-            let searchTimeout;
-            searchInput.addEventListener('input', function(e) {
-                clearTimeout(searchTimeout);
-                searchTimeout = setTimeout(() => {
-                    const searchTerm = e.target.value.toLowerCase();
-                    performSearch(searchTerm);
-                }, 300);
-            });
-        }
-
-        function performSearch(term) {
-            if (!term) {
-                displayContent();
-                return;
-            }
-
-            const filtered = allMessages.filter(m => {
-                const text = (m.text || '').toLowerCase();
-                const author = (m.author || '').toLowerCase();
-                const email = (m.authorEmail || '').toLowerCase();
-                const category = (m.category || '').toLowerCase();
-                return text.includes(term) || author.includes(term) || email.includes(term) || category.includes(term);
-            });
-
-            displayFilteredMessages(filtered);
-        }
-
+        // Panel Controls
         window.toggleLeftPanel = function() {
             document.getElementById('leftPanel').classList.toggle('show');
             document.getElementById('overlay').classList.toggle('show');
@@ -1624,89 +1624,326 @@
             document.getElementById('overlay').classList.remove('show');
         };
 
-        function loadData() {
-            if (unsubscribe) unsubscribe();
+        // Live Calls Management
+        function loadLiveCalls() {
+            if (liveCallsUnsubscribe) liveCallsUnsubscribe();
 
-            unsubscribe = db.collection('communityComments')
+            liveCallsUnsubscribe = db.collection('activeCalls')
+                .where('status', 'in', ['waiting', 'connected'])
+                .orderBy('timestamp', 'desc')
+                .onSnapshot((snapshot) => {
+                    activeLiveCalls = [];
+                    snapshot.forEach((doc) => {
+                        activeLiveCalls.push({ id: doc.id, ...doc.data() });
+                    });
+
+                    const waitingCalls = activeLiveCalls.filter(c => c.status === 'waiting').length;
+                    document.getElementById('liveCallsCount').textContent = waitingCalls;
+
+                    if (currentView === 'liveCalls') {
+                        displayLiveCalls();
+                    }
+                });
+        }
+
+        function displayLiveCalls() {
+            const contentArea = document.getElementById('contentArea');
+
+            if (activeLiveCalls.length === 0) {
+                contentArea.innerHTML = `
+                    <div class="loading">
+                        <div style="font-size: 80px; margin-bottom: 24px;">...</div>
+                        <div style="font-size: 20px; font-weight: 600; margin-bottom: 8px;">No Incoming Calls</div>
+                        <div style="font-size: 16px; color: #666666;">Waiting for customer support requests</div>
+                    </div>
+                `;
+                return;
+            }
+
+            const html = activeLiveCalls.map(call => `
+                <div class="incoming-call-card" onclick='handleCall("${call.id}")'>
+                    <div class="call-card-header">
+                        <div class="caller-avatar">${call.userName ? call.userName.charAt(0).toUpperCase() : 'U'}</div>
+                        <div class="caller-info">
+                            <div class="caller-name">${escapeHtml(call.userName || 'User')}</div>
+                            <div class="caller-email">${escapeHtml(call.userEmail || '')}</div>
+                        </div>
+                        <div class="call-badge">${call.status === 'waiting' ? 'INCOMING' : 'CONNECTED'}</div>
+                    </div>
+                    <div class="call-actions">
+                        ${call.status === 'waiting' ? `
+                            <button class="call-action-btn accept" onclick="event.stopPropagation(); acceptCall('${call.id}')">
+                                Accept Call
+                            </button>
+                            <button class="call-action-btn reject" onclick="event.stopPropagation(); rejectCall('${call.id}')">
+                                Reject
+                            </button>
+                        ` : `
+                            <button class="call-action-btn accept" style="cursor: default;">
+                                Call In Progress
+                            </button>
+                        `}
+                    </div>
+                </div>
+            `).join('');
+
+            contentArea.innerHTML = html;
+        }
+
+        window.handleCall = function(callId) {
+            const call = activeLiveCalls.find(c => c.id === callId);
+            if (call && call.status === 'waiting') {
+                acceptCall(callId);
+            }
+        };
+
+        window.acceptCall = async function(callId) {
+            const call = activeLiveCalls.find(c => c.id === callId);
+            if (!call || call.status !== 'waiting') {
+                showToast('This call is no longer available');
+                return;
+            }
+
+            try {
+                currentLiveCall = call;
+                showToast('Connecting to customer...');
+
+                liveLocalStream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { 
+                        width: { ideal: 1920 },
+                        height: { ideal: 1080 }
+                    }, 
+                    audio: {
+                        echoCancellation: true,
+                        noiseSuppression: true,
+                        autoGainControl: true
+                    }
+                });
+
+                livePeerConnection = new RTCPeerConnection(configuration);
+
+                liveLocalStream.getTracks().forEach(track => {
+                    livePeerConnection.addTrack(track, liveLocalStream);
+                });
+
+                livePeerConnection.onicecandidate = async (event) => {
+                    if (event.candidate) {
+                        await db.collection('activeCalls').doc(callId).update({
+                            iceCandidates: firebase.firestore.FieldValue.arrayUnion({
+                                candidate: event.candidate.toJSON(),
+                                type: 'receiver'
+                            })
+                        });
+                    }
+                };
+
+                if (call.offer) {
+                    await livePeerConnection.setRemoteDescription(new RTCSessionDescription(call.offer));
+                    const answer = await livePeerConnection.createAnswer();
+                    await livePeerConnection.setLocalDescription(answer);
+
+                    await db.collection('activeCalls').doc(callId).update({
+                        status: 'connected',
+                        answer: {
+                            type: answer.type,
+                            sdp: answer.sdp
+                        },
+                        connectedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        connectedBy: currentUser.email
+                    });
+
+                    if (call.iceCandidates) {
+                        for (const item of call.iceCandidates) {
+                            if (item.type === 'caller' && item.candidate) {
+                                try {
+                                    await livePeerConnection.addIceCandidate(new RTCIceCandidate(item.candidate));
+                                } catch (e) {
+                                    console.error('ICE error:', e);
+                                }
+                            }
+                        }
+                    }
+
+                    showLiveCallInterface();
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error accessing camera/microphone');
+            }
+        };
+
+        window.rejectCall = async function(callId) {
+            if (!confirm('Reject this call?')) return;
+
+            try {
+                await db.collection('activeCalls').doc(callId).update({
+                    status: 'ended',
+                    endedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    rejectedBy: currentUser.email
+                });
+                showToast('Call rejected');
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+
+        function showLiveCallInterface() {
+            const contentArea = document.getElementById('contentArea');
+            
+            contentArea.innerHTML = `
+                <div class="video-call-container">
+                    <video id="techRemoteVideo" autoplay playsinline></video>
+                    <video id="techLocalVideo" autoplay playsinline muted></video>
+                    <div class="caller-badge">
+                        <div class="caller-badge-avatar">${currentLiveCall.userName.charAt(0).toUpperCase()}</div>
+                        <div class="caller-badge-info">
+                            <div class="caller-badge-name">${escapeHtml(currentLiveCall.userName)}</div>
+                            <div class="caller-badge-email">${escapeHtml(currentLiveCall.userEmail)}</div>
+                        </div>
+                    </div>
+                    <div class="call-duration-badge" id="callDurationBadge">00:00</div>
+                </div>
+                <div class="video-controls">
+                    <button class="video-control-btn active" id="techMuteBtn" onclick="toggleTechMute()">
+                        Microphone On
+                    </button>
+                    <button class="video-control-btn active" id="techVideoBtn" onclick="toggleTechVideo()">
+                        Camera On
+                    </button>
+                    <button class="video-control-btn end" onclick="endLiveCall()">
+                        End Call
+                    </button>
+                </div>
+            `;
+
+            document.getElementById('techLocalVideo').srcObject = liveLocalStream;
+            
+            livePeerConnection.ontrack = (event) => {
+                document.getElementById('techRemoteVideo').srcObject = event.streams[0];
+            };
+
+            let startTime = Date.now();
+            callDurationInterval = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                const minutes = Math.floor(elapsed / 60);
+                const seconds = elapsed % 60;
+                const badge = document.getElementById('callDurationBadge');
+                if (badge) {
+                    badge.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                }
+            }, 1000);
+
+            updateCallInfo();
+            showToast('Call connected successfully');
+        }
+
+        function updateCallInfo() {
+            const actionsBody = document.getElementById('actionsBody');
+            actionsBody.innerHTML = `
+                <div style="padding: 20px;">
+                    <div class="selected-info">
+                        <div class="selected-label">CALLER INFORMATION</div>
+                        <div class="selected-name">${escapeHtml(currentLiveCall.userName)}</div>
+                        <div class="selected-email">${escapeHtml(currentLiveCall.userEmail)}</div>
+                        <div style="padding: 12px; background: #000000; border-radius: 6px; text-align: center; margin-top: 12px; border: 1px solid #1a1a1a;">
+                            Call Active
+                        </div>
+                    </div>
+                    <div class="action-section">
+                        <div class="action-section-title">CALL NOTES</div>
+                        <textarea class="reply-textarea" placeholder="Add notes about this call..."></textarea>
+                    </div>
+                </div>
+            `;
+        }
+
+        window.toggleTechMute = function() {
+            if (!liveLocalStream) return;
+            const audioTrack = liveLocalStream.getAudioTracks()[0];
+            if (audioTrack) {
+                audioTrack.enabled = !audioTrack.enabled;
+                const btn = document.getElementById('techMuteBtn');
+                btn.textContent = audioTrack.enabled ? 'Microphone On' : 'Microphone Off';
+                btn.className = audioTrack.enabled ? 'video-control-btn active' : 'video-control-btn muted';
+            }
+        };
+
+        window.toggleTechVideo = function() {
+            if (!liveLocalStream) return;
+            const videoTrack = liveLocalStream.getVideoTracks()[0];
+            if (videoTrack) {
+                videoTrack.enabled = !videoTrack.enabled;
+                const btn = document.getElementById('techVideoBtn');
+                btn.textContent = videoTrack.enabled ? 'Camera On' : 'Camera Off';
+                btn.className = videoTrack.enabled ? 'video-control-btn active' : 'video-control-btn muted';
+            }
+        };
+
+        window.endLiveCall = async function() {
+            if (!currentLiveCall) return;
+            if (!confirm('End this call?')) return;
+
+            try {
+                await db.collection('activeCalls').doc(currentLiveCall.id).update({
+                    status: 'ended',
+                    endedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                if (callDurationInterval) clearInterval(callDurationInterval);
+                if (liveLocalStream) liveLocalStream.getTracks().forEach(track => track.stop());
+                if (livePeerConnection) livePeerConnection.close();
+
+                currentLiveCall = null;
+                showToast('Call ended successfully');
+                displayLiveCalls();
+
+                document.getElementById('actionsBody').innerHTML = `
+                    <div class="loading">
+                        <div style="font-size: 48px; margin-bottom: 16px;">...</div>
+                        <div>No active call</div>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+
+        // Data Loading
+        function loadData() {
+            if (messagesUnsubscribe) messagesUnsubscribe();
+
+            messagesUnsubscribe = db.collection('communityComments')
                 .orderBy('timestamp', 'desc')
                 .onSnapshot((snapshot) => {
                     allMessages = [];
-                    allUsers.clear();
-
                     snapshot.forEach((doc) => {
-                        const data = { id: doc.id, ...doc.data() };
-                        allMessages.push(data);
-
-                        if (data.authorEmail && data.authorUID) {
-                            if (!allUsers.has(data.authorEmail)) {
-                                allUsers.set(data.authorEmail, {
-                                    uid: data.authorUID,
-                                    email: data.authorEmail,
-                                    name: data.author,
-                                    messageCount: 0,
-                                    lastSeen: data.timestamp
-                                });
-                            }
-                            const user = allUsers.get(data.authorEmail);
-                            user.messageCount++;
-                            if (data.timestamp && (!user.lastSeen || data.timestamp.toDate() > user.lastSeen.toDate())) {
-                                user.lastSeen = data.timestamp;
-                            }
-                        }
+                        allMessages.push({ id: doc.id, ...doc.data() });
                     });
-
                     updateCounts();
-                    displayContent();
-                }, (error) => {
-                    console.error('Error loading messages:', error);
-                    showToast('Error loading messages', 'error');
+                    if (currentView !== 'liveCalls') displayContent();
                 });
         }
 
-        function loadBannedUsers() {
-            db.collection('bannedUsers').onSnapshot((snapshot) => {
-                bannedUsers.clear();
-                snapshot.forEach((doc) => {
-                    const data = doc.data();
-                    bannedUsers.set(data.email, {
-                        email: data.email,
-                        reason: data.reason,
-                        bannedAt: data.bannedAt,
-                        bannedBy: data.bannedBy
-                    });
+        function loadSystemSettings() {
+            if (settingsUnsubscribe) settingsUnsubscribe();
+            
+            settingsUnsubscribe = db.collection('systemSettings').doc('moderation')
+                .onSnapshot((doc) => {
+                    if (doc.exists) {
+                        const data = doc.data();
+                        settings = {
+                            readOnly: data.readOnly || false,
+                            slowMode: data.slowMode || 0,
+                            profanity: data.profanity || false,
+                            autoMod: data.autoMod || false
+                        };
+                        
+                        if (settings.autoMod) document.getElementById('autoModToggle').classList.add('active');
+                        if (settings.profanity) document.getElementById('profanityToggle').classList.add('active');
+                        if (settings.readOnly) document.getElementById('readOnlyToggle').classList.add('active');
+                        if (settings.slowMode) document.getElementById('slowModeInput').value = settings.slowMode;
+                    }
                 });
-                updateCounts();
-                if (currentView === 'banned' || currentView === 'users') {
-                    displayContent();
-                }
-            });
-        }
-
-        function loadMutedUsers() {
-            db.collection('mutedUsers').onSnapshot((snapshot) => {
-                mutedUsers.clear();
-                snapshot.forEach((doc) => {
-                    const data = doc.data();
-                    mutedUsers.set(data.email, {
-                        email: data.email,
-                        reason: data.reason,
-                        mutedUntil: data.mutedUntil,
-                        mutedBy: data.mutedBy
-                    });
-                });
-                checkMutedUsers();
-                updateCounts();
-            });
-        }
-
-        function checkMutedUsers() {
-            const now = new Date();
-            mutedUsers.forEach((data, email) => {
-                if (data.mutedUntil && data.mutedUntil.toDate() < now) {
-                    db.collection('mutedUsers').doc(email).delete();
-                    logActivity('User auto-unmuted', email);
-                }
-            });
         }
 
         function updateCounts() {
@@ -1716,110 +1953,262 @@
                 return m.timestamp.toDate().setHours(0, 0, 0, 0) === today;
             });
 
-            const repliedMsgs = allMessages.filter(m => m.adminReply);
-            const avgResponseTime = calculateAvgResponseTime(repliedMsgs);
-
             document.getElementById('totalMessages').textContent = allMessages.length;
             document.getElementById('todayMessages').textContent = todayMsgs.length;
-            document.getElementById('activeUsers').textContent = activeUsers.size;
-            document.getElementById('avgResponse').textContent = avgResponseTime;
             document.getElementById('allCount').textContent = allMessages.length;
             document.getElementById('pinnedCount').textContent = allMessages.filter(m => m.pinned).length;
+            document.getElementById('archivedCount').textContent = allMessages.filter(m => m.archived).length;
             document.getElementById('flaggedCount').textContent = allMessages.filter(m => m.flagged).length;
             document.getElementById('hiddenCount').textContent = allMessages.filter(m => m.hidden).length;
-            document.getElementById('bannedCount').textContent = bannedUsers.size;
-            document.getElementById('mutedCount').textContent = mutedUsers.size;
-            document.getElementById('usersCount').textContent = allUsers.size;
+            
+            const uniqueEmails = [...new Set(allMessages.map(m => m.authorEmail).filter(Boolean))];
+            document.getElementById('usersCount').textContent = uniqueEmails.length;
         }
 
-        function calculateAvgResponseTime(repliedMsgs) {
-            if (repliedMsgs.length === 0) return '0m';
-            
-            let totalMinutes = 0;
-            let count = 0;
-
-            repliedMsgs.forEach(m => {
-                if (m.timestamp && m.repliedAt) {
-                    const diff = m.repliedAt.toDate() - m.timestamp.toDate();
-                    totalMinutes += Math.floor(diff / 60000);
-                    count++;
-                }
-            });
-
-            if (count === 0) return '0m';
-            
-            const avg = Math.floor(totalMinutes / count);
-            if (avg < 60) return `${avg}m`;
-            if (avg < 1440) return `${Math.floor(avg / 60)}h`;
-            return `${Math.floor(avg / 1440)}d`;
-        }
-
+        // View Switching
         window.switchView = function(view) {
             currentView = view;
             selectedItem = null;
-            selectedMessages.clear();
-            updateBulkActionsBar();
+            clearBulkSelection();
 
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            event.currentTarget.classList.add('active');
+            // Find the clicked element to set active class
+            let targetElement = event.currentTarget;
+            if(targetElement) targetElement.classList.add('active');
 
-            const titles = {
-                all: ['All Messages', 'Community messages'],
-                pinned: ['Pinned Messages', 'Important messages'],
-                flagged: ['Flagged Messages', 'Reported content'],
-                hidden: ['Hidden Messages', 'Removed from view'],
-                banned: ['Banned Users', 'Permanently restricted accounts'],
-                muted: ['Muted Users', 'Temporarily restricted accounts'],
-                users: ['User Management', 'Active community members'],
-                activity: ['Activity Log', 'System events and actions']
+            const views = {
+                liveCalls: {
+                    title: 'Incoming Calls',
+                    subtitle: 'Live customer support',
+                    showSearch: false,
+                    showFilter: false
+                },
+                all: {
+                    title: 'All Messages',
+                    subtitle: 'Community messages',
+                    showSearch: true,
+                    showFilter: true
+                },
+                pinned: {
+                    title: 'Pinned Messages',
+                    subtitle: 'Important messages',
+                    showSearch: false,
+                    showFilter: false
+                },
+                archived: {
+                    title: 'Archived Messages',
+                    subtitle: 'Old messages',
+                    showSearch: true,
+                    showFilter: true
+                },
+                flagged: {
+                    title: 'Flagged Messages',
+                    subtitle: 'Reported content',
+                    showSearch: true,
+                    showFilter: false
+                },
+                hidden: {
+                    title: 'Hidden Messages',
+                    subtitle: 'Removed from view',
+                    showSearch: false,
+                    showFilter: false
+                },
+                users: {
+                    title: 'User Management',
+                    subtitle: 'Manage users and permissions',
+                    showSearch: true,
+                    showFilter: true
+                },
+                announce: { // NEW VIEW
+                    title: 'Broadcast Announcement',
+                    subtitle: 'Send a real-time message to all users',
+                    showSearch: false,
+                    showFilter: false
+                },
+                analytics: {
+                    title: 'Analytics Dashboard',
+                    subtitle: 'Statistics and insights',
+                    showSearch: false,
+                    showFilter: false
+                }
             };
 
-            const [title, subtitle] = titles[view] || ['Messages', 'View'];
-            document.getElementById('contentTitle').textContent = title;
-            document.getElementById('contentSubtitle').textContent = subtitle;
+            const config = views[view] || views.liveCalls;
+            document.getElementById('contentTitle').textContent = config.title;
+            document.getElementById('contentSubtitle').textContent = config.subtitle;
+            
+            // Update Icon (Basic fallback logic, should be improved with full SVG data)
+            // Note: We don't have all SVG data easily, so we rely on the CSS icon style/size.
+            // Skipping icon update for simplicity unless the icon configuration is provided.
 
-            displayContent();
+            document.getElementById('searchBar').style.display = config.showSearch ? 'block' : 'none';
+            document.getElementById('filterBar').style.display = config.showFilter ? 'flex' : 'none';
+
+            if (view === 'liveCalls') {
+                displayLiveCalls();
+            } else if (view === 'users') {
+                displayUserManagement();
+            } else if (view === 'analytics') {
+                displayAnalytics();
+            } else if (view === 'announce') { // NEW LOGIC
+                displayAnnounceMessage();
+            } else {
+                displayContent();
+            }
+
             updateActionsPanel();
             closeAllPanels();
         };
+        
+        // --- NEW FEATURE IMPLEMENTATION START ---
+
+        function loadRecentAnnouncements() {
+            const list = document.getElementById('recentAnnouncementsList');
+            if (!list) return;
+
+            if (announcementsUnsubscribe) announcementsUnsubscribe();
+
+            // Assume 'announcements' collection exists for broadcasting
+            announcementsUnsubscribe = db.collection('announcements')
+                .orderBy('timestamp', 'desc')
+                .limit(10)
+                .onSnapshot((snapshot) => {
+                    if (snapshot.empty) {
+                        list.innerHTML = '<div class="loading">No recent announcements.</div>';
+                        return;
+                    }
+
+                    const historyHtml = snapshot.docs.map(doc => {
+                        const data = doc.data();
+                        const time = data.timestamp ? formatTime(data.timestamp.toDate()) : 'Unknown';
+                        let color = '#888888';
+                        if (data.type === 'CRITICAL') color = '#ff4d4d';
+                        else if (data.type === 'WARNING') color = '#ffcc00';
+
+                        return `
+                            <div class="template-item" style="border-left: 4px solid ${color}; padding: 10px 16px;">
+                                <div class="template-title" style="display: flex; justify-content: space-between;">
+                                    <span>${escapeHtml(data.title || data.type)}</span>
+                                    <span style="font-size: 11px; color: #666;">Sent ${time}</span>
+                                </div>
+                                <div class="template-text" style="color: #ccc; word-wrap: break-word;">${escapeHtml(data.message)}</div>
+                                <div style="margin-top: 8px; font-size: 10px; color: #666;">
+                                    By: ${escapeHtml(data.sender || 'Admin')} | Acknowledgment required: ${data.requireAck ? 'Yes' : 'No'}
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                    list.innerHTML = historyHtml;
+                }, (error) => {
+                    console.error("Error loading announcements:", error);
+                    list.innerHTML = '<div class="loading" style="color: #ff4d4d;">Error loading announcements history.</div>';
+                });
+        }
+
+        function displayAnnounceMessage() {
+            const contentArea = document.getElementById('contentArea');
+            contentArea.innerHTML = `
+                <div style="max-width: 800px; margin: 0 auto; padding-top: 20px;">
+                    <div class="action-section">
+                        <div class="action-section-title">ANNOUNCEMENT COMPOSER</div>
+                        
+                        <div class="control-card">
+                            <div class="control-label" style="margin-bottom: 8px;">Announcement Type</div>
+                            <select class="select-input" id="announcementType" style="margin-bottom: 16px;">
+                                <option value="INFO">Information (Blue/White)</option>
+                                <option value="WARNING">Warning (Yellow)</option>
+                                <option value="CRITICAL">Critical Alert (Red)</option>
+                            </select>
+                            
+                            <div class="control-label" style="margin-bottom: 8px;">Title (Optional)</div>
+                            <input type="text" class="input-field" id="announcementTitle" placeholder="Short title for the announcement (e.g., Server Maintenance)">
+                        </div>
+
+                        <div class="control-card">
+                            <div class="control-label" style="margin-bottom: 8px;">Message Content</div>
+                            <textarea class="reply-textarea" id="announcementText" placeholder="Write your broadcast message here (max 500 characters)..." maxlength="500" required></textarea>
+                            <div style="font-size: 11px; color: #666666; text-align: right;">Max 500 characters</div>
+                        </div>
+
+                        <div class="control-card">
+                            <div class="control-label">
+                                <span>Require User Acknowledgment (Will keep notification persistent)</span>
+                                <div class="toggle-switch" id="ackToggle" onclick="document.getElementById('ackToggle').classList.toggle('active')">
+                                    <div class="toggle-slider"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="action-button primary" style="margin-top: 20px;" onclick="sendAnnouncement()">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="22" y1="2" x2="11" y2="13"></line>
+                                <polygon points="12 2 15 7 21 7 17 10 18 16 12 12 6 16 7 10 3 7 9 7 12 2"></polygon>
+                            </svg>
+                            SEND BROADCAST MESSAGE
+                        </button>
+                    </div>
+
+                    <div class="action-section">
+                        <div class="action-section-title">RECENT ANNOUNCEMENTS</div>
+                        <div id="recentAnnouncementsList" class="loading">Loading history...</div>
+                    </div>
+                </div>
+            `;
+            loadRecentAnnouncements();
+        }
+
+        window.sendAnnouncement = async function() {
+            const title = document.getElementById('announcementTitle').value.trim();
+            const message = document.getElementById('announcementText').value.trim();
+            const type = document.getElementById('announcementType').value;
+            const requireAck = document.getElementById('ackToggle').classList.contains('active');
+
+            if (!message) {
+                showToast('Message content cannot be empty.');
+                return;
+            }
+
+            if (!confirm(`CONFIRM: Broadcast this ${type} announcement to all users?`)) {
+                return;
+            }
+
+            try {
+                // Firebase interaction to create a new announcement document
+                await db.collection('announcements').add({
+                    title: title || type,
+                    message: message,
+                    type: type, // INFO, WARNING, CRITICAL
+                    requireAck: requireAck,
+                    sender: currentUser.displayName || currentUser.email,
+                    senderUID: currentUser.uid,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    status: 'active'
+                });
+                
+                showToast('Announcement broadcast successfully!');
+                
+                // Clear the form
+                document.getElementById('announcementTitle').value = '';
+                document.getElementById('announcementText').value = '';
+                document.getElementById('announcementType').value = 'INFO';
+                document.getElementById('ackToggle').classList.remove('active');
+
+            } catch (error) {
+                console.error('Error sending announcement:', error);
+                showToast('Failed to send announcement.');
+            }
+        };
+
+        // --- NEW FEATURE IMPLEMENTATION END ---
 
         function displayContent() {
             const contentArea = document.getElementById('contentArea');
-
-            if (currentView === 'users') {
-                displayUsers();
-                return;
-            }
-
-            if (currentView === 'banned') {
-                displayBannedUsers();
-                return;
-            }
-
-            if (currentView === 'muted') {
-                displayMutedUsers();
-                return;
-            }
-
-            if (currentView === 'activity') {
-                displayActivityLog();
-                return;
-            }
-
             let filtered = allMessages;
 
             if (currentView === 'pinned') filtered = allMessages.filter(m => m.pinned);
+            else if (currentView === 'archived') filtered = allMessages.filter(m => m.archived);
             else if (currentView === 'flagged') filtered = allMessages.filter(m => m.flagged);
             else if (currentView === 'hidden') filtered = allMessages.filter(m => m.hidden);
-
-            filtered = applyFilters(filtered);
-            filtered = applySorting(filtered);
-
-            displayFilteredMessages(filtered);
-        }
-
-        function displayFilteredMessages(filtered) {
-            const contentArea = document.getElementById('contentArea');
 
             if (filtered.length === 0) {
                 contentArea.innerHTML = '<div class="loading">No messages found</div>';
@@ -1830,242 +2219,17 @@
             contentArea.innerHTML = html;
         }
 
-        function displayUsers() {
-            const contentArea = document.getElementById('contentArea');
-            
-            if (allUsers.size === 0) {
-                contentArea.innerHTML = '<div class="loading">No users found</div>';
-                return;
-            }
-
-            const users = Array.from(allUsers.values()).sort((a, b) => b.messageCount - a.messageCount);
-            
-            const html = users.map(user => {
-                const isBanned = bannedUsers.has(user.email);
-                const isMuted = mutedUsers.has(user.email);
-                const isOnline = user.uid && activeUsers.has(user.uid);
-                const lastSeen = user.lastSeen ? formatTime(user.lastSeen.toDate()) : 'never';
-                const initial = user.name ? user.name.charAt(0).toUpperCase() : '?';
-
-                return `
-                    <div class="message-item ${isBanned ? 'banned-user' : ''}" onclick="selectUser('${user.email.replace(/'/g, "\\'")}')">
-                        <div class="message-header" style="margin-left: 0;">
-                            <div class="message-author-info">
-                                <div class="author-avatar">
-                                    ${initial}
-                                    ${isOnline ? '<div class="online-indicator"></div>' : ''}
-                                </div>
-                                <div class="author-details">
-                                    <div class="author-name">${escapeHtml(user.name || 'Anonymous')}</div>
-                                    <div class="author-email">${escapeHtml(user.email)}</div>
-                                </div>
-                            </div>
-                            <div class="message-time">Last: ${lastSeen}</div>
-                        </div>
-                        <div class="message-meta" style="margin-left: 0;">
-                            ${isOnline ? '<span class="meta-badge badge-online">Online Now</span>' : ''}
-                            <span class="meta-badge badge-category">${user.messageCount} messages</span>
-                            ${isBanned ? '<span class="meta-badge badge-banned">Banned</span>' : ''}
-                            ${isMuted ? '<span class="meta-badge badge-muted">Muted</span>' : ''}
-                        </div>
-                    </div>
-                `;
-            }).join('');
-
-            contentArea.innerHTML = html;
-        }
-
-        function displayBannedUsers() {
-            const contentArea = document.getElementById('contentArea');
-            
-            if (bannedUsers.size === 0) {
-                contentArea.innerHTML = '<div class="loading">No banned users</div>';
-                return;
-            }
-
-            const banned = Array.from(bannedUsers.values()).map(data => {
-                const user = allUsers.get(data.email) || { email: data.email, name: 'Unknown', messageCount: 0 };
-                const initial = user.name ? user.name.charAt(0).toUpperCase() : '?';
-                const bannedTime = data.bannedAt ? formatTime(data.bannedAt.toDate()) : 'unknown';
-
-                return `
-                    <div class="message-item banned-user">
-                        <div class="message-header" style="margin-left: 0;">
-                            <div class="message-author-info">
-                                <div class="author-avatar">${initial}</div>
-                                <div class="author-details">
-                                    <div class="author-name">${escapeHtml(user.name || 'Unknown')}</div>
-                                    <div class="author-email">${escapeHtml(data.email)}</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="message-text" style="margin-left: 0;">
-                            Reason: ${escapeHtml(data.reason || 'No reason provided')}<br>
-                            Banned: ${bannedTime} by ${escapeHtml(data.bannedBy || 'Admin')}
-                        </div>
-                        <div class="message-meta" style="margin-left: 0;">
-                            <span class="meta-badge badge-banned">Banned</span>
-                            <button class="action-button" style="padding: 6px 12px; font-size: 12px; display: inline-block; width: auto;" onclick="unbanUser('${data.email.replace(/'/g, "\\'")}')">Unban User</button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-
-            contentArea.innerHTML = banned;
-        }
-
-        function displayMutedUsers() {
-            const contentArea = document.getElementById('contentArea');
-            
-            if (mutedUsers.size === 0) {
-                contentArea.innerHTML = '<div class="loading">No muted users</div>';
-                return;
-            }
-
-            const now = new Date();
-            const muted = Array.from(mutedUsers.values()).map(data => {
-                const user = allUsers.get(data.email) || { email: data.email, name: 'Unknown' };
-                const initial = user.name ? user.name.charAt(0).toUpperCase() : '?';
-                const muteUntil = data.mutedUntil ? data.mutedUntil.toDate() : null;
-                const remaining = muteUntil ? Math.max(0, Math.floor((muteUntil - now) / 60000)) : 0;
-
-                return `
-                    <div class="message-item">
-                        <div class="message-header" style="margin-left: 0;">
-                            <div class="message-author-info">
-                                <div class="author-avatar">${initial}</div>
-                                <div class="author-details">
-                                    <div class="author-name">${escapeHtml(user.name || 'Unknown')}</div>
-                                    <div class="author-email">${escapeHtml(data.email)}</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="message-text" style="margin-left: 0;">
-                            Reason: ${escapeHtml(data.reason || 'No reason provided')}<br>
-                            Time remaining: ${remaining}m
-                        </div>
-                        <div class="message-meta" style="margin-left: 0;">
-                            <span class="meta-badge badge-muted">Muted ${remaining}m left</span>
-                            <button class="action-button" style="padding: 6px 12px; font-size: 12px; display: inline-block; width: auto;" onclick="unmuteUser('${data.email.replace(/'/g, "\\'")}')">Unmute Now</button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-
-            contentArea.innerHTML = muted;
-        }
-
-        function displayActivityLog() {
-            const contentArea = document.getElementById('contentArea');
-            
-            if (activityLogs.length === 0) {
-                contentArea.innerHTML = '<div class="loading">No activity logs yet</div>';
-                return;
-            }
-
-            const html = activityLogs.slice(0, 100).map(log => {
-                const time = new Date(log.timestamp).toLocaleString();
-                return `
-                    <div class="activity-log">
-                        <div><strong>${escapeHtml(log.action)}</strong></div>
-                        ${log.details ? `<div>${escapeHtml(log.details)}</div>` : ''}
-                        <div class="activity-log-time">${time}</div>
-                    </div>
-                `;
-            }).join('');
-
-            contentArea.innerHTML = html;
-        }
-
-        function logActivity(action, details) {
-            activityLogs.unshift({
-                action: action,
-                details: details || '',
-                timestamp: Date.now(),
-                admin: auth.currentUser ? auth.currentUser.email : 'Unknown'
-            });
-
-            if (activityLogs.length > 500) {
-                activityLogs = activityLogs.slice(0, 500);
-            }
-
-            if (currentView === 'activity') {
-                displayActivityLog();
-            }
-        }
-
-        function applyFilters(messages) {
-            const now = new Date();
-            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-            const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
-
-            switch(filterType) {
-                case 'today':
-                    return messages.filter(m => m.timestamp && m.timestamp.toDate() >= today);
-                case 'week':
-                    return messages.filter(m => m.timestamp && m.timestamp.toDate() >= weekAgo);
-                case 'replied':
-                    return messages.filter(m => m.adminReply);
-                case 'unreplied':
-                    return messages.filter(m => !m.adminReply);
-                default:
-                    return messages;
-            }
-        }
-
-        function applySorting(messages) {
-            const sorted = [...messages];
-            
-            switch(sortOrder) {
-                case 'newest':
-                    return sorted.sort((a, b) => {
-                        if (!a.timestamp) return 1;
-                        if (!b.timestamp) return -1;
-                        return b.timestamp.toDate() - a.timestamp.toDate();
-                    });
-                case 'oldest':
-                    return sorted.sort((a, b) => {
-                        if (!a.timestamp) return 1;
-                        if (!b.timestamp) return -1;
-                        return a.timestamp.toDate() - b.timestamp.toDate();
-                    });
-                case 'author':
-                    return sorted.sort((a, b) => (a.author || '').localeCompare(b.author || ''));
-                case 'category':
-                    return sorted.sort((a, b) => (a.category || '').localeCompare(b.category || ''));
-                default:
-                    return sorted;
-            }
-        }
-
-        window.sortMessages = function(order) {
-            sortOrder = order;
-            displayContent();
-        };
-
-        window.filterMessages = function(type) {
-            filterType = type;
-            displayContent();
-        };
-
         function createMessageHTML(msg) {
             const timeAgo = msg.timestamp ? formatTime(msg.timestamp.toDate()) : 'now';
             const initial = msg.author ? msg.author.charAt(0).toUpperCase() : '?';
-            const msgId = msg.id.replace(/['"]/g, '');
-            const isSelected = selectedMessages.has(msg.id);
-            const isBanned = msg.authorEmail && bannedUsers.has(msg.authorEmail);
-            const isMuted = msg.authorEmail && mutedUsers.has(msg.authorEmail);
-            const isOnline = msg.authorUID && activeUsers.has(msg.authorUID);
+            const isSelected = bulkSelectedItems.has(msg.id);
 
             return `
-                <div class="message-item ${selectedItem?.id === msg.id ? 'selected' : ''} ${isSelected ? 'bulk-selected' : ''} ${msg.pinned ? 'pinned' : ''} ${msg.hidden ? 'hidden' : ''} ${isBanned ? 'banned-user' : ''}" onclick="selectMessage('${msgId}', event)">
-                    <input type="checkbox" class="message-checkbox" ${isSelected ? 'checked' : ''} onclick="toggleMessageSelection('${msgId}', event)">
+                <div class="message-item ${selectedItem?.id === msg.id ? 'selected' : ''}" onclick='selectMessage(${JSON.stringify(msg).replace(/'/g, "&#39;")})' data-id="${msg.id}">
+                    <div class="message-checkbox ${isSelected ? 'checked' : ''}" onclick="toggleBulkItem(event, '${msg.id}')"></div>
                     <div class="message-header">
                         <div class="message-author-info">
-                            <div class="author-avatar">
-                                ${initial}
-                                ${isOnline ? '<div class="online-indicator"></div>' : ''}
-                            </div>
+                            <div class="author-avatar">${initial}</div>
                             <div class="author-details">
                                 <div class="author-name">${escapeHtml(msg.author || 'Anonymous')}</div>
                                 <div class="author-email">${escapeHtml(msg.authorEmail || 'No email')}</div>
@@ -2075,170 +2239,114 @@
                     </div>
                     <div class="message-text">${escapeHtml(msg.text || '')}</div>
                     <div class="message-meta">
-                        ${isOnline ? '<span class="meta-badge badge-online">Online</span>' : ''}
-                        ${msg.pinned ? '<span class="meta-badge badge-pinned">Pinned</span>' : ''}
-                        ${msg.highlighted ? '<span class="meta-badge badge-highlighted">Highlighted</span>' : ''}
-                        ${msg.hidden ? '<span class="meta-badge badge-hidden">Hidden</span>' : ''}
-                        ${msg.adminReply ? '<span class="meta-badge badge-category">Replied</span>' : ''}
-                        ${msg.category ? `<span class="meta-badge badge-category">${msg.category}</span>` : ''}
-                        ${isBanned ? '<span class="meta-badge badge-banned">User Banned</span>' : ''}
-                        ${isMuted ? '<span class="meta-badge badge-muted">User Muted</span>' : ''}
+                        ${msg.pinned ? '<span class="meta-badge">Pinned</span>' : ''}
+                        ${msg.highlighted ? '<span class="meta-badge">Highlighted</span>' : ''}
+                        ${msg.hidden ? '<span class="meta-badge">Hidden</span>' : ''}
+                        ${msg.archived ? '<span class="meta-badge">Archived</span>' : ''}
+                        ${msg.flagged ? '<span class="meta-badge">Flagged</span>' : ''}
+                        ${msg.category ? `<span class="meta-badge">${msg.category}</span>` : ''}
                     </div>
                 </div>
             `;
         }
 
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
+        function displayUserManagement() {
+            const contentArea = document.getElementById('contentArea');
+            const usersMap = new Map();
+            
+            allMessages.forEach(msg => {
+                if (msg.authorEmail && !usersMap.has(msg.authorEmail)) {
+                    usersMap.set(msg.authorEmail, {
+                        name: msg.author || 'Anonymous',
+                        email: msg.authorEmail,
+                        uid: msg.authorUID,
+                        messageCount: 1,
+                        lastMessage: msg.timestamp
+                    });
+                } else if (msg.authorEmail) {
+                    const user = usersMap.get(msg.authorEmail);
+                    user.messageCount++;
+                    if (!user.lastMessage || (msg.timestamp && msg.timestamp > user.lastMessage)) {
+                        user.lastMessage = msg.timestamp;
+                    }
+                }
+            });
+
+            const users = Array.from(usersMap.values());
+
+            if (users.length === 0) {
+                contentArea.innerHTML = '<div class="loading">No users found</div>';
+                return;
+            }
+
+            const html = users.map(user => `
+                <div class="message-item" onclick='selectUser(${JSON.stringify(user).replace(/'/g, "&#39;")})'>
+                    <div class="message-header">
+                        <div class="message-author-info">
+                            <div class="author-avatar">${user.name.charAt(0).toUpperCase()}</div>
+                            <div class="author-details">
+                                <div class="author-name">${escapeHtml(user.name)}</div>
+                                <div class="author-email">${escapeHtml(user.email)}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="message-meta">
+                        <span class="meta-badge">${user.messageCount} messages</span>
+                        <span class="meta-badge">Last: ${user.lastMessage ? formatTime(user.lastMessage.toDate()) : 'Unknown'}</span>
+                    </div>
+                </div>
+            `).join('');
+
+            contentArea.innerHTML = html;
         }
 
-        window.toggleMessageSelection = function(messageId, event) {
-            event.stopPropagation();
+        function displayAnalytics() {
+            const contentArea = document.getElementById('contentArea');
             
-            if (selectedMessages.has(messageId)) {
-                selectedMessages.delete(messageId);
-            } else {
-                selectedMessages.add(messageId);
-            }
-            
-            updateBulkActionsBar();
-            displayContent();
-        };
+            const today = new Date();
+            const todayStart = new Date(today.setHours(0, 0, 0, 0));
+            const weekStart = new Date(today.setDate(today.getDate() - 7));
+            const monthStart = new Date(today.setMonth(today.getMonth() - 1));
 
-        function updateBulkActionsBar() {
-            const bar = document.getElementById('bulkActionsBar');
-            const count = document.getElementById('bulkCount');
-            const deleteBtn = document.getElementById('bulkDeleteBtn');
+            const todayMsgs = allMessages.filter(m => m.timestamp && m.timestamp.toDate() >= todayStart).length;
+            const weekMsgs = allMessages.filter(m => m.timestamp && m.timestamp.toDate() >= weekStart).length;
+            const monthMsgs = allMessages.filter(m => m.timestamp && m.timestamp.toDate() >= monthStart).length;
             
-            if (selectedMessages.size > 0) {
-                bar.classList.add('show');
-                count.textContent = `${selectedMessages.size} selected`;
-                deleteBtn.style.display = 'flex';
-            } else {
-                bar.classList.remove('show');
-                deleteBtn.style.display = 'none';
-            }
+            const uniqueUsers = new Set(allMessages.map(m => m.authorEmail).filter(Boolean)).size;
+            const avgPerUser = uniqueUsers > 0 ? Math.round(allMessages.length / uniqueUsers) : 0;
+
+            contentArea.innerHTML = `
+                <div style="padding: 20px;">
+                    <h2 style="margin-bottom: 24px; font-size: 20px;">Analytics Dashboard</h2>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px;">
+                        ${[
+                            { label: 'TOTAL MESSAGES', value: allMessages.length },
+                            { label: 'UNIQUE USERS', value: uniqueUsers },
+                            { label: 'AVG PER USER', value: avgPerUser },
+                            { label: 'TODAY', value: todayMsgs },
+                            { label: 'THIS WEEK', value: weekMsgs },
+                            { label: 'THIS MONTH', value: monthMsgs },
+                            { label: 'PINNED', value: allMessages.filter(m => m.pinned).length },
+                            { label: 'FLAGGED', value: allMessages.filter(m => m.flagged).length }
+                        ].map(stat => `
+                            <div class="stat-mini" style="padding: 20px;">
+                                <div class="stat-mini-value">${stat.value}</div>
+                                <div class="stat-mini-label">${stat.label}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
         }
 
-        window.clearSelection = function() {
-            selectedMessages.clear();
-            updateBulkActionsBar();
-            displayContent();
-        };
-
-        window.bulkPin = async function() {
-            if (selectedMessages.size === 0) return;
-            
-            const batch = db.batch();
-            selectedMessages.forEach(id => {
-                const ref = db.collection('communityComments').doc(id);
-                batch.update(ref, { pinned: true });
-            });
-
-            try {
-                await batch.commit();
-                logActivity('Bulk pin messages', `${selectedMessages.size} messages pinned`);
-                showToast(`Pinned ${selectedMessages.size} messages`, 'success');
-                clearSelection();
-            } catch (error) {
-                console.error('Error:', error);
-                showToast('Error updating messages', 'error');
-            }
-        };
-
-        window.bulkHighlight = async function() {
-            if (selectedMessages.size === 0) return;
-            
-            const batch = db.batch();
-            selectedMessages.forEach(id => {
-                const ref = db.collection('communityComments').doc(id);
-                batch.update(ref, { highlighted: true });
-            });
-
-            try {
-                await batch.commit();
-                logActivity('Bulk highlight messages', `${selectedMessages.size} messages highlighted`);
-                showToast(`Highlighted ${selectedMessages.size} messages`, 'success');
-                clearSelection();
-            } catch (error) {
-                console.error('Error:', error);
-                showToast('Error updating messages', 'error');
-            }
-        };
-
-        window.bulkArchive = async function() {
-            if (selectedMessages.size === 0) return;
-            
-            const batch = db.batch();
-            selectedMessages.forEach(id => {
-                const ref = db.collection('communityComments').doc(id);
-                batch.update(ref, { archived: true });
-            });
-
-            try {
-                await batch.commit();
-                logActivity('Bulk archive messages', `${selectedMessages.size} messages archived`);
-                showToast(`Archived ${selectedMessages.size} messages`, 'success');
-                clearSelection();
-            } catch (error) {
-                console.error('Error:', error);
-                showToast('Error updating messages', 'error');
-            }
-        };
-
-        window.bulkHide = async function() {
-            if (selectedMessages.size === 0) return;
-            
-            const batch = db.batch();
-            selectedMessages.forEach(id => {
-                const ref = db.collection('communityComments').doc(id);
-                batch.update(ref, { hidden: true });
-            });
-
-            try {
-                await batch.commit();
-                logActivity('Bulk hide messages', `${selectedMessages.size} messages hidden`);
-                showToast(`Hidden ${selectedMessages.size} messages`, 'success');
-                clearSelection();
-            } catch (error) {
-                console.error('Error:', error);
-                showToast('Error updating messages', 'error');
-            }
-        };
-
-        window.bulkDelete = async function() {
-            if (selectedMessages.size === 0) return;
-            if (!confirm(`Delete ${selectedMessages.size} messages permanently?`)) return;
-            
-            const batch = db.batch();
-            selectedMessages.forEach(id => {
-                const ref = db.collection('communityComments').doc(id);
-                batch.delete(ref);
-            });
-
-            try {
-                await batch.commit();
-                logActivity('Bulk delete messages', `${selectedMessages.size} messages deleted`);
-                showToast(`Deleted ${selectedMessages.size} messages`, 'success');
-                clearSelection();
-            } catch (error) {
-                console.error('Error:', error);
-                showToast('Error deleting messages', 'error');
-            }
-        };
-
-        window.selectMessage = function(messageId, event) {
-            if (event && event.target.type === 'checkbox') return;
-            
-            selectedItem = allMessages.find(m => m.id === messageId);
-            if (!selectedItem) return;
-
+        // Message Actions
+        window.selectMessage = function(message) {
+            if (isBulkSelectMode) return;
+            selectedItem = message;
+            selectedItem.type = 'message';
             document.querySelectorAll('.message-item').forEach(item => item.classList.remove('selected'));
-            if (event && event.currentTarget) {
-                event.currentTarget.classList.add('selected');
-            }
+            event.currentTarget.classList.add('selected');
             updateActionsPanel();
             
             if (window.innerWidth <= 1200) {
@@ -2247,136 +2355,52 @@
             }
         };
 
-        window.selectUser = function(email) {
-            const user = allUsers.get(email);
-            if (!user) return;
-
-            const userMessages = allMessages.filter(m => m.authorEmail === email);
-            const isBanned = bannedUsers.has(email);
-            const isMuted = mutedUsers.has(email);
-            const isOnline = user.uid && activeUsers.has(user.uid);
-
-            updateActionsPanel({
-                isUser: true,
-                email: email,
-                uid: user.uid,
-                name: user.name,
-                messageCount: user.messageCount,
-                lastSeen: user.lastSeen,
-                isBanned: isBanned,
-                isMuted: isMuted,
-                isOnline: isOnline,
-                messages: userMessages
-            });
-
+        window.selectUser = function(user) {
+            selectedItem = user;
+            selectedItem.type = 'user';
+            document.querySelectorAll('.message-item').forEach(item => item.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+            updateActionsPanel();
+            
             if (window.innerWidth <= 1200) {
                 document.getElementById('rightPanel').classList.add('show');
                 document.getElementById('overlay').classList.add('show');
             }
         };
 
-        function updateActionsPanel(userData = null) {
+        function updateActionsPanel() {
             const actionsBody = document.getElementById('actionsBody');
 
-            if (userData) {
-                const lastSeen = userData.lastSeen ? formatTime(userData.lastSeen.toDate()) : 'never';
-                const muteData = userData.isMuted ? mutedUsers.get(userData.email) : null;
-                const muteRemaining = muteData && muteData.mutedUntil ? 
-                    Math.max(0, Math.floor((muteData.mutedUntil.toDate() - new Date()) / 60000)) : 0;
-                
+            if (!selectedItem) {
                 actionsBody.innerHTML = `
-                    <div class="selected-info">
-                        <div class="selected-label">User Profile</div>
-                        <div class="selected-name">${escapeHtml(userData.name || 'Anonymous')}</div>
-                        <div class="selected-email">${escapeHtml(userData.email)}</div>
-                        
-                        <div class="user-stats">
-                            <div class="user-stat-item">
-                                <div class="user-stat-value">${userData.messageCount}</div>
-                                <div class="user-stat-label">MESSAGES</div>
-                            </div>
-                            <div class="user-stat-item">
-                                <div class="user-stat-value ${userData.isOnline ? 'online' : ''}">${userData.isOnline ? 'Online' : lastSeen}</div>
-                                <div class="user-stat-label">${userData.isOnline ? 'STATUS' : 'LAST SEEN'}</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="action-section">
-                        <div class="action-section-title">User Actions</div>
-                        ${!userData.isBanned && !userData.isMuted ? `
-                            <button class="action-button" onclick="muteUserModal('${userData.email.replace(/'/g, "\\'")}', '${userData.name.replace(/'/g, "\\'")}')">
-                                Mute User Temporarily
-                            </button>
-                        ` : ''}
-                        ${userData.isMuted ? `
-                            <button class="action-button success" onclick="unmuteUser('${userData.email.replace(/'/g, "\\'")}')">
-                                Unmute User (${muteRemaining}m left)
-                            </button>
-                        ` : ''}
-                        ${!userData.isBanned ? `
-                            <button class="action-button danger" onclick="banUserModal('${userData.email.replace(/'/g, "\\'")}', '${userData.name.replace(/'/g, "\\'")}')">
-                                Ban User Permanently
-                            </button>
-                        ` : `
-                            <button class="action-button success" onclick="unbanUser('${userData.email.replace(/'/g, "\\'")}')">
-                                Unban User
-                            </button>
-                        `}
-                        <button class="action-button danger" onclick="deleteUserMessages('${userData.email.replace(/'/g, "\\'")}')">
-                            Delete All User Messages
-                        </button>
-                    </div>
-
-                    <div class="action-section">
-                        <div class="action-section-title">User Statistics</div>
-                        <div style="font-size: 13px; color: #8e8e93; margin-bottom: 8px;">
-                            Total messages: ${userData.messages.length}<br>
-                            ${userData.isBanned ? '<span style="color: #ff3b30;">Account Status: BANNED</span>' : ''}
-                            ${userData.isMuted ? '<span style="color: #ff9500;">Account Status: MUTED</span>' : ''}
-                            ${!userData.isBanned && !userData.isMuted ? '<span style="color: #34c759;">Account Status: ACTIVE</span>' : ''}
-                        </div>
+                    <div class="loading">
+                        <div style="font-size: 48px; margin-bottom: 16px;">...</div>
+                        <div>Select an item</div>
                     </div>
                 `;
                 return;
             }
 
-            if (!selectedItem) {
-                actionsBody.innerHTML = '<div class="no-selection"><div>Select a message or user</div></div>';
+            if (selectedItem.type === 'user') {
+                showUserActions();
                 return;
             }
 
-            const userMessages = allMessages.filter(m => m.authorEmail === selectedItem.authorEmail);
-            const isBanned = selectedItem.authorEmail && bannedUsers.has(selectedItem.authorEmail);
-            const isMuted = selectedItem.authorEmail && mutedUsers.has(selectedItem.authorEmail);
-            const isOnline = selectedItem.authorUID && activeUsers.has(selectedItem.authorUID);
-
             actionsBody.innerHTML = `
                 <div class="selected-info">
-                    <div class="selected-label">Selected Message</div>
+                    <div class="selected-label">SELECTED MESSAGE</div>
                     <div class="selected-name">${escapeHtml(selectedItem.author || 'Anonymous')}</div>
                     <div class="selected-email">${escapeHtml(selectedItem.authorEmail || 'No email')}</div>
                     <div class="selected-text">${escapeHtml(selectedItem.text || '')}</div>
-                    
-                    <div class="user-stats">
-                        <div class="user-stat-item">
-                            <div class="user-stat-value">${userMessages.length}</div>
-                            <div class="user-stat-label">USER MSGS</div>
-                        </div>
-                        <div class="user-stat-item">
-                            <div class="user-stat-value ${isOnline ? 'online' : ''}">${isOnline ? 'Online' : 'Offline'}</div>
-                            <div class="user-stat-label">STATUS</div>
-                        </div>
-                    </div>
                 </div>
 
                 <div class="action-section">
-                    <div class="action-section-title">Primary Actions</div>
+                    <div class="action-section-title">PRIMARY ACTIONS</div>
                     <button class="action-button" onclick="togglePin()">
                         ${selectedItem.pinned ? 'Unpin Message' : 'Pin to Top'}
                     </button>
                     <button class="action-button" onclick="toggleHighlight()">
-                        ${selectedItem.highlighted ? 'Remove Highlight' : 'Highlight Message'}
+                        ${selectedItem.highlighted ? 'Remove Highlight' : 'Highlight'}
                     </button>
                     <button class="action-button" onclick="toggleHide()">
                         ${selectedItem.hidden ? 'Show Message' : 'Hide Message'}
@@ -2384,7 +2408,7 @@
                 </div>
 
                 <div class="action-section">
-                    <div class="action-section-title">Organization</div>
+                    <div class="action-section-title">ORGANIZATION</div>
                     <select class="select-input" onchange="setCategory(this.value)">
                         <option value="">Select Category</option>
                         <option value="Bug Report" ${selectedItem.category === 'Bug Report' ? 'selected' : ''}>Bug Report</option>
@@ -2393,15 +2417,18 @@
                         <option value="Feedback" ${selectedItem.category === 'Feedback' ? 'selected' : ''}>Feedback</option>
                         <option value="Spam" ${selectedItem.category === 'Spam' ? 'selected' : ''}>Spam</option>
                     </select>
+                    <button class="action-button" onclick="toggleArchive()">
+                        ${selectedItem.archived ? 'Unarchive' : 'Archive Message'}
+                    </button>
                     <button class="action-button" onclick="toggleFlag()">
                         ${selectedItem.flagged ? 'Unflag' : 'Flag for Review'}
                     </button>
                 </div>
 
                 <div class="action-section">
-                    <div class="action-section-title">Quick Replies</div>
+                    <div class="action-section-title">QUICK REPLIES</div>
                     ${replyTemplates.map(t => `
-                        <div class="template-item" onclick="useTemplate('${t.text.replace(/'/g, "\\'")}')">
+                        <div class="template-item" onclick="useTemplate(\`${t.text.replace(/`/g, '\\`')}\`)">
                             <div class="template-title">${t.title}</div>
                             <div class="template-text">${t.text.substring(0, 40)}...</div>
                         </div>
@@ -2409,49 +2436,66 @@
                 </div>
 
                 <div class="action-section">
-                    <div class="action-section-title">Custom Reply</div>
+                    <div class="action-section-title">CUSTOM REPLY</div>
                     <textarea class="reply-textarea" id="replyText" placeholder="Write your reply..."></textarea>
                     <button class="action-button primary" onclick="sendReply()">Send Reply</button>
                 </div>
 
                 <div class="action-section">
-                    <div class="action-section-title">User Management</div>
-                    ${!isBanned && !isMuted ? `
-                        <button class="action-button" onclick="muteUserModal('${selectedItem.authorEmail.replace(/'/g, "\\'")}', '${selectedItem.author.replace(/'/g, "\\'")}')">
-                            Mute User
-                        </button>
-                    ` : ''}
-                    ${!isBanned ? `
-                        <button class="action-button danger" onclick="banUserModal('${selectedItem.authorEmail.replace(/'/g, "\\'")}', '${selectedItem.author.replace(/'/g, "\\'")}')">
-                            Ban User
-                        </button>
-                    ` : `
-                        <button class="action-button success" onclick="unbanUser('${selectedItem.authorEmail.replace(/'/g, "\\'")}')">
-                            Unban User
-                        </button>
-                    `}
+                    <div class="action-section-title">USER ACTIONS</div>
+                    <button class="action-button" onclick="banUser()">Ban User</button>
+                    <button class="action-button" onclick="muteUser()">Mute User (30min)</button>
                 </div>
 
                 <div class="action-section">
-                    <div class="action-section-title">Danger Zone</div>
-                    <button class="action-button danger" onclick="deleteMessage()">Delete Message</button>
+                    <div class="action-section-title">DANGER ZONE</div>
+                    <button class="action-button" onclick="deleteMessage()">Delete Message</button>
                 </div>
             `;
 
             actionsBody.scrollTop = 0;
         }
 
+        function showUserActions() {
+            const actionsBody = document.getElementById('actionsBody');
+            
+            actionsBody.innerHTML = `
+                <div class="selected-info">
+                    <div class="selected-label">USER DETAILS</div>
+                    <div class="selected-name">${escapeHtml(selectedItem.name)}</div>
+                    <div class="selected-email">${escapeHtml(selectedItem.email)}</div>
+                    <div style="margin-top: 12px;">
+                        <div style="font-size: 12px; color: #666666; margin-bottom: 4px;">Total Messages</div>
+                        <div style="font-size: 14px; font-weight: 500;">${selectedItem.messageCount}</div>
+                    </div>
+                </div>
+
+                <div class="action-section">
+                    <div class="action-section-title">USER ACTIONS</div>
+                    <button class="action-button" onclick="viewUserMessages()">View All Messages</button>
+                    <button class="action-button" onclick="sendUserEmail()">Send Email</button>
+                </div>
+
+                <div class="action-section">
+                    <div class="action-section-title">MODERATION</div>
+                    <button class="action-button" onclick="banUserPermanent()">Ban User Permanently</button>
+                    <button class="action-button" onclick="muteUserTemporary()">Mute User (30min)</button>
+                    <button class="action-button" onclick="deleteAllUserMessages()">Delete All Messages</button>
+                </div>
+            `;
+        }
+
+        // Message Action Functions
         window.togglePin = async function() {
             if (!selectedItem) return;
             try {
                 await db.collection('communityComments').doc(selectedItem.id).update({
-                    pinned: !selectedItem.pinned
+                    pinned: !selectedItem.pinned,
+                    pinnedAt: !selectedItem.pinned ? firebase.firestore.FieldValue.serverTimestamp() : null
                 });
-                logActivity(selectedItem.pinned ? 'Message unpinned' : 'Message pinned', selectedItem.id);
-                showToast(selectedItem.pinned ? 'Message unpinned' : 'Message pinned', 'success');
+                showToast(selectedItem.pinned ? 'Message unpinned' : 'Message pinned');
             } catch (error) {
                 console.error('Error:', error);
-                showToast('Error updating message', 'error');
             }
         };
 
@@ -2461,11 +2505,9 @@
                 await db.collection('communityComments').doc(selectedItem.id).update({
                     highlighted: !selectedItem.highlighted
                 });
-                logActivity(selectedItem.highlighted ? 'Message unhighlighted' : 'Message highlighted', selectedItem.id);
-                showToast('Highlight updated', 'success');
+                showToast('Highlight updated');
             } catch (error) {
                 console.error('Error:', error);
-                showToast('Error updating message', 'error');
             }
         };
 
@@ -2475,11 +2517,22 @@
                 await db.collection('communityComments').doc(selectedItem.id).update({
                     hidden: !selectedItem.hidden
                 });
-                logActivity(selectedItem.hidden ? 'Message shown' : 'Message hidden', selectedItem.id);
-                showToast(selectedItem.hidden ? 'Message shown' : 'Message hidden', 'success');
+                showToast(selectedItem.hidden ? 'Message shown' : 'Message hidden');
             } catch (error) {
                 console.error('Error:', error);
-                showToast('Error updating message', 'error');
+            }
+        };
+
+        window.toggleArchive = async function() {
+            if (!selectedItem) return;
+            try {
+                await db.collection('communityComments').doc(selectedItem.id).update({
+                    archived: !selectedItem.archived,
+                    archivedAt: !selectedItem.archived ? firebase.firestore.FieldValue.serverTimestamp() : null
+                });
+                showToast(selectedItem.archived ? 'Message unarchived' : 'Message archived');
+            } catch (error) {
+                console.error('Error:', error);
             }
         };
 
@@ -2489,11 +2542,9 @@
                 await db.collection('communityComments').doc(selectedItem.id).update({
                     flagged: !selectedItem.flagged
                 });
-                logActivity(selectedItem.flagged ? 'Message unflagged' : 'Message flagged', selectedItem.id);
-                showToast(selectedItem.flagged ? 'Flag removed' : 'Message flagged', 'success');
+                showToast(selectedItem.flagged ? 'Flag removed' : 'Message flagged');
             } catch (error) {
                 console.error('Error:', error);
-                showToast('Error updating message', 'error');
             }
         };
 
@@ -2503,11 +2554,9 @@
                 await db.collection('communityComments').doc(selectedItem.id).update({
                     category: category || null
                 });
-                logActivity('Category set', `Message: ${selectedItem.id}, Category: ${category}`);
-                showToast('Category updated', 'success');
+                showToast('Category updated');
             } catch (error) {
                 console.error('Error:', error);
-                showToast('Error updating category', 'error');
             }
         };
 
@@ -2522,15 +2571,12 @@
             try {
                 await db.collection('communityComments').doc(selectedItem.id).update({
                     adminReply: replyText,
-                    repliedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    repliedBy: auth.currentUser.email
+                    repliedAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
                 document.getElementById('replyText').value = '';
-                logActivity('Reply sent', `To: ${selectedItem.authorEmail}`);
-                showToast('Reply sent successfully', 'success');
+                showToast('Reply sent successfully');
             } catch (error) {
                 console.error('Error:', error);
-                showToast('Error sending reply', 'error');
             }
         };
 
@@ -2540,327 +2586,412 @@
 
             try {
                 await db.collection('communityComments').doc(selectedItem.id).delete();
-                logActivity('Message deleted', `By: ${selectedItem.author}, Email: ${selectedItem.authorEmail}`);
-                showToast('Message deleted', 'success');
+                showToast('Message deleted');
                 selectedItem = null;
                 updateActionsPanel();
             } catch (error) {
                 console.error('Error:', error);
-                showToast('Error deleting message', 'error');
             }
         };
 
-        window.banUserModal = function(email, name) {
-            document.getElementById('banUserInfo').innerHTML = `
-                <div class="selected-label">User to Ban</div>
-                <div class="selected-name">${escapeHtml(name)}</div>
-                <div class="selected-email">${escapeHtml(email)}</div>
-            `;
-            
-            document.getElementById('banUserModal').classList.add('show');
-            document.getElementById('banUserModal').setAttribute('data-email', email);
-            document.getElementById('banUserModal').setAttribute('data-name', name);
-        };
-
-        window.confirmBanUser = async function() {
-            const email = document.getElementById('banUserModal').getAttribute('data-email');
-            const name = document.getElementById('banUserModal').getAttribute('data-name');
-            const reason = document.getElementById('banReason').value.trim();
-
-            if (!reason) {
-                showToast('Please provide a reason for ban', 'error');
-                return;
-            }
+        window.banUser = async function() {
+            if (!selectedItem || !selectedItem.authorEmail) return;
+            const reason = prompt('Reason for banning:');
+            if (!reason) return;
 
             try {
-                await db.collection('bannedUsers').doc(email).set({
-                    email: email,
-                    name: name,
+                await db.collection('bannedUsers').doc(selectedItem.authorEmail).set({
+                    email: selectedItem.authorEmail,
+                    name: selectedItem.author || 'Unknown',
                     reason: reason,
                     bannedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    bannedBy: auth.currentUser.email
+                    bannedBy: currentUser.email
                 });
-                
-                logActivity('User banned', `${name} (${email}) - Reason: ${reason}`);
-                showToast('User banned permanently', 'success');
-                closeModal();
-                updateActionsPanel();
+                showToast('User banned successfully');
             } catch (error) {
                 console.error('Error:', error);
-                showToast('Error banning user', 'error');
             }
         };
 
-        window.unbanUser = async function(email) {
-            if (!confirm('Unban this user? They will be able to send messages again.')) return;
+        window.muteUser = async function() {
+            if (!selectedItem || !selectedItem.authorEmail) return;
 
             try {
-                await db.collection('bannedUsers').doc(email).delete();
-                logActivity('User unbanned', email);
-                showToast('User unbanned successfully', 'success');
-                updateActionsPanel();
-            } catch (error) {
-                console.error('Error:', error);
-                showToast('Error unbanning user', 'error');
-            }
-        };
-
-        window.muteUserModal = function(email, name) {
-            document.getElementById('muteUserInfo').innerHTML = `
-                <div class="selected-label">User to Mute</div>
-                <div class="selected-name">${escapeHtml(name)}</div>
-                <div class="selected-email">${escapeHtml(email)}</div>
-            `;
-            
-            document.getElementById('muteUserModal').classList.add('show');
-            document.getElementById('muteUserModal').setAttribute('data-email', email);
-            document.getElementById('muteUserModal').setAttribute('data-name', name);
-        };
-
-        window.confirmMuteUser = async function() {
-            const email = document.getElementById('muteUserModal').getAttribute('data-email');
-            const name = document.getElementById('muteUserModal').getAttribute('data-name');
-            const duration = parseInt(document.getElementById('muteDuration').value);
-            const reason = document.getElementById('muteReason').value.trim();
-
-            const muteUntil = new Date(Date.now() + duration * 60000);
-
-            try {
-                await db.collection('mutedUsers').doc(email).set({
-                    email: email,
-                    name: name,
-                    reason: reason || 'Violation of community guidelines',
+                const muteUntil = new Date(Date.now() + 30 * 60 * 1000);
+                await db.collection('mutedUsers').doc(selectedItem.authorEmail).set({
+                    email: selectedItem.authorEmail,
+                    name: selectedItem.author || 'Unknown',
+                    reason: 'Muted by admin',
                     mutedAt: firebase.firestore.FieldValue.serverTimestamp(),
                     mutedUntil: firebase.firestore.Timestamp.fromDate(muteUntil),
-                    mutedBy: auth.currentUser.email,
-                    duration: duration
+                    mutedBy: currentUser.email
                 });
-                
-                logActivity('User muted', `${name} (${email}) - Duration: ${duration}m - Reason: ${reason}`);
-                showToast(`User muted for ${duration} minutes`, 'success');
-                closeModal();
-                updateActionsPanel();
+                showToast('User muted for 30 minutes');
             } catch (error) {
                 console.error('Error:', error);
-                showToast('Error muting user', 'error');
             }
         };
 
-        window.unmuteUser = async function(email) {
-            if (!confirm('Unmute this user now?')) return;
+        // User Management Actions
+        window.viewUserMessages = function() {
+            if (!selectedItem || !selectedItem.email) return;
+            const userMsgs = allMessages.filter(m => m.authorEmail === selectedItem.email);
+            selectedItem = null;
+            updateActionsPanel();
+            closeAllPanels();
+            showToast(`Showing ${userMsgs.length} messages from this user`);
+        };
+
+        window.sendUserEmail = function() {
+            if (!selectedItem || !selectedItem.email) return;
+            window.location.href = `mailto:${selectedItem.email}`;
+        };
+
+        window.banUserPermanent = async function() {
+            if (!selectedItem || !selectedItem.email) return;
+            const reason = prompt('Reason for banning:');
+            if (!reason) return;
 
             try {
-                await db.collection('mutedUsers').doc(email).delete();
-                logActivity('User unmuted', email);
-                showToast('User unmuted successfully', 'success');
-                updateActionsPanel();
+                await db.collection('bannedUsers').doc(selectedItem.email).set({
+                    email: selectedItem.email,
+                    name: selectedItem.name,
+                    reason: reason,
+                    bannedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    bannedBy: currentUser.email
+                });
+                showToast('User banned permanently');
             } catch (error) {
                 console.error('Error:', error);
-                showToast('Error unmuting user', 'error');
             }
         };
 
-        window.deleteUserMessages = async function(email) {
-            const userMessages = allMessages.filter(m => m.authorEmail === email);
-            if (!confirm(`Delete all ${userMessages.length} messages from this user permanently?`)) return;
-
-            const batch = db.batch();
-            userMessages.forEach(msg => {
-                const ref = db.collection('communityComments').doc(msg.id);
-                batch.delete(ref);
-            });
+        window.muteUserTemporary = async function() {
+            if (!selectedItem || !selectedItem.email) return;
 
             try {
+                const muteUntil = new Date(Date.now() + 30 * 60 * 1000);
+                await db.collection('mutedUsers').doc(selectedItem.email).set({
+                    email: selectedItem.email,
+                    name: selectedItem.name,
+                    reason: 'Muted by admin',
+                    mutedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    mutedUntil: firebase.firestore.Timestamp.fromDate(muteUntil),
+                    mutedBy: currentUser.email
+                });
+                showToast('User muted for 30 minutes');
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+
+        window.deleteAllUserMessages = async function() {
+            if (!selectedItem || !selectedItem.email) return;
+            const userMsgs = allMessages.filter(m => m.authorEmail === selectedItem.email);
+            if (!confirm(`Delete all ${userMsgs.length} messages from this user?`)) return;
+
+            try {
+                const batch = db.batch();
+                userMsgs.forEach(msg => {
+                    const ref = db.collection('communityComments').doc(msg.id);
+                    batch.delete(ref);
+                });
                 await batch.commit();
-                logActivity('All user messages deleted', `${email} - ${userMessages.length} messages`);
-                showToast(`Deleted ${userMessages.length} messages`, 'success');
+                showToast(`${userMsgs.length} messages deleted`);
+                selectedItem = null;
+                updateActionsPanel();
             } catch (error) {
                 console.error('Error:', error);
-                showToast('Error deleting messages', 'error');
             }
         };
 
-        window.postAnnouncement = function() {
-            document.getElementById('announcementModal').classList.add('show');
+        // Bulk Actions
+        window.toggleBulkSelect = function() {
+            isBulkSelectMode = !isBulkSelectMode;
+            const contentArea = document.getElementById('contentArea');
+            const bulkBtn = document.getElementById('bulkSelectBtn');
+            
+            if (isBulkSelectMode) {
+                contentArea.classList.add('bulk-select-mode');
+                bulkBtn.style.background = '#ffffff';
+                bulkBtn.style.color = '#000000';
+            } else {
+                contentArea.classList.remove('bulk-select-mode');
+                bulkBtn.style.background = '';
+                bulkBtn.style.color = '';
+                clearBulkSelection();
+            }
         };
 
-        window.submitAnnouncement = async function() {
-            const text = document.getElementById('announcementText').value.trim();
-            if (!text) {
-                showToast('Please enter announcement text', 'error');
+        window.toggleBulkItem = function(e, itemId) {
+            e.stopPropagation();
+            if (!isBulkSelectMode) return;
+
+            if (bulkSelectedItems.has(itemId)) {
+                bulkSelectedItems.delete(itemId);
+                e.currentTarget.classList.remove('checked');
+            } else {
+                bulkSelectedItems.add(itemId);
+                e.currentTarget.classList.add('checked');
+            }
+
+            updateBulkActionsBar();
+        };
+
+        function updateBulkActionsBar() {
+            const bar = document.getElementById('bulkActionsBar');
+            const count = document.getElementById('selectedCount');
+            
+            count.textContent = bulkSelectedItems.size;
+            
+            if (bulkSelectedItems.size > 0) {
+                bar.classList.add('show');
+            } else {
+                bar.classList.remove('show');
+            }
+        }
+
+        window.clearBulkSelection = function() {
+            bulkSelectedItems.clear();
+            document.querySelectorAll('.message-checkbox').forEach(cb => cb.classList.remove('checked'));
+            updateBulkActionsBar();
+        };
+
+        window.bulkPin = async function() {
+            if (bulkSelectedItems.size === 0) return;
+            if (!confirm(`Pin ${bulkSelectedItems.size} messages?`)) return;
+
+            try {
+                const batch = db.batch();
+                bulkSelectedItems.forEach(id => {
+                    const ref = db.collection('communityComments').doc(id);
+                    batch.update(ref, { pinned: true, pinnedAt: firebase.firestore.FieldValue.serverTimestamp() });
+                });
+                await batch.commit();
+                showToast(`${bulkSelectedItems.size} messages pinned`);
+                clearBulkSelection();
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+
+        window.bulkArchive = async function() {
+            if (bulkSelectedItems.size === 0) return;
+            if (!confirm(`Archive ${bulkSelectedItems.size} messages?`)) return;
+
+            try {
+                const batch = db.batch();
+                bulkSelectedItems.forEach(id => {
+                    const ref = db.collection('communityComments').doc(id);
+                    batch.update(ref, { archived: true, archivedAt: firebase.firestore.FieldValue.serverTimestamp() });
+                });
+                await batch.commit();
+                showToast(`${bulkSelectedItems.size} messages archived`);
+                clearBulkSelection();
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+
+        window.bulkHide = async function() {
+            if (bulkSelectedItems.size === 0) return;
+            if (!confirm(`Hide ${bulkSelectedItems.size} messages?`)) return;
+
+            try {
+                const batch = db.batch();
+                bulkSelectedItems.forEach(id => {
+                    const ref = db.collection('communityComments').doc(id);
+                    batch.update(ref, { hidden: true });
+                });
+                await batch.commit();
+                showToast(`${bulkSelectedItems.size} messages hidden`);
+                clearBulkSelection();
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+
+        window.bulkDelete = async function() {
+            if (bulkSelectedItems.size === 0) return;
+            if (!confirm(`DELETE ${bulkSelectedItems.size} messages permanently?`)) return;
+
+            try {
+                const batch = db.batch();
+                bulkSelectedItems.forEach(id => {
+                    const ref = db.collection('communityComments').doc(id);
+                    batch.delete(ref);
+                });
+                await batch.commit();
+                showToast(`${bulkSelectedItems.size} messages deleted`);
+                clearBulkSelection();
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+
+        // Search & Filter
+        window.performSearch = function() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            if (!query) {
+                displayContent();
                 return;
             }
 
-            const highlight = document.getElementById('highlightAnnouncement').checked;
-            const pin = document.getElementById('pinAnnouncement').checked;
+            const filtered = allMessages.filter(m => 
+                m.text?.toLowerCase().includes(query) ||
+                m.author?.toLowerCase().includes(query) ||
+                m.authorEmail?.toLowerCase().includes(query)
+            );
 
-            try {
-                await db.collection('announcements').add({
-                    text: text,
-                    author: 'Team Sharvika',
-                    authorEmail: auth.currentUser.email,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                    highlighted: highlight,
-                    pinned: pin,
-                    channel: 'announcements'
-                });
-
-                document.getElementById('announcementText').value = '';
-                closeModal();
-                logActivity('Announcement posted', text.substring(0, 50));
-                showToast('Announcement posted successfully', 'success');
-            } catch (error) {
-                console.error('Error:', error);
-                showToast('Error posting announcement', 'error');
-            }
-        };
-
-        window.broadcastMessage = function() {
-            document.getElementById('broadcastModal').classList.add('show');
-        };
-
-        window.submitBroadcast = async function() {
-            const text = document.getElementById('broadcastText').value.trim();
-            if (!text) {
-                showToast('Please enter broadcast message', 'error');
+            const contentArea = document.getElementById('contentArea');
+            if (filtered.length === 0) {
+                contentArea.innerHTML = '<div class="loading">No results found</div>';
                 return;
             }
 
-            try {
-                await db.collection('broadcasts').add({
-                    text: text,
-                    sentBy: auth.currentUser.email,
-                    sentAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    recipients: Array.from(allUsers.keys())
-                });
+            const html = filtered.map(msg => createMessageHTML(msg)).join('');
+            contentArea.innerHTML = html;
+        };
 
-                document.getElementById('broadcastText').value = '';
-                closeModal();
-                logActivity('Broadcast sent', `To ${allUsers.size} users`);
-                showToast(`Broadcast sent to ${allUsers.size} users`, 'success');
-            } catch (error) {
-                console.error('Error:', error);
-                showToast('Error sending broadcast', 'error');
+        window.filterByType = function(type) {
+            document.querySelectorAll('.filter-chip').forEach(chip => chip.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            let filtered = allMessages;
+            const now = new Date();
+
+            if (type === 'today') {
+                const todayStart = new Date(now.setHours(0, 0, 0, 0));
+                filtered = allMessages.filter(m => m.timestamp && m.timestamp.toDate() >= todayStart);
+            } else if (type === 'week') {
+                // We need a fresh 'now' because of mutation in 'today' filter if executed before
+                const weekStart = new Date();
+                weekStart.setDate(weekStart.getDate() - 7);
+                filtered = allMessages.filter(m => m.timestamp && m.timestamp.toDate() >= weekStart);
+            } else if (type === 'month') {
+                const monthStart = new Date();
+                monthStart.setMonth(monthStart.getMonth() - 1);
+                filtered = allMessages.filter(m => m.timestamp && m.timestamp.toDate() >= monthStart);
             }
+
+            const contentArea = document.getElementById('contentArea');
+            if (filtered.length === 0) {
+                contentArea.innerHTML = '<div class="loading">No messages found</div>';
+                return;
+            }
+
+            const html = filtered.map(msg => createMessageHTML(msg)).join('');
+            contentArea.innerHTML = html;
         };
 
-        window.closeModal = function() {
-            document.querySelectorAll('.modal').forEach(modal => modal.classList.remove('show'));
-            document.getElementById('announcementText').value = '';
-            document.getElementById('broadcastText').value = '';
-            document.getElementById('banReason').value = '';
-            document.getElementById('muteReason').value = '';
+        // System Controls
+        window.toggleAutoMod = async function() {
+            settings.autoMod = !settings.autoMod;
+            document.getElementById('autoModToggle').classList.toggle('active');
+            await saveSystemSettings();
+            showToast(`Auto-moderation ${settings.autoMod ? 'enabled' : 'disabled'}`);
         };
 
+        window.toggleProfanity = async function() {
+            settings.profanity = !settings.profanity;
+            document.getElementById('profanityToggle').classList.toggle('active');
+            await saveSystemSettings();
+            showToast(`Profanity filter ${settings.profanity ? 'enabled' : 'disabled'}`);
+        };
+
+        window.toggleReadOnly = async function() {
+            settings.readOnly = !settings.readOnly;
+            document.getElementById('readOnlyToggle').classList.toggle('active');
+            await saveSystemSettings();
+            showToast(`Read-only mode ${settings.readOnly ? 'enabled' : 'disabled'}`);
+        };
+
+        window.updateSlowMode = async function(value) {
+            settings.slowMode = parseInt(value) || 0;
+            await saveSystemSettings();
+            showToast(`Slow mode set to ${value} seconds`);
+        };
+
+        async function saveSystemSettings() {
+            try {
+                await db.collection('systemSettings').doc('moderation').set(settings, { merge: true });
+            } catch (error) {
+                console.error('Error saving settings:', error);
+            }
+        }
+
+        // Utilities
         window.exportData = function() {
             try {
-                const data = allMessages.map(m => ({
-                    author: m.author || 'Anonymous',
-                    email: m.authorEmail || '',
-                    message: m.text || '',
-                    time: m.timestamp ? m.timestamp.toDate().toISOString() : '',
-                    pinned: m.pinned || false,
-                    highlighted: m.highlighted || false,
-                    hidden: m.hidden || false,
-                    flagged: m.flagged || false,
-                    category: m.category || '',
-                    replied: m.adminReply ? 'Yes' : 'No',
-                    adminReply: m.adminReply || '',
-                    banned: m.authorEmail && bannedUsers.has(m.authorEmail) ? 'Yes' : 'No',
-                    muted: m.authorEmail && mutedUsers.has(m.authorEmail) ? 'Yes' : 'No'
-                }));
+                let data = [];
+                let filename = 'sharvika-export';
 
+                if (currentView === 'users') {
+                    const usersMap = new Map();
+                    allMessages.forEach(msg => {
+                        if (msg.authorEmail) {
+                            if (!usersMap.has(msg.authorEmail)) {
+                                usersMap.set(msg.authorEmail, {
+                                    name: msg.author || 'Anonymous',
+                                    email: msg.authorEmail,
+                                    messages: 1
+                                });
+                            } else {
+                                usersMap.get(msg.authorEmail).messages++;
+                            }
+                        }
+                    });
+                    data = Array.from(usersMap.values());
+                    filename = 'sharvika-users';
+                } else {
+                    data = allMessages.map(m => ({
+                        author: m.author || 'Anonymous',
+                        email: m.authorEmail || '',
+                        message: m.text || '',
+                        time: m.timestamp ? m.timestamp.toDate().toISOString() : '',
+                        pinned: m.pinned || false,
+                        archived: m.archived || false,
+                        hidden: m.hidden || false,
+                        category: m.category || ''
+                    }));
+                    filename = 'sharvika-messages';
+                }
+
+                const headers = Object.keys(data[0] || {});
                 const csv = [
-                    ['Author', 'Email', 'Message', 'Time', 'Pinned', 'Highlighted', 'Hidden', 'Flagged', 'Category', 'Replied', 'Admin Reply', 'User Banned', 'User Muted'],
-                    ...data.map(d => [
-                        d.author, 
-                        d.email, 
-                        `"${d.message.replace(/"/g, '""')}"`, 
-                        d.time, 
-                        d.pinned, 
-                        d.highlighted,
-                        d.hidden,
-                        d.flagged,
-                        d.category,
-                        d.replied,
-                        `"${d.adminReply.replace(/"/g, '""')}"`,
-                        d.banned,
-                        d.muted
-                    ])
+                    headers,
+                    ...data.map(row => headers.map(h => {
+                        let val = row[h] === undefined || row[h] === null ? '' : String(row[h]);
+                        // Escape quotes for CSV
+                        return `"${val.replace(/"/g, '""')}"`;
+                    }))
                 ].map(row => row.join(',')).join('\n');
 
                 const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `sharvika-admin-export-${new Date().toISOString().split('T')[0]}.csv`;
+                a.download = `${filename}-${new Date().toISOString().split('T')[0]}.csv`;
                 a.click();
                 URL.revokeObjectURL(url);
-                logActivity('Data exported', `${data.length} messages`);
-                showToast('Data exported successfully', 'success');
+                showToast('Data exported successfully');
             } catch (error) {
                 console.error('Export error:', error);
-                showToast('Error exporting data', 'error');
+                showToast('Export failed. See console for details.');
             }
         };
 
         window.refreshData = function() {
             loadData();
-            loadBannedUsers();
-            loadMutedUsers();
-            logActivity('Data refreshed', 'Manual refresh');
-            showToast('Data refreshed', 'success');
+            loadLiveCalls();
+            showToast('Data refreshed');
         };
 
-        window.toggleAutoMod = function() {
-            settings.autoMod = !settings.autoMod;
-            document.getElementById('autoModToggle').classList.toggle('active');
-            saveSettings();
-            logActivity('Auto-moderation toggled', settings.autoMod ? 'Enabled' : 'Disabled');
-            showToast(`Auto-moderation ${settings.autoMod ? 'enabled' : 'disabled'}`, 'success');
-        };
-
-        window.toggleProfanity = function() {
-            settings.profanity = !settings.profanity;
-            document.getElementById('profanityToggle').classList.toggle('active');
-            saveSettings();
-            logActivity('Profanity filter toggled', settings.profanity ? 'Enabled' : 'Disabled');
-            showToast(`Profanity filter ${settings.profanity ? 'enabled' : 'disabled'}`, 'success');
-        };
-
-        window.toggleReadOnly = function() {
-            settings.readOnly = !settings.readOnly;
-            document.getElementById('readOnlyToggle').classList.toggle('active');
-            saveSettings();
-            logActivity('Read-only mode toggled', settings.readOnly ? 'Enabled' : 'Disabled');
-            showToast(`Read-only mode ${settings.readOnly ? 'enabled' : 'disabled'}`, 'success');
-        };
-
-        window.updateSlowMode = function(value) {
-            settings.slowMode = parseInt(value) || 0;
-            saveSettings();
-            logActivity('Slow mode updated', `${value} seconds`);
-            showToast(`Slow mode set to ${value} seconds`, 'success');
-        };
-
-        function saveSettings() {
-            localStorage.setItem('adminSettings', JSON.stringify(settings));
-            db.collection('systemSettings').doc('moderation').set(settings, { merge: true });
-        }
-
-        function loadSettings() {
-            const saved = localStorage.getItem('adminSettings');
-            if (saved) {
-                try {
-                    settings = JSON.parse(saved);
-                    if (settings.autoMod) document.getElementById('autoModToggle').classList.add('active');
-                    if (settings.profanity) document.getElementById('profanityToggle').classList.add('active');
-                    if (settings.readOnly) document.getElementById('readOnlyToggle').classList.add('active');
-                    if (settings.slowMode) document.getElementById('slowModeInput').value = settings.slowMode;
-                } catch (error) {
-                    console.error('Error loading settings:', error);
-                }
-            }
+        function escapeHtml(text) {
+            if (text === null || text === undefined) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
 
         function formatTime(date) {
@@ -2869,51 +3000,39 @@
             const seconds = Math.floor(diff / 1000);
             const minutes = Math.floor(seconds / 60);
             const hours = Math.floor(minutes / 60);
+            const days = Math.floor(hours / 24);
 
             if (seconds < 60) return 'now';
-            if (minutes < 60) return `${minutes}m`;
-            if (hours < 24) return `${hours}h`;
+            if (minutes < 60) return `${minutes}m ago`;
+            if (hours < 24) return `${hours}h ago`;
+            if (days < 7) return `${days}d ago`;
             
             return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
         }
 
-        function showToast(message, type = 'success') {
+        function showToast(message) {
             const toast = document.getElementById('toast');
             toast.textContent = message;
-            toast.className = `toast ${type}`;
             toast.classList.add('show');
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
         window.logout = async function() {
-            if (confirm('Logout from admin workspace?')) {
+            if (confirm('Logout from workspace?')) {
                 try {
-                    if (unsubscribe) unsubscribe();
-                    if (presenceUnsubscribe) presenceUnsubscribe();
-                    
-                    const uid = auth.currentUser.uid;
-                    await db.collection('presence').doc(uid).set({
-                        online: false,
-                        lastSeen: firebase.firestore.FieldValue.serverTimestamp()
-                    }, { merge: true });
-                    
+                    if (liveCallsUnsubscribe) liveCallsUnsubscribe();
+                    if (messagesUnsubscribe) messagesUnsubscribe();
+                    if (settingsUnsubscribe) settingsUnsubscribe();
+                    if (announcementsUnsubscribe) announcementsUnsubscribe(); // New cleanup
+                    if (liveLocalStream) liveLocalStream.getTracks().forEach(track => track.stop());
                     await auth.signOut();
                     sessionStorage.clear();
-                    logActivity('Admin logged out', auth.currentUser.email);
                     window.location.href = 'signin.html';
                 } catch (error) {
                     console.error('Logout error:', error);
-                    showToast('Error logging out', 'error');
                 }
             }
         };
-
-        setTimeout(() => {
-            if (typeof auth === 'undefined') {
-                console.error('❌ Firebase failed to load');
-                document.getElementById('contentArea').innerHTML = '<div class="loading">Connection error. Please refresh the page.</div>';
-            }
-        }, 5000);
     </script>
 </body>
 </html>
