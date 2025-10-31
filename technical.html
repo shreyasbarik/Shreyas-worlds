@@ -1,11 +1,13 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Technical Workspace - Sharvika</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
     <style>
         * {
             margin: 0;
@@ -20,49 +22,73 @@
 
         body {
             font-family: 'Roboto', sans-serif;
-            background: #000000;
+            background: #0e0e0e;
             color: #ffffff;
-            -webkit-font-smoothing: antialiased;
         }
 
+        /* ✅ Mobile Top Bar */
         .mobile-header {
             display: none;
-            padding: 12px 16px;
-            background: #0a0a0a;
-            border-bottom: 1px solid #1a1a1a;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background: #1a1a1a;
+            border-bottom: 1px solid #2a2a2a;
+            z-index: 1000;
             align-items: center;
             justify-content: space-between;
-            flex-shrink: 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            padding: 0 16px;
+        }
+
+        .mobile-header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         .mobile-menu-btn {
             width: 40px;
             height: 40px;
-            background: #1a1a1a;
+            background: #2a2a2a;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             color: #ffffff;
+            font-size: 20px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.2s;
         }
 
-        .mobile-menu-btn:active {
-            background: #2a2a2a;
-        }
-
-        .mobile-title {
+        .mobile-brand {
             font-size: 16px;
-            font-weight: 500;
-            flex: 1;
-            text-align: center;
+            font-weight: 600;
         }
 
+        .mobile-header-right {
+            display: flex;
+            gap: 8px;
+        }
+
+        /* ✅ Overlay for mobile menus */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        /* FIXED: Proper Grid Layout */
         .workspace {
             display: grid;
             grid-template-columns: 280px 1fr 420px;
@@ -71,18 +97,20 @@
             overflow: hidden;
         }
 
+        /* FIXED: Left Panel Scrolling */
         .left-panel {
-            background: #0a0a0a;
-            border-right: 1px solid #1a1a1a;
+            background: #1a1a1a;
+            border-right: 1px solid #2a2a2a;
             display: flex;
             flex-direction: column;
             height: 100vh;
             overflow: hidden;
+            transition: transform 0.3s ease;
         }
 
         .panel-header {
             padding: 20px;
-            border-bottom: 1px solid #1a1a1a;
+            border-bottom: 1px solid #2a2a2a;
             flex-shrink: 0;
         }
 
@@ -94,13 +122,15 @@
 
         .workspace-subtitle {
             font-size: 13px;
-            color: #666666;
+            color: #8e8e93;
         }
 
+        /* FIXED: Nav Section Scrolling */
         .nav-sections-wrapper {
             flex: 1;
             overflow-y: auto;
             overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
         }
 
         .nav-sections-wrapper::-webkit-scrollbar {
@@ -112,19 +142,19 @@
         }
 
         .nav-sections-wrapper::-webkit-scrollbar-thumb {
-            background: #1a1a1a;
+            background: #2a2a2a;
             border-radius: 3px;
         }
 
         .nav-section {
             padding: 16px 0;
-            border-bottom: 1px solid #1a1a1a;
+            border-bottom: 1px solid #2a2a2a;
         }
 
         .nav-label {
             padding: 0 20px 12px;
             font-size: 11px;
-            color: #666666;
+            color: #6e6e73;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -136,44 +166,33 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            min-height: 44px;
         }
 
         .nav-item:hover {
-            background: #1a1a1a;
+            background: #2a2a2a;
         }
 
         .nav-item.active {
-            background: #1a1a1a;
-            border-left: 2px solid #ffffff;
-            padding-left: 18px;
-        }
-
-        .nav-item.priority {
-            background: #1a1a1a;
-            border-left: 2px solid #ffffff;
+            background: #2a2a2a;
+            border-left: 3px solid #ffffff;
+            padding-left: 17px;
         }
 
         .nav-item-content {
             display: flex;
             align-items: center;
             gap: 12px;
-            flex: 1;
-            min-width: 0;
         }
 
         .nav-icon {
             width: 20px;
             height: 20px;
-            flex-shrink: 0;
+            opacity: 0.7;
         }
 
         .nav-text {
             font-size: 14px;
             font-weight: 500;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
         .nav-badge {
@@ -183,16 +202,6 @@
             border-radius: 10px;
             font-size: 11px;
             font-weight: 600;
-            flex-shrink: 0;
-        }
-
-        .nav-badge.alert {
-            animation: blink 1s infinite;
-        }
-
-        @keyframes blink {
-            0%, 50%, 100% { opacity: 1; }
-            25%, 75% { opacity: 0.5; }
         }
 
         .control-section {
@@ -200,16 +209,15 @@
         }
 
         .control-card {
-            background: #1a1a1a;
+            background: #2a2a2a;
             padding: 16px;
-            border-radius: 8px;
+            border-radius: 12px;
             margin-bottom: 12px;
-            border: 1px solid #2a2a2a;
         }
 
         .control-label {
             font-size: 13px;
-            color: #666666;
+            color: #8e8e93;
             margin-bottom: 12px;
             display: flex;
             align-items: center;
@@ -220,7 +228,7 @@
             position: relative;
             width: 44px;
             height: 24px;
-            background: #2a2a2a;
+            background: #3a3a3a;
             border-radius: 12px;
             cursor: pointer;
             transition: background 0.3s;
@@ -237,7 +245,7 @@
             left: 2px;
             width: 20px;
             height: 20px;
-            background: #666666;
+            background: #6e6e73;
             border-radius: 50%;
             transition: all 0.3s;
         }
@@ -250,17 +258,12 @@
         .input-field {
             width: 100%;
             padding: 10px;
-            background: #000000;
-            border: 1px solid #2a2a2a;
-            border-radius: 6px;
+            background: #1a1a1a;
+            border: 1px solid #3a3a3a;
+            border-radius: 8px;
             color: #ffffff;
             font-size: 13px;
             outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .input-field:focus {
-            border-color: #3a3a3a;
         }
 
         .stats-grid {
@@ -271,17 +274,10 @@
         }
 
         .stat-mini {
-            background: #1a1a1a;
+            background: #2a2a2a;
             padding: 12px;
             border-radius: 8px;
             text-align: center;
-            cursor: pointer;
-            transition: background 0.2s;
-            border: 1px solid #2a2a2a;
-        }
-
-        .stat-mini:hover {
-            background: #2a2a2a;
         }
 
         .stat-mini-value {
@@ -292,12 +288,12 @@
 
         .stat-mini-label {
             font-size: 11px;
-            color: #666666;
+            color: #8e8e93;
         }
 
         .admin-footer {
             padding: 16px 20px;
-            border-top: 1px solid #1a1a1a;
+            border-top: 1px solid #2a2a2a;
             display: flex;
             align-items: center;
             gap: 12px;
@@ -314,45 +310,40 @@
             align-items: center;
             justify-content: center;
             font-weight: 600;
-            flex-shrink: 0;
         }
 
         .admin-info {
             flex: 1;
-            min-width: 0;
         }
 
         .admin-name {
             font-size: 14px;
             font-weight: 500;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
         .admin-role {
             font-size: 12px;
-            color: #666666;
+            color: #8e8e93;
         }
 
         .logout-btn {
             width: 32px;
             height: 32px;
-            border-radius: 6px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: background 0.2s;
-            flex-shrink: 0;
         }
 
         .logout-btn:hover {
-            background: #1a1a1a;
+            background: #2a2a2a;
         }
 
+        /* FIXED: Middle Panel Scrolling */
         .middle-panel {
-            background: #000000;
+            background: #0e0e0e;
             display: flex;
             flex-direction: column;
             height: 100vh;
@@ -361,33 +352,28 @@
 
         .content-header {
             padding: 16px 24px;
-            background: #0a0a0a;
-            border-bottom: 1px solid #1a1a1a;
+            background: #1a1a1a;
+            border-bottom: 1px solid #2a2a2a;
             display: flex;
             align-items: center;
             justify-content: space-between;
             flex-shrink: 0;
-            flex-wrap: wrap;
-            gap: 12px;
         }
 
         .header-info {
             display: flex;
             align-items: center;
             gap: 12px;
-            min-width: 0;
-            flex: 1;
         }
 
         .header-icon {
             width: 40px;
             height: 40px;
-            background: #1a1a1a;
-            border-radius: 6px;
+            background: #2a2a2a;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
         }
 
         .header-title {
@@ -397,20 +383,19 @@
 
         .header-subtitle {
             font-size: 13px;
-            color: #666666;
+            color: #8e8e93;
         }
 
         .header-actions {
             display: flex;
             gap: 8px;
-            flex-wrap: wrap;
         }
 
         .action-btn {
             padding: 8px 16px;
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
-            border-radius: 6px;
+            background: #2a2a2a;
+            border: none;
+            border-radius: 8px;
             color: #ffffff;
             font-size: 13px;
             cursor: pointer;
@@ -418,87 +403,20 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            white-space: nowrap;
-            min-height: 36px;
         }
 
         .action-btn:hover {
-            background: #2a2a2a;
+            background: #3a3a3a;
         }
 
-        .action-btn:active {
-            transform: scale(0.98);
-        }
-
-        .search-bar {
-            padding: 12px 24px;
-            background: #0a0a0a;
-            border-bottom: 1px solid #1a1a1a;
-            flex-shrink: 0;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 10px 16px;
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
-            border-radius: 6px;
-            color: #ffffff;
-            font-size: 14px;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .search-input:focus {
-            border-color: #3a3a3a;
-        }
-
-        .filter-bar {
-            padding: 12px 24px;
-            background: #0a0a0a;
-            border-bottom: 1px solid #1a1a1a;
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            flex-shrink: 0;
-        }
-
-        .filter-bar::-webkit-scrollbar {
-            height: 4px;
-        }
-
-        .filter-bar::-webkit-scrollbar-thumb {
-            background: #1a1a1a;
-            border-radius: 2px;
-        }
-
-        .filter-chip {
-            padding: 6px 14px;
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
-            border-radius: 16px;
-            color: #ffffff;
-            font-size: 12px;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.2s;
-        }
-
-        .filter-chip.active {
-            background: #ffffff;
-            color: #000000;
-            border-color: #ffffff;
-        }
-
-        .filter-chip:hover:not(.active) {
-            background: #2a2a2a;
-        }
-
+        /* FIXED: Content Area - Perfect Scrolling */
         .content-area {
             flex: 1;
             overflow-y: auto;
             overflow-x: hidden;
             padding: 20px 24px;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
         }
 
         .content-area::-webkit-scrollbar {
@@ -510,303 +428,19 @@
         }
 
         .content-area::-webkit-scrollbar-thumb {
-            background: #1a1a1a;
+            background: #2a2a2a;
             border-radius: 4px;
         }
 
-        .bulk-actions-bar {
-            padding: 12px 24px;
-            background: #1a1a1a;
-            border-bottom: 1px solid #2a2a2a;
-            display: none;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .bulk-actions-bar.show {
-            display: flex;
-        }
-
-        .bulk-info {
-            flex: 1;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .bulk-btn {
-            padding: 6px 14px;
-            background: #2a2a2a;
-            border: 1px solid #3a3a3a;
-            border-radius: 6px;
-            color: #ffffff;
-            font-size: 12px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .bulk-btn:hover {
+        .content-area::-webkit-scrollbar-thumb:hover {
             background: #3a3a3a;
-        }
-
-        /* Incoming Call Card */
-        .incoming-call-card {
-            background: #0a0a0a;
-            border: 2px solid #ffffff;
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 16px;
-            cursor: pointer;
-            transition: all 0.3s;
-            animation: slideIn 0.3s ease-out;
-            position: relative;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .incoming-call-card:hover {
-            background: #1a1a1a;
-            transform: translateY(-2px);
-        }
-
-        .call-card-header {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 16px;
-        }
-
-        .caller-avatar {
-            width: 60px;
-            height: 60px;
-            background: #1a1a1a;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            font-weight: 700;
-            color: #ffffff;
-            border: 2px solid #2a2a2a;
-            flex-shrink: 0;
-        }
-
-        .caller-info {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .caller-name {
-            font-size: 20px;
-            font-weight: 600;
-            color: #ffffff;
-            margin-bottom: 4px;
-        }
-
-        .caller-email {
-            font-size: 14px;
-            color: #666666;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .call-badge {
-            background: #1a1a1a;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 600;
-            color: #ffffff;
-            border: 1px solid #2a2a2a;
-            flex-shrink: 0;
-        }
-
-        .call-actions {
-            display: flex;
-            gap: 12px;
-        }
-
-        .call-action-btn {
-            flex: 1;
-            padding: 14px 24px;
-            border: 2px solid #2a2a2a;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .call-action-btn.accept {
-            background: #ffffff;
-            color: #000000;
-            border-color: #ffffff;
-        }
-
-        .call-action-btn.accept:hover {
-            background: #e0e0e0;
-        }
-
-        .call-action-btn.reject {
-            background: transparent;
-            color: #ffffff;
-            border-color: #2a2a2a;
-        }
-
-        .call-action-btn.reject:hover {
-            background: #1a1a1a;
-        }
-
-        /* Video Call Container */
-        .video-call-container {
-            background: #000000;
-            border-radius: 12px;
-            overflow: hidden;
-            position: relative;
-            margin-bottom: 20px;
-            border: 1px solid #1a1a1a;
-        }
-
-        #techRemoteVideo {
-            width: 100%;
-            height: 500px;
-            object-fit: contain;
-            display: block;
-            background: #000000;
-        }
-
-        #techLocalVideo {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            width: 200px;
-            height: 150px;
-            border-radius: 8px;
-            object-fit: cover;
-            border: 2px solid #2a2a2a;
-        }
-
-        .caller-badge {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 12px 20px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border: 1px solid #1a1a1a;
-        }
-
-        .caller-badge-avatar {
-            width: 40px;
-            height: 40px;
-            background: #1a1a1a;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            color: #ffffff;
-        }
-
-        .caller-badge-info {
-            color: #ffffff;
-        }
-
-        .caller-badge-name {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 2px;
-        }
-
-        .caller-badge-email {
-            font-size: 12px;
-            color: #666666;
-        }
-
-        .call-duration-badge {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 8px 16px;
-            border-radius: 20px;
-            color: #ffffff;
-            font-size: 16px;
-            font-weight: 600;
-            border: 1px solid #1a1a1a;
-        }
-
-        .video-controls {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .video-control-btn {
-            flex: 1;
-            padding: 16px;
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
-            border-radius: 8px;
-            color: #ffffff;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .video-control-btn:hover {
-            background: #2a2a2a;
-        }
-
-        .video-control-btn.active {
-            background: #ffffff;
-            color: #000000;
-            border-color: #ffffff;
-        }
-
-        .video-control-btn.muted {
-            background: #1a1a1a;
-            color: #666666;
-        }
-
-        .video-control-btn.end {
-            background: #1a1a1a;
-            border-color: #2a2a2a;
-        }
-
-        .video-control-btn.end:hover {
-            background: #2a2a2a;
         }
 
         /* Message Item */
         .message-item {
-            background: #0a0a0a;
-            border: 1px solid #1a1a1a;
-            border-radius: 8px;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 12px;
             padding: 16px;
             margin-bottom: 12px;
             cursor: pointer;
@@ -815,48 +449,36 @@
         }
 
         .message-item:hover {
-            background: #1a1a1a;
-            border-color: #2a2a2a;
+            background: #2a2a2a;
+            border-color: #3a3a3a;
         }
 
         .message-item.selected {
-            background: #1a1a1a;
+            background: #2a2a2a;
             border-color: #ffffff;
         }
 
-        .message-checkbox {
+        .message-item.pinned {
+            border-left: 3px solid #ffffff;
+        }
+
+        .message-item.hidden {
+            opacity: 0.4;
+        }
+
+        .pin-indicator {
             position: absolute;
-            top: 16px;
-            left: 16px;
-            width: 20px;
-            height: 20px;
-            background: #1a1a1a;
-            border: 2px solid #2a2a2a;
-            border-radius: 4px;
-            cursor: pointer;
-            display: none;
+            top: 12px;
+            right: 12px;
+            background: #ffffff;
+            color: #000000;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        .bulk-select-mode .message-checkbox {
-            display: flex;
-        }
-
-        .bulk-select-mode .message-item {
-            padding-left: 50px;
-        }
-
-        .message-checkbox.checked {
-            background: #ffffff;
-            border-color: #ffffff;
-        }
-
-        .message-checkbox.checked::after {
-            content: '✓';
-            color: #000000;
-            font-size: 14px;
-            font-weight: bold;
+            font-size: 12px;
         }
 
         .message-header {
@@ -864,14 +486,11 @@
             justify-content: space-between;
             align-items: start;
             margin-bottom: 12px;
-            gap: 12px;
         }
 
         .message-author-info {
             display: flex;
             gap: 12px;
-            min-width: 0;
-            flex: 1;
         }
 
         .author-avatar {
@@ -885,34 +504,25 @@
             justify-content: center;
             font-weight: 600;
             font-size: 14px;
-            flex-shrink: 0;
         }
 
         .author-details {
             flex: 1;
-            min-width: 0;
         }
 
         .author-name {
             font-size: 14px;
             font-weight: 500;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
         .author-email {
             font-size: 12px;
-            color: #666666;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            color: #8e8e93;
         }
 
         .message-time {
             font-size: 12px;
-            color: #666666;
-            white-space: nowrap;
+            color: #8e8e93;
         }
 
         .message-text {
@@ -934,24 +544,52 @@
             border-radius: 12px;
             font-size: 11px;
             font-weight: 600;
-            background: #1a1a1a;
-            color: #666666;
-            border: 1px solid #2a2a2a;
         }
 
-        /* Right Panel */
+        .badge-highlighted {
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+        }
+
+        .badge-pinned {
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+        }
+
+        .badge-hidden {
+            background: rgba(255, 59, 48, 0.2);
+            color: #ff3b30;
+        }
+
+        .badge-category {
+            background: rgba(48, 209, 88, 0.2);
+            color: #30d158;
+        }
+
+        .badge-archived {
+            background: rgba(142, 142, 147, 0.2);
+            color: #8e8e93;
+        }
+
+        .badge-muted {
+            background: rgba(255, 149, 0, 0.2);
+            color: #ff9500;
+        }
+
+        /* FIXED: Right Panel Scrolling */
         .right-panel {
-            background: #0a0a0a;
-            border-left: 1px solid #1a1a1a;
+            background: #1a1a1a;
+            border-left: 1px solid #2a2a2a;
             display: flex;
             flex-direction: column;
             height: 100vh;
             overflow: hidden;
+            transition: transform 0.3s ease;
         }
 
         .actions-header {
             padding: 20px;
-            border-bottom: 1px solid #1a1a1a;
+            border-bottom: 1px solid #2a2a2a;
             flex-shrink: 0;
         }
 
@@ -960,20 +598,31 @@
             font-weight: 500;
         }
 
+        /* FIXED: Actions Body - Perfect Scrolling */
         .actions-body {
             flex: 1;
             overflow-y: auto;
             overflow-x: hidden;
             padding: 20px;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
         }
 
         .actions-body::-webkit-scrollbar {
             width: 6px;
         }
 
+        .actions-body::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
         .actions-body::-webkit-scrollbar-thumb {
-            background: #1a1a1a;
+            background: #2a2a2a;
             border-radius: 3px;
+        }
+
+        .actions-body::-webkit-scrollbar-thumb:hover {
+            background: #3a3a3a;
         }
 
         .action-section {
@@ -982,7 +631,7 @@
 
         .action-section-title {
             font-size: 13px;
-            color: #666666;
+            color: #8e8e93;
             margin-bottom: 12px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -991,9 +640,9 @@
         .action-button {
             width: 100%;
             padding: 14px;
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
-            border-radius: 8px;
+            background: #2a2a2a;
+            border: 1px solid #3a3a3a;
+            border-radius: 12px;
             color: #ffffff;
             font-size: 14px;
             font-weight: 500;
@@ -1004,11 +653,20 @@
             align-items: center;
             gap: 10px;
             justify-content: center;
-            min-height: 44px;
         }
 
         .action-button:hover {
-            background: #2a2a2a;
+            background: #3a3a3a;
+        }
+
+        .action-button.danger {
+            background: rgba(255, 59, 48, 0.1);
+            border-color: rgba(255, 59, 48, 0.3);
+            color: #ff3b30;
+        }
+
+        .action-button.danger:hover {
+            background: rgba(255, 59, 48, 0.2);
         }
 
         .action-button.primary {
@@ -1022,16 +680,15 @@
         }
 
         .selected-info {
-            background: #1a1a1a;
+            background: #2a2a2a;
             padding: 16px;
-            border-radius: 8px;
+            border-radius: 12px;
             margin-bottom: 24px;
-            border: 1px solid #2a2a2a;
         }
 
         .selected-label {
             font-size: 11px;
-            color: #666666;
+            color: #8e8e93;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-bottom: 8px;
@@ -1041,14 +698,12 @@
             font-size: 16px;
             font-weight: 600;
             margin-bottom: 4px;
-            word-wrap: break-word;
         }
 
         .selected-email {
             font-size: 13px;
-            color: #666666;
+            color: #8e8e93;
             margin-bottom: 12px;
-            word-wrap: break-word;
         }
 
         .selected-text {
@@ -1062,9 +717,9 @@
             width: 100%;
             min-height: 100px;
             padding: 12px;
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
-            border-radius: 8px;
+            background: #2a2a2a;
+            border: 1px solid #3a3a3a;
+            border-radius: 12px;
             color: #ffffff;
             font-size: 14px;
             font-family: inherit;
@@ -1074,38 +729,33 @@
         }
 
         .reply-textarea:focus {
-            border-color: #3a3a3a;
+            border-color: #4a4a4a;
         }
 
         .select-input {
             width: 100%;
             padding: 12px;
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
-            border-radius: 8px;
+            background: #2a2a2a;
+            border: 1px solid #3a3a3a;
+            border-radius: 12px;
             color: #ffffff;
             font-size: 14px;
             font-family: inherit;
             outline: none;
             margin-bottom: 12px;
-            /* Ensure text color is white on select */
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
         }
 
         .template-item {
-            background: #1a1a1a;
+            background: #2a2a2a;
             padding: 12px;
             border-radius: 8px;
             margin-bottom: 8px;
             cursor: pointer;
             transition: background 0.2s;
-            border: 1px solid #2a2a2a;
         }
 
         .template-item:hover {
-            background: #2a2a2a;
+            background: #3a3a3a;
         }
 
         .template-title {
@@ -1116,19 +766,31 @@
 
         .template-text {
             font-size: 12px;
-            color: #666666;
+            color: #8e8e93;
+        }
+
+        .no-selection {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6e6e73;
+        }
+
+        .no-selection-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.3;
         }
 
         .loading {
             text-align: center;
             padding: 60px 20px;
-            color: #666666;
+            color: #6e6e73;
         }
 
         .loading-spinner {
             width: 32px;
             height: 32px;
-            border: 3px solid #1a1a1a;
+            border: 3px solid #2a2a2a;
             border-top-color: #ffffff;
             border-radius: 50%;
             animation: spin 1s linear infinite;
@@ -1146,36 +808,30 @@
             background: #ffffff;
             color: #000000;
             padding: 16px 24px;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 14px;
             font-weight: 500;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
             transform: translateX(400px);
             transition: transform 0.3s;
             z-index: 10000;
-            max-width: 400px;
         }
 
         .toast.show {
             transform: translateX(0);
         }
 
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(4px);
-            z-index: 999;
+        .toast.error {
+            background: #ff3b30;
+            color: #ffffff;
         }
 
-        .overlay.show {
-            display: block;
+        .toast.success {
+            background: #34c759;
+            color: #ffffff;
         }
 
+        /* ✅✅✅ MOBILE RESPONSIVE - MATCHING INDEX.HTML STYLE ✅✅✅ */
         @media (max-width: 1400px) {
             .workspace {
                 grid-template-columns: 260px 1fr 360px;
@@ -1189,123 +845,200 @@
 
             .right-panel {
                 position: fixed;
-                right: -420px;
+                right: 0;
                 top: 0;
-                width: 420px;
-                max-width: 90vw;
-                height: 100vh;
-                transition: right 0.3s ease;
+                width: 380px;
                 z-index: 1001;
+                box-shadow: -4px 0 20px rgba(0, 0, 0, 0.5);
+                transform: translateX(100%);
             }
 
             .right-panel.show {
-                right: 0;
+                transform: translateX(0);
             }
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
             .mobile-header {
                 display: flex;
             }
 
             .workspace {
                 grid-template-columns: 1fr;
-                height: calc(100vh - 64px);
+                padding-top: 56px;
             }
 
             .left-panel {
                 position: fixed;
-                left: -100%;
-                top: 64px;
+                left: 0;
+                top: 56px;
                 width: 280px;
-                max-width: 85vw;
-                height: calc(100vh - 64px);
-                transition: left 0.3s ease;
+                height: calc(100vh - 56px);
                 z-index: 1002;
+                box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
+                transform: translateX(-100%);
             }
 
             .left-panel.show {
-                left: 0;
+                transform: translateX(0);
             }
 
             .right-panel {
-                top: 64px;
-                height: calc(100vh - 64px);
+                position: fixed;
+                right: 0;
+                top: 56px;
+                width: 100%;
+                max-width: 380px;
+                height: calc(100vh - 56px);
+                z-index: 1001;
+                transform: translateX(100%);
+            }
+
+            .right-panel.show {
+                transform: translateX(0);
+            }
+
+            .middle-panel {
+                height: calc(100vh - 56px);
+            }
+
+            .content-header {
+                padding: 12px 16px;
+            }
+
+            .header-title {
+                font-size: 15px;
+            }
+
+            .header-subtitle {
+                font-size: 12px;
+            }
+
+            .header-actions {
+                gap: 4px;
+            }
+
+            .action-btn {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+
+            .action-btn svg {
+                display: none;
             }
 
             .content-area {
+                padding: 12px;
+            }
+
+            .actions-body {
                 padding: 16px;
             }
 
-            #techRemoteVideo {
-                height: 300px;
+            .message-item {
+                padding: 12px;
             }
 
-            #techLocalVideo {
-                width: 120px;
-                height: 90px;
+            .author-avatar {
+                width: 32px;
+                height: 32px;
+                font-size: 13px;
             }
 
-            .incoming-call-card {
-                padding: 16px;
+            .author-name {
+                font-size: 13px;
             }
 
-            .caller-avatar {
-                width: 50px;
-                height: 50px;
-                font-size: 20px;
+            .author-email {
+                font-size: 11px;
+            }
+
+            .message-text {
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .mobile-brand {
+                font-size: 14px;
+            }
+
+            .mobile-menu-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 18px;
+            }
+
+            .left-panel {
+                width: 260px;
+            }
+
+            .right-panel {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .content-area {
+                padding: 8px;
+            }
+
+            .message-item {
+                padding: 10px;
+                border-radius: 8px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .toast {
+                bottom: 16px;
+                right: 16px;
+                left: 16px;
+                padding: 12px 16px;
+                font-size: 13px;
+            }
+        }
+
+        /* Touch Scrolling Improvements */
+        @supports (-webkit-overflow-scrolling: touch) {
+            .content-area,
+            .actions-body,
+            .nav-sections-wrapper {
+                -webkit-overflow-scrolling: touch;
+                scroll-behavior: smooth;
             }
         }
     </style>
 </head>
 <body>
-    <div class="mobile-header">
-        <button class="mobile-menu-btn" onclick="toggleLeftPanel()">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="3" y1="12" x2="21" y2="12"/>
-                <line x1="3" y1="6" x2="21" y2="6"/>
-                <line x1="3" y1="18" x2="21" y2="18"/>
-            </svg>
-        </button>
-        <div class="mobile-title">Technical Workspace</div>
-        <button class="mobile-menu-btn" onclick="toggleRightPanel()">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="5" r="2"/>
-                <circle cx="12" cy="12" r="2"/>
-                <circle cx="12" cy="19" r="2"/>
-            </svg>
-        </button>
-    </div>
+    <!-- ✅ Mobile Top Bar -->
+    <header class="mobile-header">
+        <div class="mobile-header-left">
+            <button class="mobile-menu-btn" id="leftMenuBtn" onclick="toggleLeftPanel()">☰</button>
+            <span class="mobile-brand">SHARVIKA</span>
+        </div>
+        <div class="mobile-header-right">
+            <button class="mobile-menu-btn" id="rightMenuBtn" onclick="toggleRightPanel()">⚙</button>
+        </div>
+    </header>
 
+    <!-- ✅ Overlay for Mobile -->
     <div class="overlay" id="overlay" onclick="closeAllPanels()"></div>
 
     <div class="workspace">
-        <!-- LEFT PANEL -->
+        <!-- Left Panel -->
         <div class="left-panel" id="leftPanel">
             <div class="panel-header">
                 <div class="workspace-title">SHARVIKA</div>
                 <div class="workspace-subtitle">Technical Control</div>
             </div>
 
+            <!-- FIXED: Scrollable Nav Sections -->
             <div class="nav-sections-wrapper">
-                <!-- Live Calls Section -->
                 <div class="nav-section">
-                    <div class="nav-label">LIVE SUPPORT</div>
-                    <div class="nav-item priority active" onclick="switchView('liveCalls')">
-                        <div class="nav-item-content">
-                            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-                            </svg>
-                            <span class="nav-text">Incoming Calls</span>
-                        </div>
-                        <span class="nav-badge alert" id="liveCallsCount">0</span>
-                    </div>
-                </div>
-
-                <!-- Content Management -->
-                <div class="nav-section">
-                    <div class="nav-label">CONTENT MANAGEMENT</div>
-                    <div class="nav-item" onclick="switchView('all')">
+                    <div class="nav-label">Content Management</div>
+                    <div class="nav-item active" onclick="switchView('all')">
                         <div class="nav-item-content">
                             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
@@ -1336,9 +1069,8 @@
                     </div>
                 </div>
 
-                <!-- Moderation -->
                 <div class="nav-section">
-                    <div class="nav-label">MODERATION</div>
+                    <div class="nav-label">Moderation</div>
                     <div class="nav-item" onclick="switchView('flagged')">
                         <div class="nav-item-content">
                             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1361,43 +1093,6 @@
                     </div>
                 </div>
 
-                <!-- Team Features -->
-                <div class="nav-section">
-                    <div class="nav-label">TEAM MANAGEMENT</div>
-                    <div class="nav-item" onclick="switchView('users')">
-                        <div class="nav-item-content">
-                            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                                <circle cx="9" cy="7" r="4"/>
-                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                            </svg>
-                            <span class="nav-text">Users</span>
-                        </div>
-                        <span class="nav-badge" id="usersCount">0</span>
-                    </div>
-                    <div class="nav-item" onclick="switchView('announce')">
-                        <div class="nav-item-content">
-                            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-                                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-                            </svg>
-                            <span class="nav-text">Announce Message</span>
-                        </div>
-                    </div>
-                    <div class="nav-item" onclick="switchView('analytics')">
-                        <div class="nav-item-content">
-                            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <line x1="12" y1="20" x2="12" y2="10"/>
-                                <line x1="18" y1="20" x2="18" y2="4"/>
-                                <line x1="6" y1="20" x2="6" y2="16"/>
-                            </svg>
-                            <span class="nav-text">Analytics</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- System Controls -->
                 <div class="control-section">
                     <div class="control-card">
                         <div class="control-label">
@@ -1406,6 +1101,13 @@
                                 <div class="toggle-slider"></div>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="control-card">
+                        <div class="control-label">
+                            <span>Slow Mode (seconds)</span>
+                        </div>
+                        <input type="number" class="input-field" id="slowModeInput" placeholder="0 = Off" min="0" max="300" onchange="updateSlowMode(this.value)">
                     </div>
 
                     <div class="control-card">
@@ -1426,15 +1128,8 @@
                         </div>
                     </div>
 
-                    <div class="control-card">
-                        <div class="control-label">
-                            <span>Slow Mode (seconds)</span>
-                        </div>
-                        <input type="number" class="input-field" id="slowModeInput" placeholder="0 = Off" min="0" max="300" onchange="updateSlowMode(this.value)">
-                    </div>
-
                     <div class="stats-grid">
-                        <div class="stat-mini" onclick="switchView('all')">
+                        <div class="stat-mini">
                             <div class="stat-mini-value" id="totalMessages">0</div>
                             <div class="stat-mini-label">TOTAL</div>
                         </div>
@@ -1460,84 +1155,59 @@
             </div>
         </div>
 
-        <!-- MIDDLE PANEL -->
+        <!-- Middle Panel -->
         <div class="middle-panel">
             <div class="content-header">
                 <div class="header-info">
-                    <div class="header-icon" id="contentIcon">
+                    <div class="header-icon">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                         </svg>
                     </div>
                     <div>
-                        <div class="header-title" id="contentTitle">Incoming Calls</div>
-                        <div class="header-subtitle" id="contentSubtitle">Live customer support</div>
+                        <div class="header-title" id="contentTitle">All Messages</div>
+                        <div class="header-subtitle" id="contentSubtitle">Community messages</div>
                     </div>
                 </div>
                 <div class="header-actions">
-                    <button class="action-btn" onclick="toggleBulkSelect()" id="bulkSelectBtn">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="9 11 12 14 22 4"/>
-                            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
-                        </svg>
-                        <span>Select</span>
-                    </button>
                     <button class="action-btn" onclick="exportData()">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
                             <polyline points="7 10 12 15 17 10"/>
                             <line x1="12" y1="15" x2="12" y2="3"/>
                         </svg>
-                        <span>Export</span>
+                        Export
                     </button>
                     <button class="action-btn" onclick="refreshData()">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <polyline points="23 4 23 10 17 10"/>
                             <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
                         </svg>
-                        <span>Refresh</span>
+                        Refresh
                     </button>
                 </div>
             </div>
 
-            <div class="search-bar" id="searchBar" style="display: none;">
-                <input type="text" class="search-input" id="searchInput" placeholder="Search messages, users, or content..." onkeyup="performSearch()">
-            </div>
-
-            <div class="filter-bar" id="filterBar" style="display: none;">
-                <div class="filter-chip active" onclick="filterByType('all')">All</div>
-                <div class="filter-chip" onclick="filterByType('today')">Today</div>
-                <div class="filter-chip" onclick="filterByType('week')">This Week</div>
-                <div class="filter-chip" onclick="filterByType('month')">This Month</div>
-            </div>
-
-            <div class="bulk-actions-bar" id="bulkActionsBar">
-                <div class="bulk-info"><span id="selectedCount">0</span> selected</div>
-                <button class="bulk-btn" onclick="bulkPin()">Pin</button>
-                <button class="bulk-btn" onclick="bulkArchive()">Archive</button>
-                <button class="bulk-btn" onclick="bulkHide()">Hide</button>
-                <button class="bulk-btn" onclick="bulkDelete()">Delete</button>
-                <button class="bulk-btn" onclick="clearBulkSelection()">Cancel</button>
-            </div>
-
+            <!-- FIXED: Scrollable Content Area -->
             <div class="content-area" id="contentArea">
                 <div class="loading">
                     <div class="loading-spinner"></div>
-                    <div>Loading incoming calls...</div>
+                    <div>Loading messages...</div>
                 </div>
             </div>
         </div>
 
-        <!-- RIGHT PANEL -->
+        <!-- Right Panel -->
         <div class="right-panel" id="rightPanel">
             <div class="actions-header">
                 <div class="actions-title">Quick Actions</div>
             </div>
 
+            <!-- FIXED: Scrollable Actions Body -->
             <div class="actions-body" id="actionsBody">
-                <div class="loading">
-                    <div style="font-size: 48px; margin-bottom: 16px;">...</div>
-                    <div>No active call</div>
+                <div class="no-selection">
+                    <div class="no-selection-icon">👆</div>
+                    <div>Select a message</div>
                 </div>
             </div>
         </div>
@@ -1545,405 +1215,104 @@
 
     <div class="toast" id="toast"></div>
 
-    <script src="firebase-config.js"></script>
-    <script>
-        window.addEventListener('firebaseReady', initializePage);
+    <script type="module">
+        import { 
+            auth, 
+            db,
+            onAuthStateChanged,
+            signOut,
+            collection,
+            addDoc,
+            query,
+            where,
+            orderBy,
+            onSnapshot,
+            deleteDoc,
+            doc,
+            updateDoc,
+            serverTimestamp
+        } from './firebase-config.js';
 
-        let currentUser = null;
-        let currentView = 'liveCalls';
+        let currentView = 'all';
         let selectedItem = null;
         let allMessages = [];
-        let allCallRequests = [];
-        let bulkSelectedItems = new Set();
-        let isBulkSelectMode = false;
-        
-        let liveCallsUnsubscribe = null;
-        let messagesUnsubscribe = null;
-        let settingsUnsubscribe = null;
-        let announcementsUnsubscribe = null; // New unsubscribe handle
-        let activeLiveCalls = [];
-        let currentLiveCall = null;
-        let livePeerConnection = null;
-        let liveLocalStream = null;
-        let callDurationInterval = null;
-
         let settings = {
             autoMod: false,
             slowMode: 0,
             profanity: false,
             readOnly: false
         };
-
-        const configuration = {
-            iceServers: [
-                { urls: 'stun:stun.l.google.com:19302' },
-                { urls: 'stun:stun1.l.google.com:19302' },
-                { urls: 'stun:stun2.l.google.com:19302' },
-                { urls: 'stun:stun3.l.google.com:19302' }
-            ]
-        };
+        let unsubscribe = null;
 
         const replyTemplates = [
-            { title: 'Thank You', text: 'Thank you for your message. We appreciate your feedback.' },
-            { title: 'Under Review', text: 'Your issue is under review. We will get back to you soon.' },
-            { title: 'Fixed', text: 'This issue has been fixed in the latest update.' },
+            { title: 'Thank You', text: 'Thank you for your message! We appreciate your feedback.' },
+            { title: 'Under Review', text: 'Your issue is under review. We\'ll get back to you soon.' },
+            { title: 'Fixed', text: 'This issue has been fixed in the latest update. Please try again.' },
             { title: 'Need Info', text: 'Could you provide more details about this issue?' },
-            { title: 'Not Bug', text: 'This is working as intended. Check our documentation.' }
+            { title: 'Not Bug', text: 'This is working as intended. Check our documentation for more info.' }
         ];
 
-        function initializePage() {
-            auth.onAuthStateChanged((user) => {
-                if (user) {
-                    currentUser = user;
-                    const name = user.displayName || user.email.split('@')[0];
-                    document.getElementById('adminAvatar').textContent = name.charAt(0).toUpperCase();
-                    document.getElementById('adminName').textContent = name;
-                    loadLiveCalls();
-                    loadData();
-                    loadSystemSettings();
-                } else {
-                    window.location.href = 'signin.html';
-                }
-            });
-        }
-
-        // Panel Controls
+        // ✅ Mobile Panel Controls
         window.toggleLeftPanel = function() {
-            document.getElementById('leftPanel').classList.toggle('show');
-            document.getElementById('overlay').classList.toggle('show');
+            const panel = document.getElementById('leftPanel');
+            const overlay = document.getElementById('overlay');
+            const isOpen = panel.classList.contains('show');
+            
+            if (isOpen) {
+                panel.classList.remove('show');
+                overlay.classList.remove('active');
+            } else {
+                panel.classList.add('show');
+                overlay.classList.add('active');
+                document.getElementById('rightPanel').classList.remove('show');
+            }
         };
 
         window.toggleRightPanel = function() {
-            document.getElementById('rightPanel').classList.toggle('show');
-            document.getElementById('overlay').classList.toggle('show');
+            const panel = document.getElementById('rightPanel');
+            const overlay = document.getElementById('overlay');
+            const isOpen = panel.classList.contains('show');
+            
+            if (isOpen) {
+                panel.classList.remove('show');
+                overlay.classList.remove('active');
+            } else {
+                panel.classList.add('show');
+                overlay.classList.add('active');
+                document.getElementById('leftPanel').classList.remove('show');
+            }
         };
 
         window.closeAllPanels = function() {
             document.getElementById('leftPanel').classList.remove('show');
             document.getElementById('rightPanel').classList.remove('show');
-            document.getElementById('overlay').classList.remove('show');
+            document.getElementById('overlay').classList.remove('active');
         };
 
-        // Live Calls Management
-        function loadLiveCalls() {
-            if (liveCallsUnsubscribe) liveCallsUnsubscribe();
-
-            liveCallsUnsubscribe = db.collection('activeCalls')
-                .where('status', 'in', ['waiting', 'connected'])
-                .orderBy('timestamp', 'desc')
-                .onSnapshot((snapshot) => {
-                    activeLiveCalls = [];
-                    snapshot.forEach((doc) => {
-                        activeLiveCalls.push({ id: doc.id, ...doc.data() });
-                    });
-
-                    const waitingCalls = activeLiveCalls.filter(c => c.status === 'waiting').length;
-                    document.getElementById('liveCallsCount').textContent = waitingCalls;
-
-                    if (currentView === 'liveCalls') {
-                        displayLiveCalls();
-                    }
-                });
-        }
-
-        function displayLiveCalls() {
-            const contentArea = document.getElementById('contentArea');
-
-            if (activeLiveCalls.length === 0) {
-                contentArea.innerHTML = `
-                    <div class="loading">
-                        <div style="font-size: 80px; margin-bottom: 24px;">...</div>
-                        <div style="font-size: 20px; font-weight: 600; margin-bottom: 8px;">No Incoming Calls</div>
-                        <div style="font-size: 16px; color: #666666;">Waiting for customer support requests</div>
-                    </div>
-                `;
-                return;
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                const name = user.displayName || user.email.split('@')[0];
+                document.getElementById('adminAvatar').textContent = name.charAt(0).toUpperCase();
+                document.getElementById('adminName').textContent = name;
+                loadData();
+                loadSettings();
+            } else {
+                window.location.href = 'signin.html';
             }
+        });
 
-            const html = activeLiveCalls.map(call => `
-                <div class="incoming-call-card" onclick='handleCall("${call.id}")'>
-                    <div class="call-card-header">
-                        <div class="caller-avatar">${call.userName ? call.userName.charAt(0).toUpperCase() : 'U'}</div>
-                        <div class="caller-info">
-                            <div class="caller-name">${escapeHtml(call.userName || 'User')}</div>
-                            <div class="caller-email">${escapeHtml(call.userEmail || '')}</div>
-                        </div>
-                        <div class="call-badge">${call.status === 'waiting' ? 'INCOMING' : 'CONNECTED'}</div>
-                    </div>
-                    <div class="call-actions">
-                        ${call.status === 'waiting' ? `
-                            <button class="call-action-btn accept" onclick="event.stopPropagation(); acceptCall('${call.id}')">
-                                Accept Call
-                            </button>
-                            <button class="call-action-btn reject" onclick="event.stopPropagation(); rejectCall('${call.id}')">
-                                Reject
-                            </button>
-                        ` : `
-                            <button class="call-action-btn accept" style="cursor: default;">
-                                Call In Progress
-                            </button>
-                        `}
-                    </div>
-                </div>
-            `).join('');
-
-            contentArea.innerHTML = html;
-        }
-
-        window.handleCall = function(callId) {
-            const call = activeLiveCalls.find(c => c.id === callId);
-            if (call && call.status === 'waiting') {
-                acceptCall(callId);
-            }
-        };
-
-        window.acceptCall = async function(callId) {
-            const call = activeLiveCalls.find(c => c.id === callId);
-            if (!call || call.status !== 'waiting') {
-                showToast('This call is no longer available');
-                return;
-            }
-
-            try {
-                currentLiveCall = call;
-                showToast('Connecting to customer...');
-
-                liveLocalStream = await navigator.mediaDevices.getUserMedia({ 
-                    video: { 
-                        width: { ideal: 1920 },
-                        height: { ideal: 1080 }
-                    }, 
-                    audio: {
-                        echoCancellation: true,
-                        noiseSuppression: true,
-                        autoGainControl: true
-                    }
-                });
-
-                livePeerConnection = new RTCPeerConnection(configuration);
-
-                liveLocalStream.getTracks().forEach(track => {
-                    livePeerConnection.addTrack(track, liveLocalStream);
-                });
-
-                livePeerConnection.onicecandidate = async (event) => {
-                    if (event.candidate) {
-                        await db.collection('activeCalls').doc(callId).update({
-                            iceCandidates: firebase.firestore.FieldValue.arrayUnion({
-                                candidate: event.candidate.toJSON(),
-                                type: 'receiver'
-                            })
-                        });
-                    }
-                };
-
-                if (call.offer) {
-                    await livePeerConnection.setRemoteDescription(new RTCSessionDescription(call.offer));
-                    const answer = await livePeerConnection.createAnswer();
-                    await livePeerConnection.setLocalDescription(answer);
-
-                    await db.collection('activeCalls').doc(callId).update({
-                        status: 'connected',
-                        answer: {
-                            type: answer.type,
-                            sdp: answer.sdp
-                        },
-                        connectedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                        connectedBy: currentUser.email
-                    });
-
-                    if (call.iceCandidates) {
-                        for (const item of call.iceCandidates) {
-                            if (item.type === 'caller' && item.candidate) {
-                                try {
-                                    await livePeerConnection.addIceCandidate(new RTCIceCandidate(item.candidate));
-                                } catch (e) {
-                                    console.error('ICE error:', e);
-                                }
-                            }
-                        }
-                    }
-
-                    showLiveCallInterface();
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                showToast('Error accessing camera/microphone');
-            }
-        };
-
-        window.rejectCall = async function(callId) {
-            if (!confirm('Reject this call?')) return;
-
-            try {
-                await db.collection('activeCalls').doc(callId).update({
-                    status: 'ended',
-                    endedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    rejectedBy: currentUser.email
-                });
-                showToast('Call rejected');
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        };
-
-        function showLiveCallInterface() {
-            const contentArea = document.getElementById('contentArea');
-            
-            contentArea.innerHTML = `
-                <div class="video-call-container">
-                    <video id="techRemoteVideo" autoplay playsinline></video>
-                    <video id="techLocalVideo" autoplay playsinline muted></video>
-                    <div class="caller-badge">
-                        <div class="caller-badge-avatar">${currentLiveCall.userName.charAt(0).toUpperCase()}</div>
-                        <div class="caller-badge-info">
-                            <div class="caller-badge-name">${escapeHtml(currentLiveCall.userName)}</div>
-                            <div class="caller-badge-email">${escapeHtml(currentLiveCall.userEmail)}</div>
-                        </div>
-                    </div>
-                    <div class="call-duration-badge" id="callDurationBadge">00:00</div>
-                </div>
-                <div class="video-controls">
-                    <button class="video-control-btn active" id="techMuteBtn" onclick="toggleTechMute()">
-                        Microphone On
-                    </button>
-                    <button class="video-control-btn active" id="techVideoBtn" onclick="toggleTechVideo()">
-                        Camera On
-                    </button>
-                    <button class="video-control-btn end" onclick="endLiveCall()">
-                        End Call
-                    </button>
-                </div>
-            `;
-
-            document.getElementById('techLocalVideo').srcObject = liveLocalStream;
-            
-            livePeerConnection.ontrack = (event) => {
-                document.getElementById('techRemoteVideo').srcObject = event.streams[0];
-            };
-
-            let startTime = Date.now();
-            callDurationInterval = setInterval(() => {
-                const elapsed = Math.floor((Date.now() - startTime) / 1000);
-                const minutes = Math.floor(elapsed / 60);
-                const seconds = elapsed % 60;
-                const badge = document.getElementById('callDurationBadge');
-                if (badge) {
-                    badge.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-                }
-            }, 1000);
-
-            updateCallInfo();
-            showToast('Call connected successfully');
-        }
-
-        function updateCallInfo() {
-            const actionsBody = document.getElementById('actionsBody');
-            actionsBody.innerHTML = `
-                <div style="padding: 20px;">
-                    <div class="selected-info">
-                        <div class="selected-label">CALLER INFORMATION</div>
-                        <div class="selected-name">${escapeHtml(currentLiveCall.userName)}</div>
-                        <div class="selected-email">${escapeHtml(currentLiveCall.userEmail)}</div>
-                        <div style="padding: 12px; background: #000000; border-radius: 6px; text-align: center; margin-top: 12px; border: 1px solid #1a1a1a;">
-                            Call Active
-                        </div>
-                    </div>
-                    <div class="action-section">
-                        <div class="action-section-title">CALL NOTES</div>
-                        <textarea class="reply-textarea" placeholder="Add notes about this call..."></textarea>
-                    </div>
-                </div>
-            `;
-        }
-
-        window.toggleTechMute = function() {
-            if (!liveLocalStream) return;
-            const audioTrack = liveLocalStream.getAudioTracks()[0];
-            if (audioTrack) {
-                audioTrack.enabled = !audioTrack.enabled;
-                const btn = document.getElementById('techMuteBtn');
-                btn.textContent = audioTrack.enabled ? 'Microphone On' : 'Microphone Off';
-                btn.className = audioTrack.enabled ? 'video-control-btn active' : 'video-control-btn muted';
-            }
-        };
-
-        window.toggleTechVideo = function() {
-            if (!liveLocalStream) return;
-            const videoTrack = liveLocalStream.getVideoTracks()[0];
-            if (videoTrack) {
-                videoTrack.enabled = !videoTrack.enabled;
-                const btn = document.getElementById('techVideoBtn');
-                btn.textContent = videoTrack.enabled ? 'Camera On' : 'Camera Off';
-                btn.className = videoTrack.enabled ? 'video-control-btn active' : 'video-control-btn muted';
-            }
-        };
-
-        window.endLiveCall = async function() {
-            if (!currentLiveCall) return;
-            if (!confirm('End this call?')) return;
-
-            try {
-                await db.collection('activeCalls').doc(currentLiveCall.id).update({
-                    status: 'ended',
-                    endedAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
-
-                if (callDurationInterval) clearInterval(callDurationInterval);
-                if (liveLocalStream) liveLocalStream.getTracks().forEach(track => track.stop());
-                if (livePeerConnection) livePeerConnection.close();
-
-                currentLiveCall = null;
-                showToast('Call ended successfully');
-                displayLiveCalls();
-
-                document.getElementById('actionsBody').innerHTML = `
-                    <div class="loading">
-                        <div style="font-size: 48px; margin-bottom: 16px;">...</div>
-                        <div>No active call</div>
-                    </div>
-                `;
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        };
-
-        // Data Loading
         function loadData() {
-            if (messagesUnsubscribe) messagesUnsubscribe();
+            const q = query(collection(db, 'communityComments'), orderBy('timestamp', 'desc'));
 
-            messagesUnsubscribe = db.collection('communityComments')
-                .orderBy('timestamp', 'desc')
-                .onSnapshot((snapshot) => {
-                    allMessages = [];
-                    snapshot.forEach((doc) => {
-                        allMessages.push({ id: doc.id, ...doc.data() });
-                    });
-                    updateCounts();
-                    if (currentView !== 'liveCalls') displayContent();
+            unsubscribe = onSnapshot(q, (snapshot) => {
+                allMessages = [];
+                snapshot.forEach((docSnapshot) => {
+                    allMessages.push({ id: docSnapshot.id, ...docSnapshot.data() });
                 });
-        }
 
-        function loadSystemSettings() {
-            if (settingsUnsubscribe) settingsUnsubscribe();
-            
-            settingsUnsubscribe = db.collection('systemSettings').doc('moderation')
-                .onSnapshot((doc) => {
-                    if (doc.exists) {
-                        const data = doc.data();
-                        settings = {
-                            readOnly: data.readOnly || false,
-                            slowMode: data.slowMode || 0,
-                            profanity: data.profanity || false,
-                            autoMod: data.autoMod || false
-                        };
-                        
-                        if (settings.autoMod) document.getElementById('autoModToggle').classList.add('active');
-                        if (settings.profanity) document.getElementById('profanityToggle').classList.add('active');
-                        if (settings.readOnly) document.getElementById('readOnlyToggle').classList.add('active');
-                        if (settings.slowMode) document.getElementById('slowModeInput').value = settings.slowMode;
-                    }
-                });
+                updateCounts();
+                displayContent();
+            });
         }
 
         function updateCounts() {
@@ -1960,246 +1329,35 @@
             document.getElementById('archivedCount').textContent = allMessages.filter(m => m.archived).length;
             document.getElementById('flaggedCount').textContent = allMessages.filter(m => m.flagged).length;
             document.getElementById('hiddenCount').textContent = allMessages.filter(m => m.hidden).length;
-            
-            const uniqueEmails = [...new Set(allMessages.map(m => m.authorEmail).filter(Boolean))];
-            document.getElementById('usersCount').textContent = uniqueEmails.length;
         }
 
-        // View Switching
         window.switchView = function(view) {
             currentView = view;
             selectedItem = null;
-            clearBulkSelection();
 
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            // Find the clicked element to set active class
-            let targetElement = event.currentTarget;
-            if(targetElement) targetElement.classList.add('active');
+            event.currentTarget.classList.add('active');
 
-            const views = {
-                liveCalls: {
-                    title: 'Incoming Calls',
-                    subtitle: 'Live customer support',
-                    showSearch: false,
-                    showFilter: false
-                },
-                all: {
-                    title: 'All Messages',
-                    subtitle: 'Community messages',
-                    showSearch: true,
-                    showFilter: true
-                },
-                pinned: {
-                    title: 'Pinned Messages',
-                    subtitle: 'Important messages',
-                    showSearch: false,
-                    showFilter: false
-                },
-                archived: {
-                    title: 'Archived Messages',
-                    subtitle: 'Old messages',
-                    showSearch: true,
-                    showFilter: true
-                },
-                flagged: {
-                    title: 'Flagged Messages',
-                    subtitle: 'Reported content',
-                    showSearch: true,
-                    showFilter: false
-                },
-                hidden: {
-                    title: 'Hidden Messages',
-                    subtitle: 'Removed from view',
-                    showSearch: false,
-                    showFilter: false
-                },
-                users: {
-                    title: 'User Management',
-                    subtitle: 'Manage users and permissions',
-                    showSearch: true,
-                    showFilter: true
-                },
-                announce: { // NEW VIEW
-                    title: 'Broadcast Announcement',
-                    subtitle: 'Send a real-time message to all users',
-                    showSearch: false,
-                    showFilter: false
-                },
-                analytics: {
-                    title: 'Analytics Dashboard',
-                    subtitle: 'Statistics and insights',
-                    showSearch: false,
-                    showFilter: false
-                }
+            const titles = {
+                all: ['All Messages', 'Community messages'],
+                pinned: ['Pinned Messages', 'Important messages'],
+                archived: ['Archived Messages', 'Old messages'],
+                flagged: ['Flagged Messages', 'Reported content'],
+                hidden: ['Hidden Messages', 'Removed from view']
             };
 
-            const config = views[view] || views.liveCalls;
-            document.getElementById('contentTitle').textContent = config.title;
-            document.getElementById('contentSubtitle').textContent = config.subtitle;
-            
-            // Update Icon (Basic fallback logic, should be improved with full SVG data)
-            // Note: We don't have all SVG data easily, so we rely on the CSS icon style/size.
-            // Skipping icon update for simplicity unless the icon configuration is provided.
+            const [title, subtitle] = titles[view] || ['Messages', 'View'];
+            document.getElementById('contentTitle').textContent = title;
+            document.getElementById('contentSubtitle').textContent = subtitle;
 
-            document.getElementById('searchBar').style.display = config.showSearch ? 'block' : 'none';
-            document.getElementById('filterBar').style.display = config.showFilter ? 'flex' : 'none';
-
-            if (view === 'liveCalls') {
-                displayLiveCalls();
-            } else if (view === 'users') {
-                displayUserManagement();
-            } else if (view === 'analytics') {
-                displayAnalytics();
-            } else if (view === 'announce') { // NEW LOGIC
-                displayAnnounceMessage();
-            } else {
-                displayContent();
-            }
-
+            displayContent();
             updateActionsPanel();
-            closeAllPanels();
-        };
-        
-        // --- NEW FEATURE IMPLEMENTATION START ---
-
-        function loadRecentAnnouncements() {
-            const list = document.getElementById('recentAnnouncementsList');
-            if (!list) return;
-
-            if (announcementsUnsubscribe) announcementsUnsubscribe();
-
-            // Assume 'announcements' collection exists for broadcasting
-            announcementsUnsubscribe = db.collection('announcements')
-                .orderBy('timestamp', 'desc')
-                .limit(10)
-                .onSnapshot((snapshot) => {
-                    if (snapshot.empty) {
-                        list.innerHTML = '<div class="loading">No recent announcements.</div>';
-                        return;
-                    }
-
-                    const historyHtml = snapshot.docs.map(doc => {
-                        const data = doc.data();
-                        const time = data.timestamp ? formatTime(data.timestamp.toDate()) : 'Unknown';
-                        let color = '#888888';
-                        if (data.type === 'CRITICAL') color = '#ff4d4d';
-                        else if (data.type === 'WARNING') color = '#ffcc00';
-
-                        return `
-                            <div class="template-item" style="border-left: 4px solid ${color}; padding: 10px 16px;">
-                                <div class="template-title" style="display: flex; justify-content: space-between;">
-                                    <span>${escapeHtml(data.title || data.type)}</span>
-                                    <span style="font-size: 11px; color: #666;">Sent ${time}</span>
-                                </div>
-                                <div class="template-text" style="color: #ccc; word-wrap: break-word;">${escapeHtml(data.message)}</div>
-                                <div style="margin-top: 8px; font-size: 10px; color: #666;">
-                                    By: ${escapeHtml(data.sender || 'Admin')} | Acknowledgment required: ${data.requireAck ? 'Yes' : 'No'}
-                                </div>
-                            </div>
-                        `;
-                    }).join('');
-                    list.innerHTML = historyHtml;
-                }, (error) => {
-                    console.error("Error loading announcements:", error);
-                    list.innerHTML = '<div class="loading" style="color: #ff4d4d;">Error loading announcements history.</div>';
-                });
-        }
-
-        function displayAnnounceMessage() {
-            const contentArea = document.getElementById('contentArea');
-            contentArea.innerHTML = `
-                <div style="max-width: 800px; margin: 0 auto; padding-top: 20px;">
-                    <div class="action-section">
-                        <div class="action-section-title">ANNOUNCEMENT COMPOSER</div>
-                        
-                        <div class="control-card">
-                            <div class="control-label" style="margin-bottom: 8px;">Announcement Type</div>
-                            <select class="select-input" id="announcementType" style="margin-bottom: 16px;">
-                                <option value="INFO">Information (Blue/White)</option>
-                                <option value="WARNING">Warning (Yellow)</option>
-                                <option value="CRITICAL">Critical Alert (Red)</option>
-                            </select>
-                            
-                            <div class="control-label" style="margin-bottom: 8px;">Title (Optional)</div>
-                            <input type="text" class="input-field" id="announcementTitle" placeholder="Short title for the announcement (e.g., Server Maintenance)">
-                        </div>
-
-                        <div class="control-card">
-                            <div class="control-label" style="margin-bottom: 8px;">Message Content</div>
-                            <textarea class="reply-textarea" id="announcementText" placeholder="Write your broadcast message here (max 500 characters)..." maxlength="500" required></textarea>
-                            <div style="font-size: 11px; color: #666666; text-align: right;">Max 500 characters</div>
-                        </div>
-
-                        <div class="control-card">
-                            <div class="control-label">
-                                <span>Require User Acknowledgment (Will keep notification persistent)</span>
-                                <div class="toggle-switch" id="ackToggle" onclick="document.getElementById('ackToggle').classList.toggle('active')">
-                                    <div class="toggle-slider"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <button class="action-button primary" style="margin-top: 20px;" onclick="sendAnnouncement()">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <line x1="22" y1="2" x2="11" y2="13"></line>
-                                <polygon points="12 2 15 7 21 7 17 10 18 16 12 12 6 16 7 10 3 7 9 7 12 2"></polygon>
-                            </svg>
-                            SEND BROADCAST MESSAGE
-                        </button>
-                    </div>
-
-                    <div class="action-section">
-                        <div class="action-section-title">RECENT ANNOUNCEMENTS</div>
-                        <div id="recentAnnouncementsList" class="loading">Loading history...</div>
-                    </div>
-                </div>
-            `;
-            loadRecentAnnouncements();
-        }
-
-        window.sendAnnouncement = async function() {
-            const title = document.getElementById('announcementTitle').value.trim();
-            const message = document.getElementById('announcementText').value.trim();
-            const type = document.getElementById('announcementType').value;
-            const requireAck = document.getElementById('ackToggle').classList.contains('active');
-
-            if (!message) {
-                showToast('Message content cannot be empty.');
-                return;
-            }
-
-            if (!confirm(`CONFIRM: Broadcast this ${type} announcement to all users?`)) {
-                return;
-            }
-
-            try {
-                // Firebase interaction to create a new announcement document
-                await db.collection('announcements').add({
-                    title: title || type,
-                    message: message,
-                    type: type, // INFO, WARNING, CRITICAL
-                    requireAck: requireAck,
-                    sender: currentUser.displayName || currentUser.email,
-                    senderUID: currentUser.uid,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                    status: 'active'
-                });
-                
-                showToast('Announcement broadcast successfully!');
-                
-                // Clear the form
-                document.getElementById('announcementTitle').value = '';
-                document.getElementById('announcementText').value = '';
-                document.getElementById('announcementType').value = 'INFO';
-                document.getElementById('ackToggle').classList.remove('active');
-
-            } catch (error) {
-                console.error('Error sending announcement:', error);
-                showToast('Failed to send announcement.');
+            
+            // ✅ Close left panel on mobile after selection
+            if (window.innerWidth <= 900) {
+                closeAllPanels();
             }
         };
-
-        // --- NEW FEATURE IMPLEMENTATION END ---
 
         function displayContent() {
             const contentArea = document.getElementById('contentArea');
@@ -2221,150 +1379,43 @@
 
         function createMessageHTML(msg) {
             const timeAgo = msg.timestamp ? formatTime(msg.timestamp.toDate()) : 'now';
-            const initial = msg.author ? msg.author.charAt(0).toUpperCase() : '?';
-            const isSelected = bulkSelectedItems.has(msg.id);
+            const initial = msg.author.charAt(0).toUpperCase();
 
             return `
-                <div class="message-item ${selectedItem?.id === msg.id ? 'selected' : ''}" onclick='selectMessage(${JSON.stringify(msg).replace(/'/g, "&#39;")})' data-id="${msg.id}">
-                    <div class="message-checkbox ${isSelected ? 'checked' : ''}" onclick="toggleBulkItem(event, '${msg.id}')"></div>
+                <div class="message-item ${selectedItem?.id === msg.id ? 'selected' : ''} ${msg.pinned ? 'pinned' : ''} ${msg.hidden ? 'hidden' : ''}" onclick='selectMessage(${JSON.stringify(msg).replace(/'/g, "&apos;")})'>
+                    ${msg.pinned ? '<div class="pin-indicator">📌</div>' : ''}
                     <div class="message-header">
                         <div class="message-author-info">
                             <div class="author-avatar">${initial}</div>
                             <div class="author-details">
-                                <div class="author-name">${escapeHtml(msg.author || 'Anonymous')}</div>
-                                <div class="author-email">${escapeHtml(msg.authorEmail || 'No email')}</div>
+                                <div class="author-name">${msg.author}</div>
+                                <div class="author-email">${msg.authorEmail}</div>
                             </div>
                         </div>
                         <div class="message-time">${timeAgo}</div>
                     </div>
-                    <div class="message-text">${escapeHtml(msg.text || '')}</div>
+                    <div class="message-text">${msg.text}</div>
                     <div class="message-meta">
-                        ${msg.pinned ? '<span class="meta-badge">Pinned</span>' : ''}
-                        ${msg.highlighted ? '<span class="meta-badge">Highlighted</span>' : ''}
-                        ${msg.hidden ? '<span class="meta-badge">Hidden</span>' : ''}
-                        ${msg.archived ? '<span class="meta-badge">Archived</span>' : ''}
-                        ${msg.flagged ? '<span class="meta-badge">Flagged</span>' : ''}
-                        ${msg.category ? `<span class="meta-badge">${msg.category}</span>` : ''}
+                        ${msg.pinned ? '<span class="meta-badge badge-pinned">📌 Pinned</span>' : ''}
+                        ${msg.highlighted ? '<span class="meta-badge badge-highlighted">★ Highlighted</span>' : ''}
+                        ${msg.hidden ? '<span class="meta-badge badge-hidden">Hidden</span>' : ''}
+                        ${msg.archived ? '<span class="meta-badge badge-archived">Archived</span>' : ''}
+                        ${msg.flagged ? '<span class="meta-badge badge-muted">⚠ Flagged</span>' : ''}
+                        ${msg.category ? `<span class="meta-badge badge-category">${msg.category}</span>` : ''}
                     </div>
                 </div>
             `;
         }
 
-        function displayUserManagement() {
-            const contentArea = document.getElementById('contentArea');
-            const usersMap = new Map();
-            
-            allMessages.forEach(msg => {
-                if (msg.authorEmail && !usersMap.has(msg.authorEmail)) {
-                    usersMap.set(msg.authorEmail, {
-                        name: msg.author || 'Anonymous',
-                        email: msg.authorEmail,
-                        uid: msg.authorUID,
-                        messageCount: 1,
-                        lastMessage: msg.timestamp
-                    });
-                } else if (msg.authorEmail) {
-                    const user = usersMap.get(msg.authorEmail);
-                    user.messageCount++;
-                    if (!user.lastMessage || (msg.timestamp && msg.timestamp > user.lastMessage)) {
-                        user.lastMessage = msg.timestamp;
-                    }
-                }
-            });
-
-            const users = Array.from(usersMap.values());
-
-            if (users.length === 0) {
-                contentArea.innerHTML = '<div class="loading">No users found</div>';
-                return;
-            }
-
-            const html = users.map(user => `
-                <div class="message-item" onclick='selectUser(${JSON.stringify(user).replace(/'/g, "&#39;")})'>
-                    <div class="message-header">
-                        <div class="message-author-info">
-                            <div class="author-avatar">${user.name.charAt(0).toUpperCase()}</div>
-                            <div class="author-details">
-                                <div class="author-name">${escapeHtml(user.name)}</div>
-                                <div class="author-email">${escapeHtml(user.email)}</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="message-meta">
-                        <span class="meta-badge">${user.messageCount} messages</span>
-                        <span class="meta-badge">Last: ${user.lastMessage ? formatTime(user.lastMessage.toDate()) : 'Unknown'}</span>
-                    </div>
-                </div>
-            `).join('');
-
-            contentArea.innerHTML = html;
-        }
-
-        function displayAnalytics() {
-            const contentArea = document.getElementById('contentArea');
-            
-            const today = new Date();
-            const todayStart = new Date(today.setHours(0, 0, 0, 0));
-            const weekStart = new Date(today.setDate(today.getDate() - 7));
-            const monthStart = new Date(today.setMonth(today.getMonth() - 1));
-
-            const todayMsgs = allMessages.filter(m => m.timestamp && m.timestamp.toDate() >= todayStart).length;
-            const weekMsgs = allMessages.filter(m => m.timestamp && m.timestamp.toDate() >= weekStart).length;
-            const monthMsgs = allMessages.filter(m => m.timestamp && m.timestamp.toDate() >= monthStart).length;
-            
-            const uniqueUsers = new Set(allMessages.map(m => m.authorEmail).filter(Boolean)).size;
-            const avgPerUser = uniqueUsers > 0 ? Math.round(allMessages.length / uniqueUsers) : 0;
-
-            contentArea.innerHTML = `
-                <div style="padding: 20px;">
-                    <h2 style="margin-bottom: 24px; font-size: 20px;">Analytics Dashboard</h2>
-                    
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px;">
-                        ${[
-                            { label: 'TOTAL MESSAGES', value: allMessages.length },
-                            { label: 'UNIQUE USERS', value: uniqueUsers },
-                            { label: 'AVG PER USER', value: avgPerUser },
-                            { label: 'TODAY', value: todayMsgs },
-                            { label: 'THIS WEEK', value: weekMsgs },
-                            { label: 'THIS MONTH', value: monthMsgs },
-                            { label: 'PINNED', value: allMessages.filter(m => m.pinned).length },
-                            { label: 'FLAGGED', value: allMessages.filter(m => m.flagged).length }
-                        ].map(stat => `
-                            <div class="stat-mini" style="padding: 20px;">
-                                <div class="stat-mini-value">${stat.value}</div>
-                                <div class="stat-mini-label">${stat.label}</div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
-        }
-
-        // Message Actions
         window.selectMessage = function(message) {
-            if (isBulkSelectMode) return;
             selectedItem = message;
-            selectedItem.type = 'message';
             document.querySelectorAll('.message-item').forEach(item => item.classList.remove('selected'));
             event.currentTarget.classList.add('selected');
             updateActionsPanel();
             
+            // ✅ Auto-open right panel on mobile when message selected
             if (window.innerWidth <= 1200) {
-                document.getElementById('rightPanel').classList.add('show');
-                document.getElementById('overlay').classList.add('show');
-            }
-        };
-
-        window.selectUser = function(user) {
-            selectedItem = user;
-            selectedItem.type = 'user';
-            document.querySelectorAll('.message-item').forEach(item => item.classList.remove('selected'));
-            event.currentTarget.classList.add('selected');
-            updateActionsPanel();
-            
-            if (window.innerWidth <= 1200) {
-                document.getElementById('rightPanel').classList.add('show');
-                document.getElementById('overlay').classList.add('show');
+                toggleRightPanel();
             }
         };
 
@@ -2373,42 +1424,37 @@
 
             if (!selectedItem) {
                 actionsBody.innerHTML = `
-                    <div class="loading">
-                        <div style="font-size: 48px; margin-bottom: 16px;">...</div>
-                        <div>Select an item</div>
+                    <div class="no-selection">
+                        <div class="no-selection-icon">👆</div>
+                        <div>Select a message</div>
                     </div>
                 `;
                 return;
             }
 
-            if (selectedItem.type === 'user') {
-                showUserActions();
-                return;
-            }
-
             actionsBody.innerHTML = `
                 <div class="selected-info">
-                    <div class="selected-label">SELECTED MESSAGE</div>
-                    <div class="selected-name">${escapeHtml(selectedItem.author || 'Anonymous')}</div>
-                    <div class="selected-email">${escapeHtml(selectedItem.authorEmail || 'No email')}</div>
-                    <div class="selected-text">${escapeHtml(selectedItem.text || '')}</div>
+                    <div class="selected-label">Selected Message</div>
+                    <div class="selected-name">${selectedItem.author}</div>
+                    <div class="selected-email">${selectedItem.authorEmail}</div>
+                    <div class="selected-text">${selectedItem.text}</div>
                 </div>
 
                 <div class="action-section">
-                    <div class="action-section-title">PRIMARY ACTIONS</div>
+                    <div class="action-section-title">Primary Actions</div>
                     <button class="action-button" onclick="togglePin()">
-                        ${selectedItem.pinned ? 'Unpin Message' : 'Pin to Top'}
+                        ${selectedItem.pinned ? '📌 Unpin Message' : '📌 Pin to Top'}
                     </button>
                     <button class="action-button" onclick="toggleHighlight()">
-                        ${selectedItem.highlighted ? 'Remove Highlight' : 'Highlight'}
+                        ${selectedItem.highlighted ? '☆ Remove Highlight' : '★ Highlight'}
                     </button>
                     <button class="action-button" onclick="toggleHide()">
-                        ${selectedItem.hidden ? 'Show Message' : 'Hide Message'}
+                        ${selectedItem.hidden ? '👁 Show Message' : '🚫 Hide Message'}
                     </button>
                 </div>
 
                 <div class="action-section">
-                    <div class="action-section-title">ORGANIZATION</div>
+                    <div class="action-section-title">Organization</div>
                     <select class="select-input" onchange="setCategory(this.value)">
                         <option value="">Select Category</option>
                         <option value="Bug Report" ${selectedItem.category === 'Bug Report' ? 'selected' : ''}>Bug Report</option>
@@ -2418,17 +1464,17 @@
                         <option value="Spam" ${selectedItem.category === 'Spam' ? 'selected' : ''}>Spam</option>
                     </select>
                     <button class="action-button" onclick="toggleArchive()">
-                        ${selectedItem.archived ? 'Unarchive' : 'Archive Message'}
+                        ${selectedItem.archived ? '📦 Unarchive' : '📦 Archive Message'}
                     </button>
                     <button class="action-button" onclick="toggleFlag()">
-                        ${selectedItem.flagged ? 'Unflag' : 'Flag for Review'}
+                        ${selectedItem.flagged ? '🚩 Unflag' : '🚩 Flag for Review'}
                     </button>
                 </div>
 
                 <div class="action-section">
-                    <div class="action-section-title">QUICK REPLIES</div>
+                    <div class="action-section-title">Quick Replies</div>
                     ${replyTemplates.map(t => `
-                        <div class="template-item" onclick="useTemplate(\`${t.text.replace(/`/g, '\\`')}\`)">
+                        <div class="template-item" onclick="useTemplate('${t.text.replace(/'/g, "\\'")}')">
                             <div class="template-title">${t.title}</div>
                             <div class="template-text">${t.text.substring(0, 40)}...</div>
                         </div>
@@ -2436,127 +1482,91 @@
                 </div>
 
                 <div class="action-section">
-                    <div class="action-section-title">CUSTOM REPLY</div>
+                    <div class="action-section-title">Custom Reply</div>
                     <textarea class="reply-textarea" id="replyText" placeholder="Write your reply..."></textarea>
-                    <button class="action-button primary" onclick="sendReply()">Send Reply</button>
+                    <button class="action-button primary" onclick="sendReply()">✉ Send Reply</button>
                 </div>
 
                 <div class="action-section">
-                    <div class="action-section-title">USER ACTIONS</div>
-                    <button class="action-button" onclick="banUser()">Ban User</button>
-                    <button class="action-button" onclick="muteUser()">Mute User (30min)</button>
-                </div>
-
-                <div class="action-section">
-                    <div class="action-section-title">DANGER ZONE</div>
-                    <button class="action-button" onclick="deleteMessage()">Delete Message</button>
+                    <div class="action-section-title">Danger Zone</div>
+                    <button class="action-button danger" onclick="deleteMessage()">🗑 Delete Message</button>
                 </div>
             `;
 
             actionsBody.scrollTop = 0;
         }
 
-        function showUserActions() {
-            const actionsBody = document.getElementById('actionsBody');
-            
-            actionsBody.innerHTML = `
-                <div class="selected-info">
-                    <div class="selected-label">USER DETAILS</div>
-                    <div class="selected-name">${escapeHtml(selectedItem.name)}</div>
-                    <div class="selected-email">${escapeHtml(selectedItem.email)}</div>
-                    <div style="margin-top: 12px;">
-                        <div style="font-size: 12px; color: #666666; margin-bottom: 4px;">Total Messages</div>
-                        <div style="font-size: 14px; font-weight: 500;">${selectedItem.messageCount}</div>
-                    </div>
-                </div>
-
-                <div class="action-section">
-                    <div class="action-section-title">USER ACTIONS</div>
-                    <button class="action-button" onclick="viewUserMessages()">View All Messages</button>
-                    <button class="action-button" onclick="sendUserEmail()">Send Email</button>
-                </div>
-
-                <div class="action-section">
-                    <div class="action-section-title">MODERATION</div>
-                    <button class="action-button" onclick="banUserPermanent()">Ban User Permanently</button>
-                    <button class="action-button" onclick="muteUserTemporary()">Mute User (30min)</button>
-                    <button class="action-button" onclick="deleteAllUserMessages()">Delete All Messages</button>
-                </div>
-            `;
-        }
-
-        // Message Action Functions
         window.togglePin = async function() {
             if (!selectedItem) return;
             try {
-                await db.collection('communityComments').doc(selectedItem.id).update({
+                await updateDoc(doc(db, 'communityComments', selectedItem.id), {
                     pinned: !selectedItem.pinned,
-                    pinnedAt: !selectedItem.pinned ? firebase.firestore.FieldValue.serverTimestamp() : null
+                    pinnedAt: !selectedItem.pinned ? serverTimestamp() : null
                 });
-                showToast(selectedItem.pinned ? 'Message unpinned' : 'Message pinned');
+                showToast(selectedItem.pinned ? 'Message unpinned' : 'Message pinned to top', 'success');
             } catch (error) {
-                console.error('Error:', error);
+                showToast('Error updating message', 'error');
             }
         };
 
         window.toggleHighlight = async function() {
             if (!selectedItem) return;
             try {
-                await db.collection('communityComments').doc(selectedItem.id).update({
+                await updateDoc(doc(db, 'communityComments', selectedItem.id), {
                     highlighted: !selectedItem.highlighted
                 });
-                showToast('Highlight updated');
+                showToast('Highlight updated', 'success');
             } catch (error) {
-                console.error('Error:', error);
+                showToast('Error updating message', 'error');
             }
         };
 
         window.toggleHide = async function() {
             if (!selectedItem) return;
             try {
-                await db.collection('communityComments').doc(selectedItem.id).update({
+                await updateDoc(doc(db, 'communityComments', selectedItem.id), {
                     hidden: !selectedItem.hidden
                 });
-                showToast(selectedItem.hidden ? 'Message shown' : 'Message hidden');
+                showToast(selectedItem.hidden ? 'Message shown' : 'Message hidden', 'success');
             } catch (error) {
-                console.error('Error:', error);
+                showToast('Error updating message', 'error');
             }
         };
 
         window.toggleArchive = async function() {
             if (!selectedItem) return;
             try {
-                await db.collection('communityComments').doc(selectedItem.id).update({
+                await updateDoc(doc(db, 'communityComments', selectedItem.id), {
                     archived: !selectedItem.archived,
-                    archivedAt: !selectedItem.archived ? firebase.firestore.FieldValue.serverTimestamp() : null
+                    archivedAt: !selectedItem.archived ? serverTimestamp() : null
                 });
-                showToast(selectedItem.archived ? 'Message unarchived' : 'Message archived');
+                showToast(selectedItem.archived ? 'Message unarchived' : 'Message archived', 'success');
             } catch (error) {
-                console.error('Error:', error);
+                showToast('Error updating message', 'error');
             }
         };
 
         window.toggleFlag = async function() {
             if (!selectedItem) return;
             try {
-                await db.collection('communityComments').doc(selectedItem.id).update({
+                await updateDoc(doc(db, 'communityComments', selectedItem.id), {
                     flagged: !selectedItem.flagged
                 });
-                showToast(selectedItem.flagged ? 'Flag removed' : 'Message flagged');
+                showToast(selectedItem.flagged ? 'Flag removed' : 'Message flagged', 'success');
             } catch (error) {
-                console.error('Error:', error);
+                showToast('Error updating message', 'error');
             }
         };
 
         window.setCategory = async function(category) {
             if (!selectedItem) return;
             try {
-                await db.collection('communityComments').doc(selectedItem.id).update({
+                await updateDoc(doc(db, 'communityComments', selectedItem.id), {
                     category: category || null
                 });
-                showToast('Category updated');
+                showToast('Category updated', 'success');
             } catch (error) {
-                console.error('Error:', error);
+                showToast('Error updating category', 'error');
             }
         };
 
@@ -2569,14 +1579,14 @@
             if (!replyText || !selectedItem) return;
 
             try {
-                await db.collection('communityComments').doc(selectedItem.id).update({
+                await updateDoc(doc(db, 'communityComments', selectedItem.id), {
                     adminReply: replyText,
-                    repliedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    repliedAt: serverTimestamp()
                 });
                 document.getElementById('replyText').value = '';
-                showToast('Reply sent successfully');
+                showToast('Reply sent successfully', 'success');
             } catch (error) {
-                console.error('Error:', error);
+                showToast('Error sending reply', 'error');
             }
         };
 
@@ -2585,413 +1595,86 @@
             if (!confirm('Delete this message permanently?')) return;
 
             try {
-                await db.collection('communityComments').doc(selectedItem.id).delete();
-                showToast('Message deleted');
+                await deleteDoc(doc(db, 'communityComments', selectedItem.id));
+                showToast('Message deleted', 'success');
                 selectedItem = null;
                 updateActionsPanel();
             } catch (error) {
-                console.error('Error:', error);
+                showToast('Error deleting message', 'error');
             }
         };
 
-        window.banUser = async function() {
-            if (!selectedItem || !selectedItem.authorEmail) return;
-            const reason = prompt('Reason for banning:');
-            if (!reason) return;
-
-            try {
-                await db.collection('bannedUsers').doc(selectedItem.authorEmail).set({
-                    email: selectedItem.authorEmail,
-                    name: selectedItem.author || 'Unknown',
-                    reason: reason,
-                    bannedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    bannedBy: currentUser.email
-                });
-                showToast('User banned successfully');
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        };
-
-        window.muteUser = async function() {
-            if (!selectedItem || !selectedItem.authorEmail) return;
-
-            try {
-                const muteUntil = new Date(Date.now() + 30 * 60 * 1000);
-                await db.collection('mutedUsers').doc(selectedItem.authorEmail).set({
-                    email: selectedItem.authorEmail,
-                    name: selectedItem.author || 'Unknown',
-                    reason: 'Muted by admin',
-                    mutedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    mutedUntil: firebase.firestore.Timestamp.fromDate(muteUntil),
-                    mutedBy: currentUser.email
-                });
-                showToast('User muted for 30 minutes');
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        };
-
-        // User Management Actions
-        window.viewUserMessages = function() {
-            if (!selectedItem || !selectedItem.email) return;
-            const userMsgs = allMessages.filter(m => m.authorEmail === selectedItem.email);
-            selectedItem = null;
-            updateActionsPanel();
-            closeAllPanels();
-            showToast(`Showing ${userMsgs.length} messages from this user`);
-        };
-
-        window.sendUserEmail = function() {
-            if (!selectedItem || !selectedItem.email) return;
-            window.location.href = `mailto:${selectedItem.email}`;
-        };
-
-        window.banUserPermanent = async function() {
-            if (!selectedItem || !selectedItem.email) return;
-            const reason = prompt('Reason for banning:');
-            if (!reason) return;
-
-            try {
-                await db.collection('bannedUsers').doc(selectedItem.email).set({
-                    email: selectedItem.email,
-                    name: selectedItem.name,
-                    reason: reason,
-                    bannedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    bannedBy: currentUser.email
-                });
-                showToast('User banned permanently');
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        };
-
-        window.muteUserTemporary = async function() {
-            if (!selectedItem || !selectedItem.email) return;
-
-            try {
-                const muteUntil = new Date(Date.now() + 30 * 60 * 1000);
-                await db.collection('mutedUsers').doc(selectedItem.email).set({
-                    email: selectedItem.email,
-                    name: selectedItem.name,
-                    reason: 'Muted by admin',
-                    mutedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    mutedUntil: firebase.firestore.Timestamp.fromDate(muteUntil),
-                    mutedBy: currentUser.email
-                });
-                showToast('User muted for 30 minutes');
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        };
-
-        window.deleteAllUserMessages = async function() {
-            if (!selectedItem || !selectedItem.email) return;
-            const userMsgs = allMessages.filter(m => m.authorEmail === selectedItem.email);
-            if (!confirm(`Delete all ${userMsgs.length} messages from this user?`)) return;
-
-            try {
-                const batch = db.batch();
-                userMsgs.forEach(msg => {
-                    const ref = db.collection('communityComments').doc(msg.id);
-                    batch.delete(ref);
-                });
-                await batch.commit();
-                showToast(`${userMsgs.length} messages deleted`);
-                selectedItem = null;
-                updateActionsPanel();
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        };
-
-        // Bulk Actions
-        window.toggleBulkSelect = function() {
-            isBulkSelectMode = !isBulkSelectMode;
-            const contentArea = document.getElementById('contentArea');
-            const bulkBtn = document.getElementById('bulkSelectBtn');
-            
-            if (isBulkSelectMode) {
-                contentArea.classList.add('bulk-select-mode');
-                bulkBtn.style.background = '#ffffff';
-                bulkBtn.style.color = '#000000';
-            } else {
-                contentArea.classList.remove('bulk-select-mode');
-                bulkBtn.style.background = '';
-                bulkBtn.style.color = '';
-                clearBulkSelection();
-            }
-        };
-
-        window.toggleBulkItem = function(e, itemId) {
-            e.stopPropagation();
-            if (!isBulkSelectMode) return;
-
-            if (bulkSelectedItems.has(itemId)) {
-                bulkSelectedItems.delete(itemId);
-                e.currentTarget.classList.remove('checked');
-            } else {
-                bulkSelectedItems.add(itemId);
-                e.currentTarget.classList.add('checked');
-            }
-
-            updateBulkActionsBar();
-        };
-
-        function updateBulkActionsBar() {
-            const bar = document.getElementById('bulkActionsBar');
-            const count = document.getElementById('selectedCount');
-            
-            count.textContent = bulkSelectedItems.size;
-            
-            if (bulkSelectedItems.size > 0) {
-                bar.classList.add('show');
-            } else {
-                bar.classList.remove('show');
-            }
-        }
-
-        window.clearBulkSelection = function() {
-            bulkSelectedItems.clear();
-            document.querySelectorAll('.message-checkbox').forEach(cb => cb.classList.remove('checked'));
-            updateBulkActionsBar();
-        };
-
-        window.bulkPin = async function() {
-            if (bulkSelectedItems.size === 0) return;
-            if (!confirm(`Pin ${bulkSelectedItems.size} messages?`)) return;
-
-            try {
-                const batch = db.batch();
-                bulkSelectedItems.forEach(id => {
-                    const ref = db.collection('communityComments').doc(id);
-                    batch.update(ref, { pinned: true, pinnedAt: firebase.firestore.FieldValue.serverTimestamp() });
-                });
-                await batch.commit();
-                showToast(`${bulkSelectedItems.size} messages pinned`);
-                clearBulkSelection();
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        };
-
-        window.bulkArchive = async function() {
-            if (bulkSelectedItems.size === 0) return;
-            if (!confirm(`Archive ${bulkSelectedItems.size} messages?`)) return;
-
-            try {
-                const batch = db.batch();
-                bulkSelectedItems.forEach(id => {
-                    const ref = db.collection('communityComments').doc(id);
-                    batch.update(ref, { archived: true, archivedAt: firebase.firestore.FieldValue.serverTimestamp() });
-                });
-                await batch.commit();
-                showToast(`${bulkSelectedItems.size} messages archived`);
-                clearBulkSelection();
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        };
-
-        window.bulkHide = async function() {
-            if (bulkSelectedItems.size === 0) return;
-            if (!confirm(`Hide ${bulkSelectedItems.size} messages?`)) return;
-
-            try {
-                const batch = db.batch();
-                bulkSelectedItems.forEach(id => {
-                    const ref = db.collection('communityComments').doc(id);
-                    batch.update(ref, { hidden: true });
-                });
-                await batch.commit();
-                showToast(`${bulkSelectedItems.size} messages hidden`);
-                clearBulkSelection();
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        };
-
-        window.bulkDelete = async function() {
-            if (bulkSelectedItems.size === 0) return;
-            if (!confirm(`DELETE ${bulkSelectedItems.size} messages permanently?`)) return;
-
-            try {
-                const batch = db.batch();
-                bulkSelectedItems.forEach(id => {
-                    const ref = db.collection('communityComments').doc(id);
-                    batch.delete(ref);
-                });
-                await batch.commit();
-                showToast(`${bulkSelectedItems.size} messages deleted`);
-                clearBulkSelection();
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        };
-
-        // Search & Filter
-        window.performSearch = function() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            if (!query) {
-                displayContent();
-                return;
-            }
-
-            const filtered = allMessages.filter(m => 
-                m.text?.toLowerCase().includes(query) ||
-                m.author?.toLowerCase().includes(query) ||
-                m.authorEmail?.toLowerCase().includes(query)
-            );
-
-            const contentArea = document.getElementById('contentArea');
-            if (filtered.length === 0) {
-                contentArea.innerHTML = '<div class="loading">No results found</div>';
-                return;
-            }
-
-            const html = filtered.map(msg => createMessageHTML(msg)).join('');
-            contentArea.innerHTML = html;
-        };
-
-        window.filterByType = function(type) {
-            document.querySelectorAll('.filter-chip').forEach(chip => chip.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-
-            let filtered = allMessages;
-            const now = new Date();
-
-            if (type === 'today') {
-                const todayStart = new Date(now.setHours(0, 0, 0, 0));
-                filtered = allMessages.filter(m => m.timestamp && m.timestamp.toDate() >= todayStart);
-            } else if (type === 'week') {
-                // We need a fresh 'now' because of mutation in 'today' filter if executed before
-                const weekStart = new Date();
-                weekStart.setDate(weekStart.getDate() - 7);
-                filtered = allMessages.filter(m => m.timestamp && m.timestamp.toDate() >= weekStart);
-            } else if (type === 'month') {
-                const monthStart = new Date();
-                monthStart.setMonth(monthStart.getMonth() - 1);
-                filtered = allMessages.filter(m => m.timestamp && m.timestamp.toDate() >= monthStart);
-            }
-
-            const contentArea = document.getElementById('contentArea');
-            if (filtered.length === 0) {
-                contentArea.innerHTML = '<div class="loading">No messages found</div>';
-                return;
-            }
-
-            const html = filtered.map(msg => createMessageHTML(msg)).join('');
-            contentArea.innerHTML = html;
-        };
-
-        // System Controls
-        window.toggleAutoMod = async function() {
-            settings.autoMod = !settings.autoMod;
-            document.getElementById('autoModToggle').classList.toggle('active');
-            await saveSystemSettings();
-            showToast(`Auto-moderation ${settings.autoMod ? 'enabled' : 'disabled'}`);
-        };
-
-        window.toggleProfanity = async function() {
-            settings.profanity = !settings.profanity;
-            document.getElementById('profanityToggle').classList.toggle('active');
-            await saveSystemSettings();
-            showToast(`Profanity filter ${settings.profanity ? 'enabled' : 'disabled'}`);
-        };
-
-        window.toggleReadOnly = async function() {
-            settings.readOnly = !settings.readOnly;
-            document.getElementById('readOnlyToggle').classList.toggle('active');
-            await saveSystemSettings();
-            showToast(`Read-only mode ${settings.readOnly ? 'enabled' : 'disabled'}`);
-        };
-
-        window.updateSlowMode = async function(value) {
-            settings.slowMode = parseInt(value) || 0;
-            await saveSystemSettings();
-            showToast(`Slow mode set to ${value} seconds`);
-        };
-
-        async function saveSystemSettings() {
-            try {
-                await db.collection('systemSettings').doc('moderation').set(settings, { merge: true });
-            } catch (error) {
-                console.error('Error saving settings:', error);
-            }
-        }
-
-        // Utilities
         window.exportData = function() {
-            try {
-                let data = [];
-                let filename = 'sharvika-export';
+            const data = allMessages.map(m => ({
+                author: m.author,
+                email: m.authorEmail,
+                message: m.text,
+                time: m.timestamp ? m.timestamp.toDate().toISOString() : '',
+                pinned: m.pinned || false,
+                archived: m.archived || false,
+                category: m.category || ''
+            }));
 
-                if (currentView === 'users') {
-                    const usersMap = new Map();
-                    allMessages.forEach(msg => {
-                        if (msg.authorEmail) {
-                            if (!usersMap.has(msg.authorEmail)) {
-                                usersMap.set(msg.authorEmail, {
-                                    name: msg.author || 'Anonymous',
-                                    email: msg.authorEmail,
-                                    messages: 1
-                                });
-                            } else {
-                                usersMap.get(msg.authorEmail).messages++;
-                            }
-                        }
-                    });
-                    data = Array.from(usersMap.values());
-                    filename = 'sharvika-users';
-                } else {
-                    data = allMessages.map(m => ({
-                        author: m.author || 'Anonymous',
-                        email: m.authorEmail || '',
-                        message: m.text || '',
-                        time: m.timestamp ? m.timestamp.toDate().toISOString() : '',
-                        pinned: m.pinned || false,
-                        archived: m.archived || false,
-                        hidden: m.hidden || false,
-                        category: m.category || ''
-                    }));
-                    filename = 'sharvika-messages';
-                }
+            const csv = [
+                ['Author', 'Email', 'Message', 'Time', 'Pinned', 'Archived', 'Category'],
+                ...data.map(d => [d.author, d.email, `"${d.message.replace(/"/g, '""')}"`, d.time, d.pinned, d.archived, d.category])
+            ].map(row => row.join(',')).join('\n');
 
-                const headers = Object.keys(data[0] || {});
-                const csv = [
-                    headers,
-                    ...data.map(row => headers.map(h => {
-                        let val = row[h] === undefined || row[h] === null ? '' : String(row[h]);
-                        // Escape quotes for CSV
-                        return `"${val.replace(/"/g, '""')}"`;
-                    }))
-                ].map(row => row.join(',')).join('\n');
-
-                const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `${filename}-${new Date().toISOString().split('T')[0]}.csv`;
-                a.click();
-                URL.revokeObjectURL(url);
-                showToast('Data exported successfully');
-            } catch (error) {
-                console.error('Export error:', error);
-                showToast('Export failed. See console for details.');
-            }
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `sharvika-messages-${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('Data exported successfully', 'success');
         };
 
         window.refreshData = function() {
             loadData();
-            loadLiveCalls();
-            showToast('Data refreshed');
+            showToast('Data refreshed', 'success');
         };
 
-        function escapeHtml(text) {
-            if (text === null || text === undefined) return '';
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
+        window.toggleAutoMod = function() {
+            settings.autoMod = !settings.autoMod;
+            document.getElementById('autoModToggle').classList.toggle('active');
+            saveSettings();
+            showToast(`Auto-moderation ${settings.autoMod ? 'enabled' : 'disabled'}`, 'success');
+        };
+
+        window.toggleProfanity = function() {
+            settings.profanity = !settings.profanity;
+            document.getElementById('profanityToggle').classList.toggle('active');
+            saveSettings();
+            showToast(`Profanity filter ${settings.profanity ? 'enabled' : 'disabled'}`, 'success');
+        };
+
+        window.toggleReadOnly = function() {
+            settings.readOnly = !settings.readOnly;
+            document.getElementById('readOnlyToggle').classList.toggle('active');
+            saveSettings();
+            showToast(`Read-only mode ${settings.readOnly ? 'enabled' : 'disabled'}`, 'success');
+        };
+
+        window.updateSlowMode = function(value) {
+            settings.slowMode = parseInt(value) || 0;
+            saveSettings();
+            showToast(`Slow mode set to ${value} seconds`, 'success');
+        };
+
+        function saveSettings() {
+            localStorage.setItem('adminSettings', JSON.stringify(settings));
+        }
+
+        function loadSettings() {
+            const saved = localStorage.getItem('adminSettings');
+            if (saved) {
+                settings = JSON.parse(saved);
+                if (settings.autoMod) document.getElementById('autoModToggle').classList.add('active');
+                if (settings.profanity) document.getElementById('profanityToggle').classList.add('active');
+                if (settings.readOnly) document.getElementById('readOnlyToggle').classList.add('active');
+                if (settings.slowMode) document.getElementById('slowModeInput').value = settings.slowMode;
+            }
         }
 
         function formatTime(date) {
@@ -3000,33 +1683,29 @@
             const seconds = Math.floor(diff / 1000);
             const minutes = Math.floor(seconds / 60);
             const hours = Math.floor(minutes / 60);
-            const days = Math.floor(hours / 24);
 
             if (seconds < 60) return 'now';
-            if (minutes < 60) return `${minutes}m ago`;
-            if (hours < 24) return `${hours}h ago`;
-            if (days < 7) return `${days}d ago`;
+            if (minutes < 60) return `${minutes}m`;
+            if (hours < 24) return `${hours}h`;
             
             return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
         }
 
-        function showToast(message) {
+        function showToast(message, type = 'success') {
             const toast = document.getElementById('toast');
             toast.textContent = message;
+            toast.className = `toast ${type}`;
             toast.classList.add('show');
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
+        window.showToast = showToast;
+
         window.logout = async function() {
             if (confirm('Logout from workspace?')) {
                 try {
-                    if (liveCallsUnsubscribe) liveCallsUnsubscribe();
-                    if (messagesUnsubscribe) messagesUnsubscribe();
-                    if (settingsUnsubscribe) settingsUnsubscribe();
-                    if (announcementsUnsubscribe) announcementsUnsubscribe(); // New cleanup
-                    if (liveLocalStream) liveLocalStream.getTracks().forEach(track => track.stop());
-                    await auth.signOut();
-                    sessionStorage.clear();
+                    if (unsubscribe) unsubscribe();
+                    await signOut(auth);
                     window.location.href = 'signin.html';
                 } catch (error) {
                     console.error('Logout error:', error);
