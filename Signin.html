@@ -4,12 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sign In - Sharvika</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: 'unsafe-inline' 'unsafe-eval'; font-src 'self' https://fonts.gstatic.com data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Load Firebase Config FIRST -->
-    <script src="firebase-config.js"></script>
     
     <style>
         * {
@@ -666,8 +664,37 @@
         </div>
     </div>
 
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+
     <script>
         console.log('📄 Sign-in page loaded');
+
+        // Firebase Configuration (REPLACE WITH YOUR ACTUAL CONFIG)
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        let auth, googleProvider;
+        
+        try {
+            if (!firebase.apps.length) {
+                firebase.initializeApp(firebaseConfig);
+            }
+            auth = firebase.auth();
+            googleProvider = new firebase.auth.GoogleAuthProvider();
+            console.log('✅ Firebase initialized successfully');
+        } catch (error) {
+            console.error('❌ Firebase initialization error:', error);
+            showToast('error', 'Configuration Error', 'Please check Firebase setup');
+        }
 
         // Toast Notification Function
         function showToast(type, title, message) {
@@ -683,177 +710,176 @@
             setTimeout(() => toast.classList.remove('show'), 4000);
         }
 
-        // Wait for Firebase to be ready
-        window.addEventListener('firebaseReady', initializePage);
+        // Create Floating Particles
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = window.innerWidth < 768 ? 30 : 50;
+        
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.setProperty('--tx', (Math.random() - 0.5) * 200 + 'px');
+            particle.style.setProperty('--ty', (Math.random() - 0.5) * 200 + 'px');
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particlesContainer.appendChild(particle);
+        }
 
-        // Handle Firebase loading errors
-        window.addEventListener('firebaseError', (e) => {
-            console.error('Firebase Error:', e.detail);
-            showToast('error', 'Connection Error', 'Please refresh the page');
+        // Spotlight follows mouse (desktop only)
+        if (window.innerWidth >= 769) {
+            document.addEventListener('mousemove', (e) => {
+                const spotlight = document.getElementById('spotlight');
+                spotlight.style.left = e.clientX - 300 + 'px';
+                spotlight.style.top = e.clientY - 300 + 'px';
+            });
+        }
+
+        // Toggle Password
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const type = passwordInput.type === 'password' ? 'text' : 'password';
+            passwordInput.type = type;
+            this.textContent = type === 'password' ? 'SHOW' : 'HIDE';
         });
 
-        function initializePage() {
-            console.log('✅ Firebase ready, initializing sign-in page...');
+        // Google Sign In
+        document.getElementById('googleSignInBtn').addEventListener('click', async () => {
+            if (!auth) {
+                showToast('error', 'Error', 'Firebase not initialized');
+                return;
+            }
 
-            // Create Floating Particles
-            const particlesContainer = document.getElementById('particles');
-            const particleCount = window.innerWidth < 768 ? 30 : 50;
+            const loadingEl = document.getElementById('loading');
+            const loadingText = document.getElementById('loadingText');
             
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.top = Math.random() * 100 + '%';
-                particle.style.setProperty('--tx', (Math.random() - 0.5) * 200 + 'px');
-                particle.style.setProperty('--ty', (Math.random() - 0.5) * 200 + 'px');
-                particle.style.animationDelay = Math.random() * 20 + 's';
-                particlesContainer.appendChild(particle);
-            }
+            loadingEl.classList.add('active');
+            loadingText.textContent = 'Signing in with Google...';
 
-            // Spotlight follows mouse (desktop only)
-            if (window.innerWidth >= 769) {
-                document.addEventListener('mousemove', (e) => {
-                    const spotlight = document.getElementById('spotlight');
-                    spotlight.style.left = e.clientX - 300 + 'px';
-                    spotlight.style.top = e.clientY - 300 + 'px';
-                });
-            }
+            try {
+                const result = await auth.signInWithPopup(googleProvider);
+                const user = result.user;
 
-            // Toggle Password
-            document.getElementById('togglePassword').addEventListener('click', function() {
-                const passwordInput = document.getElementById('password');
-                const type = passwordInput.type === 'password' ? 'text' : 'password';
-                passwordInput.type = type;
-                this.textContent = type === 'password' ? 'SHOW' : 'HIDE';
-            });
+                // Store user session
+                sessionStorage.setItem('authUser', user.email);
+                sessionStorage.setItem('authName', user.displayName || 'User');
+                sessionStorage.setItem('isLoggedIn', 'true');
+                sessionStorage.setItem('authUID', user.uid);
 
-            // Google Sign In
-            document.getElementById('googleSignInBtn').addEventListener('click', async () => {
-                const loadingEl = document.getElementById('loading');
-                const loadingText = document.getElementById('loadingText');
+                loadingEl.classList.remove('active');
+                showToast('success', 'Welcome Back!', `Signed in as ${user.displayName}`);
+
+                if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1500);
+
+            } catch (error) {
+                loadingEl.classList.remove('active');
+                console.error('Google Sign-In Error:', error);
                 
-                loadingEl.classList.add('active');
-                loadingText.textContent = 'Signing in with Google...';
+                let errorMessage = 'Failed to sign in with Google';
+                if (error.code === 'auth/popup-closed-by-user') {
+                    errorMessage = 'Sign-in popup was closed';
+                } else if (error.code === 'auth/cancelled-popup-request') {
+                    errorMessage = 'Another popup is already open';
+                } else if (error.code === 'auth/network-request-failed') {
+                    errorMessage = 'Network error. Check your connection';
+                }
+                
+                showToast('error', 'Sign-In Failed', errorMessage);
+            }
+        });
 
-                try {
-                    const result = await window.auth.signInWithPopup(window.googleProvider);
-                    const user = result.user;
+        // Email/Password Sign In
+        document.getElementById('signinForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
 
-                    // Store user session
-                    sessionStorage.setItem('authUser', user.email);
-                    sessionStorage.setItem('authName', user.displayName || 'User');
-                    sessionStorage.setItem('isLoggedIn', 'true');
-                    sessionStorage.setItem('authUID', user.uid);
+            if (!auth) {
+                showToast('error', 'Error', 'Firebase not initialized');
+                return;
+            }
 
-                    loadingEl.classList.remove('active');
-                    showToast('success', 'Welcome Back!', `Signed in as ${user.displayName}`);
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
 
-                    if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+            // Validate Email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showToast('error', 'Invalid Email', 'Please enter a valid email address');
+                return;
+            }
 
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 1500);
+            // Validate Password
+            if (password.length < 6) {
+                showToast('error', 'Invalid Password', 'Password must be at least 6 characters');
+                return;
+            }
 
-                } catch (error) {
-                    loadingEl.classList.remove('active');
-                    console.error('Google Sign-In Error:', error);
-                    
-                    let errorMessage = 'Failed to sign in with Google';
-                    if (error.code === 'auth/popup-closed-by-user') {
-                        errorMessage = 'Sign-in popup was closed';
-                    } else if (error.code === 'auth/cancelled-popup-request') {
-                        errorMessage = 'Another popup is already open';
-                    } else if (error.code === 'auth/network-request-failed') {
+            // Show Loading
+            const loadingEl = document.getElementById('loading');
+            const loadingText = document.getElementById('loadingText');
+            loadingEl.classList.add('active');
+            loadingText.textContent = 'Signing you in...';
+
+            try {
+                const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+
+                // Store user session
+                sessionStorage.setItem('authUser', email);
+                sessionStorage.setItem('authName', user.displayName || email.split('@')[0]);
+                sessionStorage.setItem('isLoggedIn', 'true');
+                sessionStorage.setItem('authUID', user.uid);
+
+                loadingEl.classList.remove('active');
+                showToast('success', 'Welcome Back!', 'Signed in successfully');
+
+                if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1500);
+
+            } catch (error) {
+                loadingEl.classList.remove('active');
+                console.error('Sign-In Error:', error);
+
+                let errorMessage = 'Failed to sign in';
+                
+                switch (error.code) {
+                    case 'auth/user-not-found':
+                        errorMessage = 'No account found with this email';
+                        break;
+                    case 'auth/wrong-password':
+                        errorMessage = 'Incorrect password';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMessage = 'Invalid email address';
+                        break;
+                    case 'auth/user-disabled':
+                        errorMessage = 'This account has been disabled';
+                        break;
+                    case 'auth/too-many-requests':
+                        errorMessage = 'Too many failed attempts. Try again later';
+                        break;
+                    case 'auth/network-request-failed':
                         errorMessage = 'Network error. Check your connection';
-                    }
-                    
-                    showToast('error', 'Sign-In Failed', errorMessage);
-                }
-            });
-
-            // Email/Password Sign In
-            document.getElementById('signinForm').addEventListener('submit', async function(e) {
-                e.preventDefault();
-
-                const email = document.getElementById('email').value.trim();
-                const password = document.getElementById('password').value;
-
-                // Validate Email
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailRegex.test(email)) {
-                    showToast('error', 'Invalid Email', 'Please enter a valid email address');
-                    return;
+                        break;
+                    case 'auth/invalid-credential':
+                        errorMessage = 'Invalid email or password';
+                        break;
+                    default:
+                        errorMessage = error.message || 'An error occurred';
                 }
 
-                // Validate Password
-                if (password.length < 6) {
-                    showToast('error', 'Invalid Password', 'Password must be at least 6 characters');
-                    return;
-                }
+                showToast('error', 'Sign-In Failed', errorMessage);
+            }
+        });
 
-                // Show Loading
-                const loadingEl = document.getElementById('loading');
-                const loadingText = document.getElementById('loadingText');
-                loadingEl.classList.add('active');
-                loadingText.textContent = 'Signing you in...';
-
-                try {
-                    const userCredential = await window.auth.signInWithEmailAndPassword(email, password);
-                    const user = userCredential.user;
-
-                    // Store user session
-                    sessionStorage.setItem('authUser', email);
-                    sessionStorage.setItem('authName', user.displayName || email.split('@')[0]);
-                    sessionStorage.setItem('isLoggedIn', 'true');
-                    sessionStorage.setItem('authUID', user.uid);
-
-                    loadingEl.classList.remove('active');
-                    showToast('success', 'Welcome Back!', 'Signed in successfully');
-
-                    if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
-
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 1500);
-
-                } catch (error) {
-                    loadingEl.classList.remove('active');
-                    console.error('Sign-In Error:', error);
-
-                    let errorMessage = 'Failed to sign in';
-                    
-                    switch (error.code) {
-                        case 'auth/user-not-found':
-                            errorMessage = 'No account found with this email';
-                            break;
-                        case 'auth/wrong-password':
-                            errorMessage = 'Incorrect password';
-                            break;
-                        case 'auth/invalid-email':
-                            errorMessage = 'Invalid email address';
-                            break;
-                        case 'auth/user-disabled':
-                            errorMessage = 'This account has been disabled';
-                            break;
-                        case 'auth/too-many-requests':
-                            errorMessage = 'Too many failed attempts. Try again later';
-                            break;
-                        case 'auth/network-request-failed':
-                            errorMessage = 'Network error. Check your connection';
-                            break;
-                        case 'auth/invalid-credential':
-                            errorMessage = 'Invalid email or password';
-                            break;
-                        default:
-                            errorMessage = error.message || 'An error occurred';
-                    }
-
-                    showToast('error', 'Sign-In Failed', errorMessage);
-                }
-            });
-
-            // Check if already logged in
-            window.auth.onAuthStateChanged((user) => {
+        // Check if already logged in
+        if (auth) {
+            auth.onAuthStateChanged((user) => {
                 if (user) {
                     console.log('✅ User already logged in:', user.email);
                 }
@@ -869,14 +895,6 @@
             }
             lastTouchEnd = now;
         }, false);
-
-        // Fallback timeout
-        setTimeout(() => {
-            if (typeof window.auth === 'undefined') {
-                console.error('❌ Firebase failed to load within 10 seconds');
-                showToast('error', 'Loading Error', 'Please refresh the page');
-            }
-        }, 10000);
     </script>
 </body>
 </html>
