@@ -9,8 +9,235 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+  <script src="firebase-config.js"></script>
+
+  <style>
+    /* Maintenance Page Mobile Responsive Styles */
+    #maintenanceWarning {
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      -webkit-overflow-scrolling: touch;
+      padding: 20px 0;
+    }
+
+    .maintenance-container {
+      max-width: 700px;
+      width: 100%;
+      padding: 80px 60px;
+      text-align: center;
+      background: #0a0a0a;
+      border: 1px solid #1a1a1a;
+      margin: auto;
+      box-sizing: border-box;
+    }
+
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 32px;
+    }
+
+    @media (max-width: 768px) {
+      .maintenance-container {
+        padding: 50px 30px !important;
+        margin: 10px !important;
+        border: none !important;
+      }
+
+      .maintenance-title {
+        font-size: 26px !important;
+      }
+
+      .maintenance-subtitle {
+        font-size: 11px !important;
+        margin-bottom: 30px !important;
+      }
+
+      .maintenance-message {
+        font-size: 15px !important;
+        line-height: 1.7 !important;
+      }
+
+      .launch-box {
+        padding: 24px 20px !important;
+      }
+
+      .launch-time {
+        font-size: 20px !important;
+      }
+
+      .countdown-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px !important;
+      }
+
+      .countdown-item {
+        padding: 14px 10px !important;
+      }
+
+      .countdown-value {
+        font-size: 28px !important;
+      }
+
+      .countdown-label {
+        font-size: 9px !important;
+      }
+
+      .support-email {
+        width: 100%;
+        padding: 12px 24px !important;
+        font-size: 13px !important;
+        box-sizing: border-box;
+      }
+
+      .footer-note {
+        font-size: 10px !important;
+        margin-top: 30px !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .maintenance-container {
+        padding: 40px 20px !important;
+        margin: 5px !important;
+      }
+
+      .maintenance-title {
+        font-size: 22px !important;
+        letter-spacing: 0.5px !important;
+        margin-bottom: 12px !important;
+      }
+
+      .maintenance-subtitle {
+        font-size: 10px !important;
+        letter-spacing: 1.5px !important;
+        margin-bottom: 25px !important;
+      }
+
+      .maintenance-divider {
+        width: 60px !important;
+        margin-bottom: 30px !important;
+      }
+
+      .maintenance-message {
+        font-size: 14px !important;
+        margin-bottom: 25px !important;
+      }
+
+      .launch-box {
+        padding: 20px 16px !important;
+        margin-bottom: 30px !important;
+      }
+
+      .launch-label {
+        font-size: 10px !important;
+        margin-bottom: 16px !important;
+      }
+
+      .launch-time {
+        font-size: 18px !important;
+      }
+
+      .launch-date {
+        font-size: 12px !important;
+        margin-bottom: 25px !important;
+      }
+
+      .countdown-grid {
+        gap: 10px !important;
+        margin-top: 25px !important;
+      }
+
+      .countdown-item {
+        padding: 12px 8px !important;
+      }
+
+      .countdown-value {
+        font-size: 24px !important;
+        margin-bottom: 6px !important;
+      }
+
+      .countdown-label {
+        font-size: 8px !important;
+      }
+
+      .support-section {
+        padding-top: 30px !important;
+      }
+
+      .support-label {
+        font-size: 10px !important;
+        margin-bottom: 12px !important;
+      }
+
+      .support-email {
+        padding: 11px 20px !important;
+        font-size: 12px !important;
+      }
+    }
+  </style>
 </head>
 <body>
+
+  <!-- ✅ Maintenance Mode Warning -->
+  <div id="maintenanceWarning" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: #000000; align-items: center; justify-content: center; z-index: 999999; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;">
+    <div class="maintenance-container">
+      
+      <!-- Title -->
+      <h1 class="maintenance-title" style="font-size: 32px; font-weight: 300; color: #ffffff; margin: 0 0 16px 0; letter-spacing: 1px; text-transform: uppercase; line-height: 1.2;">System Under Maintenance</h1>
+      
+      <!-- Subtitle -->
+      <p class="maintenance-subtitle" style="font-size: 13px; color: #666666; margin: 0 0 40px 0; font-weight: 500; letter-spacing: 2px; text-transform: uppercase;">Scheduled Service Interruption</p>
+      
+      <!-- Divider -->
+      <div class="maintenance-divider" style="width: 80px; height: 1px; background: #222222; margin: 0 auto 40px auto;"></div>
+      
+      <!-- Main Message -->
+      <p class="maintenance-message" style="font-size: 16px; line-height: 1.9; color: #999999; margin: 0 0 32px 0; font-weight: 300;">We are currently performing critical system maintenance to enhance platform performance and security. Our services will be restored shortly.</p>
+      
+      <!-- Launch Info -->
+      <div class="launch-box" style="background: #050505; border: 1px solid #151515; padding: 32px; margin: 0 0 40px 0;">
+        <p class="launch-label" style="font-size: 12px; color: #666666; margin: 0 0 20px 0; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;">Scheduled Live Time</p>
+        <p class="launch-time" style="font-size: 24px; color: #ffffff; margin: 0 0 8px 0; font-weight: 400; letter-spacing: 0.5px;">11:00 PM IST</p>
+        <p class="launch-date" style="font-size: 14px; color: #808080; margin: 0 0 32px 0; font-weight: 400;">January 11, 2025</p>
+        
+        <!-- Countdown Timer -->
+        <div class="countdown-grid">
+          <div class="countdown-item" style="background: #000000; border: 1px solid #1a1a1a; padding: 16px 12px;">
+            <div id="countdownDays" class="countdown-value" style="font-size: 32px; font-weight: 600; color: #ffffff; margin-bottom: 8px;">00</div>
+            <div class="countdown-label" style="font-size: 10px; color: #666666; letter-spacing: 1px; text-transform: uppercase; font-weight: 600;">Days</div>
+          </div>
+          <div class="countdown-item" style="background: #000000; border: 1px solid #1a1a1a; padding: 16px 12px;">
+            <div id="countdownHours" class="countdown-value" style="font-size: 32px; font-weight: 600; color: #ffffff; margin-bottom: 8px;">00</div>
+            <div class="countdown-label" style="font-size: 10px; color: #666666; letter-spacing: 1px; text-transform: uppercase; font-weight: 600;">Hours</div>
+          </div>
+          <div class="countdown-item" style="background: #000000; border: 1px solid #1a1a1a; padding: 16px 12px;">
+            <div id="countdownMinutes" class="countdown-value" style="font-size: 32px; font-weight: 600; color: #ffffff; margin-bottom: 8px;">00</div>
+            <div class="countdown-label" style="font-size: 10px; color: #666666; letter-spacing: 1px; text-transform: uppercase; font-weight: 600;">Minutes</div>
+          </div>
+          <div class="countdown-item" style="background: #000000; border: 1px solid #1a1a1a; padding: 16px 12px;">
+            <div id="countdownSeconds" class="countdown-value" style="font-size: 32px; font-weight: 600; color: #ffffff; margin-bottom: 8px;">00</div>
+            <div class="countdown-label" style="font-size: 10px; color: #666666; letter-spacing: 1px; text-transform: uppercase; font-weight: 600;">Seconds</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Support Section -->
+      <div class="support-section" style="padding-top: 40px; border-top: 1px solid #151515;">
+        <p class="support-label" style="font-size: 11px; color: #666666; margin: 0 0 16px 0; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600;">Technical Support</p>
+        <a href="mailto:teamsharvika.inbox@gmail.com" class="support-email" style="display: inline-block; font-size: 14px; color: #ffffff; text-decoration: none; padding: 14px 36px; border: 1px solid #2a2a2a; letter-spacing: 0.5px; transition: all 0.3s ease; background: transparent;" onmouseover="this.style.background='#ffffff'; this.style.color='#000000'; this.style.borderColor='#ffffff';" onmouseout="this.style.background='transparent'; this.style.color='#ffffff'; this.style.borderColor='#2a2a2a';">teamsharvika.inbox@gmail.com</a>
+      </div>
+      
+      <!-- Footer Note -->
+      <p class="footer-note" style="font-size: 11px; color: #4a4a4a; margin: 40px 0 0 0; font-weight: 400; line-height: 1.6;">We apologize for any inconvenience. Our team is working diligently to restore full functionality. Thank you for your patience and continued support.</p>
+    </div>
+  </div>
 
   <!-- ✅ Top Navigation -->
   <header class="navbar">
@@ -75,4 +302,90 @@
 
   <!-- ✅ Footer -->
   <footer class="footer">
-    <p>&copy; 2025 Sharvika. All Rights Reserved
+    <p>&copy; 2025 Sharvika. All Rights Reserved</p>
+  </footer>
+
+  <!-- ✅ Maintenance Check & Countdown Script -->
+  <script>
+    let isAdmin = false;
+    let countdownInterval;
+
+    // Check if user is admin via authority login or Firebase
+    window.addEventListener('firebaseReady', () => {
+      const authUser = sessionStorage.getItem('authUser');
+      const isAdminSession = sessionStorage.getItem('isAdmin');
+
+      if (isAdminSession === 'true' && authUser) {
+        isAdmin = true;
+        checkMaintenanceMode();
+        return;
+      }
+
+      auth.onAuthStateChanged(async (user) => {
+        if (user) {
+          const ADMIN_EMAILS = ['teamsharvika.inbox.@gmail.com', 'admin@sharvika.com'];
+          if (ADMIN_EMAILS.includes(user.email)) {
+            isAdmin = true;
+          } else {
+            const adminDoc = await db.collection('admins').doc(user.uid).get();
+            if (adminDoc.exists && adminDoc.data().isAdmin) {
+              isAdmin = true;
+            }
+          }
+        }
+        checkMaintenanceMode();
+      });
+    });
+
+    // Check maintenance mode from Firestore
+    async function checkMaintenanceMode() {
+      try {
+        const maintenanceDoc = await db.collection('systemSettings').doc('siteMaintenanceMode').get();
+        
+        if (maintenanceDoc.exists && maintenanceDoc.data().enabled === true) {
+          if (!isAdmin) {
+            document.getElementById('maintenanceWarning').style.display = 'flex';
+            startCountdown();
+          }
+        }
+      } catch (error) {
+        console.error('Maintenance check error:', error);
+      }
+    }
+
+    // Countdown Timer to 11:00 PM IST, January 11, 2025
+    function startCountdown() {
+      const targetDate = new Date('2025-01-11T23:00:00+05:30').getTime(); // 11:00 PM IST
+
+      countdownInterval = setInterval(() => {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        if (distance < 0) {
+          clearInterval(countdownInterval);
+          document.getElementById('countdownDays').textContent = '00';
+          document.getElementById('countdownHours').textContent = '00';
+          document.getElementById('countdownMinutes').textContent = '00';
+          document.getElementById('countdownSeconds').textContent = '00';
+          return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById('countdownDays').textContent = String(days).padStart(2, '0');
+        document.getElementById('countdownHours').textContent = String(hours).padStart(2, '0');
+        document.getElementById('countdownMinutes').textContent = String(minutes).padStart(2, '0');
+        document.getElementById('countdownSeconds').textContent = String(seconds).padStart(2, '0');
+      }, 1000);
+    }
+
+    // Initial check on page load
+    if (typeof db !== 'undefined') {
+      checkMaintenanceMode();
+    }
+  </script>
+</body>
+</html>
