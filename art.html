@@ -998,28 +998,37 @@
         }
 
         // ✅ CHECK IF PAGE IS ENABLED
-        async function checkPageStatus() {
-            try {
-                const statusDoc = await db.collection('systemSettings').doc('artPageStatus').get();
-                if (statusDoc.exists) {
-                    pageEnabled = statusDoc.data().enabled !== false;
-                } else {
-                    pageEnabled = true;
-                }
-
-                if (!pageEnabled && !isAdmin) {
-                    document.getElementById('mainContent').innerHTML = `
-                        <div class="page-disabled-warning">
-                            <h2>⚠️ Studio Temporarily Unavailable</h2>
-                            <p>The Art Studio is currently under maintenance. Please check back later.</p>
-                        </div>
-                    `;
-                }
-            } catch (error) {
-                console.error('Page status check error:', error);
-                pageEnabled = true;
-            }
+async function checkPageStatus() {
+    try {
+        const statusDoc = await db.collection('systemSettings').doc('artPageStatus').get();
+        if (statusDoc.exists) {
+            pageEnabled = statusDoc.data().enabled !== false;
+        } else {
+            pageEnabled = true;
         }
+
+        if (!pageEnabled && !isAdmin) {
+            document.getElementById('mainContent').innerHTML = `
+                <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: #000000; display: flex; align-items: center; justify-content: center; z-index: 9999;">
+                    <div style="max-width: 600px; padding: 60px 40px; text-align: center; background: #0a0a0a; border: 1px solid #1a1a1a;">
+                        <h1 style="font-size: 28px; font-weight: 300; color: #ffffff; margin: 0 0 12px 0; letter-spacing: 0.5px; text-transform: uppercase;">Service Temporarily Unavailable</h1>
+                        <p style="font-size: 14px; color: #666666; margin: 0 0 30px 0; font-weight: 400; letter-spacing: 1px;">Art Studio Access Restricted</p>
+                        <div style="width: 60px; height: 1px; background: #333333; margin: 0 auto 30px auto;"></div>
+                        <p style="font-size: 15px; line-height: 1.8; color: #999999; margin: 0 0 20px 0; font-weight: 300;">Our Art Studio is currently undergoing scheduled maintenance to enhance your experience. We appreciate your patience and understanding.</p>
+                        <p style="font-size: 13px; color: #666666; margin: 0 0 40px 0; font-style: italic;">Expected restoration: Within 24 hours</p>
+                        <div style="padding-top: 30px; border-top: 1px solid #1a1a1a;">
+                            <p style="font-size: 12px; color: #808080; margin: 0 0 12px 0; text-transform: uppercase; letter-spacing: 1px;">For assistance, contact support</p>
+                            <a href="mailto:teamsharvika@gmail.com" style="display: inline-block; font-size: 14px; color: #ffffff; text-decoration: none; padding: 12px 30px; border: 1px solid #333333; letter-spacing: 0.5px; transition: all 0.3s ease;" onmouseover="this.style.background='#ffffff'; this.style.color='#000000'; this.style.borderColor='#ffffff';" onmouseout="this.style.background='transparent'; this.style.color='#ffffff'; this.style.borderColor='#333333';">teamsharvika@gmail.com</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+    } catch (error) {
+        console.error('Page status check error:', error);
+        pageEnabled = true;
+    }
+}
 
         // ✅ UPDATE USER UI
         function updateUserUI() {
