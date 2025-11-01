@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -71,6 +70,28 @@
         .nav-right {
             display: flex;
             gap: 1.2rem;
+            align-items: center;
+        }
+
+        /* ✅ Admin Badge */
+        .admin-badge {
+            background: #ff3b30;
+            color: #ffffff;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .readonly-badge {
+            background: #ff9500;
+            color: #ffffff;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
         }
 
         /* ✅ Side Menu */
@@ -86,6 +107,7 @@
             transition: left 0.4s ease;
             z-index: 999;
             border-right: 1px solid #2a2a2a;
+            overflow-y: auto;
         }
 
         .side-menu.open {
@@ -109,7 +131,8 @@
             margin-bottom: 1.5rem;
         }
 
-        .side-menu ul li a {
+        .side-menu ul li a,
+        .side-menu ul li button {
             text-decoration: none;
             font-size: 1rem;
             color: #ffffff;
@@ -117,9 +140,16 @@
             font-weight: 500;
             display: block;
             padding: 0.5rem 0;
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            width: 100%;
+            font-family: 'Inter', sans-serif;
         }
 
-        .side-menu ul li a:hover {
+        .side-menu ul li a:hover,
+        .side-menu ul li button:hover {
             color: #8e8e93;
         }
 
@@ -128,6 +158,40 @@
             color: #8e8e93;
             margin-top: 0.25rem;
             font-weight: 400;
+        }
+
+        /* ✅ Page Disabled Warning */
+        .page-disabled-warning {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #0e0e0e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 2rem;
+        }
+
+        .page-disabled-content {
+            background: #ff3b30;
+            color: #ffffff;
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            max-width: 500px;
+        }
+
+        .page-disabled-content h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .page-disabled-content p {
+            font-size: 1rem;
+            opacity: 0.9;
         }
 
         /* ✅ App Container */
@@ -463,7 +527,17 @@
 
         .message-bubble.highlighted {
             background: #2a2a2a;
-            border-left: 3px solid #ffffff;
+            border-left: 3px solid #ffcc00;
+        }
+
+        .message-bubble.flagged {
+            background: #2a2a2a;
+            border-left: 3px solid #ff3b30;
+        }
+
+        .message-bubble.warned {
+            background: #2a2a2a;
+            border-left: 3px solid #ff9500;
         }
 
         .message-text {
@@ -503,16 +577,90 @@
             margin-top: 8px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 8px;
+            flex-wrap: wrap;
         }
 
-        .highlight-badge {
-            background: #ffffff;
-            color: #000000;
+        .message-badge {
             padding: 4px 10px;
             border-radius: 12px;
             font-size: 11px;
             font-weight: 600;
+        }
+
+        .highlight-badge {
+            background: #ffcc00;
+            color: #000000;
+        }
+
+        .flagged-badge {
+            background: #ff3b30;
+            color: #ffffff;
+        }
+
+        .warned-badge {
+            background: #ff9500;
+            color: #ffffff;
+        }
+
+        /* ✅ Admin Controls */
+        .admin-controls {
+            display: none;
+            margin-top: 0.5rem;
+            padding: 0.75rem;
+            background: #2a2a2a;
+            border-radius: 8px;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .admin-controls.show {
+            display: flex;
+        }
+
+        .admin-btn {
+            padding: 0.4rem 0.75rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: opacity 0.2s;
+        }
+
+        .admin-btn:hover {
+            opacity: 0.8;
+        }
+
+        .admin-btn-delete {
+            background: #ff3b30;
+            color: #ffffff;
+        }
+
+        .admin-btn-highlight {
+            background: #ffcc00;
+            color: #000000;
+        }
+
+        .admin-btn-flag {
+            background: #ff3b30;
+            color: #ffffff;
+        }
+
+        .admin-btn-warn {
+            background: #ff9500;
+            color: #ffffff;
+        }
+
+        .admin-btn-ban {
+            background: #5856d6;
+            color: #ffffff;
+        }
+
+        .admin-btn-mute {
+            background: #8e8e93;
+            color: #ffffff;
         }
 
         /* ✅ Input Container */
@@ -521,6 +669,14 @@
             background: #1a1a1a;
             border-top: 1px solid #2a2a2a;
             flex-shrink: 0;
+        }
+
+        .input-disabled-notice {
+            text-align: center;
+            padding: 1rem;
+            color: #ff9500;
+            font-size: 0.9rem;
+            font-weight: 500;
         }
 
         .input-wrapper {
@@ -851,7 +1007,8 @@
             <span class="brand">Sharvika</span>
         </div>
         <div class="nav-right">
-            <!-- Navigation items removed as requested -->
+            <span class="admin-badge" id="adminBadge" style="display: none;">ADMIN</span>
+            <span class="readonly-badge" id="readonlyBadge" style="display: none;">READ ONLY</span>
         </div>
     </header>
 
@@ -860,20 +1017,28 @@
         <button class="close-btn" id="menuClose">×</button>
         <ul>
             <li>
-                <a href="#" onclick="switchChannelFromMenu('community')">Community Chat</a>
+                <button onclick="switchChannelFromMenu('community')">Community Chat</button>
                 <div class="menu-subtitle">Public discussion</div>
             </li>
             <li>
-                <a href="#" onclick="switchChannelFromMenu('announcements')">Announcements</a>
+                <button onclick="switchChannelFromMenu('suggestions')">Suggestion Hub</button>
+                <div class="menu-subtitle">Share your ideas & feedback</div>
+            </li>
+            <li>
+                <button onclick="switchChannelFromMenu('announcements')">Announcements</button>
                 <div class="menu-subtitle">Official updates</div>
             </li>
             <li>
-                <a href="#" onclick="openCallSupportFromMenu()">Call Technical Support</a>
+                <a href="call.html">Call Technical Support</a>
                 <div class="menu-subtitle">Live voice and video assistance</div>
             </li>
             <li>
-                <a href="mailto:teamsharvika.inbox@gmail.com">Email Support</a>
-                <div class="menu-subtitle">teamsharvika.inbox@gmail.com</div>
+                <a href="mailto:teamsharvika.inbox.@gmail.com">Email Support</a>
+                <div class="menu-subtitle">teamsharvika.inbox.@gmail.com</div>
+            </li>
+            <li id="adminPanelLink" style="display: none;">
+                <a href="technical.html">Admin Panel</a>
+                <div class="menu-subtitle">Manage Community & Users</div>
             </li>
         </ul>
     </div>
@@ -881,7 +1046,15 @@
     <!-- ✅ Mobile Overlay -->
     <div class="mobile-overlay" id="mobileOverlay"></div>
 
-    <div class="app-container">
+    <!-- ✅ Page Disabled Warning -->
+    <div class="page-disabled-warning" id="pageDisabledWarning" style="display: none;">
+        <div class="page-disabled-content">
+            <h2>⚠️ Community Hub Unavailable</h2>
+            <p>The Community Hub is currently under maintenance. Please check back later.</p>
+        </div>
+    </div>
+
+    <div class="app-container" id="appContainer">
         <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="app-title">Community Hub</div>
@@ -897,6 +1070,10 @@
                     <div class="menu-item-title">Community Chat</div>
                     <div class="menu-item-subtitle">Public discussion</div>
                 </div>
+                <div class="menu-item" onclick="switchChannel('suggestions')">
+                    <div class="menu-item-title">Suggestion Hub</div>
+                    <div class="menu-item-subtitle">Share your ideas & feedback</div>
+                </div>
                 <div class="menu-item" onclick="switchChannel('announcements')">
                     <div class="menu-item-title">Announcements</div>
                     <div class="menu-item-subtitle">Official updates</div>
@@ -908,7 +1085,7 @@
                 </div>
                 <div class="menu-item" onclick="openSupport()">
                     <div class="menu-item-title">Email Support</div>
-                    <div class="menu-item-subtitle">teamsharvika.inbox@gmail.com</div>
+                    <div class="menu-item-subtitle">teamsharvika.inbox.@gmail.com</div>
                 </div>
             </div>
 
@@ -968,7 +1145,14 @@
 
     <script src="firebase-config.js"></script>
     <script>
-        // ✅ HAMBURGER MENU LOGIC (matching your index.html)
+        // ✅ ADMIN EMAILS
+        const ADMIN_EMAILS = [
+            'teamsharvika.inbox.@gmail.com',
+            'admin@sharvika.com'
+            // Add more admin emails here
+        ];
+
+        // ✅ HAMBURGER MENU LOGIC
         const hamburger = document.getElementById("menuToggle");
         const sideMenu = document.getElementById("sideMenu");
         const closeBtn = document.getElementById("menuClose");
@@ -982,12 +1166,8 @@
             sideMenu.classList.remove("open");
         });
 
-        // ✅ CLICK OUTSIDE TO CLOSE MENU
         document.addEventListener("click", function (event) {
-            if (
-                !sideMenu.contains(event.target) &&
-                !hamburger.contains(event.target)
-            ) {
+            if (!sideMenu.contains(event.target) && !hamburger.contains(event.target)) {
                 sideMenu.classList.remove("open");
             }
         });
@@ -1003,20 +1183,30 @@
             openCallSupport();
         }
 
-        // ✅ COMMUNITY HUB LOGIC
-        window.addEventListener('firebaseReady', initializePage);
-
+        // ✅ GLOBAL VARIABLES
         let currentUser = null;
         let currentChannel = 'community';
         let messagesUnsubscribe = null;
+        let isAdmin = false;
+        let isBanned = false;
+        let isMuted = false;
+        let isReadOnly = false;
+        let pageEnabled = true;
 
-        function initializePage() {
-            auth.onAuthStateChanged((user) => {
+        // ✅ INITIALIZE PAGE
+        window.addEventListener('firebaseReady', initializePage);
+
+        async function initializePage() {
+            auth.onAuthStateChanged(async (user) => {
                 if (user) {
                     currentUser = user;
                     const name = user.displayName || user.email.split('@')[0];
                     document.getElementById('sidebarAvatar').textContent = name.charAt(0).toUpperCase();
                     document.getElementById('sidebarName').textContent = name;
+                    
+                    await checkAdminStatus();
+                    await checkUserStatus();
+                    await checkPageStatus();
                     loadMessages();
                 } else {
                     window.location.href = 'signin.html';
@@ -1037,7 +1227,6 @@
                 }
             });
 
-            // Search functionality
             const searchInput = document.getElementById('searchInput');
             searchInput.addEventListener('input', function(e) {
                 const searchTerm = e.target.value.toLowerCase();
@@ -1055,13 +1244,92 @@
             });
         }
 
-        window.toggleSidebar = function() {
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('mobileOverlay');
-            sidebar.classList.toggle('show');
-            overlay.classList.toggle('show');
-        };
+        // ✅ CHECK ADMIN STATUS
+        async function checkAdminStatus() {
+            if (!currentUser) return;
 
+            try {
+                isAdmin = ADMIN_EMAILS.includes(currentUser.email);
+
+                const adminDoc = await db.collection('admins').doc(currentUser.uid).get();
+                if (adminDoc.exists && adminDoc.data().isAdmin) {
+                    isAdmin = true;
+                }
+
+                if (isAdmin) {
+                    document.getElementById('adminBadge').style.display = 'inline-block';
+                    document.getElementById('adminPanelLink').style.display = 'block';
+                    document.getElementById('sidebarName').textContent += ' (Admin)';
+                }
+            } catch (error) {
+                console.error('Admin check error:', error);
+            }
+        }
+
+        // ✅ CHECK USER STATUS (BANNED/MUTED)
+        async function checkUserStatus() {
+            if (!currentUser) return;
+
+            try {
+                const banDoc = await db.collection('bannedUsers').doc(currentUser.uid).get();
+                isBanned = banDoc.exists;
+
+                const muteDoc = await db.collection('mutedUsers').doc(currentUser.uid).get();
+                isMuted = muteDoc.exists;
+
+                if (isBanned) {
+                    const reason = banDoc.data().reason || 'Violation of community guidelines';
+                    document.getElementById('inputContainer').innerHTML = `
+                        <div class="input-disabled-notice">
+                            🚫 You have been banned from posting. Reason: ${escapeHtml(reason)}
+                        </div>
+                    `;
+                } else if (isMuted) {
+                    const reason = muteDoc.data().reason || 'Temporary restriction';
+                    const until = muteDoc.data().until ? muteDoc.data().until.toDate().toLocaleString() : 'Unknown';
+                    document.getElementById('inputContainer').innerHTML = `
+                        <div class="input-disabled-notice">
+                            🔇 You have been muted until ${until}. Reason: ${escapeHtml(reason)}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('User status check error:', error);
+            }
+        }
+
+        // ✅ CHECK PAGE STATUS
+        async function checkPageStatus() {
+            try {
+                const statusDoc = await db.collection('systemSettings').doc('communityHubStatus').get();
+                if (statusDoc.exists) {
+                    pageEnabled = statusDoc.data().enabled !== false;
+                    isReadOnly = statusDoc.data().readOnly === true;
+                } else {
+                    pageEnabled = true;
+                    isReadOnly = false;
+                }
+
+                if (!pageEnabled && !isAdmin) {
+                    document.getElementById('pageDisabledWarning').style.display = 'flex';
+                    document.getElementById('appContainer').style.display = 'none';
+                    return;
+                }
+
+                if (isReadOnly && !isAdmin) {
+                    document.getElementById('readonlyBadge').style.display = 'inline-block';
+                    document.getElementById('inputContainer').innerHTML = `
+                        <div class="input-disabled-notice">
+                            📖 Community Hub is in Read-Only mode. Posting is temporarily disabled.
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Page status check error:', error);
+            }
+        }
+
+        // ✅ SWITCH CHANNEL
         window.switchChannel = function(channel) {
             currentChannel = channel;
             if (window.innerWidth <= 768) toggleSidebar();
@@ -1073,27 +1341,47 @@
                 document.getElementById('chatAvatar').textContent = 'C';
                 document.getElementById('chatTitle').textContent = 'Community Chat';
                 document.getElementById('chatSubtitle').textContent = 'Public discussion';
-                document.getElementById('inputContainer').style.display = 'block';
+            } else if (channel === 'suggestions') {
+                document.getElementById('chatAvatar').textContent = 'S';
+                document.getElementById('chatTitle').textContent = 'Suggestion Hub';
+                document.getElementById('chatSubtitle').textContent = 'Share your ideas & feedback';
             } else if (channel === 'announcements') {
                 document.getElementById('chatAvatar').textContent = 'A';
                 document.getElementById('chatTitle').textContent = 'Announcements';
                 document.getElementById('chatSubtitle').textContent = 'Official updates from team';
+            }
+
+            // Show/hide input based on channel and permissions
+            const canPost = !isBanned && !isMuted && (!isReadOnly || isAdmin);
+            if ((channel === 'announcements' && !isAdmin) || !canPost) {
                 document.getElementById('inputContainer').style.display = 'none';
+            } else {
+                document.getElementById('inputContainer').style.display = 'block';
             }
 
             loadMessages();
         };
 
+        window.toggleSidebar = function() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobileOverlay');
+            sidebar.classList.toggle('show');
+            overlay.classList.toggle('show');
+        };
+
         window.openCallSupport = function() {
-            window.location.href = 'support.html';
+            window.location.href = 'call.html';
         };
 
         window.openSupport = function() {
-            window.location.href = 'mailto:teamsharvika.inbox@gmail.com';
+            window.location.href = 'mailto:teamsharvika.inbox.@gmail.com';
         };
 
+        // ✅ SEND MESSAGE
         window.sendMessage = async function() {
-            if (currentChannel !== 'community' || !currentUser) return;
+            if (!currentUser || isBanned || isMuted) return;
+            if (!isAdmin && isReadOnly) return;
+            if (currentChannel === 'announcements' && !isAdmin) return;
 
             const input = document.getElementById('messageInput');
             const text = input.value.trim();
@@ -1103,13 +1391,19 @@
             sendBtn.disabled = true;
 
             try {
-                await db.collection('communityComments').add({
+                const collectionName = currentChannel === 'announcements' ? 'announcements' : 
+                                     currentChannel === 'suggestions' ? 'suggestions' : 'communityComments';
+
+                await db.collection(collectionName).add({
                     text: text,
                     author: currentUser.displayName || currentUser.email.split('@')[0],
                     authorEmail: currentUser.email,
                     authorUID: currentUser.uid,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                    channel: 'community'
+                    channel: currentChannel,
+                    highlighted: false,
+                    flagged: false,
+                    warned: false
                 });
 
                 input.value = '';
@@ -1117,7 +1411,6 @@
                 document.getElementById('charCounter').textContent = '0/1000';
                 sendBtn.disabled = false;
 
-                // Auto scroll to bottom
                 const container = document.getElementById('messagesContainer');
                 setTimeout(() => container.scrollTop = container.scrollHeight, 100);
             } catch (error) {
@@ -1127,9 +1420,11 @@
             }
         };
 
+        // ✅ LOAD MESSAGES
         function loadMessages() {
             const container = document.getElementById('messagesContainer');
-            const collectionName = currentChannel === 'community' ? 'communityComments' : 'announcements';
+            const collectionName = currentChannel === 'announcements' ? 'announcements' : 
+                                 currentChannel === 'suggestions' ? 'suggestions' : 'communityComments';
             
             if (messagesUnsubscribe) messagesUnsubscribe();
 
@@ -1148,7 +1443,7 @@
                         container.innerHTML = `
                             <div class="empty-state">
                                 <div class="empty-icon">💬</div>
-                                <div class="empty-text">No messages yet${currentChannel === 'announcements' ? '. Waiting for team updates...' : '. Start the conversation!'}</div>
+                                <div class="empty-text">No messages yet. Start the conversation!</div>
                             </div>
                         `;
                         return;
@@ -1157,18 +1452,27 @@
                     let html = '';
                     snapshot.forEach((doc) => {
                         const msg = doc.data();
+                        const msgId = doc.id;
                         const timeAgo = msg.timestamp ? formatTime(msg.timestamp.toDate()) : 'now';
                         const initial = msg.author ? msg.author.charAt(0).toUpperCase() : '?';
+                        const isHighlighted = msg.highlighted === true;
+                        const isFlagged = msg.flagged === true;
+                        const isWarned = msg.warned === true;
+
+                        let bubbleClass = 'message-bubble';
+                        if (isHighlighted) bubbleClass += ' highlighted';
+                        if (isFlagged) bubbleClass += ' flagged';
+                        if (isWarned) bubbleClass += ' warned';
 
                         html += `
-                            <div class="message">
+                            <div class="message" data-msg-id="${msgId}">
                                 <div class="message-avatar">${initial}</div>
                                 <div class="message-content">
                                     <div class="message-header">
                                         <span class="message-author">${escapeHtml(msg.author || 'Anonymous')}</span>
                                         <span class="message-time">${timeAgo}</span>
                                     </div>
-                                    <div class="message-bubble ${msg.highlighted ? 'highlighted' : ''}">
+                                    <div class="${bubbleClass}">
                                         <div class="message-text">${escapeHtml(msg.text)}</div>
                                         ${msg.adminReply ? `
                                             <div class="admin-reply">
@@ -1177,9 +1481,19 @@
                                             </div>
                                         ` : ''}
                                     </div>
-                                    ${msg.highlighted ? `
-                                        <div class="message-footer">
-                                            <span class="highlight-badge">Highlighted</span>
+                                    <div class="message-footer">
+                                        ${isHighlighted ? '<span class="message-badge highlight-badge">⭐ Highlighted</span>' : ''}
+                                        ${isFlagged ? '<span class="message-badge flagged-badge">🚩 Flagged</span>' : ''}
+                                        ${isWarned ? '<span class="message-badge warned-badge">⚠️ Warned</span>' : ''}
+                                    </div>
+                                    ${isAdmin ? `
+                                        <div class="admin-controls show">
+                                            <button class="admin-btn admin-btn-delete" onclick="deleteMessage('${msgId}', '${collectionName}')">🗑️ Delete</button>
+                                            <button class="admin-btn admin-btn-highlight" onclick="toggleHighlight('${msgId}', '${collectionName}', ${!isHighlighted})">⭐ ${isHighlighted ? 'Unhighlight' : 'Highlight'}</button>
+                                            <button class="admin-btn admin-btn-flag" onclick="toggleFlag('${msgId}', '${collectionName}', ${!isFlagged})">🚩 ${isFlagged ? 'Unflag' : 'Flag'}</button>
+                                            <button class="admin-btn admin-btn-warn" onclick="toggleWarn('${msgId}', '${collectionName}', ${!isWarned})">⚠️ ${isWarned ? 'Unwarn' : 'Warn'}</button>
+                                            <button class="admin-btn admin-btn-ban" onclick="banUser('${escapeForAttribute(msg.authorUID)}', '${escapeForAttribute(msg.authorEmail)}', '${escapeForAttribute(msg.author)}')">🚫 Ban</button>
+                                            <button class="admin-btn admin-btn-mute" onclick="muteUser('${escapeForAttribute(msg.authorUID)}', '${escapeForAttribute(msg.authorEmail)}', '${escapeForAttribute(msg.author)}')">🔇 Mute</button>
                                         </div>
                                     ` : ''}
                                 </div>
@@ -1192,10 +1506,154 @@
                 });
         }
 
+        // ✅ ADMIN: DELETE MESSAGE
+        async function deleteMessage(msgId, collection) {
+            if (!isAdmin) {
+                showToast('⛔ Admin access required');
+                return;
+            }
+
+            if (!confirm('Delete this message?')) return;
+
+            try {
+                await db.collection(collection).doc(msgId).delete();
+                showToast('✅ Message deleted');
+            } catch (error) {
+                console.error('Delete error:', error);
+                showToast('❌ Error deleting message');
+            }
+        }
+
+        // ✅ ADMIN: TOGGLE HIGHLIGHT
+        async function toggleHighlight(msgId, collection, highlight) {
+            if (!isAdmin) return;
+
+            try {
+                await db.collection(collection).doc(msgId).update({ highlighted: highlight });
+                showToast(highlight ? '⭐ Message highlighted' : '✅ Highlight removed');
+            } catch (error) {
+                console.error('Highlight error:', error);
+                showToast('❌ Error updating highlight');
+            }
+        }
+
+        // ✅ ADMIN: TOGGLE FLAG
+        async function toggleFlag(msgId, collection, flag) {
+            if (!isAdmin) return;
+
+            try {
+                if (flag) {
+                    const reason = prompt('Flag reason:') || 'Flagged by admin';
+                    await db.collection(collection).doc(msgId).update({
+                        flagged: true,
+                        flagReason: reason,
+                        flaggedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                } else {
+                    await db.collection(collection).doc(msgId).update({ flagged: false });
+                }
+                showToast(flag ? '🚩 Message flagged' : '✅ Flag removed');
+            } catch (error) {
+                console.error('Flag error:', error);
+                showToast('❌ Error updating flag');
+            }
+        }
+
+        // ✅ ADMIN: TOGGLE WARN
+        async function toggleWarn(msgId, collection, warn) {
+            if (!isAdmin) return;
+
+            try {
+                if (warn) {
+                    const reason = prompt('Warning reason:') || 'Content warning';
+                    await db.collection(collection).doc(msgId).update({
+                        warned: true,
+                        warnReason: reason,
+                        warnedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                } else {
+                    await db.collection(collection).doc(msgId).update({ warned: false });
+                }
+                showToast(warn ? '⚠️ Warning added' : '✅ Warning removed');
+            } catch (error) {
+                console.error('Warn error:', error);
+                showToast('❌ Error updating warning');
+            }
+        }
+
+        // ✅ ADMIN: BAN USER
+        async function banUser(userUID, userEmail, userName) {
+            if (!isAdmin) return;
+
+            const reason = prompt(`Ban "${userName}"?\n\nEnter reason:`);
+            if (!reason) return;
+
+            try {
+                const banDoc = await db.collection('bannedUsers').doc(userUID).get();
+                if (banDoc.exists) {
+                    showToast('⚠️ User already banned');
+                    return;
+                }
+
+                await db.collection('bannedUsers').doc(userUID).set({
+                    email: userEmail,
+                    name: userName,
+                    reason: reason,
+                    bannedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    bannedBy: currentUser.email
+                });
+
+                showToast('🚫 User banned');
+            } catch (error) {
+                console.error('Ban error:', error);
+                showToast('❌ Error banning user');
+            }
+        }
+
+        // ✅ ADMIN: MUTE USER
+        async function muteUser(userUID, userEmail, userName) {
+            if (!isAdmin) return;
+
+            const hours = prompt(`Mute "${userName}"?\n\nEnter hours (e.g., 24):`);
+            if (!hours) return;
+
+            const reason = prompt('Mute reason:') || 'Community guidelines violation';
+
+            try {
+                const muteDoc = await db.collection('mutedUsers').doc(userUID).get();
+                if (muteDoc.exists) {
+                    showToast('⚠️ User already muted');
+                    return;
+                }
+
+                const until = new Date(Date.now() + parseInt(hours) * 60 * 60 * 1000);
+
+                await db.collection('mutedUsers').doc(userUID).set({
+                    email: userEmail,
+                    name: userName,
+                    reason: reason,
+                    mutedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    until: firebase.firestore.Timestamp.fromDate(until),
+                    mutedBy: currentUser.email
+                });
+
+                showToast(`🔇 User muted for ${hours} hours`);
+            } catch (error) {
+                console.error('Mute error:', error);
+                showToast('❌ Error muting user');
+            }
+        }
+
+        // ✅ UTILITY FUNCTIONS
         function escapeHtml(text) {
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
+        }
+
+        function escapeForAttribute(text) {
+            if (!text) return '';
+            return text.replace(/'/g, "\\'").replace(/"/g, '&quot;');
         }
 
         function formatTime(date) {
@@ -1231,7 +1689,6 @@
             }
         };
 
-        // Handle window resize
         window.addEventListener('resize', () => {
             if (window.innerWidth > 768) {
                 document.getElementById('sidebar').classList.remove('show');
@@ -1239,7 +1696,6 @@
             }
         });
 
-        // Auto-close sidebar when clicking overlay
         mobileOverlay.addEventListener('click', toggleSidebar);
     </script>
 </body>

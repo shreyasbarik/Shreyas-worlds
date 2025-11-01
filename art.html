@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Art Studio - Sharvika</title>
+    <title>Sharvika Studio - Art Gallery</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         /* ✅ Universal Styles */
@@ -67,9 +67,15 @@
             background: #2a2a2a;
         }
 
-        .nav-right {
-            display: flex;
-            gap: 1.2rem;
+        /* ✅ Admin Badge */
+        .admin-badge {
+            background: #ff3b30;
+            color: #ffffff;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
         }
 
         /* ✅ Side Menu */
@@ -85,6 +91,7 @@
             transition: left 0.4s ease;
             z-index: 999;
             border-right: 1px solid #2a2a2a;
+            overflow-y: auto;
         }
 
         .side-menu.open {
@@ -108,7 +115,8 @@
             margin-bottom: 1.5rem;
         }
 
-        .side-menu ul li a {
+        .side-menu ul li a,
+        .side-menu ul li button {
             text-decoration: none;
             font-size: 1rem;
             color: #ffffff;
@@ -116,9 +124,16 @@
             font-weight: 500;
             display: block;
             padding: 0.5rem 0;
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            width: 100%;
+            font-family: 'Inter', sans-serif;
         }
 
-        .side-menu ul li a:hover {
+        .side-menu ul li a:hover,
+        .side-menu ul li button:hover {
             color: #8e8e93;
         }
 
@@ -129,122 +144,16 @@
             font-weight: 400;
         }
 
-        /* ✅ App Container */
-        .app-container {
-            display: grid;
-            grid-template-columns: 320px 1fr;
-            height: 100vh;
-            margin-top: 60px;
-        }
-
-        /* ✅ Sidebar */
-        .sidebar {
-            background: #1a1a1a;
-            border-right: 1px solid #2a2a2a;
-            display: flex;
-            flex-direction: column;
-            height: calc(100vh - 60px);
-            overflow: hidden;
-        }
-
-        .sidebar-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid #2a2a2a;
-            flex-shrink: 0;
-        }
-
-        .app-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #ffffff;
-            margin-bottom: 0.25rem;
-        }
-
-        .app-subtitle {
-            font-size: 0.85rem;
-            color: #8e8e93;
-            font-weight: 500;
-        }
-
-        .sidebar-search {
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid #2a2a2a;
-            flex-shrink: 0;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 0.75rem 1rem;
+        .menu-user-info {
             background: #2a2a2a;
-            border: none;
-            border-radius: 20px;
-            color: #ffffff;
-            font-size: 0.9rem;
-            outline: none;
-            transition: all 0.2s;
-            font-family: 'Inter', sans-serif;
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
         }
 
-        .search-input:focus {
-            background: #3a3a3a;
-        }
-
-        .search-input::placeholder {
-            color: #6e6e73;
-        }
-
-        .sidebar-menu {
-            flex: 1;
-            overflow-y: auto;
-            overflow-x: hidden;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .menu-item {
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid #2a2a2a;
-            cursor: pointer;
-            transition: all 0.2s;
-            position: relative;
-            min-height: 65px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .menu-item:hover {
-            background: #2a2a2a;
-        }
-
-        .menu-item.active {
-            background: #2a2a2a;
-        }
-
-        .menu-item-title {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: #ffffff;
-            margin-bottom: 0.25rem;
-        }
-
-        .menu-item-subtitle {
-            font-size: 0.8rem;
-            color: #8e8e93;
-            font-weight: 500;
-        }
-
-        .sidebar-footer {
-            padding: 1.5rem;
-            border-top: 1px solid #2a2a2a;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            flex-shrink: 0;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
+        .menu-user-avatar {
+            width: 50px;
+            height: 50px;
             background: #ffffff;
             color: #000000;
             border-radius: 50%;
@@ -252,257 +161,406 @@
             align-items: center;
             justify-content: center;
             font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .menu-user-name {
             font-size: 1rem;
-            flex-shrink: 0;
-        }
-
-        .user-info {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .user-name {
-            font-size: 0.9rem;
             font-weight: 600;
             color: #ffffff;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            margin-bottom: 0.25rem;
         }
 
-        .user-status {
-            font-size: 0.75rem;
+        .menu-user-email {
+            font-size: 0.8rem;
+            color: #8e8e93;
+            margin-bottom: 0.75rem;
+            word-wrap: break-word;
+        }
+
+        .menu-signout-btn {
+            background: #ffffff;
+            color: #000000;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            font-family: 'Inter', sans-serif;
+            transition: opacity 0.2s;
+        }
+
+        .menu-signout-btn:hover {
+            opacity: 0.8;
+        }
+
+        /* ✅ Main Container */
+        .main-container {
+            margin-top: 60px;
+            min-height: calc(100vh - 60px);
+            padding: 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            font-size: 1rem;
             color: #8e8e93;
             font-weight: 500;
         }
 
-        .logout-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: background 0.2s;
-            flex-shrink: 0;
-            color: #6e6e73;
+        /* ✅ Page Disabled Warning */
+        .page-disabled-warning {
+            background: #ff3b30;
+            color: #ffffff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            margin: 2rem auto;
+            max-width: 600px;
         }
 
-        .logout-icon:hover {
+        .page-disabled-warning h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* ✅ View Toggle */
+        .view-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .toggle-btn {
             background: #2a2a2a;
             color: #ffffff;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 24px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
         }
 
-        /* ✅ Chat Container */
-        .chat-container {
-            display: flex;
-            flex-direction: column;
-            height: calc(100vh - 60px);
-            background: #0e0e0e;
-            overflow: hidden;
+        .toggle-btn.active {
+            background: #ffffff;
+            color: #000000;
         }
 
-        .chat-header {
-            padding: 1rem 1.5rem;
+        .toggle-btn:hover:not(.active) {
+            background: #3a3a3a;
+        }
+
+        /* ✅ Content Sections */
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        /* ✅ Studio Hub Gallery */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .gallery-card {
             background: #1a1a1a;
-            border-bottom: 1px solid #2a2a2a;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #2a2a2a;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .gallery-card.highlighted {
+            border: 2px solid #ffcc00;
+            box-shadow: 0 0 20px rgba(255, 204, 0, 0.3);
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        .highlight-badge-card {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #ffcc00;
+            color: #000000;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 10;
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            background: #2a2a2a;
+            cursor: pointer;
+        }
+
+        .gallery-content {
+            padding: 1.25rem;
+        }
+
+        .gallery-text {
+            font-size: 0.95rem;
+            color: #ffffff;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .gallery-author {
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            flex-shrink: 0;
-            min-height: 70px;
+            padding-top: 1rem;
+            border-top: 1px solid #2a2a2a;
         }
 
-        .chat-icon {
-            width: 40px;
-            height: 40px;
-            background: #2a2a2a;
+        .author-avatar {
+            width: 36px;
+            height: 36px;
+            background: #ffffff;
+            color: #000000;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
             flex-shrink: 0;
         }
 
-        .chat-info {
+        .author-info {
             flex: 1;
-            min-width: 0;
         }
 
-        .chat-title {
-            font-size: 1.1rem;
+        .author-name {
+            font-size: 0.9rem;
             font-weight: 600;
             color: #ffffff;
             margin-bottom: 0.125rem;
         }
 
-        .chat-subtitle {
-            font-size: 0.85rem;
+        .author-time {
+            font-size: 0.75rem;
             color: #8e8e93;
-            font-weight: 500;
         }
 
-        /* ✅ Messages Container */
-        .messages-container {
-            flex: 1;
-            overflow-y: auto;
-            overflow-x: hidden;
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            -webkit-overflow-scrolling: touch;
-            scroll-behavior: smooth;
-        }
-
-        .messages-container::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .messages-container::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .messages-container::-webkit-scrollbar-thumb {
+        /* ✅ Admin Controls on Cards */
+        .admin-controls {
+            display: none;
+            padding: 1rem;
             background: #2a2a2a;
-            border-radius: 3px;
-        }
-
-        .message {
-            display: flex;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-            animation: messageSlideIn 0.3s ease-out;
-            max-width: 100%;
-        }
-
-        @keyframes messageSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .message-avatar {
-            width: 36px;
-            height: 36px;
-            background: #ffffff;
-            color: #000000;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 0.9rem;
-            flex-shrink: 0;
-            align-self: flex-start;
-            position: relative;
-        }
-
-        .verified-badge {
-            position: absolute;
-            bottom: -2px;
-            right: -2px;
-            width: 16px;
-            height: 16px;
-            background: #ffffff;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid #0e0e0e;
-        }
-
-        .verified-badge svg {
-            width: 10px;
-            height: 10px;
-        }
-
-        .message-content {
-            flex: 1;
-            max-width: calc(100% - 44px);
-            min-width: 0;
-        }
-
-        .message-header {
-            display: flex;
-            align-items: baseline;
+            border-top: 1px solid #3a3a3a;
             gap: 0.5rem;
-            margin-bottom: 0.5rem;
             flex-wrap: wrap;
         }
 
-        .message-author {
-            font-size: 0.9rem;
+        .admin-controls.show {
+            display: flex;
+        }
+
+        .admin-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.8rem;
             font-weight: 600;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: opacity 0.2s;
+        }
+
+        .admin-btn:hover {
+            opacity: 0.8;
+        }
+
+        .admin-btn-delete {
+            background: #ff3b30;
             color: #ffffff;
         }
 
-        .message-time {
-            font-size: 0.75rem;
+        .admin-btn-highlight {
+            background: #ffcc00;
+            color: #000000;
+        }
+
+        .admin-btn-ban {
+            background: #ff9500;
+            color: #ffffff;
+        }
+
+        .admin-btn-flag {
+            background: #5856d6;
+            color: #ffffff;
+        }
+
+        .empty-gallery {
+            text-align: center;
+            padding: 4rem 1.5rem;
             color: #6e6e73;
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-text {
+            font-size: 1.1rem;
             font-weight: 500;
-        }
-
-        .message-bubble {
-            background: #1a1a1a;
-            padding: 0.875rem 1rem;
-            border-radius: 12px;
-            border-top-left-radius: 4px;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            max-width: 100%;
-        }
-
-        .message-text {
-            font-size: 0.9rem;
-            line-height: 1.5;
-            color: #ffffff;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            white-space: pre-wrap;
             margin-bottom: 0.5rem;
         }
 
-        .message-image {
-            margin-top: 0.5rem;
-            border-radius: 12px;
-            overflow: hidden;
-            max-width: 100%;
-            cursor: pointer;
-            transition: transform 0.2s;
+        .empty-subtext {
+            font-size: 0.9rem;
+            color: #8e8e93;
         }
 
-        .message-image:hover {
-            transform: scale(1.02);
+        /* ✅ Publish Content Form */
+        .publish-container {
+            max-width: 600px;
+            margin: 0 auto;
         }
 
-        .message-image img {
-            width: 100%;
-            height: auto;
-            display: block;
-            max-height: 500px;
-            object-fit: cover;
-        }
-
-        /* ✅ Input Container */
-        .input-container {
-            padding: 1rem 1.5rem;
+        .publish-form {
             background: #1a1a1a;
-            border-top: 1px solid #2a2a2a;
-            flex-shrink: 0;
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid #2a2a2a;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            background: #2a2a2a;
+            border: 1px solid #3a3a3a;
+            border-radius: 12px;
+            padding: 0.875rem 1rem;
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            background: #3a3a3a;
+            border-color: #ffffff;
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: #6e6e73;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-input-btn {
+            background: #2a2a2a;
+            border: 2px dashed #3a3a3a;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .file-input-btn:hover {
+            background: #3a3a3a;
+            border-color: #ffffff;
+        }
+
+        .file-input-btn svg {
+            width: 48px;
+            height: 48px;
+            color: #6e6e73;
+        }
+
+        .file-input-text {
+            font-size: 0.95rem;
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        .file-input-subtext {
+            font-size: 0.8rem;
+            color: #8e8e93;
+        }
+
+        .file-size-warning {
+            font-size: 0.75rem;
+            color: #ff9500;
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+
+        .file-input-wrapper input[type="file"] {
+            position: absolute;
+            left: -9999px;
         }
 
         .image-preview {
-            margin-bottom: 0.75rem;
-            padding: 0.75rem;
-            background: #2a2a2a;
+            margin-top: 1rem;
             border-radius: 12px;
+            overflow: hidden;
             display: none;
         }
 
@@ -510,282 +568,76 @@
             display: block;
         }
 
-        .preview-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.75rem;
-        }
-
-        .preview-title {
-            font-size: 0.8rem;
-            color: #8e8e93;
-            font-weight: 500;
-        }
-
-        .preview-close {
-            background: transparent;
-            border: none;
-            color: #ffffff;
-            cursor: pointer;
-            font-size: 1.5rem;
-            padding: 0;
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: background 0.2s;
-        }
-
-        .preview-close:hover {
-            background: #3a3a3a;
-        }
-
         .preview-image {
             width: 100%;
-            max-height: 200px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-
-        .input-wrapper {
-            display: flex;
-            gap: 0.75rem;
-            align-items: flex-end;
-        }
-
-        .input-box {
-            flex: 1;
+            height: auto;
+            max-height: 400px;
+            object-fit: contain;
             background: #2a2a2a;
-            border-radius: 24px;
-            padding: 0.75rem 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            min-height: 44px;
-            transition: all 0.2s;
         }
 
-        .input-box:focus-within {
-            background: #3a3a3a;
-        }
-
-        .attach-button {
-            width: 36px;
-            height: 36px;
-            background: transparent;
+        .remove-image-btn {
+            background: #ff3b30;
+            color: #ffffff;
             border: none;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: background 0.2s;
-            color: #8e8e93;
-            flex-shrink: 0;
-        }
-
-        .attach-button:hover {
-            background: #3a3a3a;
-            color: #ffffff;
-        }
-
-        .message-input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: #ffffff;
-            font-size: 0.9rem;
-            outline: none;
-            resize: none;
-            max-height: 120px;
+            margin-top: 0.5rem;
             font-family: 'Inter', sans-serif;
-            min-height: 20px;
+            transition: opacity 0.2s;
         }
 
-        .message-input::placeholder {
-            color: #6e6e73;
+        .remove-image-btn:hover {
+            opacity: 0.8;
         }
 
-        .send-button {
-            width: 44px;
-            height: 44px;
+        .submit-btn {
             background: #ffffff;
             color: #000000;
             border: none;
-            border-radius: 50%;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            flex-shrink: 0;
+            gap: 0.5rem;
         }
 
-        .send-button:hover:not(:disabled) {
-            transform: scale(1.05);
+        .submit-btn:hover:not(:disabled) {
+            opacity: 0.9;
+            transform: translateY(-2px);
         }
 
-        .send-button:active {
-            transform: scale(0.95);
-        }
-
-        .send-button:disabled {
+        .submit-btn:disabled {
             background: #2a2a2a;
             color: #6e6e73;
             cursor: not-allowed;
             transform: none;
         }
 
-        /* ✅ Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
+        .loading-spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #6e6e73;
+            border-top-color: #000000;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
         }
 
-        .modal-overlay.show {
-            display: flex;
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
-        .modal {
-            background: #1a1a1a;
-            border-radius: 16px;
-            padding: 2rem;
-            max-width: 400px;
-            width: 90%;
-            border: 1px solid #2a2a2a;
-        }
-
-        .modal-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: #ffffff;
-        }
-
-        .modal-subtitle {
-            font-size: 0.9rem;
-            color: #8e8e93;
-            margin-bottom: 1.5rem;
-        }
-
-        .modal-input {
-            width: 100%;
-            padding: 0.875rem 1rem;
-            background: #2a2a2a;
-            border: 2px solid transparent;
-            border-radius: 12px;
-            color: #ffffff;
-            font-size: 0.95rem;
-            outline: none;
-            margin-bottom: 1.5rem;
-            transition: border-color 0.2s;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .modal-input:focus {
-            border-color: #ffffff;
-        }
-
-        .modal-button {
-            width: 100%;
-            padding: 0.875rem;
-            background: #ffffff;
-            color: #000000;
-            border: none;
-            border-radius: 12px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .modal-button:hover {
-            transform: scale(1.02);
-        }
-
-        .modal-button:disabled {
-            background: #2a2a2a;
-            color: #6e6e73;
-            cursor: not-allowed;
-        }
-
-        /* ✅ Upload Progress */
-        .upload-progress {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
-            border-radius: 12px;
-            padding: 1rem;
-            min-width: 280px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-            display: none;
-            z-index: 1000;
-        }
-
-        .upload-progress.show {
-            display: block;
-        }
-
-        .progress-text {
-            font-size: 0.8rem;
-            color: #8e8e93;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        .progress-bar {
-            height: 4px;
-            background: #2a2a2a;
-            border-radius: 2px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: #ffffff;
-            width: 0%;
-            transition: width 0.3s;
-        }
-
-        /* ✅ Lightbox */
-        .lightbox {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.95);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            cursor: zoom-out;
-        }
-
-        .lightbox.show {
-            display: flex;
-        }
-
-        .lightbox img {
-            max-width: 90%;
-            max-height: 90%;
-            object-fit: contain;
-        }
-
-        /* ✅ Toast */
+        /* ✅ Toast Notification */
         .toast {
             position: fixed;
             bottom: 2rem;
@@ -808,224 +660,128 @@
             transform: translateX(-50%) translateY(0);
         }
 
-        /* ✅ Loading & States */
-        .loading {
-            text-align: center;
-            padding: 3rem 1.5rem;
-            color: #6e6e73;
-        }
-
-        .loading-spinner {
-            width: 32px;
-            height: 32px;
-            border: 3px solid #2a2a2a;
-            border-top-color: #ffffff;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 0.75rem;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .empty-state {
+        /* ✅ Loading State */
+        .page-loading {
             text-align: center;
             padding: 4rem 1.5rem;
             color: #6e6e73;
         }
 
-        .empty-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            opacity: 0.5;
+        .page-loading .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #2a2a2a;
+            border-top-color: #ffffff;
+            margin: 0 auto 1rem;
         }
 
-        /* ✅ Mobile Overlay */
-        .mobile-overlay {
+        /* ✅ Image Modal */
+        .image-modal {
             display: none;
             position: fixed;
-            top: 60px;
+            top: 0;
             left: 0;
             width: 100%;
-            height: calc(100vh - 60px);
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 999;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
+            padding: 2rem;
+            overflow: auto;
         }
 
-        .mobile-overlay.show {
-            display: block;
+        .image-modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* ✅ Scrollbar for Sidebar */
-        .sidebar-menu::-webkit-scrollbar {
-            width: 6px;
+        .modal-content {
+            max-width: 1200px;
+            width: 100%;
+            position: relative;
         }
 
-        .sidebar-menu::-webkit-scrollbar-track {
-            background: transparent;
+        .modal-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            line-height: 1;
         }
 
-        .sidebar-menu::-webkit-scrollbar-thumb {
-            background: #2a2a2a;
-            border-radius: 3px;
+        .modal-image {
+            width: 100%;
+            height: auto;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 12px;
         }
 
-        /* ✅ Focus States */
-        .menu-item:focus,
-        .send-button:focus,
-        .logout-icon:focus,
-        .hamburger:focus {
-            outline: 2px solid #ffffff;
-            outline-offset: 2px;
-        }
-
-        .search-input:focus,
-        .message-input:focus {
-            outline: none;
+        .modal-info {
+            background: #1a1a1a;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 1rem;
         }
 
         /* ✅ Mobile Responsive */
         @media (max-width: 768px) {
-            .app-container {
+            .main-container {
+                padding: 1.5rem 1rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .gallery-grid {
                 grid-template-columns: 1fr;
-                margin-top: 60px;
+                gap: 1.5rem;
             }
 
-            .sidebar {
-                position: fixed;
-                left: -100%;
-                top: 60px;
-                width: 280px;
-                height: calc(100vh - 60px);
-                transition: left 0.4s ease;
-                z-index: 1000;
-                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
-                background: #1a1a1a;
+            .view-toggle {
+                flex-direction: column;
+                gap: 0.75rem;
             }
 
-            .sidebar.show {
-                left: 0;
+            .toggle-btn {
+                width: 100%;
             }
 
-            .messages-container {
+            .publish-form {
+                padding: 1.5rem;
+            }
+
+            .image-modal {
                 padding: 1rem;
             }
 
-            .message {
-                gap: 0.5rem;
-                margin-bottom: 0.875rem;
-            }
-
-            .message-avatar {
-                width: 32px;
-                height: 32px;
-                font-size: 0.8rem;
-            }
-
-            .message-content {
-                max-width: calc(100% - 40px);
-            }
-
-            .message-bubble {
-                padding: 0.75rem 0.875rem;
-                border-radius: 12px;
-            }
-
-            .message-text {
-                font-size: 0.875rem;
-            }
-
-            .input-container {
-                padding: 0.875rem 1rem;
-            }
-
-            .input-box {
-                padding: 0.625rem 0.875rem;
-                min-height: 40px;
-            }
-
-            .send-button {
-                width: 40px;
-                height: 40px;
-            }
-
-            .chat-header {
-                padding: 0.875rem 1rem;
-                min-height: 65px;
-            }
-
-            .upload-progress {
-                bottom: 1.5rem;
-                right: 1rem;
-                left: 1rem;
-                min-width: auto;
+            .modal-close {
+                top: -35px;
+                font-size: 1.5rem;
             }
         }
 
         @media (max-width: 480px) {
-            .sidebar {
-                width: 90%;
-                max-width: 300px;
+            .page-title {
+                font-size: 1.75rem;
             }
 
-            .messages-container {
-                padding: 0.875rem;
+            .page-subtitle {
+                font-size: 0.9rem;
             }
 
-            .message {
-                gap: 0.5rem;
-                margin-bottom: 0.75rem;
+            .gallery-image {
+                height: 250px;
             }
 
-            .message-avatar {
-                width: 30px;
-                height: 30px;
-                font-size: 0.75rem;
-            }
-
-            .message-content {
-                max-width: calc(100% - 38px);
-            }
-
-            .message-bubble {
-                padding: 0.625rem 0.75rem;
-                border-radius: 10px;
-            }
-
-            .input-container {
-                padding: 0.75rem 0.875rem;
-            }
-
-            .input-box {
-                padding: 0.5rem 0.75rem;
-                min-height: 36px;
-            }
-
-            .send-button {
-                width: 36px;
-                height: 36px;
-            }
-
-            .chat-header {
-                padding: 0.75rem 0.875rem;
-                min-height: 60px;
-            }
-
-            .app-title {
-                font-size: 1.2rem;
-            }
-
-            .toast {
-                bottom: 1.5rem;
-                font-size: 0.85rem;
-                padding: 0.625rem 1.25rem;
-            }
-        }
-
-        @media (min-width: 769px) {
-            .mobile-overlay {
-                display: none !important;
+            .publish-form {
+                padding: 1.25rem;
             }
         }
     </style>
@@ -1035,525 +791,641 @@
     <header class="navbar">
         <div class="nav-left">
             <button class="hamburger" id="menuToggle">☰</button>
-            <span class="brand">Sharvika</span>
-        </div>
-        <div class="nav-right">
-            <!-- Navigation items can be added here if needed -->
+            <span class="brand">Sharvika Studio</span>
+            <span class="admin-badge" id="adminBadge" style="display: none;">ADMIN</span>
         </div>
     </header>
 
-    <!-- ✅ Hamburger Slide Menu -->
+    <!-- ✅ Hamburger Side Menu -->
     <div class="side-menu" id="sideMenu">
         <button class="close-btn" id="menuClose">×</button>
+        
+        <!-- User Profile Section -->
+        <div class="menu-user-info" id="userProfileSection">
+            <div class="menu-user-avatar" id="menuAvatar">?</div>
+            <div class="menu-user-name" id="menuUserName">Guest User</div>
+            <div class="menu-user-email" id="menuUserEmail">Please sign in</div>
+            <button class="menu-signout-btn" id="menuAuthBtn" onclick="handleAuth()">Sign In / Sign Up</button>
+        </div>
+
         <ul>
             <li>
-                <a href="#" onclick="closeSideMenu()">Art Gallery</a>
-                <div class="menu-subtitle">Community artwork</div>
+                <button onclick="showStudioHub()">Studio Hub</button>
+                <div class="menu-subtitle">View all published artwork</div>
             </li>
             <li>
-                <a href="mailto:teamsharvika.inbox@gmail.com">Email Support</a>
-                <div class="menu-subtitle">teamsharvika.inbox@gmail.com</div>
+                <button onclick="showPublishContent()">Publish Content</button>
+                <div class="menu-subtitle">Share your creative work</div>
+            </li>
+            <li>
+                <a href="call.html">Call Helpline Team</a>
+                <div class="menu-subtitle">Direct voice & video support</div>
+            </li>
+            <li>
+                <a href="mailto:teamsharvika.inbox.@gmail.com">Technical Support</a>
+                <div class="menu-subtitle">Email: teamsharvika.inbox.@gmail.com</div>
+            </li>
+            <li id="adminPanelLink" style="display: none;">
+                <a href="technical.html">Admin Panel</a>
+                <div class="menu-subtitle">Manage Studio & Users</div>
             </li>
         </ul>
     </div>
 
-    <!-- ✅ Mobile Overlay -->
-    <div class="mobile-overlay" id="mobileOverlay"></div>
-
-    <div class="app-container">
-        <div class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <div class="app-title">Art Studio</div>
-                <div class="app-subtitle">Share Your Creativity</div>
-            </div>
-
-            <div class="sidebar-search">
-                <input type="text" class="search-input" placeholder="Search artists..." id="searchInput">
-            </div>
-
-            <div class="sidebar-menu">
-                <div class="menu-item active">
-                    <div class="menu-item-title">Art Gallery</div>
-                    <div class="menu-item-subtitle">Community artwork</div>
-                </div>
-                <div class="menu-item" onclick="openSupport()">
-                    <div class="menu-item-title">Support</div>
-                    <div class="menu-item-subtitle">teamsharvika.inbox@gmail.com</div>
-                </div>
-            </div>
-
-            <div class="sidebar-footer">
-                <div class="user-avatar" id="sidebarAvatar">U</div>
-                <div class="user-info">
-                    <div class="user-name" id="sidebarName">User</div>
-                    <div class="user-status" id="userStatus">online</div>
-                </div>
-                <div class="logout-icon" onclick="logout()" title="Logout">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>
-                    </svg>
-                </div>
-            </div>
+    <!-- ✅ Main Container -->
+    <div class="main-container" id="mainContent">
+        <div class="page-header">
+            <h1 class="page-title">Sharvika Studio</h1>
+            <p class="page-subtitle">Share and discover creative artwork from our community</p>
         </div>
 
-        <div class="chat-container">
-            <div class="chat-header">
-                <div class="chat-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                        <circle cx="8.5" cy="8.5" r="1.5"/>
-                        <polyline points="21 15 16 10 5 21"/>
-                    </svg>
-                </div>
-                <div class="chat-info">
-                    <div class="chat-title">Art Gallery</div>
-                    <div class="chat-subtitle">Share your amazing artwork</div>
-                </div>
-            </div>
+        <div class="view-toggle">
+            <button class="toggle-btn active" onclick="showStudioHub()">Studio Hub</button>
+            <button class="toggle-btn" onclick="showPublishContent()">Publish Content</button>
+        </div>
 
-            <div class="messages-container" id="messagesContainer">
-                <div class="loading">
+        <!-- ✅ Studio Hub Section -->
+        <div class="content-section active" id="studioHubSection">
+            <div id="galleryContainer">
+                <div class="page-loading">
                     <div class="loading-spinner"></div>
                     <div>Loading artwork...</div>
                 </div>
             </div>
+        </div>
 
-            <div class="input-container">
-                <div class="image-preview" id="imagePreview">
-                    <div class="preview-header">
-                        <span class="preview-title">Image selected</span>
-                        <button class="preview-close" onclick="clearImage()">×</button>
-                    </div>
-                    <img id="previewImg" class="preview-image" alt="Preview">
-                </div>
+        <!-- ✅ Publish Content Section -->
+        <div class="content-section" id="publishContentSection">
+            <div class="publish-container">
+                <div class="publish-form">
+                    <form id="publishForm" onsubmit="publishContent(event)">
+                        <div class="form-group">
+                            <label class="form-label">Upload Image *</label>
+                            <div class="file-input-wrapper">
+                                <label for="imageInput" class="file-input-btn">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                                        <polyline points="21 15 16 10 5 21"/>
+                                    </svg>
+                                    <span class="file-input-text">Click to upload image</span>
+                                    <span class="file-input-subtext">PNG, JPG, GIF (smaller images work best)</span>
+                                    <span class="file-size-warning">⚠️ Keep images under 500KB for best performance</span>
+                                </label>
+                                <input type="file" id="imageInput" accept="image/*" required onchange="previewImage(event)">
+                            </div>
+                            <div class="image-preview" id="imagePreview">
+                                <img id="previewImg" class="preview-image" alt="Preview">
+                                <button type="button" class="remove-image-btn" onclick="removeImage()">Remove Image</button>
+                            </div>
+                        </div>
 
-                <div class="input-wrapper">
-                    <div class="input-box">
-                        <button class="attach-button" onclick="document.getElementById('imageInput').click()">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
-                            </svg>
+                        <div class="form-group">
+                            <label class="form-label" for="contentText">Description *</label>
+                            <textarea 
+                                id="contentText" 
+                                class="form-textarea" 
+                                placeholder="Describe your artwork, inspiration, or story behind it..."
+                                maxlength="500"
+                                required
+                            ></textarea>
+                        </div>
+
+                        <button type="submit" class="submit-btn" id="submitBtn">
+                            <span id="submitBtnText">Publish to Studio Hub</span>
                         </button>
-                        <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="handleImageSelect(event)">
-                        <textarea 
-                            class="message-input" 
-                            id="messageInput" 
-                            placeholder="Describe your artwork..."
-                            rows="1"
-                            maxlength="500"
-                        ></textarea>
-                    </div>
-                    <button class="send-button" id="sendBtn" onclick="sendMessage()">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
-                        </svg>
-                    </button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ✅ Username Modal -->
-    <div class="modal-overlay" id="usernameModal">
-        <div class="modal">
-            <div class="modal-title">Choose Your Artist Name</div>
-            <div class="modal-subtitle">This is how others will see you in the gallery</div>
-            <input type="text" id="usernameInput" class="modal-input" placeholder="Enter your artist name" maxlength="20">
-            <button class="modal-button" onclick="saveUsername()">Continue</button>
+    <!-- ✅ Image Modal -->
+    <div class="image-modal" id="imageModal" onclick="closeModal(event)">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <img id="modalImage" class="modal-image" alt="Full size">
+            <div class="modal-info">
+                <div class="gallery-text" id="modalText"></div>
+                <div class="gallery-author">
+                    <div class="author-avatar" id="modalAvatar">A</div>
+                    <div class="author-info">
+                        <div class="author-name" id="modalAuthor">Author Name</div>
+                        <div class="author-time" id="modalTime">Just now</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- ✅ Upload Progress -->
-    <div class="upload-progress" id="uploadProgress">
-        <div class="progress-text">Uploading artwork...</div>
-        <div class="progress-bar">
-            <div class="progress-fill" id="progressFill"></div>
-        </div>
-    </div>
-
-    <!-- ✅ Lightbox -->
-    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-        <img id="lightboxImg" alt="Full size">
-    </div>
-
-    <!-- ✅ Toast -->
+    <!-- ✅ Toast Notification -->
     <div class="toast" id="toast"></div>
 
-    <script type="module">
-        import { 
-            auth, 
-            db,
-            onAuthStateChanged,
-            signOut,
-            updateProfile,
-            collection,
-            addDoc,
-            query,
-            orderBy,
-            onSnapshot,
-            serverTimestamp,
-            doc,
-            setDoc,
-            getDoc
-        } from './firebase-config.js';
-
-        const IMGBB_API_KEY = '934510bc3e18b8edbef649bebe2853c7';
-
-        let currentUser = null;
-        let selectedImage = null;
-        let userUsername = null;
-        let allArtworks = [];
-
+    <script src="firebase-config.js"></script>
+    <script>
         // ✅ HAMBURGER MENU LOGIC
         const hamburger = document.getElementById("menuToggle");
         const sideMenu = document.getElementById("sideMenu");
         const closeBtn = document.getElementById("menuClose");
-        const mobileOverlay = document.getElementById("mobileOverlay");
-        const sidebar = document.getElementById("sidebar");
 
         hamburger.addEventListener("click", () => {
-            if (window.innerWidth <= 768) {
-                sidebar.classList.toggle('show');
-                mobileOverlay.classList.toggle('show');
-            } else {
-                sideMenu.classList.add("open");
-            }
+            sideMenu.classList.add("open");
         });
 
         closeBtn.addEventListener("click", () => {
             sideMenu.classList.remove("open");
         });
 
-        mobileOverlay.addEventListener('click', () => {
-            sidebar.classList.remove('show');
-            mobileOverlay.classList.remove('show');
-        });
-
-        // ✅ CLICK OUTSIDE TO CLOSE MENU
         document.addEventListener("click", function (event) {
-            if (
-                !sideMenu.contains(event.target) &&
-                !hamburger.contains(event.target)
-            ) {
+            if (!sideMenu.contains(event.target) && !hamburger.contains(event.target)) {
                 sideMenu.classList.remove("open");
             }
         });
 
-        window.closeSideMenu = function() {
-            sideMenu.classList.remove("open");
-        };
+        // ✅ GLOBAL VARIABLES
+        let currentUser = null;
+        let isAdmin = false;
+        let selectedImageBase64 = null;
+        let postsUnsubscribe = null;
+        let pageEnabled = true;
 
-        // ✅ AUTHENTICATION
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
+        // ✅ ADMIN EMAILS (Add your technical team emails here)
+        const ADMIN_EMAILS = [
+            'teamsharvika.inbox.@gmail.com',
+            'admin@sharvika.com'
+            // Add more admin emails here
+        ];
+
+        // ✅ INITIALIZE PAGE
+        window.addEventListener('firebaseReady', initializePage);
+
+        async function initializePage() {
+            auth.onAuthStateChanged(async (user) => {
                 currentUser = user;
-                await checkUsername();
+                await checkAdminStatus();
+                await checkPageStatus();
+                updateUserUI();
+                loadStudioPosts();
+            });
+        }
+
+        // ✅ CHECK ADMIN STATUS
+        async function checkAdminStatus() {
+            if (!currentUser) {
+                isAdmin = false;
+                return;
+            }
+
+            try {
+                // Check if user email is in admin list
+                isAdmin = ADMIN_EMAILS.includes(currentUser.email);
+
+                // Also check Firestore admins collection
+                const adminDoc = await db.collection('admins').doc(currentUser.uid).get();
+                if (adminDoc.exists && adminDoc.data().isAdmin) {
+                    isAdmin = true;
+                }
+
+                // Show admin badge and link
+                if (isAdmin) {
+                    document.getElementById('adminBadge').style.display = 'inline-block';
+                    document.getElementById('adminPanelLink').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Admin check error:', error);
+                isAdmin = false;
+            }
+        }
+
+        // ✅ CHECK IF PAGE IS ENABLED
+        async function checkPageStatus() {
+            try {
+                const statusDoc = await db.collection('systemSettings').doc('artPageStatus').get();
+                if (statusDoc.exists) {
+                    pageEnabled = statusDoc.data().enabled !== false;
+                } else {
+                    pageEnabled = true;
+                }
+
+                if (!pageEnabled && !isAdmin) {
+                    document.getElementById('mainContent').innerHTML = `
+                        <div class="page-disabled-warning">
+                            <h2>⚠️ Studio Temporarily Unavailable</h2>
+                            <p>The Art Studio is currently under maintenance. Please check back later.</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Page status check error:', error);
+                pageEnabled = true;
+            }
+        }
+
+        // ✅ UPDATE USER UI
+        function updateUserUI() {
+            const menuAvatar = document.getElementById('menuAvatar');
+            const menuUserName = document.getElementById('menuUserName');
+            const menuUserEmail = document.getElementById('menuUserEmail');
+            const menuAuthBtn = document.getElementById('menuAuthBtn');
+
+            if (currentUser) {
+                const name = currentUser.displayName || currentUser.email.split('@')[0];
+                const initial = name.charAt(0).toUpperCase();
+                
+                menuAvatar.textContent = initial;
+                menuUserName.textContent = name + (isAdmin ? ' (Admin)' : '');
+                menuUserEmail.textContent = currentUser.email;
+                menuAuthBtn.textContent = 'Sign Out';
+                menuAuthBtn.onclick = signOut;
+            } else {
+                menuAvatar.textContent = '?';
+                menuUserName.textContent = 'Guest User';
+                menuUserEmail.textContent = 'Please sign in to publish';
+                menuAuthBtn.textContent = 'Sign In / Sign Up';
+                menuAuthBtn.onclick = () => window.location.href = 'signin.html';
+            }
+        }
+
+        // ✅ AUTH FUNCTIONS
+        function handleAuth() {
+            if (currentUser) {
+                signOut();
             } else {
                 window.location.href = 'signin.html';
             }
-        });
+        }
 
-        async function checkUsername() {
-            try {
-                const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
-                
-                if (userDoc.exists() && userDoc.data().username) {
-                    userUsername = userDoc.data().username;
-                    updateUI(userUsername);
-                    loadMessages();
-                } else {
-                    document.getElementById('usernameModal').classList.add('show');
+        async function signOut() {
+            if (confirm('Are you sure you want to sign out?')) {
+                try {
+                    await auth.signOut();
+                    showToast('Signed out successfully');
+                    sideMenu.classList.remove('open');
+                } catch (error) {
+                    console.error('Sign out error:', error);
+                    showToast('Error signing out');
                 }
-            } catch (error) {
-                console.error('Error checking username:', error);
             }
         }
 
-        window.saveUsername = async function() {
-            const input = document.getElementById('usernameInput');
-            const username = input.value.trim();
-
-            if (!username) {
-                showToast('Please enter a username');
-                return;
-            }
-
-            if (username.length < 3) {
-                showToast('Username must be at least 3 characters');
-                return;
-            }
-
-            try {
-                await setDoc(doc(db, 'users', currentUser.uid), {
-                    username: username,
-                    email: currentUser.email,
-                    createdAt: serverTimestamp(),
-                    verified: false,
-                    blocked: false
-                });
-
-                await updateProfile(currentUser, {
-                    displayName: username
-                });
-
-                userUsername = username;
-                document.getElementById('usernameModal').classList.remove('show');
-                updateUI(username);
-                loadMessages();
-                showToast('Welcome to Art Studio');
-            } catch (error) {
-                console.error('Error saving username:', error);
-                showToast('Error saving username');
-            }
-        };
-
-        function updateUI(username) {
-            const initial = username.charAt(0).toUpperCase();
-            document.getElementById('sidebarAvatar').textContent = initial;
-            document.getElementById('sidebarName').textContent = username;
+        // ✅ VIEW SWITCHING
+        function showStudioHub() {
+            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.toggle-btn')[0].classList.add('active');
+            
+            document.querySelectorAll('.content-section').forEach(section => section.classList.remove('active'));
+            document.getElementById('studioHubSection').classList.add('active');
+            
+            sideMenu.classList.remove('open');
+            loadStudioPosts();
         }
 
-        // ✅ IMAGE HANDLING
-        window.handleImageSelect = function(event) {
+        function showPublishContent() {
+            if (!pageEnabled && !isAdmin) {
+                showToast('Publishing is currently disabled');
+                return;
+            }
+
+            if (!currentUser) {
+                showToast('Please sign in to publish content');
+                setTimeout(() => window.location.href = 'signin.html', 1500);
+                return;
+            }
+
+            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.toggle-btn')[1].classList.add('active');
+            
+            document.querySelectorAll('.content-section').forEach(section => section.classList.remove('active'));
+            document.getElementById('publishContentSection').classList.add('active');
+            
+            sideMenu.classList.remove('open');
+        }
+
+        // ✅ IMAGE PREVIEW & COMPRESSION
+        function previewImage(event) {
             const file = event.target.files[0];
             if (!file) return;
 
-            if (!file.type.startsWith('image/')) {
-                showToast('Please select an image file');
+            if (file.size > 800 * 1024) {
+                showToast('⚠️ Image too large! Please use images under 800KB');
+                event.target.value = '';
                 return;
             }
 
-            if (file.size > 5 * 1024 * 1024) {
-                showToast('Image size should be less than 5MB');
-                return;
+            if (file.size > 500 * 1024) {
+                showToast('⚠️ Large image detected. Compressing...');
             }
-
-            selectedImage = file;
 
             const reader = new FileReader();
+            
             reader.onload = function(e) {
-                document.getElementById('previewImg').src = e.target.result;
-                document.getElementById('imagePreview').classList.add('show');
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+                    
+                    const MAX_WIDTH = 1200;
+                    const MAX_HEIGHT = 1200;
+                    
+                    if (width > height) {
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
+                    } else {
+                        if (height > MAX_HEIGHT) {
+                            width *= MAX_HEIGHT / height;
+                            height = MAX_HEIGHT;
+                        }
+                    }
+                    
+                    canvas.width = width;
+                    canvas.height = height;
+                    
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    selectedImageBase64 = canvas.toDataURL('image/jpeg', 0.7);
+                    
+                    document.getElementById('previewImg').src = selectedImageBase64;
+                    document.getElementById('imagePreview').classList.add('show');
+                };
+                img.src = e.target.result;
             };
+            
             reader.readAsDataURL(file);
-        };
+        }
 
-        window.clearImage = function() {
-            selectedImage = null;
+        function removeImage() {
+            selectedImageBase64 = null;
             document.getElementById('imageInput').value = '';
             document.getElementById('imagePreview').classList.remove('show');
-        };
+            document.getElementById('previewImg').src = '';
+        }
 
-        async function uploadToImgBB(imageFile) {
-            const formData = new FormData();
-            formData.append('image', imageFile);
+        // ✅ PUBLISH CONTENT
+        async function publishContent(event) {
+            event.preventDefault();
+
+            if (!currentUser) {
+                showToast('Please sign in to publish');
+                return;
+            }
+
+            if (!selectedImageBase64) {
+                showToast('Please select an image');
+                return;
+            }
+
+            const contentText = document.getElementById('contentText').value.trim();
+            if (!contentText) {
+                showToast('Please add a description');
+                return;
+            }
+
+            const submitBtn = document.getElementById('submitBtn');
+            const submitBtnText = document.getElementById('submitBtnText');
+            
+            submitBtn.disabled = true;
+            submitBtnText.innerHTML = '<div class="loading-spinner"></div> Publishing...';
 
             try {
-                const response = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
-                    method: 'POST',
-                    body: formData
+                await db.collection('studioPosts').add({
+                    imageData: selectedImageBase64,
+                    text: contentText,
+                    author: currentUser.displayName || currentUser.email.split('@')[0],
+                    authorEmail: currentUser.email,
+                    authorUID: currentUser.uid,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    highlighted: false,
+                    flagged: false
                 });
 
-                const data = await response.json();
+                showToast('✨ Published successfully!');
                 
-                if (data.success) {
-                    return data.data.url;
-                } else {
-                    throw new Error('Upload failed');
-                }
+                document.getElementById('publishForm').reset();
+                removeImage();
+                
+                setTimeout(() => showStudioHub(), 1500);
+
             } catch (error) {
-                console.error('ImgBB upload error:', error);
-                throw error;
+                console.error('Publish error:', error);
+                if (error.code === 'resource-exhausted') {
+                    showToast('Image too large for database. Please use a smaller image.');
+                } else {
+                    showToast('Error publishing content. Please try again.');
+                }
+            } finally {
+                submitBtn.disabled = false;
+                submitBtnText.textContent = 'Publish to Studio Hub';
             }
         }
 
-        // ✅ MESSAGE INPUT
-        const messageInput = document.getElementById('messageInput');
-        messageInput.addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
-        });
+        // ✅ LOAD STUDIO POSTS
+        function loadStudioPosts() {
+            const container = document.getElementById('galleryContainer');
+            
+            if (postsUnsubscribe) postsUnsubscribe();
 
-        messageInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
-            }
-        });
+            container.innerHTML = `
+                <div class="page-loading">
+                    <div class="loading-spinner"></div>
+                    <div>Loading artwork...</div>
+                </div>
+            `;
 
-        // ✅ SEND MESSAGE
-        window.sendMessage = async function() {
-            const input = document.getElementById('messageInput');
-            const text = input.value.trim();
-            const sendBtn = document.getElementById('sendBtn');
-
-            if (!text && !selectedImage) {
-                showToast('Please add a description or select an image');
-                return;
-            }
-
-            sendBtn.disabled = true;
-            let imageUrl = null;
-
-            try {
-                if (selectedImage) {
-                    document.getElementById('uploadProgress').classList.add('show');
-                    imageUrl = await uploadToImgBB(selectedImage);
-                    document.getElementById('uploadProgress').classList.remove('show');
-                }
-
-                const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
-                const isVerified = userDoc.exists() ? userDoc.data().verified : false;
-
-                await addDoc(collection(db, 'artworks'), {
-                    text: text || '',
-                    imageUrl: imageUrl,
-                    author: userUsername,
-                    authorUID: currentUser.uid,
-                    timestamp: serverTimestamp(),
-                    verified: isVerified,
-                    likes: 0
-                });
-
-                input.value = '';
-                input.style.height = 'auto';
-                clearImage();
-                sendBtn.disabled = false;
-
-                setTimeout(() => {
-                    const container = document.getElementById('messagesContainer');
-                    container.scrollTop = container.scrollHeight;
-                }, 100);
-
-                showToast('Artwork shared successfully');
-            } catch (error) {
-                console.error('Error sending message:', error);
-                showToast('Error sharing artwork. Please try again.');
-                sendBtn.disabled = false;
-                document.getElementById('uploadProgress').classList.remove('show');
-            }
-        };
-
-        // ✅ LOAD MESSAGES
-        function loadMessages() {
-            const container = document.getElementById('messagesContainer');
-            const q = query(collection(db, 'artworks'), orderBy('timestamp', 'desc'));
-
-            onSnapshot(q, async (snapshot) => {
-                if (snapshot.empty) {
-                    container.innerHTML = `
-                        <div class="empty-state">
-                            <div class="empty-icon">
-                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                                    <circle cx="8.5" cy="8.5" r="1.5"/>
-                                    <polyline points="21 15 16 10 5 21"/>
-                                </svg>
+            postsUnsubscribe = db.collection('studioPosts')
+                .orderBy('timestamp', 'desc')
+                .limit(30)
+                .onSnapshot((snapshot) => {
+                    if (snapshot.empty) {
+                        container.innerHTML = `
+                            <div class="empty-gallery">
+                                <div class="empty-icon">🎨</div>
+                                <div class="empty-text">No artwork yet</div>
+                                <div class="empty-subtext">Be the first to share your creative work!</div>
                             </div>
-                            <div style="font-size: 0.95rem; font-weight: 500;">No artwork yet. Be the first to share!</div>
-                        </div>
-                    `;
-                    allArtworks = [];
-                    return;
-                }
-
-                allArtworks = [];
-                let html = '';
-                
-                for (const docSnap of snapshot.docs) {
-                    const art = docSnap.data();
-                    allArtworks.push(art);
-                    
-                    const userDoc = await getDoc(doc(db, 'users', art.authorUID));
-                    const isBlocked = userDoc.exists() ? userDoc.data().blocked : false;
-                    
-                    if (isBlocked && art.authorUID !== currentUser.uid) {
-                        continue;
+                        `;
+                        return;
                     }
-                    
-                    const timeAgo = art.timestamp ? formatTime(art.timestamp.toDate()) : 'now';
-                    const initial = art.author.charAt(0).toUpperCase();
 
-                    html += `
-                        <div class="message" data-author="${art.author.toLowerCase()}">
-                            <div class="message-avatar">
-                                ${initial}
-                                ${art.verified ? `
-                                    <div class="verified-badge">
-                                        <svg viewBox="0 0 24 24" fill="#000000">
-                                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                                        </svg>
+                    let html = '<div class="gallery-grid">';
+                    
+                    snapshot.forEach((doc) => {
+                        const post = doc.data();
+                        const postId = doc.id;
+                        const timeAgo = post.timestamp ? formatTime(post.timestamp.toDate()) : 'Just now';
+                        const initial = post.author ? post.author.charAt(0).toUpperCase() : 'A';
+                        const isHighlighted = post.highlighted === true;
+
+                        html += `
+                            <div class="gallery-card ${isHighlighted ? 'highlighted' : ''}" data-post-id="${postId}">
+                                ${isHighlighted ? '<div class="highlight-badge-card">⭐ Highlighted</div>' : ''}
+                                <img src="${post.imageData}" alt="Artwork" class="gallery-image" onclick='openImageModal(\`${escapeForAttribute(post.imageData)}\`, \`${escapeForAttribute(post.text)}\`, \`${escapeForAttribute(post.author)}\`, \`${timeAgo}\`, \`${initial}\`)' loading="lazy">
+                                <div class="gallery-content">
+                                    <div class="gallery-text">${escapeHtml(post.text)}</div>
+                                    <div class="gallery-author">
+                                        <div class="author-avatar">${initial}</div>
+                                        <div class="author-info">
+                                            <div class="author-name">${escapeHtml(post.author)}</div>
+                                            <div class="author-time">${timeAgo}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                ${isAdmin ? `
+                                    <div class="admin-controls show">
+                                        <button class="admin-btn admin-btn-delete" onclick="deletePost('${postId}')">🗑️ Delete</button>
+                                        <button class="admin-btn admin-btn-highlight" onclick="toggleHighlight('${postId}', ${!isHighlighted})">${isHighlighted ? '⭐ Unhighlight' : '⭐ Highlight'}</button>
+                                        <button class="admin-btn admin-btn-ban" onclick="banUser('${escapeForAttribute(post.authorUID)}', '${escapeForAttribute(post.authorEmail)}', '${escapeForAttribute(post.author)}')">🚫 Ban User</button>
+                                        <button class="admin-btn admin-btn-flag" onclick="flagPost('${postId}')">🚩 Flag</button>
                                     </div>
                                 ` : ''}
                             </div>
-                            <div class="message-content">
-                                <div class="message-header">
-                                    <span class="message-author">${escapeHtml(art.author)}</span>
-                                    <span class="message-time">${timeAgo}</span>
-                                </div>
-                                <div class="message-bubble">
-                                    ${art.text ? `<div class="message-text">${escapeHtml(art.text)}</div>` : ''}
-                                    ${art.imageUrl ? `
-                                        <div class="message-image" onclick="openLightbox('${art.imageUrl}')">
-                                            <img src="${art.imageUrl}" alt="Artwork" loading="lazy">
-                                        </div>
-                                    ` : ''}
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }
+                        `;
+                    });
 
-                container.innerHTML = html;
-            });
+                    html += '</div>';
+                    container.innerHTML = html;
+                });
         }
 
-        // ✅ SEARCH
-        const searchInput = document.getElementById('searchInput');
-        searchInput.addEventListener('input', function(e) {
-            const searchTerm = e.target.value.toLowerCase();
-            const messages = document.querySelectorAll('.message');
+        // ✅ ADMIN: DELETE POST
+        async function deletePost(postId) {
+            if (!isAdmin) {
+                showToast('⛔ Admin access required');
+                return;
+            }
 
-            messages.forEach(msg => {
-                const author = msg.getAttribute('data-author');
-                if (author.includes(searchTerm)) {
-                    msg.style.display = 'flex';
-                } else {
-                    msg.style.display = 'none';
+            if (!confirm('Are you sure you want to delete this post?')) return;
+
+            try {
+                await db.collection('studioPosts').doc(postId).delete();
+                showToast('✅ Post deleted successfully');
+            } catch (error) {
+                console.error('Delete error:', error);
+                showToast('❌ Error deleting post');
+            }
+        }
+
+        // ✅ ADMIN: TOGGLE HIGHLIGHT
+        async function toggleHighlight(postId, highlight) {
+            if (!isAdmin) {
+                showToast('⛔ Admin access required');
+                return;
+            }
+
+            try {
+                await db.collection('studioPosts').doc(postId).update({
+                    highlighted: highlight
+                });
+                showToast(highlight ? '⭐ Post highlighted' : '✅ Highlight removed');
+            } catch (error) {
+                console.error('Highlight error:', error);
+                showToast('❌ Error updating highlight');
+            }
+        }
+
+        // ✅ ADMIN: BAN USER
+        async function banUser(userUID, userEmail, userName) {
+            if (!isAdmin) {
+                showToast('⛔ Admin access required');
+                return;
+            }
+
+            const reason = prompt(`Ban user "${userName}"?\n\nEnter reason (or cancel):`);
+            if (!reason) return;
+
+            try {
+                // Check if already banned
+                const banDoc = await db.collection('bannedUsers').doc(userUID).get();
+                if (banDoc.exists) {
+                    showToast('⚠️ User is already banned');
+                    return;
                 }
-            });
-        });
 
-        // ✅ LIGHTBOX
-        window.openLightbox = function(imageUrl) {
-            document.getElementById('lightboxImg').src = imageUrl;
-            document.getElementById('lightbox').classList.add('show');
-        };
+                // Add to banned collection
+                await db.collection('bannedUsers').doc(userUID).set({
+                    email: userEmail,
+                    name: userName,
+                    reason: reason,
+                    bannedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    bannedBy: currentUser.email
+                });
 
-        window.closeLightbox = function() {
-            document.getElementById('lightbox').classList.remove('show');
-        };
+                showToast('🚫 User banned successfully');
+            } catch (error) {
+                console.error('Ban error:', error);
+                showToast('❌ Error banning user');
+            }
+        }
 
-        // ✅ UTILITIES
+        // ✅ ADMIN: FLAG POST
+        async function flagPost(postId) {
+            if (!isAdmin) {
+                showToast('⛔ Admin access required');
+                return;
+            }
+
+            const reason = prompt('Flag this post?\n\nEnter reason (or cancel):');
+            if (!reason) return;
+
+            try {
+                await db.collection('studioPosts').doc(postId).update({
+                    flagged: true,
+                    flagReason: reason,
+                    flaggedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    flaggedBy: currentUser.email
+                });
+
+                showToast('🚩 Post flagged successfully');
+            } catch (error) {
+                console.error('Flag error:', error);
+                showToast('❌ Error flagging post');
+            }
+        }
+
+        // ✅ IMAGE MODAL
+        function openImageModal(imageData, text, author, time, initial) {
+            document.getElementById('modalImage').src = imageData;
+            document.getElementById('modalText').textContent = text;
+            document.getElementById('modalAuthor').textContent = author;
+            document.getElementById('modalTime').textContent = time;
+            document.getElementById('modalAvatar').textContent = initial;
+            document.getElementById('imageModal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(event) {
+            if (!event || event.target.id === 'imageModal' || event.target.classList.contains('modal-close')) {
+                document.getElementById('imageModal').classList.remove('show');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // ✅ UTILITY FUNCTIONS
         function escapeHtml(text) {
+            if (!text) return '';
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
         }
 
+        function escapeForAttribute(text) {
+            if (!text) return '';
+            return text.replace(/`/g, '\\`').replace(/\$/g, '\\$').replace(/'/g, "\\'");
+        }
+
         function formatTime(date) {
-            const now = new Date();
-            const diff = now - date;
-            const seconds = Math.floor(diff / 1000);
-            const minutes = Math.floor(seconds / 60);
+            const diff = Date.now() - date;
+            const minutes = Math.floor(diff / 60000);
             const hours = Math.floor(minutes / 60);
             const days = Math.floor(hours / 24);
 
-            if (seconds < 60) return 'just now';
+            if (minutes < 1) return 'Just now';
             if (minutes < 60) return `${minutes}m ago`;
             if (hours < 24) return `${hours}h ago`;
             if (days < 7) return `${days}d ago`;
-            
             return date.toLocaleDateString();
         }
 
@@ -1564,28 +1436,10 @@
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        window.showToast = showToast;
-
-        window.openSupport = function() {
-            window.location.href = 'mailto:teamsharvika.inbox@gmail.com';
-        };
-
-        window.logout = async function() {
-            if (confirm('Are you sure you want to logout?')) {
-                try {
-                    await signOut(auth);
-                    window.location.href = 'signin.html';
-                } catch (error) {
-                    console.error('Logout error:', error);
-                }
-            }
-        };
-
-        // ✅ HANDLE WINDOW RESIZE
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 768) {
-                sidebar.classList.remove('show');
-                mobileOverlay.classList.remove('show');
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
             }
         });
     </script>
