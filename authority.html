@@ -819,13 +819,13 @@
     </div>
 
     <script>
-        // Authentication Database
+        // Authentication Database with Admin Roles
         const authDatabase = {
-            'Bishesh_04': { password: 'Lovejust', name: 'Bishesh' },
-            'Ayush_05': { password: 'Lovejust', name: 'Ayush' },
-            'Soumya_09': { password: 'Lovejust', name: 'Soumya' },
-            'Shreyas_00': { password: 'Lovejust', name: 'Shreyas' },
-            'Refer_01': { password: 'Lovejust', name: 'Refer' }
+            'Bishesh_04': { password: 'Lovejust', name: 'Bishesh', role: 'admin' },
+            'Ayush_05': { password: 'Lovejust', name: 'Ayush', role: 'admin' },
+            'Soumya_09': { password: 'Lovejust', name: 'Soumya', role: 'admin' },
+            'Shreyas_00': { password: 'Lovejust', name: 'Shreyas', role: 'admin' },
+            'Refer_01': { password: 'Lovejust', name: 'Refer', role: 'admin' }
         };
 
         // Create Floating Particles
@@ -981,9 +981,12 @@
             // Simulate Authentication
             await new Promise(resolve => setTimeout(resolve, 1800));
 
-            // Store Session
+            // Store Session with Admin Access
             sessionStorage.setItem('authUser', username);
             sessionStorage.setItem('authName', authDatabase[username].name);
+            sessionStorage.setItem('authRole', authDatabase[username].role);
+            sessionStorage.setItem('isAdmin', 'true');
+            sessionStorage.setItem('isAuthenticated', 'true');
 
             showToast('success', 'Access Granted', 'Redirecting to technical portal...');
 
@@ -992,7 +995,7 @@
                 navigator.vibrate([100, 50, 100]);
             }
 
-            // Redirect to technical.html for ALL users
+            // Redirect to technical.html
             setTimeout(() => {
                 window.location.href = 'technical.html';
             }, 1200);
