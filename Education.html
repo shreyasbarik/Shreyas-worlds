@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1482,21 +1483,21 @@
             }
         }
 
-        // Call Gemini API - FIXED VERSION
+        // Call Gemini API - FIXED VERSION WITH GEMINI 2.x MODELS
         async function callGeminiAPI(message) {
-            // Map custom model names to actual Gemini models
+            // Map custom model names to actual Gemini 2.x models
             const modelMap = {
-                'custom-ultra': 'gemini-1.5-pro-latest',
-                'custom-deep': 'gemini-1.5-flash-latest',
-                'gemini-1.5-flash': 'gemini-1.5-flash-latest',
-                'gemini-1.5-pro': 'gemini-1.5-pro-latest',
-                'gemini-pro': 'gemini-1.0-pro-latest'
+                'custom-ultra': 'gemini-2.5-pro',
+                'custom-deep': 'gemini-2.5-flash',
+                'gemini-1.5-flash': 'gemini-2.5-flash',
+                'gemini-1.5-pro': 'gemini-2.5-pro',
+                'gemini-pro': 'gemini-2.0-flash'
             };
             
-            const actualModel = modelMap[config.model] || 'gemini-1.5-flash-latest';
+            const actualModel = modelMap[config.model] || 'gemini-2.5-flash';
             
-            // FIXED: Use v1 instead of v1beta
-            const url = `https://generativelanguage.googleapis.com/v1/models/${actualModel}:generateContent?key=${config.apiKey}`;
+            // Use v1beta for Gemini 2.x models
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/${actualModel}:generateContent?key=${config.apiKey}`;
             
             const requestBody = {
                 contents: [{
