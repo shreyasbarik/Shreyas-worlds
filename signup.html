@@ -12,777 +12,144 @@
     <script src="firebase-config.js"></script>
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #0a0a0a;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            padding: 20px 0;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background: #0a0a0a; min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; padding: 20px 0; }
 
         /* Animated Background */
-        .bg-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
-        }
-
-        .particles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        .particle {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            animation: float-particle 20s infinite ease-in-out;
-        }
-
+        .bg-animation { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%); }
+        .particles { position: absolute; width: 100%; height: 100%; overflow: hidden; }
+        .particle { position: absolute; width: 2px; height: 2px; background: rgba(255,255,255,.1); border-radius: 50%; animation: float-particle 20s infinite ease-in-out; }
         @keyframes float-particle {
-            0%, 100% { 
-                transform: translate(0, 0) scale(1);
-                opacity: 0;
-            }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { 
-                transform: translate(var(--tx), var(--ty)) scale(0);
-                opacity: 0;
-            }
+            0%,100%{transform:translate(0,0) scale(1);opacity:0;} 10%{opacity:1;} 90%{opacity:1;}
+            100%{transform:translate(var(--tx), var(--ty)) scale(0);opacity:0;}
         }
-
-        .grid-overlay {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: grid-move 20s linear infinite;
-        }
-
-        @keyframes grid-move {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
-        }
-
-        .spotlight {
-            position: absolute;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            transition: all 0.3s ease;
-        }
+        .grid-overlay { position: absolute; width: 100%; height: 100%; background-image: linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px); background-size: 50px 50px; animation: grid-move 20s linear infinite; }
+        @keyframes grid-move { 0%{transform:translate(0,0);}100%{transform:translate(50px,50px);} }
+        .spotlight { position: absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(255,255,255,.03) 0%, transparent 70%); border-radius: 50%; pointer-events: none; transition: all .3s ease; }
 
         /* Back Button */
-        .back-home {
-            position: fixed;
-            top: 16px;
-            left: 16px;
-            z-index: 1001;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 18px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            color: #fff;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .back-home:active {
-            background: rgba(255, 255, 255, 0.1);
-            transform: scale(0.95);
-        }
+        .back-home { position: fixed; top: 16px; left: 16px; z-index: 1001; display: flex; align-items: center; gap: 8px; padding: 10px 18px; background: rgba(255,255,255,.05); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,.1); border-radius: 10px; color: #fff; text-decoration: none; font-size: 13px; font-weight: 500; transition: all .3s ease; }
+        .back-home:active { background: rgba(255,255,255,.1); transform: scale(.95); }
 
         /* Signup Container */
-        .signup-wrapper {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 480px;
-            padding: 16px;
-            margin: auto;
-            animation: fadeInUp 0.8s ease-out;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .signup-container {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(30px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 
-                0 20px 60px rgba(0, 0, 0, 0.5),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            position: relative;
-        }
-
-        .signup-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
-            animation: shine 3s infinite;
-        }
-
-        @keyframes shine {
-            0% { left: -100%; }
-            50%, 100% { left: 100%; }
-        }
+        .signup-wrapper { position: relative; z-index: 10; width: 100%; max-width: 480px; padding: 16px; margin: auto; animation: fadeInUp .8s ease-out; }
+        @keyframes fadeInUp { from { opacity:0; transform: translateY(30px);} to { opacity:1; transform: translateY(0);} }
+        .signup-container { background: rgba(255,255,255,.03); backdrop-filter: blur(30px); border: 1px solid rgba(255,255,255,.1); border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.1); position: relative; }
+        .signup-container::before { content:''; position: absolute; top: 0; left: -100%; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, rgba(255,255,255,.8), transparent); animation: shine 3s infinite; }
+        @keyframes shine { 0%{left:-100%;} 50%,100%{left:100%;} }
 
         /* Header */
-        .signup-header {
-            padding: 40px 24px 28px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .brand-logo {
-            margin-bottom: 20px;
-            animation: logoFloat 3s ease-in-out infinite;
-        }
-
-        @keyframes logoFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-
-        .brand-name {
-            font-family: 'Playfair Display', serif;
-            font-size: 42px;
-            font-weight: 600;
-            color: #fff;
-            letter-spacing: 2px;
-            margin-bottom: 8px;
-            background: linear-gradient(135deg, #fff 0%, #999 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            position: relative;
-            display: inline-block;
-        }
-
-        .brand-name::after {
-            content: '';
-            position: absolute;
-            bottom: -6px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 50px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #fff, transparent);
-        }
-
-        .brand-tagline {
-            font-size: 11px;
-            color: rgba(255, 255, 255, 0.5);
-            letter-spacing: 2.5px;
-            text-transform: uppercase;
-            margin-top: 14px;
-            font-weight: 300;
-        }
+        .signup-header { padding: 40px 24px 28px; text-align: center; border-bottom: 1px solid rgba(255,255,255,.05); }
+        .brand-logo { margin-bottom: 20px; animation: logoFloat 3s ease-in-out infinite; }
+        @keyframes logoFloat { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);} }
+        .brand-name { font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 600; color: #fff; letter-spacing: 2px; margin-bottom: 8px; background: linear-gradient(135deg, #fff 0%, #999 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; position: relative; display: inline-block; }
+        .brand-name::after { content:''; position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%); width: 50px; height: 2px; background: linear-gradient(90deg, transparent, #fff, transparent); }
+        .brand-tagline { font-size: 11px; color: rgba(255,255,255,.5); letter-spacing: 2.5px; text-transform: uppercase; margin-top: 14px; font-weight: 300; }
 
         /* Form */
-        .signup-form {
-            padding: 32px 24px;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-            margin-bottom: 20px;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .input-label {
-            display: block;
-            font-size: 11px;
-            font-weight: 500;
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 8px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .input-wrapper {
-            position: relative;
-        }
-
-        .input-field {
-            width: 100%;
-            padding: 14px 16px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            color: #fff;
-            font-size: 15px;
-            font-family: 'Inter', sans-serif;
-            transition: all 0.3s ease;
-            outline: none;
-            -webkit-appearance: none;
-        }
-
-        .input-field:focus {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.05);
-        }
-
-        .input-field::placeholder {
-            color: rgba(255, 255, 255, 0.25);
-        }
-
-        .toggle-password {
-            position: absolute;
-            right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: rgba(255, 255, 255, 0.3);
-            font-size: 12px;
-            transition: all 0.3s ease;
-            user-select: none;
-            padding: 8px;
-        }
-
-        .toggle-password:active {
-            color: rgba(255, 255, 255, 0.7);
-        }
+        .signup-form { padding: 32px 24px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+        .input-group { margin-bottom: 20px; position: relative; }
+        .input-label { display: block; font-size: 11px; font-weight: 500; color: rgba(255,255,255,.6); margin-bottom: 8px; letter-spacing: 1px; text-transform: uppercase; }
+        .input-wrapper { position: relative; }
+        .input-field { width: 100%; padding: 14px 16px; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.1); border-radius: 12px; color: #fff; font-size: 15px; font-family: 'Inter', sans-serif; transition: all .3s ease; outline: none; -webkit-appearance: none; }
+        .input-field:focus { background: rgba(255,255,255,.05); border-color: rgba(255,255,255,.3); box-shadow: 0 0 0 3px rgba(255,255,255,.05); }
+        .input-field::placeholder { color: rgba(255,255,255,.25); }
+        .toggle-password { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); cursor: pointer; color: rgba(255,255,255,.3); font-size: 12px; transition: all .3s ease; user-select: none; padding: 8px; }
+        .toggle-password:active { color: rgba(255,255,255,.7); }
 
         /* Password Strength */
-        .password-strength {
-            margin-top: 8px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 2px;
-            overflow: hidden;
-            display: none;
-        }
-
-        .password-strength.show {
-            display: block;
-        }
-
-        .password-strength-bar {
-            height: 100%;
-            width: 0%;
-            transition: all 0.3s ease;
-            border-radius: 2px;
-        }
-
-        .password-strength-bar.weak { 
-            width: 33%; 
-            background: linear-gradient(90deg, #ef4444, #dc2626);
-        }
-        .password-strength-bar.medium { 
-            width: 66%; 
-            background: linear-gradient(90deg, #f59e0b, #d97706);
-        }
-        .password-strength-bar.strong { 
-            width: 100%; 
-            background: linear-gradient(90deg, #10b981, #059669);
-        }
-
-        .password-strength-text {
-            font-size: 10px;
-            margin-top: 4px;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            display: none;
-        }
-
-        .password-strength-text.show {
-            display: block;
-        }
-
+        .password-strength { margin-top: 8px; height: 4px; background: rgba(255,255,255,.1); border-radius: 2px; overflow: hidden; display: none; }
+        .password-strength.show { display: block; }
+        .password-strength-bar { height: 100%; width: 0%; transition: all .3s ease; border-radius: 2px; }
+        .password-strength-bar.weak { width: 33%; background: linear-gradient(90deg, #ef4444, #dc2626); }
+        .password-strength-bar.medium { width: 66%; background: linear-gradient(90deg, #f59e0b, #d97706); }
+        .password-strength-bar.strong { width: 100%; background: linear-gradient(90deg, #10b981, #059669); }
+        .password-strength-text { font-size: 10px; margin-top: 4px; font-weight: 500; letter-spacing: .5px; display: none; }
+        .password-strength-text.show { display: block; }
         .password-strength-text.weak { color: #ef4444; }
         .password-strength-text.medium { color: #f59e0b; }
         .password-strength-text.strong { color: #10b981; }
 
         /* Modern Slider Captcha */
-        .captcha-section {
-            margin-bottom: 24px;
-        }
-
-        .captcha-container {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 18px;
-            position: relative.
-        }
-
-        .captcha-instruction {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 14px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .captcha-track {
-            width: 100%;
-            height: 54px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 27px;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            touch-action: none;
-            user-select: none;
-        }
-
-        .captcha-progress {
-            height: 100%;
-            background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.15));
-            width: 0%;
-            transition: width 0.05s linear;
-            border-radius: 27px;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-
-        .captcha-slider {
-            position: absolute;
-            top: 50%;
-            left: 4px;
-            transform: translateY(-50%);
-            width: 46px;
-            height: 46px;
-            background: linear-gradient(135deg, #fff, #e0e0e0);
-            border-radius: 50%;
-            cursor: grab;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            transition: transform 0.2s ease;
-            z-index: 2;
-            touch-action: none;
-        }
-
-        .captcha-slider:active {
-            cursor: grabbing;
-            transform: translateY(-50%) scale(1.05);
-        }
-
-        .captcha-slider::before {
-            content: '→';
-            font-size: 20px;
-            color: #333;
-            font-weight: bold;
-        }
-
-        .captcha-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.4);
-            pointer-events: none;
-            font-weight: 500;
-            transition: opacity 0.3s;
-            z-index: 1;
-        }
-
-        .captcha-verified {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: #4ade80;
-            font-size: 13px;
-            font-weight: 600;
-            opacity: 0;
-            pointer-events: none;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            z-index: 1;
-        }
-
-        .captcha-track.verified .captcha-progress {
-            background: linear-gradient(90deg, rgba(74, 222, 128, 0.2), rgba(74, 222, 128, 0.3));
-            width: 100% !important;
-        }
-
-        .captcha-track.verified .captcha-slider {
-            background: linear-gradient(135deg, #4ade80, #22c55e);
-            left: calc(100% - 50px) !important;
-        }
-
-        .captcha-track.verified .captcha-slider::before {
-            content: '✓';
-            color: #fff;
-        }
-
-        .captcha-track.verified .captcha-text {
-            opacity: 0;
-        }
-
-        .captcha-track.verified .captcha-verified {
-            opacity: 1;
-        }
+        .captcha-section { margin-bottom: 24px; }
+        .captcha-container { background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.1); border-radius: 12px; padding: 18px; position: relative; }
+        .captcha-instruction { font-size: 12px; color: rgba(255,255,255,.6); margin-bottom: 14px; display: flex; align-items: center; gap: 6px; }
+        .captcha-track { width: 100%; height: 54px; background: rgba(255,255,255,.05); border-radius: 27px; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,.1); touch-action: none; user-select: none; }
+        .captcha-progress { height: 100%; background: linear-gradient(90deg, rgba(255,255,255,.1), rgba(255,255,255,.15)); width: 0%; transition: width .05s linear; border-radius: 27px; position: absolute; top: 0; left: 0; }
+        .captcha-slider { position: absolute; top: 50%; left: 4px; transform: translateY(-50%); width: 46px; height: 46px; background: linear-gradient(135deg, #fff, #e0e0e0); border-radius: 50%; cursor: grab; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,.3); transition: transform .2s ease; z-index: 2; touch-action: none; }
+        .captcha-slider:active { cursor: grabbing; transform: translateY(-50%) scale(1.05); }
+        .captcha-slider::before { content: '→'; font-size: 20px; color: #333; font-weight: bold; }
+        .captcha-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 13px; color: rgba(255,255,255,.4); pointer-events: none; font-weight: 500; transition: opacity .3s; z-index: 1; }
+        .captcha-verified { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #4ade80; font-size: 13px; font-weight: 600; opacity: 0; pointer-events: none; display: flex; align-items: center; gap: 6px; z-index: 1; }
+        .captcha-track.verified .captcha-progress { background: linear-gradient(90deg, rgba(74,222,128,.2), rgba(74,222,128,.3)); width: 100% !important; }
+        .captcha-track.verified .captcha-slider { background: linear-gradient(135deg, #4ade80, #22c55e); left: calc(100% - 50px) !important; }
+        .captcha-track.verified .captcha-slider::before { content: '✓'; color: #fff; }
+        .captcha-track.verified .captcha-text { opacity: 0; }
+        .captcha-track.verified .captcha-verified { opacity: 1; }
 
         /* Divider */
-        .divider {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin: 24px 0;
-        }
-
-        .divider::before,
-        .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .divider span {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.4);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+        .divider { display: flex; align-items: center; gap: 16px; margin: 24px 0; }
+        .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,.1); }
+        .divider span { font-size: 12px; color: rgba(255,255,255,.4); text-transform: uppercase; letter-spacing: 1px; }
 
         /* Google Button */
-        .google-btn {
-            width: 100%;
-            padding: 14px;
-            background: #fff;
-            border: none;
-            border-radius: 12px;
-            color: #202124;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 16px;
-            touch-action: manipulation;
-        }
-
-        .google-btn:active {
-            transform: scale(0.98);
-        }
-
-        .google-icon {
-            width: 20px;
-            height: 20px;
-        }
+        .google-btn { width: 100%; padding: 14px; background: #fff; border: none; border-radius: 12px; color: #202124; font-size: 14px; font-weight: 600; cursor: pointer; transition: all .3s ease; display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 16px; touch-action: manipulation; }
+        .google-btn:active { transform: scale(.98); }
+        .google-icon { width: 20px; height: 20px; }
 
         /* Submit Button */
-        .submit-btn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #fff, #e0e0e0);
-            border: none;
-            border-radius: 12px;
-            color: #000;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            touch-action: manipulation;
-        }
+        .submit-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #fff, #e0e0e0); border: none; border-radius: 12px; color: #000; font-size: 14px; font-weight: 600; cursor: pointer; transition: all .3s ease; position: relative; overflow: hidden; letter-spacing: .5px; text-transform: uppercase; touch-action: manipulation; }
+        .submit-btn:active { transform: scale(.98); }
+        .submit-btn:disabled { opacity: .4; cursor: not-allowed; transform: none; }
 
-        .submit-btn:active {
-            transform: scale(0.98);
-        }
+        .login-link { text-align: center; margin-top: 24px; font-size: 13px; color: rgba(255,255,255,.5); }
+        .login-link a { color: #fff; text-decoration: none; font-weight: 600; transition: all .3s ease; }
+        .login-link a:hover { text-decoration: underline; }
 
-        .submit-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            transform: none;
-        }
+        /* Toast */
+        .toast { position: fixed; top: 16px; left: 16px; right: 16px; background: rgba(255,255,255,.1); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,.2); border-radius: 14px; padding: 16px 18px; display: flex; align-items: center; gap: 12px; transform: translateY(-150px); transition: transform .4s cubic-bezier(.4,0,.2,1); z-index: 10000; box-shadow: 0 10px 40px rgba(0,0,0,.4); }
+        .toast.show { transform: translateY(0); }
+        .toast-icon { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+        .toast.error .toast-icon { background: rgba(239,68,68,.2); color: #ef4444; }
+        .toast.success .toast-icon { background: rgba(74,222,128,.2); color: #4ade80; }
+        .toast-content h4 { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 3px; }
+        .toast-content p { font-size: 12px; color: rgba(255,255,255,.6); line-height: 1.4; }
 
-        .login-link {
-            text-align: center;
-            margin-top: 24px;
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.5);
-        }
+        /* Loading */
+        .loading { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,.85); backdrop-filter: blur(10px); display: none; align-items: center; justify-content: center; z-index: 9999; }
+        .loading.active { display: flex; }
+        .spinner-container { text-align: center; }
+        .spinner { width: 45px; height: 45px; border: 3px solid rgba(255,255,255,.1); border-top-color: #fff; border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 14px; }
+        .loading-text { color: rgba(255,255,255,.6); font-size: 13px; letter-spacing: 1px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        .login-link a {
-            color: #fff;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .login-link a:hover {
-            text-decoration: underline;
-        }
-
-        /* Toast Notification */
-        .toast {
-            position: fixed;
-            top: 16px;
-            left: 16px;
-            right: 16px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 14px;
-            padding: 16px 18px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            transform: translateY(-150px);
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 10000;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-        }
-
-        .toast.show {
-            transform: translateY(0);
-        }
-
-        .toast-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            flex-shrink: 0;
-        }
-
-        .toast.error .toast-icon {
-            background: rgba(239, 68, 68, 0.2);
-            color: #ef4444;
-        }
-
-        .toast.success .toast-icon {
-            background: rgba(74, 222, 128, 0.2);
-            color: #4ade80;
-        }
-
-        .toast-content h4 {
-            font-size: 14px;
-            font-weight: 600;
-            color: #fff;
-            margin-bottom: 3px;
-        }
-
-        .toast-content p {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.6);
-            line-height: 1.4;
-        }
-
-        /* Loading Overlay */
-        .loading {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(10px);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-        }
-
-        .loading.active {
-            display: flex;
-        }
-
-        .spinner-container {
-            text-align: center;
-        }
-
-        .spinner {
-            width: 45px;
-            height: 45px;
-            border: 3px solid rgba(255, 255, 255, 0.1);
-            border-top-color: #fff;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin: 0 auto 14px;
-        }
-
-        .loading-text {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 13px;
-            letter-spacing: 1px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Desktop Styles */
+        /* Desktop */
         @media (min-width: 769px) {
-            body {
-                padding: 40px 0;
-            }
-
-            .back-home {
-                top: 24px;
-                left: 24px;
-                padding: 12px 24px;
-                font-size: 14px;
-            }
-
-            .back-home:hover {
-                background: rgba(255, 255, 255, 0.08);
-                transform: translateX(-5px);
-                border-color: rgba(255, 255, 255, 0.2);
-            }
-
-            .signup-wrapper {
-                padding: 20px;
-            }
-
-            .signup-header {
-                padding: 48px 40px 32px;
-            }
-
-            .brand-name {
-                font-size: 48px;
-            }
-
-            .brand-tagline {
-                font-size: 13px;
-                letter-spacing: 3px;
-            }
-
-            .signup-form {
-                padding: 40px;
-            }
-
-            .input-group {
-                margin-bottom: 24px;
-            }
-
-            .form-row {
-                gap: 18px;
-                margin-bottom: 24px;
-            }
-
-            .input-label {
-                font-size: 12px;
-            }
-
-            .input-field {
-                padding: 14px 18px;
-            }
-
-            .input-field:focus {
-                transform: translateY(-2px);
-            }
-
-            .submit-btn:hover,
-            .google-btn:hover {
-                transform: translateY(-3px);
-                box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2);
-            }
-
-            .toast {
-                top: 24px;
-                left: auto;
-                right: 24px;
-                max-width: 380px;
-            }
+            body { padding: 40px 0; }
+            .back-home { top: 24px; left: 24px; padding: 12px 24px; font-size: 14px; }
+            .back-home:hover { background: rgba(255,255,255,.08); transform: translateX(-5px); border-color: rgba(255,255,255,.2); }
+            .signup-wrapper { padding: 20px; }
+            .signup-header { padding: 48px 40px 32px; }
+            .brand-name { font-size: 48px; }
+            .brand-tagline { font-size: 13px; letter-spacing: 3px; }
+            .signup-form { padding: 40px; }
+            .input-group { margin-bottom: 24px; }
+            .form-row { gap: 18px; margin-bottom: 24px; }
+            .input-field:focus { transform: translateY(-2px); }
+            .submit-btn:hover, .google-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(255,255,255,.2); }
+            .toast { top: 24px; left: auto; right: 24px; max-width: 380px; }
         }
 
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .form-row {
-                grid-template-columns: 1fr;
-                gap: 0;
-                margin-bottom: 0;
-            }
-        }
-
-        /* Small Mobile */
+        /* Mobile */
+        @media (max-width: 768px) { .form-row { grid-template-columns: 1fr; gap: 0; margin-bottom: 0; } }
         @media (max-width: 380px) {
-            .brand-name {
-                font-size: 36px;
-            }
-
-            .brand-tagline {
-                font-size: 10px;
-            }
-
-            .signup-header {
-                padding: 32px 20px 24px;
-            }
-
-            .signup-form {
-                padding: 28px 20px;
-            }
-
-            .input-field {
-                font-size: 14px;
-            }
+            .brand-name { font-size: 36px; }
+            .brand-tagline { font-size: 10px; }
+            .signup-header { padding: 32px 20px 24px; }
+            .signup-form { padding: 28px 20px; }
+            .input-field { font-size: 14px; }
         }
     </style>
 </head>
@@ -800,7 +167,7 @@
         <span>Back to Home</span>
     </a>
 
-    <!-- Toast Notification -->
+    <!-- Toast -->
     <div class="toast" id="toast">
         <div class="toast-icon" id="toastIcon">✓</div>
         <div class="toast-content">
@@ -809,7 +176,7 @@
         </div>
     </div>
 
-    <!-- Loading Overlay -->
+    <!-- Loading -->
     <div class="loading" id="loading">
         <div class="spinner-container">
             <div class="spinner"></div>
@@ -932,7 +299,7 @@
     </div>
 
     <script>
-        // Wait for Firebase to be ready
+        // Initialize when Firebase is ready
         window.addEventListener('firebaseReady', initializePage);
 
         function initializePage() {
@@ -945,7 +312,6 @@
 
             console.log('✅ Firebase ready, initializing signup page...');
 
-            // Use globals provided by firebase-config.js
             const auth = window.auth;
             const db = window.db;
             const googleProvider = window.googleProvider;
@@ -957,7 +323,6 @@
             // Create Floating Particles
             const particlesContainer = document.getElementById('particles');
             const particleCount = window.innerWidth < 768 ? 30 : 50;
-            
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
@@ -981,33 +346,32 @@
             // Toggle Password
             function setupPasswordToggle(toggleId, passwordId) {
                 document.getElementById(toggleId).addEventListener('click', function() {
-                    const passwordInput = document.getElementById(passwordId);
-                    const type = passwordInput.type === 'password' ? 'text' : 'password';
-                    passwordInput.type = type;
+                    const input = document.getElementById(passwordId);
+                    const type = input.type === 'password' ? 'text' : 'password';
+                    input.type = type;
                     this.textContent = type === 'password' ? 'SHOW' : 'HIDE';
                 });
             }
-
             setupPasswordToggle('togglePassword', 'password');
             setupPasswordToggle('toggleConfirmPassword', 'confirmPassword');
 
             // Password Strength Meter
             document.getElementById('password').addEventListener('input', function(e) {
                 const password = e.target.value;
-                const strengthBar = document.getElementById('passwordStrengthBar');
-                const strengthContainer = document.getElementById('passwordStrength');
-                const strengthText = document.getElementById('passwordStrengthText');
+                const bar = document.getElementById('passwordStrengthBar');
+                const box = document.getElementById('passwordStrength');
+                const text = document.getElementById('passwordStrengthText');
 
-                if (password.length === 0) {
-                    strengthContainer.classList.remove('show');
-                    strengthText.classList.remove('show');
-                    strengthText.textContent = '';
-                    strengthText.className = 'password-strength-text';
+                if (!password.length) {
+                    box.classList.remove('show');
+                    text.classList.remove('show');
+                    text.textContent = '';
+                    text.className = 'password-strength-text';
                     return;
                 }
 
-                strengthContainer.classList.add('show');
-                strengthText.classList.add('show');
+                box.classList.add('show');
+                text.classList.add('show');
 
                 let strength = 0;
                 if (password.length >= 6) strength++;
@@ -1016,75 +380,46 @@
                 if (/\d/.test(password)) strength++;
                 if (/[^a-zA-Z\d]/.test(password)) strength++;
 
-                strengthBar.className = 'password-strength-bar';
-                strengthText.className = 'password-strength-text show';
-                
+                bar.className = 'password-strength-bar';
+                text.className = 'password-strength-text show';
+
                 if (strength <= 2) {
-                    strengthBar.classList.add('weak');
-                    strengthText.classList.add('weak');
-                    strengthText.textContent = 'Weak Password';
+                    bar.classList.add('weak');
+                    text.classList.add('weak');
+                    text.textContent = 'Weak Password';
                 } else if (strength <= 4) {
-                    strengthBar.classList.add('medium');
-                    strengthText.classList.add('medium');
-                    strengthText.textContent = 'Medium Strength';
+                    bar.classList.add('medium');
+                    text.classList.add('medium');
+                    text.textContent = 'Medium Strength';
                 } else {
-                    strengthBar.classList.add('strong');
-                    strengthText.classList.add('strong');
-                    strengthText.textContent = 'Strong Password';
+                    bar.classList.add('strong');
+                    text.classList.add('strong');
+                    text.textContent = 'Strong Password';
                 }
             });
 
-            // Modern Slider Captcha
+            // Slider Captcha (visual)
             let captchaVerified = false;
             const slider = document.getElementById('captchaSlider');
             const track = document.getElementById('captchaTrack');
             const progress = document.getElementById('captchaProgress');
             let isDragging = false;
 
-            function getClientX(e) {
-                return e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-            }
-
-            function startDrag(e) {
-                if (captchaVerified) return;
-                isDragging = true;
-                e.preventDefault();
-            }
-
+            function getClientX(e) { return e.type.includes('touch') ? e.touches[0].clientX : e.clientX; }
+            function startDrag(e) { if (captchaVerified) return; isDragging = true; e.preventDefault(); }
             function drag(e) {
                 if (!isDragging || captchaVerified) return;
                 e.preventDefault();
-                
-                const trackRect = track.getBoundingClientRect();
-                const clientX = getClientX(e);
-                let currentX = clientX - trackRect.left - 23;
-                
-                const maxX = trackRect.width - 54;
-                currentX = Math.max(0, Math.min(currentX, maxX));
-                
-                const percentage = (currentX / maxX) * 100;
-                
-                slider.style.left = currentX + 4 + 'px';
-                progress.style.width = percentage + '%';
-                
-                if (percentage >= 95) {
-                    captchaVerified = true;
-                    track.classList.add('verified');
-                    isDragging = false;
-                    
-                    if (navigator.vibrate) {
-                        navigator.vibrate(50);
-                    }
-                }
+                const rect = track.getBoundingClientRect();
+                let x = getClientX(e) - rect.left - 23;
+                const maxX = rect.width - 54;
+                x = Math.max(0, Math.min(x, maxX));
+                const pct = (x / maxX) * 100;
+                slider.style.left = (x + 4) + 'px';
+                progress.style.width = pct + '%';
+                if (pct >= 95) { captchaVerified = true; track.classList.add('verified'); isDragging = false; if (navigator.vibrate) navigator.vibrate(50); }
             }
-
-            function stopDrag() {
-                if (!captchaVerified && isDragging) {
-                    slider.style.left = '4px';
-                    progress.style.width = '0%';
-                }
-                isDragging = false;
-            }
+            function stopDrag() { if (!captchaVerified && isDragging) { slider.style.left = '4px'; progress.style.width = '0%'; } isDragging = false; }
 
             slider.addEventListener('mousedown', startDrag);
             document.addEventListener('mousemove', drag);
@@ -1093,31 +428,25 @@
             document.addEventListener('touchmove', drag, { passive: false });
             slider.addEventListener('touchend', stopDrag);
 
-            // Toast Notification
+            // Toast + Loading
             function showToast(type, title, message) {
                 const toast = document.getElementById('toast');
                 const icon = document.getElementById('toastIcon');
-                
                 toast.className = `toast ${type}`;
                 icon.textContent = type === 'error' ? '✕' : '✓';
                 document.getElementById('toastTitle').textContent = title;
                 document.getElementById('toastMessage').textContent = message;
-                
                 toast.classList.add('show');
                 setTimeout(() => toast.classList.remove('show'), 4000);
             }
-
             function setLoading(active, text) {
                 const loadingEl = document.getElementById('loading');
                 const loadingText = document.getElementById('loadingText');
-                if (active) {
-                    if (text) loadingText.textContent = text;
-                    loadingEl.classList.add('active');
-                } else {
-                    loadingEl.classList.remove('active');
-                }
+                if (active) { if (text) loadingText.textContent = text; loadingEl.classList.add('active'); }
+                else loadingEl.classList.remove('active');
             }
 
+            // Google Sign-In
             async function afterGoogleSignup(user) {
                 try {
                     await db.collection('users').doc(user.uid).set({
@@ -1126,9 +455,7 @@
                         phoneNumber: user.phoneNumber || null,
                         createdAt: firebase.firestore.FieldValue.serverTimestamp()
                     }, { merge: true });
-                } catch (err) {
-                    console.error('Firestore save error:', err);
-                }
+                } catch (err) { console.error('Firestore save error:', err); }
 
                 sessionStorage.setItem('authUser', user.email || user.phoneNumber || user.uid);
                 sessionStorage.setItem('authName', user.displayName || user.phoneNumber || 'User');
@@ -1141,12 +468,12 @@
                 setTimeout(() => window.location.href = 'index.html', 1500);
             }
 
-            // Google Sign In (popup + redirect fallback)
             document.getElementById('googleSignInBtn').addEventListener('click', async () => {
                 setLoading(true, 'Signing in with Google...');
+                const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+                const mustRedirect = isMobile || window.crossOriginIsolated; // COOP/COEP -> prefer redirect
                 try {
-                    const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-                    if (isMobile) {
+                    if (mustRedirect) {
                         await auth.signInWithRedirect(googleProvider);
                         return;
                     }
@@ -1154,22 +481,18 @@
                     await afterGoogleSignup(result.user);
                 } catch (error) {
                     console.error('Google Sign-In Error:', error);
-                    if (error.code === 'auth/popup-blocked' || error.code === 'auth/cancelled-popup-request') {
-                        try {
-                            await auth.signInWithRedirect(googleProvider);
-                            return;
-                        } catch (e2) {
-                            console.error('Redirect sign-in error:', e2);
-                        }
+                    if (['auth/popup-blocked','auth/cancelled-popup-request','auth/popup-closed-by-user'].includes(error.code)) {
+                        try { await auth.signInWithRedirect(googleProvider); return; } 
+                        catch (e2) { console.error('Redirect sign-in error:', e2); }
                     }
                     setLoading(false);
                     let msg = 'Failed to sign in with Google';
                     switch (error.code) {
-                        case 'auth/popup-closed-by-user': msg = 'Sign-in popup was closed'; break;
-                        case 'auth/popup-blocked': msg = 'Popup was blocked. Please allow popups'; break;
-                        case 'auth/network-request-failed': msg = 'Network error. Check your connection'; break;
-                        case 'auth/unauthorized-domain': msg = 'Add this domain in Firebase → Authentication → Settings → Authorized domains'; break;
-                        case 'auth/operation-not-allowed': msg = 'Enable Google sign-in in Firebase Console'; break;
+                        case 'auth/popup-closed-by-user': msg='Popup was closed; retry or we’ll use redirect next time'; break;
+                        case 'auth/popup-blocked': msg='Popup blocked. We’ll try redirect sign-in'; break;
+                        case 'auth/network-request-failed': msg='Network error. Check your connection'; break;
+                        case 'auth/unauthorized-domain': msg='Add this domain in Firebase → Authentication → Settings → Authorized domains'; break;
+                        case 'auth/operation-not-allowed': msg='Enable Google sign-in in Firebase Console'; break;
                         default: msg = error.message || msg;
                     }
                     showToast('error', 'Sign-In Failed', msg);
@@ -1178,16 +501,8 @@
 
             // Complete Google redirect result
             auth.getRedirectResult()
-                .then(async (result) => {
-                    if (result && result.user) {
-                        await afterGoogleSignup(result.user);
-                    }
-                })
-                .catch((error) => {
-                    console.error('Redirect sign-in error:', error);
-                    setLoading(false);
-                    showToast('error', 'Sign-In Failed', error.message || 'Google sign-in failed');
-                });
+                .then(async (result) => { if (result && result.user) await afterGoogleSignup(result.user); })
+                .catch((error) => { console.error('Redirect sign-in error:', error); setLoading(false); showToast('error', 'Sign-In Failed', error.message || 'Google sign-in failed'); });
 
             // Email/Password Signup
             document.getElementById('signupForm').addEventListener('submit', async function(e) {
@@ -1199,63 +514,27 @@
                 const password = document.getElementById('password').value;
                 const confirmPassword = document.getElementById('confirmPassword').value;
 
-                // Verify Captcha
-                if (!captchaVerified) {
-                    showToast('error', 'Verification Required', 'Please complete the slider verification');
-                    return;
-                }
-
-                // Validate Name
-                if (firstName.length < 2 || lastName.length < 2) {
-                    showToast('error', 'Invalid Name', 'First and last name must be at least 2 characters');
-                    return;
-                }
-
-                // Validate Email
+                if (!captchaVerified) { showToast('error', 'Verification Required', 'Please complete the slider verification'); return; }
+                if (firstName.length < 2 || lastName.length < 2) { showToast('error', 'Invalid Name', 'First and last name must be at least 2 characters'); return; }
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailRegex.test(email)) {
-                    showToast('error', 'Invalid Email', 'Please enter a valid email address');
-                    return;
-                }
-
-                // Validate Password
-                if (password.length < 6) {
-                    showToast('error', 'Weak Password', 'Password must be at least 6 characters');
-                    return;
-                }
-
-                // Validate Passwords Match
-                if (password !== confirmPassword) {
-                    showToast('error', 'Password Mismatch', 'Passwords do not match');
-                    return;
-                }
+                if (!emailRegex.test(email)) { showToast('error', 'Invalid Email', 'Please enter a valid email address'); return; }
+                if (password.length < 6) { showToast('error', 'Weak Password', 'Password must be at least 6 characters'); return; }
+                if (password !== confirmPassword) { showToast('error', 'Password Mismatch', 'Passwords do not match'); return; }
 
                 setLoading(true, 'Creating your account...');
-
                 try {
-                    // Create user with email and password
                     const userCredential = await auth.createUserWithEmailAndPassword(email, password);
                     const user = userCredential.user;
 
-                    // Update user profile with display name
-                    await user.updateProfile({
-                        displayName: `${firstName} ${lastName}`
-                    });
+                    await user.updateProfile({ displayName: `${firstName} ${lastName}` });
 
-                    // Save user to Firestore
                     try {
                         await db.collection('users').doc(user.uid).set({
-                            firstName: firstName,
-                            lastName: lastName,
-                            name: `${firstName} ${lastName}`,
-                            email: email,
+                            firstName, lastName, name: `${firstName} ${lastName}`, email,
                             createdAt: firebase.firestore.FieldValue.serverTimestamp()
                         });
-                    } catch (error) {
-                        console.error('Firestore save error:', error);
-                    }
+                    } catch (err) { console.error('Firestore save error:', err); }
 
-                    // Store user session
                     sessionStorage.setItem('authUser', email);
                     sessionStorage.setItem('authName', `${firstName} ${lastName}`);
                     sessionStorage.setItem('isLoggedIn', 'true');
@@ -1263,47 +542,34 @@
 
                     setLoading(false);
                     showToast('success', 'Welcome to Sharvika!', 'Account created successfully');
-
-                    if (navigator.vibrate) {
-                        navigator.vibrate([100, 50, 100]);
-                    }
-
-                    // Redirect to home page
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 2000);
-
+                    if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+                    setTimeout(() => window.location.href = 'index.html', 2000);
                 } catch (error) {
-                    setLoading(false);
                     console.error('Signup Error:', error);
-
+                    setLoading(false);
                     let errorMessage = 'Failed to create account';
-                    
                     switch (error.code) {
-                        case 'auth/email-already-in-use':
-                            errorMessage = 'This email is already registered';
-                            break;
-                        case 'auth/invalid-email':
-                            errorMessage = 'Invalid email address';
-                            break;
-                        case 'auth/operation-not-allowed':
-                            errorMessage = 'Email/password accounts are not enabled';
-                            break;
-                        case 'auth/weak-password':
-                            errorMessage = 'Password is too weak';
-                            break;
-                        case 'auth/network-request-failed':
-                            errorMessage = 'Network error. Check your connection';
-                            break;
-                        default:
-                            errorMessage = error.message || 'An error occurred';
+                        case 'auth/email-already-in-use': errorMessage = 'This email is already registered'; break;
+                        case 'auth/invalid-email': errorMessage = 'Invalid email address'; break;
+                        case 'auth/operation-not-allowed': errorMessage = 'Email/password accounts are not enabled'; break;
+                        case 'auth/weak-password': errorMessage = 'Password is too weak'; break;
+                        case 'auth/network-request-failed': errorMessage = 'Network error. Check your connection'; break;
+                        default: errorMessage = error.message || errorMessage;
                     }
-
                     showToast('error', 'Signup Failed', errorMessage);
                 }
             });
 
-            // OTP: Send (reuses one RecaptchaVerifier; avoids "already rendered" error)
+            // Ensure single, reusable reCAPTCHA instance
+            async function ensureRecaptcha() {
+                if (phoneRecaptcha) return phoneRecaptcha;
+                phoneRecaptcha = new firebase.auth.RecaptchaVerifier('recaptcha-signup', { size: 'invisible' });
+                await phoneRecaptcha.render(); // render once
+                window.__signupRecaptcha = phoneRecaptcha;
+                return phoneRecaptcha;
+            }
+
+            // OTP: Send
             document.getElementById('sendOtpBtn').addEventListener('click', async () => {
                 const phoneNumber = document.getElementById('phoneNumber').value.replace(/\s+/g, '').trim();
 
@@ -1314,11 +580,7 @@
 
                 setLoading(true, 'Sending OTP...');
                 try {
-                    if (!phoneRecaptcha) {
-                        phoneRecaptcha = new firebase.auth.RecaptchaVerifier('recaptcha-signup', { size: 'invisible' });
-                        await phoneRecaptcha.render(); // render ONCE
-                        window.__signupRecaptcha = phoneRecaptcha; // persist globally
-                    }
+                    await ensureRecaptcha();
                     confirmationResult = await auth.signInWithPhoneNumber(phoneNumber, phoneRecaptcha);
                     setLoading(false);
                     showToast('success', 'OTP Sent', 'We sent a code to your phone');
@@ -1329,14 +591,21 @@
                     console.error('Send OTP error:', error);
                     setLoading(false);
                     let msg = 'Failed to send OTP';
-                    if (error.code === 'auth/too-many-requests') msg = 'Too many attempts. Try again later';
-                    if (error.code === 'auth/invalid-phone-number') msg = 'Invalid phone number';
-                    if (error.code === 'auth/missing-client-identifier') msg = 'reCAPTCHA failed to load';
-                    if (error.code === 'auth/network-request-failed') msg = 'Network error. Check your connection';
+                    if (error.code === 'auth/billing-not-enabled') {
+                        msg = 'Enable billing or disable reCAPTCHA Enterprise in Firebase Console for Phone Auth';
+                    } else if (error.code === 'auth/too-many-requests') {
+                        msg = 'Too many attempts. Try again later';
+                    } else if (error.code === 'auth/invalid-phone-number') {
+                        msg = 'Invalid phone number';
+                    } else if (error.code === 'auth/missing-client-identifier') {
+                        msg = 'reCAPTCHA failed to load (use http/https, add domain, disable adblock)';
+                    } else if (error.code === 'auth/network-request-failed') {
+                        msg = 'Network error. Check your connection';
+                    }
                     showToast('error', 'OTP Error', msg);
 
                     // Clean up so we can re-initialize cleanly next time
-                    try { phoneRecaptcha && phoneRecaptcha.clear(); } catch (_) {}
+                    try { phoneRecaptcha && phoneRecaptcha.clear && phoneRecaptcha.clear(); } catch (_) {}
                     phoneRecaptcha = null;
                     window.__signupRecaptcha = null;
                 }
@@ -1345,29 +614,21 @@
             // OTP: Verify
             document.getElementById('verifyOtpBtn').addEventListener('click', async () => {
                 const code = (document.getElementById('otpCode').value || '').trim();
-                if (!confirmationResult) {
-                    showToast('error', 'OTP Error', 'Please request OTP first');
-                    return;
-                }
-                if (!/^\d{4,8}$/.test(code)) {
-                    showToast('error', 'Invalid Code', 'Enter the 6-digit code');
-                    return;
-                }
+                if (!confirmationResult) { showToast('error', 'OTP Error', 'Please request OTP first'); return; }
+                if (!/^\d{4,8}$/.test(code)) { showToast('error', 'Invalid Code', 'Enter the 6-digit code'); return; }
 
                 setLoading(true, 'Verifying OTP...');
                 try {
                     const result = await confirmationResult.confirm(code);
                     const user = result.user;
 
-                    // If user filled their name, save it
+                    // If name provided, save it
                     const firstName = document.getElementById('firstName').value.trim();
                     const lastName = document.getElementById('lastName').value.trim();
                     const hasName = firstName.length >= 2 && lastName.length >= 2;
 
                     try {
-                        if (hasName) {
-                            await user.updateProfile({ displayName: `${firstName} ${lastName}` });
-                        }
+                        if (hasName) await user.updateProfile({ displayName: `${firstName} ${lastName}` });
                         await db.collection('users').doc(user.uid).set({
                             firstName: hasName ? firstName : null,
                             lastName: hasName ? lastName : null,
@@ -1376,9 +637,7 @@
                             phoneNumber: user.phoneNumber || null,
                             createdAt: firebase.firestore.FieldValue.serverTimestamp()
                         }, { merge: true });
-                    } catch (err) {
-                        console.error('Firestore save error:', err);
-                    }
+                    } catch (err) { console.error('Firestore save error:', err); }
 
                     sessionStorage.setItem('authUser', user.phoneNumber || user.email || user.uid);
                     sessionStorage.setItem('authName', user.displayName || user.phoneNumber || 'User');
@@ -1402,25 +661,21 @@
             let lastTouchEnd = 0;
             document.addEventListener('touchend', function(e) {
                 const now = Date.now();
-                if (now - lastTouchEnd <= 300) {
-                    e.preventDefault();
-                }
+                if (now - lastTouchEnd <= 300) e.preventDefault();
                 lastTouchEnd = now;
             }, false);
 
-            // Check if already logged in
+            // Already logged in
             auth.onAuthStateChanged((user) => {
                 if (user && window.location.pathname.includes('signup.html')) {
-                    console.log('User already logged in');
-                    // Optionally redirect if already logged in
-                    // window.location.href = 'index.html';
+                    console.log('User already logged in:', user.email || user.phoneNumber);
                 }
             });
         }
 
         // Fallback if Firebase doesn't load
         setTimeout(() => {
-            if (typeof auth === 'undefined') {
+            if (!(window && window.auth)) {
                 console.error('❌ Firebase failed to load');
                 document.getElementById('loading').classList.remove('active');
                 const toast = document.getElementById('toast');
