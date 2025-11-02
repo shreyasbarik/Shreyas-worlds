@@ -289,6 +289,134 @@
             color: rgba(255, 255, 255, 0.7);
         }
 
+        /* Portal Selection */
+        .portal-selection {
+            margin-bottom: 24px;
+        }
+
+        .portal-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .portal-card {
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .portal-card input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .portal-card-content {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px 14px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .portal-card-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .portal-card:active .portal-card-content {
+            transform: scale(0.97);
+        }
+
+        .portal-card input[type="radio"]:checked + .portal-card-content {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .portal-card input[type="radio"]:checked + .portal-card-content::before {
+            opacity: 1;
+        }
+
+        .portal-card input[type="radio"]:disabled + .portal-card-content {
+            opacity: 0.3;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .portal-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+            display: block;
+            filter: grayscale(1);
+            transition: filter 0.3s ease;
+        }
+
+        .portal-card input[type="radio"]:checked + .portal-card-content .portal-icon {
+            filter: grayscale(0);
+        }
+
+        .portal-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 4px;
+            transition: color 0.3s ease;
+        }
+
+        .portal-card input[type="radio"]:checked + .portal-card-content .portal-title {
+            color: #fff;
+        }
+
+        .portal-desc {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 0.5px;
+        }
+
+        .portal-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .portal-card input[type="radio"]:checked + .portal-card-content .portal-badge {
+            background: #4ade80;
+            border-color: #4ade80;
+        }
+
+        .portal-badge::after {
+            content: '✓';
+            color: #fff;
+            font-size: 11px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .portal-card input[type="radio"]:checked + .portal-card-content .portal-badge::after {
+            opacity: 1;
+        }
+
         /* Modern Slider Captcha */
         .captcha-section {
             margin-bottom: 24px;
@@ -626,6 +754,15 @@
                 color: rgba(255, 255, 255, 0.7);
             }
 
+            .portal-card:hover .portal-card-content {
+                border-color: rgba(255, 255, 255, 0.25);
+                background: rgba(255, 255, 255, 0.05);
+            }
+
+            .portal-card input[type="radio"]:checked + .portal-card-content {
+                transform: translateY(-3px);
+            }
+
             .captcha-section {
                 margin-bottom: 28px;
             }
@@ -713,6 +850,22 @@
             .input-field {
                 font-size: 14px;
             }
+
+            .portal-cards {
+                gap: 10px;
+            }
+
+            .portal-card-content {
+                padding: 16px 10px;
+            }
+
+            .portal-icon {
+                font-size: 28px;
+            }
+
+            .portal-title {
+                font-size: 12px;
+            }
         }
 
         /* Landscape Mobile Fix */
@@ -781,6 +934,31 @@
             </div>
 
             <form class="login-form" id="loginForm">
+                <!-- Portal Selection -->
+                <div class="portal-selection">
+                    <label class="input-label">Select Portal</label>
+                    <div class="portal-cards">
+                        <label class="portal-card">
+                            <input type="radio" name="portal" value="technical" id="portalTechnical">
+                            <div class="portal-card-content">
+                                <span class="portal-icon"></span>
+                                <div class="portal-title">Technical Support</div>
+                                <div class="portal-desc">Admin Access</div>
+                                <div class="portal-badge"></div>
+                            </div>
+                        </label>
+                        <label class="portal-card">
+                            <input type="radio" name="portal" value="helpline" id="portalHelpline">
+                            <div class="portal-card-content">
+                                <span class="portal-icon"></span>
+                                <div class="portal-title">Call Centre</div>
+                                <div class="portal-desc">Helpline Access</div>
+                                <div class="portal-badge"></div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
                 <div class="input-group">
                     <label class="input-label">Username</label>
                     <input type="text" class="input-field" id="username" placeholder="Enter your username" required autocomplete="username">
@@ -819,13 +997,44 @@
     </div>
 
     <script>
-        // Authentication Database with Admin Roles
+        // Authentication Database with Role-Based Access Control
         const authDatabase = {
-            'Bishesh_04': { password: 'Lovejust', name: 'Bishesh', role: 'admin' },
-            'Ayush_05': { password: 'Lovejust', name: 'Ayush', role: 'admin' },
-            'Soumya_09': { password: 'Lovejust', name: 'Soumya', role: 'admin' },
-            'Shreyas_00': { password: 'Lovejust', name: 'Shreyas', role: 'admin' },
-            'Refer_01': { password: 'Lovejust', name: 'Refer', role: 'admin' }
+            'Bishesh_04': { 
+                password: 'Lovejust', 
+                name: 'Bishesh', 
+                role: 'admin', 
+                allowedPortals: ['technical']
+            },
+            'Ayush_05': { 
+                password: 'Lovejust', 
+                name: 'Ayush', 
+                role: 'admin', 
+                allowedPortals: ['technical']
+            },
+            'Soumya_09': { 
+                password: 'Lovejust', 
+                name: 'Soumya', 
+                role: 'helpline', 
+                allowedPortals: ['helpline']
+            },
+            'Shreyas_00': { 
+                password: 'Lovejust', 
+                name: 'Shreyas', 
+                role: 'superadmin', 
+                allowedPortals: ['technical', 'helpline']
+            },
+            'Refer_01': { 
+                password: 'Lovejust', 
+                name: 'Refer', 
+                role: 'admin', 
+                allowedPortals: ['technical']
+            }
+        };
+
+        // Portal mapping
+        const portalPages = {
+            'technical': 'technical.html',
+            'helpline': 'helpline.html'
         };
 
         // Create Floating Particles
@@ -858,6 +1067,52 @@
             const type = passwordInput.type === 'password' ? 'text' : 'password';
             passwordInput.type = type;
             this.textContent = type === 'password' ? 'SHOW' : 'HIDE';
+        });
+
+        // Username-based portal access control
+        const usernameInput = document.getElementById('username');
+        const portalTechnical = document.getElementById('portalTechnical');
+        const portalHelpline = document.getElementById('portalHelpline');
+
+        usernameInput.addEventListener('input', function() {
+            const username = this.value.trim();
+            
+            // Reset both portals first
+            portalTechnical.disabled = false;
+            portalHelpline.disabled = false;
+
+            if (authDatabase[username]) {
+                const allowedPortals = authDatabase[username].allowedPortals;
+                
+                // Disable portals user doesn't have access to
+                if (!allowedPortals.includes('technical')) {
+                    portalTechnical.disabled = true;
+                    if (portalTechnical.checked) {
+                        portalTechnical.checked = false;
+                    }
+                }
+                
+                if (!allowedPortals.includes('helpline')) {
+                    portalHelpline.disabled = true;
+                    if (portalHelpline.checked) {
+                        portalHelpline.checked = false;
+                    }
+                }
+
+                // Auto-select if only one portal is available
+                if (allowedPortals.length === 1) {
+                    if (allowedPortals[0] === 'technical') {
+                        portalTechnical.checked = true;
+                    } else {
+                        portalHelpline.checked = true;
+                    }
+                }
+
+                // For Shreyas_00, default to helpline but allow both
+                if (username === 'Shreyas_00' && !portalTechnical.checked && !portalHelpline.checked) {
+                    portalHelpline.checked = true;
+                }
+            }
         });
 
         // Modern Slider Captcha
@@ -948,12 +1203,19 @@
             }, 4000);
         }
 
-        // Form Submission
+        // Form Submission with Portal Selection
         document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
 
             const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value;
+            const selectedPortal = document.querySelector('input[name="portal"]:checked');
+
+            // Validate portal selection
+            if (!selectedPortal) {
+                showToast('error', 'Portal Required', 'Please select a portal to access');
+                return;
+            }
 
             // Verify Captcha
             if (!captchaVerified) {
@@ -975,29 +1237,58 @@
                 return;
             }
 
+            // Get user data
+            const userData = authDatabase[username];
+            const portalType = selectedPortal.value;
+
+            // Validate portal access
+            if (!userData.allowedPortals.includes(portalType)) {
+                showToast('error', 'Access Restricted', 'You do not have permission to access this portal');
+                resetCaptcha();
+                return;
+            }
+
             // Show Loading
             document.getElementById('loading').classList.add('active');
 
             // Simulate Authentication
             await new Promise(resolve => setTimeout(resolve, 1800));
 
-            // Store Session with Admin Access
+            // Store Session Data
             sessionStorage.setItem('authUser', username);
-            sessionStorage.setItem('authName', authDatabase[username].name);
-            sessionStorage.setItem('authRole', authDatabase[username].role);
-            sessionStorage.setItem('isAdmin', 'true');
+            sessionStorage.setItem('authName', userData.name);
+            sessionStorage.setItem('authRole', userData.role);
+            sessionStorage.setItem('selectedPortal', portalType);
             sessionStorage.setItem('isAuthenticated', 'true');
+            
+            // Grant admin access to admin and superadmin users
+            if (userData.role === 'admin' || userData.role === 'superadmin') {
+                sessionStorage.setItem('isAdmin', 'true');
+            }
 
-            showToast('success', 'Access Granted', 'Redirecting to technical portal...');
+            // Grant full access flag for Shreyas_00 (SuperAdmin)
+            if (userData.role === 'superadmin') {
+                sessionStorage.setItem('fullAccess', 'true');
+                sessionStorage.setItem('canAccessTechnical', 'true');
+                sessionStorage.setItem('canAccessHelpline', 'true');
+            }
+
+            // Dynamic success message
+            const portalNames = {
+                'technical': 'Technical Support Portal',
+                'helpline': 'Call Centre Portal'
+            };
+            
+            showToast('success', 'Access Granted', `Redirecting to ${portalNames[portalType]}...`);
 
             // Haptic feedback
             if (navigator.vibrate) {
                 navigator.vibrate([100, 50, 100]);
             }
 
-            // Redirect to technical.html
+            // Redirect to selected portal
             setTimeout(() => {
-                window.location.href = 'technical.html';
+                window.location.href = portalPages[portalType];
             }, 1200);
         });
 

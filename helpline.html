@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,11 +34,13 @@
         }
 
         *{margin:0;padding:0;box-sizing:border-box}
-        html,body{height:100%}
+        html,body{height:100%; -webkit-text-size-adjust:100%}
         body{
             font-family:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background:var(--bg); color:var(--fg);
             letter-spacing:-0.02em; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+            touch-action:manipulation; -webkit-tap-highlight-color:transparent; overscroll-behavior-y:none;
+            padding-bottom:env(safe-area-inset-bottom);
         }
 
         .dashboard{max-width:1400px;margin:0 auto;padding:24px}
@@ -68,8 +70,8 @@
         .text-input, select, .btn{
             background:rgba(255,255,255,.06); color:var(--fg);
             border:1px solid rgba(255,255,255,.15);
-            border-radius:10px; padding:10px 12px;
-            font-size:13px; font-weight:600; letter-spacing:-0.01em;
+            border-radius:10px; padding:12px 14px;
+            font-size:14px; font-weight:600; letter-spacing:-0.01em;
         }
         .text-input::placeholder{color:var(--fg-dimmer)}
         .text-input:focus, select:focus{outline:none; border-color:rgba(255,255,255,.3)}
@@ -77,6 +79,7 @@
             background:var(--btn-bg); color:var(--btn-fg); border:none; cursor:pointer; display:inline-flex; align-items:center; gap:8px;
             box-shadow:0 6px 18px rgba(255,255,255,.12);
             transition:transform .15s ease, box-shadow .2s ease;
+            min-height:44px;
         }
         .btn:hover{transform:translateY(-1px); box-shadow:0 10px 24px rgba(255,255,255,.2)}
         .btn.secondary{background:rgba(255,255,255,.08); color:var(--fg); border:1px solid rgba(255,255,255,.2); box-shadow:none}
@@ -110,7 +113,7 @@
         .call-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 
         /* Active call */
-        .active-call{background:var(--panel-bg); border:1px solid var(--panel-br); border-radius:20px; padding:32px; margin-bottom:22px; display:none; backdrop-filter:blur(20px)}
+        .active-call{background:var(--panel-bg); border:1px solid var(--panel-br); border-radius:20px; padding:32px; margin-bottom:22px; display:none; backdrop-filter:blur(20px); position:relative}
         .active-call.show{display:block}
         .call-info{text-align:center;margin-bottom:28px}
         .call-duration{font-size:48px;font-weight:300;margin-bottom:8px; font-variant-numeric:tabular-nums; letter-spacing:-.03em}
@@ -119,8 +122,8 @@
         .controls-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-bottom:18px}
         .control-item{
             background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.12); border-radius:14px;
-            padding:18px 14px; display:flex; flex-direction:column; align-items:center; gap:8px; cursor:pointer; transition:.15s ease;
-            user-select:none;
+            padding:20px 16px; display:flex; flex-direction:column; align-items:center; gap:8px; cursor:pointer; transition:.15s ease;
+            user-select:none; min-height:44px;
         }
         .control-item:hover{background:rgba(255,255,255,.07); border-color:rgba(255,255,255,.18); transform:translateY(-1px)}
         .control-item.active{background:var(--btn-bg); color:#000; border-color:rgba(255,255,255,.25)}
@@ -130,6 +133,7 @@
         .end-call-btn{
             width:100%; background:var(--btn-bg); color:var(--btn-fg); padding:16px; border-radius:14px; border:none;
             font-size:15px; font-weight:800; cursor:pointer; box-shadow:0 6px 18px rgba(255,255,255,.12);
+            position:sticky; bottom:calc(env(safe-area-inset-bottom) + 8px); z-index:5;
         }
         .end-call-btn:hover{transform:translateY(-1px); box-shadow:0 10px 24px rgba(255,255,255,.2)}
 
@@ -163,18 +167,18 @@
         .row{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
         .row > *{flex:1}
         .label{font-size:12px; color:var(--fg-dim); font-weight:800; text-transform:uppercase; letter-spacing:.4px}
-        .range{appearance:none; width:100%; height:8px; background:rgba(255,255,255,.12); border-radius:999px; outline:none}
-        .range::-webkit-slider-thumb{appearance:none;width:16px;height:16px;border-radius:50%;background:#fff;cursor:pointer}
+        .range{appearance:none; width:100%; height:10px; background:rgba(255,255,255,.12); border-radius:999px; outline:none}
+        .range::-webkit-slider-thumb{appearance:none;width:18px;height:18px;border-radius:50%;background:#fff;cursor:pointer}
         .switch{display:flex;align-items:center;gap:8px}
-        .switch input{appearance:none;width:34px;height:20px;background:rgba(255,255,255,.2);border-radius:999px;position:relative;outline:none;cursor:pointer}
-        .switch input:after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;background:#000;border-radius:50%;transition:.15s}
+        .switch input{appearance:none;width:40px;height:24px;background:rgba(255,255,255,.2);border-radius:999px;position:relative;outline:none;cursor:pointer}
+        .switch input:after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;background:#000;border-radius:50%;transition:.15s}
         .switch input:checked{background:#fff}
-        .switch input:checked:after{left:16px;background:#000}
+        .switch input:checked:after{left:19px;background:#000}
         .mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, "Courier New", monospace; font-size:12px}
 
         /* DTMF keypad */
         .keypad{display:grid;grid-template-columns:repeat(3,1fr); gap:10px}
-        .key{background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.15); border-radius:12px; padding:16px; font-weight:800; text-align:center; cursor:pointer}
+        .key{background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.15); border-radius:12px; padding:18px; font-weight:800; text-align:center; cursor:pointer; min-height:48px}
         .key:hover{background:rgba(255,255,255,.1)}
         .key:active{transform:translateY(1px)}
         .kbd{font-variant-numeric:tabular-nums}
@@ -199,6 +203,12 @@
         .kv .k{color:var(--fg-dim); font-weight:700}
         .kv .v{font-weight:700}
 
+        /* Reduced motion */
+        @media (prefers-reduced-motion:reduce){
+            .incoming-call{animation:none}
+            .sound-bar{animation:none}
+        }
+
         /* Responsive */
         @media (max-width:768px){
             .dashboard{padding:16px}
@@ -207,6 +217,13 @@
             .active-call{padding:24px 18px}
             .controls-grid{grid-template-columns:repeat(2, 1fr)}
             .stats-grid{grid-template-columns:1fr}
+            .content-grid{grid-template-columns:1fr}
+            .header-left h1{font-size:18px}
+        }
+        @media (max-width:480px){
+            .call-duration{font-size:40px}
+            .keypad{grid-template-columns:repeat(3,1fr); gap:8px}
+            .key{padding:16px; font-size:16px}
         }
     </style>
 </head>
@@ -519,6 +536,9 @@
     let localAnalyser = null, remoteAnalyser = null, remoteStreamRef = null;
     let statTimer = null;
 
+    // AudioWorklet shifter availability
+    let shifterReady = false;
+
     // UI elements
     const peerIdEl = document.getElementById('peerId');
     const statusBadge = document.getElementById('statusBadge');
@@ -561,7 +581,7 @@
     const remoteMeter = document.getElementById('remoteMeter');
 
     const keypad = document.querySelectorAll('.key[data-k]');
-       const dtmfField = document.getElementById('dtmfField');
+    const dtmfField = document.getElementById('dtmfField');
     const dtmfSendBtn = document.getElementById('dtmfSendBtn');
 
     const agentStatus = document.getElementById('agentStatus');
@@ -665,8 +685,107 @@
         }catch(e){ console.warn('setSinkId not supported or failed', e); }
     }
 
-    // Audio Processing Chain (Web Audio)
+    // Load AudioWorklet for high-quality pitch shifting (granular)
+    async function ensurePitchWorklet(){
+        try{
+            if(shifterReady) return;
+            if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if(!audioCtx.audioWorklet) { shifterReady = false; return; }
+            const code = `
+            class PitchShifterProcessor extends AudioWorkletProcessor {
+                static get parameterDescriptors() {
+                    return [
+                        {name:'pitch', defaultValue:1.0, minValue:0.5, maxValue:2.0, automationRate:'k-rate'},
+                        {name:'mix', defaultValue:1.0, minValue:0.0, maxValue:1.0, automationRate:'a-rate'}
+                    ];
+                }
+                constructor(){
+                    super();
+                    this.bufferSize = 16384;
+                    this.ringL = new Float32Array(this.bufferSize);
+                    this.ringR = new Float32Array(this.bufferSize);
+                    this.writeIndex = 0;
+                    this.grain = 1024;      // ~23 ms at 44.1k
+                    this.overlap = this.grain>>1; // 50%
+                    this.readA = 0;
+                    this.readB = this.overlap;
+                    this.phaseA = 0;
+                    this.phaseB = this.overlap;
+                    this.minLag = 2048;
+                }
+                hann(n,N){ return 0.5*(1-Math.cos(2*Math.PI*n/N)); }
+                sampleAt(buf, idx){
+                    const i0 = Math.floor(idx) % this.bufferSize;
+                    const i1 = (i0+1) % this.bufferSize;
+                    const frac = idx - Math.floor(idx);
+                    return buf[i0]*(1-frac) + buf[i1]*frac;
+                }
+                process(inputs, outputs, parameters){
+                    const input = inputs[0];
+                    const output = outputs[0];
+                    const inL = input[0] || new Float32Array(128);
+                    const inR = input[1] || inL;
+                    const outL = output[0];
+                    const outR = output[1] || outL;
+                    const frame = outL.length;
+                    const pitch = parameters.pitch.length>0 ? parameters.pitch[0] : 1.0;
+                    const mixArr = parameters.mix;
+                    const step = 1/Math.max(0.5, Math.min(2.0, pitch));
+
+                    for(let i=0;i<frame;i++){
+                        const xL = inL[i] || 0, xR = inR[i] || 0;
+
+                        this.ringL[this.writeIndex] = xL;
+                        this.ringR[this.writeIndex] = xR;
+
+                        const lagA = (this.writeIndex - Math.floor(this.readA) + this.bufferSize) % this.bufferSize;
+                        const lagB = (this.writeIndex - Math.floor(this.readB) + this.bufferSize) % this.bufferSize;
+                        if(lagA < this.minLag) this.readA = (this.writeIndex - this.minLag + this.bufferSize) % this.bufferSize;
+                        if(lagB < this.minLag) this.readB = (this.writeIndex - this.minLag - this.overlap + this.bufferSize) % this.bufferSize;
+
+                        const wA = this.hann(this.phaseA, this.grain);
+                        const wB = this.hann(this.phaseB, this.grain);
+
+                        const ylA = this.sampleAt(this.ringL, this.readA);
+                        const yrA = this.sampleAt(this.ringR, this.readA);
+                        const ylB = this.sampleAt(this.ringL, this.readB);
+                        const yrB = this.sampleAt(this.ringR, this.readB);
+
+                        const yl = ylA*wA + ylB*wB;
+                        const yr = yrA*wA + yrB*wB;
+
+                        const mix = mixArr.length>1 ? mixArr[i] : mixArr[0];
+                        outL[i] = (1-mix)*xL + mix*yl;
+                        outR[i] = (1-mix)*xR + mix*yr;
+
+                        this.readA = (this.readA + step) % this.bufferSize;
+                        this.readB = (this.readB + step) % this.bufferSize;
+
+                        this.phaseA++; this.phaseB++;
+                        if(this.phaseA >= this.grain){ this.phaseA = 0; this.readA = (this.writeIndex - this.minLag + this.bufferSize) % this.bufferSize; }
+                        if(this.phaseB >= this.grain){ this.phaseB = 0; this.readB = (this.writeIndex - this.minLag - this.overlap + this.bufferSize) % this.bufferSize; }
+
+                        this.writeIndex = (this.writeIndex + 1) % this.bufferSize;
+                    }
+                    return true;
+                }
+            }
+            registerProcessor('pitch-shifter', PitchShifterProcessor);
+            `;
+            const blob = new Blob([code], {type:'application/javascript'});
+            const url = URL.createObjectURL(blob);
+            await audioCtx.audioWorklet.addModule(url);
+            URL.revokeObjectURL(url);
+            shifterReady = true;
+        }catch(e){
+            console.warn('AudioWorklet unavailable, using fallback pitch path', e);
+            shifterReady = false;
+        }
+    }
+
     function dbToGain(db){return Math.pow(10, db/20);}
+
+    // Audio Processing Chain (Voice FX)
     function createVoiceChain(stream){
         if(audioCtx) audioCtx.close().catch(()=>{});
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -674,40 +793,73 @@
 
         // Nodes
         const inputGain = audioCtx.createGain(); inputGain.gain.value = 1.0;
+
         const highpass = audioCtx.createBiquadFilter(); highpass.type='highpass'; highpass.frequency.value = 60;
+
+        const compressor = audioCtx.createDynamicsCompressor();
+        compressor.threshold.value = -50;
+        compressor.knee.value = 8;
+        compressor.ratio.value = 8;
+        compressor.attack.value = 0.003;
+        compressor.release.value = 0.08;
+
+        // Pitch shifter node (preferred)
+        let pitchNode = null;
+        if(audioCtx.audioWorklet && shifterReady){
+            try{
+                pitchNode = new AudioWorkletNode(audioCtx, 'pitch-shifter', {
+                    numberOfInputs:1, numberOfOutputs:1, outputChannelCount:[1],
+                    parameterData: { pitch: 1.0, mix: 1.0 }
+                });
+            }catch(e){ pitchNode = null; }
+        }
+
+        // Formant shapers (approximate)
+        const form1 = audioCtx.createBiquadFilter(); form1.type='peaking'; form1.frequency.value=500; form1.Q.value=1.2; form1.gain.value=0;
+        const form2 = audioCtx.createBiquadFilter(); form2.type='peaking'; form2.frequency.value=1500; form2.Q.value=1.0; form2.gain.value=0;
+        const form3 = audioCtx.createBiquadFilter(); form3.type='peaking'; form3.frequency.value=2500; form3.Q.value=1.0; form3.gain.value=0;
+
         const lowshelf = audioCtx.createBiquadFilter(); lowshelf.type='lowshelf'; lowshelf.frequency.value=180; lowshelf.gain.value=0;
         const highshelf = audioCtx.createBiquadFilter(); highshelf.type='highshelf'; highshelf.frequency.value=3500; highshelf.gain.value=0;
         const bandpass = audioCtx.createBiquadFilter(); bandpass.type='bandpass'; bandpass.frequency.value=1200; bandpass.Q.value=0.0001;
+
         const waveshaper = audioCtx.createWaveShaper(); waveshaper.curve = makeDistortionCurve(0);
         const outGain = audioCtx.createGain(); outGain.gain.value=1.0;
 
-        // Simple tremolo for robotic feel
+        // Legacy tremolo/robot modulation
         const lfo = audioCtx.createOscillator(); lfo.type='square'; lfo.frequency.value=30;
-        const lfoGain = audioCtx.createGain(); lfoGain.gain.value=0; // intensity controlled
+        const lfoGain = audioCtx.createGain(); lfoGain.gain.value=0;
         lfo.connect(lfoGain);
         lfo.start();
-
-        // Pitch shift (very lightweight, experimental using delay mod)
-        const pitchDelay = audioCtx.createDelay(0.25);
-        pitchDelay.delayTime.value = 0.0;
-        const pitchGain = audioCtx.createGain(); pitchGain.gain.value = 0.0;
-
-        // Modulate gain for robotic effect
         lfoGain.connect(outGain.gain);
 
-        // Connections: source -> inputGain -> HP -> bands -> dist -> pitch -> outGain -> dest
+        // Fallback pitch path (if worklet not present)
+        const pitchDelay = audioCtx.createDelay(0.25); pitchDelay.delayTime.value = 0.0;
+        const pitchGain = audioCtx.createGain(); pitchGain.gain.value = 0.0;
+
+        // Chain: source -> input -> HP -> comp -> [shifter] -> formants -> shelves -> bandpass -> dist -> out
         source.connect(inputGain);
         inputGain.connect(highpass);
-        highpass.connect(lowshelf);
+        highpass.connect(compressor);
+
+        let head = compressor;
+        if(pitchNode){
+            head.connect(pitchNode);
+            head = pitchNode;
+        } else {
+            head.connect(pitchDelay);
+            pitchDelay.connect(pitchGain);
+            pitchGain.connect(head);
+        }
+
+        head.connect(form1);
+        form1.connect(form2);
+        form2.connect(form3);
+        form3.connect(lowshelf);
         lowshelf.connect(highshelf);
         highshelf.connect(bandpass);
         bandpass.connect(waveshaper);
         waveshaper.connect(outGain);
-
-        // pitch path (mix)
-        waveshaper.connect(pitchDelay);
-        pitchDelay.connect(pitchGain);
-        pitchGain.connect(outGain);
 
         // Destination for processed stream sent to peer
         procDest = audioCtx.createMediaStreamDestination();
@@ -718,17 +870,16 @@
         outGain.connect(monitorDest);
         monitorAudio.srcObject = monitorDest.stream;
 
-        // Analyser for mic level
+        // Analyser for levels
         localAnalyser = audioCtx.createAnalyser();
         localAnalyser.fftSize = 512;
         outGain.connect(localAnalyser);
 
-        procNodes = { source, inputGain, highpass, lowshelf, highshelf, bandpass, waveshaper, outGain, lfoGain, pitchDelay, pitchGain };
+        procNodes = { source, inputGain, highpass, compressor, pitchNode, form1, form2, form3, lowshelf, highshelf, bandpass, waveshaper, outGain, lfoGain, pitchDelay, pitchGain };
         return procDest.stream;
     }
 
     function makeDistortionCurve(amount){
-        // amount 0..1
         const k = amount*100;
         const n_samples = 44100;
         const curve = new Float32Array(n_samples);
@@ -741,51 +892,86 @@
     }
 
     function applyFxPreset(){
+        if(!procNodes) return;
         const preset = fxPreset.value;
         const amt = parseInt(fxAmount.value,10)/100;
 
-        if(!procNodes) return;
-
-        // Reset base
+        // Reset base EQ/dist
         procNodes.lowshelf.gain.value = 0;
         procNodes.highshelf.gain.value = 0;
         procNodes.bandpass.Q.value = 0.0001;
         procNodes.bandpass.frequency.value = 1200;
         procNodes.waveshaper.curve = makeDistortionCurve(0);
         procNodes.lfoGain.gain.value = 0;
-        procNodes.pitchGain.gain.value = 0;
+        procNodes.pitchGain.gain.value = 0; // fallback mix default
+        procNodes.pitchDelay.delayTime.value = 0.0;
+
+        // Formants reset
+        procNodes.form1.gain.value = 0;
+        procNodes.form2.gain.value = 0;
+        procNodes.form3.gain.value = 0;
+        procNodes.form1.frequency.value = 500;
+        procNodes.form2.frequency.value = 1500;
+        procNodes.form3.frequency.value = 2500;
+
+        // Derive semitone shift
+        const userSemis = parseInt(pitchSemis.value,10);
+        let presetSemis = 0;
 
         switch(preset){
             case 'telephone':
                 procNodes.bandpass.Q.value = 1.0;
                 procNodes.bandpass.frequency.value = 1200;
-                procNodes.lowshelf.gain.value = -8*amt;
-                procNodes.highshelf.gain.value = -12*amt;
+                procNodes.lowshelf.gain.value = -10*amt;
+                procNodes.highshelf.gain.value = -14*amt;
                 break;
             case 'radio':
                 procNodes.lowshelf.gain.value = -4*amt;
                 procNodes.highshelf.gain.value = -6*amt;
-                procNodes.waveshaper.curve = makeDistortionCurve(0.2*amt);
+                procNodes.waveshaper.curve = makeDistortionCurve(0.25*amt);
                 break;
             case 'robotic':
-                procNodes.lfoGain.gain.value = 0.4*amt; // amplitude modulation
-                procNodes.waveshaper.curve = makeDistortionCurve(0.4*amt);
+                procNodes.lfoGain.gain.value = 0.5*amt;
+                procNodes.waveshaper.curve = makeDistortionCurve(0.45*amt);
                 break;
             case 'deep':
+                presetSemis = -4; // down
                 procNodes.lowshelf.gain.value = 8*amt;
-                procNodes.highshelf.gain.value = -4*amt;
+                procNodes.highshelf.gain.value = -3*amt;
                 break;
             case 'bright':
-                procNodes.highshelf.gain.value = 10*amt;
+                presetSemis = 2; // up
+                procNodes.highshelf.gain.value = 9*amt;
                 break;
         }
-        // Pitch shift emulation via short delay blend
-        const semis = parseInt(pitchSemis.value,10);
-        if(semis !== 0){
-            const mix = Math.min(1, Math.abs(semis)/12);
-            procNodes.pitchGain.gain.value = 0.25*mix*amt;
-            procNodes.pitchDelay.delayTime.value = Math.min(0.08, 0.02 + mix*0.04);
+
+        const totalSemis = userSemis + Math.round(presetSemis*amt);
+        const ratio = Math.pow(2, totalSemis/12);
+
+        // Apply pitch (worklet or fallback)
+        if(procNodes.pitchNode){
+            try{
+                procNodes.pitchNode.parameters.get('pitch').setValueAtTime(ratio, audioCtx.currentTime);
+                procNodes.pitchNode.parameters.get('mix').setValueAtTime(1.0, audioCtx.currentTime);
+            }catch(e){}
+        } else {
+            // Fallback: short delay blend approximating timbre change
+            const mix = Math.min(0.35, Math.abs(totalSemis)/12)*amt;
+            procNodes.pitchGain.gain.value = mix;
+            procNodes.pitchDelay.delayTime.value = Math.min(0.08, 0.02 + (Math.abs(totalSemis)/12)*0.04);
         }
+
+        // Formant shaping to keep voice natural
+        const formantSemis = totalSemis*0.6;
+        const formScale = Math.pow(2, formantSemis/12);
+        procNodes.form1.frequency.value = 500*formScale;
+        procNodes.form2.frequency.value = 1500*formScale;
+        procNodes.form3.frequency.value = 2500*formScale;
+
+        // Add subtle boosts so it sounds like a different throat cavity
+        procNodes.form1.gain.value = 3*amt;
+        procNodes.form2.gain.value = 2*amt;
+        procNodes.form3.gain.value = 1*amt;
     }
 
     function updateMonitor(){
@@ -865,6 +1051,10 @@
             localStream.getTracks().forEach(t=>t.stop());
         }
         localStream = await getMicStream();
+
+        // Ensure worklet before building the chain
+        await ensurePitchWorklet();
+
         processedStream = createVoiceChain(localStream);
         applyFxPreset();
         updateMonitor();
@@ -942,6 +1132,7 @@
         if(Notification.permission==='granted'){
             new Notification('Incoming Call - Sharvika Helpline', { body:'New call arriving', silent:false });
         }
+        try{ window.scrollTo({top:0, behavior:'smooth'}); }catch(e){}
     }
 
     function hideIncoming(){
@@ -984,7 +1175,6 @@
         const count = callLogEl.querySelectorAll('.log-item').length;
         historyCountEl.textContent = count;
 
-        // Persist log
         const arr = JSON.parse(localStorage.getItem('sharvika_logs_'+todayKey())||'[]');
         arr.unshift({t:now.toISOString(), status, duration, meta});
         localStorage.setItem('sharvika_logs_'+todayKey(), JSON.stringify(arr));
@@ -1218,7 +1408,7 @@
 
     speakerControl.onclick = function(){
         isSpeakerOn = !isSpeakerOn;
-        remoteAudio.muted = !isSpeakerOn;
+        remoteAudio.muted = !isSpeakerOn ? true : false;
         speakerControl.classList.toggle('active', isSpeakerOn);
     };
 
@@ -1244,7 +1434,6 @@
     transferControl.onclick = function(){
         const target = prompt('Transfer to Agent Peer ID:');
         if(!target) return;
-        // Warm transfer (consult): put current on hold, place new call
         if(!currentCall){ alert('No active call'); return; }
         isOnHold = true; holdControl.classList.add('active'); callStateText.textContent = 'On Hold (Consult Transfer)';
         const track = processedStream.getAudioTracks()[0]; if(track) track.enabled = false;
@@ -1256,7 +1445,6 @@
                 if(track) track.enabled = true;
                 isOnHold = false; holdControl.classList.remove('active'); callStateText.textContent='Call in Progress';
             } else {
-                // Blind transfer simulation: end original
                 if(currentCall) currentCall.close();
                 addLog('Transferred', callDuration);
             }
@@ -1326,26 +1514,34 @@
         }
     });
 
+    // iOS/Android audio unlock for mobile
+    function unlockAudio(){
+        try{ if(audioCtx && audioCtx.state==='suspended') audioCtx.resume(); }catch(e){}
+        try{ remoteAudio.play().catch(()=>{}); }catch(e){}
+        try{ monitorAudio.play().catch(()=>{}); }catch(e){}
+        document.removeEventListener('touchstart', unlockAudio);
+        document.removeEventListener('click', unlockAudio);
+        document.removeEventListener('keydown', unlockAudio);
+    }
+    document.addEventListener('touchstart', unlockAudio, {once:true, passive:true});
+    document.addEventListener('click', unlockAudio, {once:true});
+    document.addEventListener('keydown', unlockAudio, {once:true});
+
     // Initialize
     async function init(){
         dateTodayEl.textContent = new Date().toLocaleDateString('en-US', {month:'short', day:'numeric'});
         loadPersist();
 
-        // Permissions
         try{ if(Notification.permission==='default'){ await Notification.requestPermission(); } }catch(e){}
 
-        // Prepare devices and mic
         await restartLocalStream();
         await listDevices();
         startMeters();
 
-        // Start Peer
         await startPeer();
 
-        // Online badge
         setBadge('Online');
 
-        // Service: auto-refresh device labels
         navigator.mediaDevices.addEventListener('devicechange', listDevices);
     }
 
@@ -1365,3 +1561,4 @@
     </script>
 </body>
 </html>
+```
