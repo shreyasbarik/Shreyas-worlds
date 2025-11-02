@@ -1,1054 +1,1367 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Helpline Workspace - Sharvika</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Firebase Compat SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Sharvika Call Centre - Helpline</title>
+
+    <!-- PeerJS -->
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Roboto', sans-serif;
-            background: #0e0e0e;
-            color: #ffffff;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        /* Mobile Header */
-        .mobile-header {
-            display: none;
-            padding: 12px 16px;
-            background: #1a1a1a;
-            border-bottom: 1px solid #2a2a2a;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .mobile-menu-btn {
-            width: 40px;
-            height: 40px;
-            background: #2a2a2a;
-            border: none;
-            border-radius: 8px;
-            color: #ffffff;
-            font-size: 20px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .mobile-title {
-            font-size: 16px;
-            font-weight: 500;
-        }
-
-        /* Layout */
-        .workspace {
-            display: grid;
-            grid-template-columns: 320px 1fr 380px;
-            height: 100vh;
-        }
-
-        /* Left Panel - Channels */
-        .channels-panel {
-            background: #1a1a1a;
-            border-right: 1px solid #2a2a2a;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .panel-header {
-            padding: 20px;
-            border-bottom: 1px solid #2a2a2a;
-        }
-
-        .workspace-title {
-            font-size: 20px;
-            font-weight: 500;
-            color: #ffffff;
-            margin-bottom: 4px;
-        }
-
-        .workspace-subtitle {
-            font-size: 13px;
-            color: #8e8e93;
-        }
-
-        .channels-list {
-            flex: 1;
-            overflow-y: auto;
-        }
-
-        .channel-item {
-            padding: 16px 20px;
-            border-bottom: 1px solid #2a2a2a;
-            cursor: pointer;
-            transition: background 0.2s;
-            position: relative;
-        }
-
-        .channel-item:hover {
-            background: #2a2a2a;
-        }
-
-        .channel-item.active {
-            background: #2a2a2a;
-        }
-
-        .channel-name {
-            font-size: 15px;
-            font-weight: 500;
-            color: #ffffff;
-            margin-bottom: 4px;
-        }
-
-        .channel-desc {
-            font-size: 13px;
-            color: #8e8e93;
-        }
-
-        .message-count {
-            position: absolute;
-            top: 50%;
-            right: 20px;
-            transform: translateY(-50%);
-            background: #ffffff;
-            color: #000000;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .panel-footer {
-            padding: 16px 20px;
-            border-top: 1px solid #2a2a2a;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .admin-avatar {
-            width: 40px;
-            height: 40px;
-            background: #ffffff;
-            color: #000000;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 16px;
-        }
-
-        .admin-info {
-            flex: 1;
-        }
-
-        .admin-name {
-            font-size: 14px;
-            font-weight: 500;
-            color: #ffffff;
-        }
-
-        .admin-role {
-            font-size: 12px;
-            color: #8e8e93;
-        }
-
-        .logout-btn {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .logout-btn:hover {
-            background: #2a2a2a;
-        }
-
-        /* Middle Panel - Messages */
-        .messages-panel {
-            display: flex;
-            flex-direction: column;
-            background: #0e0e0e;
-        }
-
-        .messages-header {
-            padding: 16px 24px;
-            background: #1a1a1a;
-            border-bottom: 1px solid #2a2a2a;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .header-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .header-avatar {
-            width: 40px;
-            height: 40px;
-            background: #ffffff;
-            color: #000000;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 16px;
-        }
-
-        .header-title {
-            font-size: 15px;
-            font-weight: 500;
-            color: #ffffff;
-        }
-
-        .header-subtitle {
-            font-size: 13px;
-            color: #8e8e93;
-        }
-
-        .messages-area {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px 24px;
-        }
-
-        .messages-area::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .messages-area::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .messages-area::-webkit-scrollbar-thumb {
-            background: #2a2a2a;
-            border-radius: 3px;
-        }
-
-        .message-item {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 16px;
-            padding: 12px;
-            background: #1a1a1a;
-            border-radius: 12px;
-            transition: background 0.2s;
-            cursor: pointer;
-        }
-
-        .message-item:hover {
-            background: #2a2a2a;
-        }
-
-        .message-item.selected {
-            background: #2a2a2a;
-        }
-
-        .message-avatar {
-            width: 36px;
-            height: 36px;
-            background: #ffffff;
-            color: #000000;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 14px;
-            flex-shrink: 0;
-        }
-
-        .message-body {
-            flex: 1;
-        }
-
-        .message-author {
-            font-size: 14px;
-            font-weight: 500;
-            color: #ffffff;
-            margin-bottom: 4px;
-        }
-
-        .message-text {
-            font-size: 14px;
-            color: #8e8e93;
-            line-height: 1.4;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .message-time {
-            font-size: 12px;
-            color: #6e6e73;
-            white-space: nowrap;
-        }
-
-        /* Input for announcements */
-        .announcement-input {
-            padding: 16px 24px;
-            background: #1a1a1a;
-            border-top: 1px solid #2a2a2a;
-        }
-
-        .input-wrapper {
-            display: flex;
-            gap: 12px;
-            align-items: flex-end;
-        }
-
-        .input-box {
-            flex: 1;
-            background: #2a2a2a;
-            border-radius: 24px;
-            padding: 12px 20px;
-        }
-
-        .textarea-input {
-            width: 100%;
-            background: transparent;
-            border: none;
-            color: #ffffff;
-            font-size: 14px;
-            outline: none;
-            resize: none;
-            max-height: 120px;
-            font-family: inherit;
-        }
-
-        .textarea-input::placeholder {
-            color: #6e6e73;
-        }
-
-        .send-btn {
-            width: 44px;
-            height: 44px;
-            background: #ffffff;
-            color: #000000;
-            border: none;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .send-btn:hover {
-            transform: scale(1.05);
-        }
-
-        .send-btn:disabled {
-            background: #2a2a2a;
-            color: #6e6e73;
-            cursor: not-allowed;
-        }
-
-        /* Right Panel - Actions */
-        .actions-panel {
-            background: #1a1a1a;
-            border-left: 1px solid #2a2a2a;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .actions-header {
-            padding: 20px;
-            border-bottom: 1px solid #2a2a2a;
-        }
-
-        .actions-title {
-            font-size: 16px;
-            font-weight: 500;
-            color: #ffffff;
-        }
-
-        .actions-body {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-        }
-
-        .selected-message {
-            background: #2a2a2a;
-            padding: 16px;
-            border-radius: 12px;
-            margin-bottom: 24px;
-        }
-
-        .selected-author {
-            font-size: 14px;
-            font-weight: 500;
-            color: #ffffff;
-            margin-bottom: 8px;
-        }
-
-        .selected-text {
-            font-size: 14px;
-            color: #8e8e93;
-            line-height: 1.5;
-            word-wrap: break-word;
-        }
-
-        .action-button {
-            width: 100%;
-            padding: 14px;
-            background: #2a2a2a;
-            border: 1px solid #3a3a3a;
-            color: #ffffff;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            justify-content: center;
-        }
-
-        .action-button:hover {
-            background: #3a3a3a;
-        }
-
-        .action-button.delete {
-            background: rgba(255, 59, 48, 0.1);
-            border-color: rgba(255, 59, 48, 0.3);
-            color: #ff3b30;
-        }
-
-        .action-button.delete:hover {
-            background: rgba(255, 59, 48, 0.2);
-        }
-
-        .reply-section {
-            margin-top: 24px;
-        }
-
-        .reply-label {
-            font-size: 13px;
-            color: #8e8e93;
-            margin-bottom: 12px;
-        }
-
-        .reply-textarea {
-            width: 100%;
-            min-height: 100px;
-            padding: 12px;
-            background: #2a2a2a;
-            border: 1px solid #3a3a3a;
-            border-radius: 12px;
-            color: #ffffff;
-            font-size: 14px;
-            font-family: inherit;
-            resize: vertical;
-            outline: none;
-        }
-
-        .reply-textarea:focus {
-            border-color: #4a4a4a;
-        }
-
-        .reply-send {
-            width: 100%;
-            padding: 12px;
-            background: #ffffff;
-            color: #000000;
-            border: none;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 12px;
-        }
-
-        .no-selection {
-            text-align: center;
-            padding: 40px 20px;
-            color: #6e6e73;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: #6e6e73;
-        }
-
-        .loading-spinner {
-            width: 32px;
-            height: 32px;
-            border: 3px solid #2a2a2a;
-            border-top-color: #ffffff;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 12px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Toast */
-        .toast {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            background: #ffffff;
-            color: #000000;
-            padding: 16px 24px;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 500;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-            transform: translateX(400px);
-            transition: transform 0.3s;
-            z-index: 10000;
-        }
-
-        .toast.show {
-            transform: translateX(0);
-        }
-
-        .toast.error {
-            background: #ff3b30;
-            color: #ffffff;
-        }
-
-        .toast.success {
-            background: #34c759;
-            color: #ffffff;
-        }
-
-        /* Overlay */
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 999;
-        }
-
-        .overlay.show {
-            display: block;
-        }
+        :root{
+            --bg:#000000;
+            --fg:#ffffff;
+            --fg-dim:rgba(255,255,255,.6);
+            --fg-dimmer:rgba(255,255,255,.4);
+            --panel-bg:rgba(255,255,255,.03);
+            --panel-br:rgba(255,255,255,.06);
+            --panel-bg-hover:rgba(255,255,255,.04);
+            --panel-br-hover:rgba(255,255,255,.08);
+            --btn-bg:rgba(255,255,255,.95);
+            --btn-fg:#000000;
+            --muted:rgba(255,255,255,.12);
+            --muted-2:rgba(255,255,255,.08);
+            --good:#ffffff;
+            --warn:#ffffff;
+        }
+
+        *{margin:0;padding:0;box-sizing:border-box}
+        html,body{height:100%}
+        body{
+            font-family:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background:var(--bg); color:var(--fg);
+            letter-spacing:-0.02em; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+        }
+
+        .dashboard{max-width:1400px;margin:0 auto;padding:24px}
+
+        .header{
+            background:var(--panel-bg); border:1px solid var(--panel-br);
+            border-radius:16px; padding:20px 22px; margin-bottom:24px;
+            display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;
+            backdrop-filter:blur(18px);
+        }
+        .header:hover{background:var(--panel-bg-hover); border-color:var(--panel-br-hover)}
+
+        .header-left h1{font-size:22px; font-weight:600; letter-spacing:-0.03em; margin-bottom:6px}
+        .peer-info{font-size:12px; color:var(--fg-dimmer); font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, "Courier New", monospace; font-weight:500; letter-spacing:.3px}
+
+        .header-right{display:flex; gap:12px; align-items:center; flex-wrap:wrap}
+
+        .status-badge{
+            padding:8px 16px; border-radius:999px; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.45px;
+            transition:.2s ease; border:1px solid transparent;
+        }
+        .status-online{background:var(--btn-bg); color:var(--btn-fg)}
+        .status-busy{background:rgba(255,255,255,.15); color:var(--fg); border-color:rgba(255,255,255,.2)}
+        .status-offline{background:rgba(255,255,255,.05); color:var(--fg-dimmer); border-color:rgba(255,255,255,.08)}
+
+        .agent-controls{display:flex; gap:8px; flex-wrap:wrap}
+        .text-input, select, .btn{
+            background:rgba(255,255,255,.06); color:var(--fg);
+            border:1px solid rgba(255,255,255,.15);
+            border-radius:10px; padding:10px 12px;
+            font-size:13px; font-weight:600; letter-spacing:-0.01em;
+        }
+        .text-input::placeholder{color:var(--fg-dimmer)}
+        .text-input:focus, select:focus{outline:none; border-color:rgba(255,255,255,.3)}
+        .btn{
+            background:var(--btn-bg); color:var(--btn-fg); border:none; cursor:pointer; display:inline-flex; align-items:center; gap:8px;
+            box-shadow:0 6px 18px rgba(255,255,255,.12);
+            transition:transform .15s ease, box-shadow .2s ease;
+        }
+        .btn:hover{transform:translateY(-1px); box-shadow:0 10px 24px rgba(255,255,255,.2)}
+        .btn.secondary{background:rgba(255,255,255,.08); color:var(--fg); border:1px solid rgba(255,255,255,.2); box-shadow:none}
+        .btn.ghost{background:rgba(255,255,255,.06); color:var(--fg); border:1px solid rgba(255,255,255,.15); box-shadow:none}
+
+        /* Incoming call */
+        .incoming-call{
+            background:var(--panel-bg); border:2px solid rgba(255,255,255,.15);
+            border-radius:20px; padding:40px 32px; margin-bottom:22px; text-align:center; display:none;
+            animation:border-pulse 2s ease-in-out infinite; backdrop-filter:blur(20px);
+        }
+        .incoming-call.show{display:block}
+        @keyframes border-pulse{
+            0%,100%{border-color:rgba(255,255,255,.15); box-shadow:0 0 0 0 rgba(255,255,255,.1)}
+            50%{border-color:rgba(255,255,255,.3); box-shadow:0 0 0 8px rgba(255,255,255,.05)}
+        }
+        .caller-avatar{width:100px;height:100px;border-radius:50%;margin:0 auto 18px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12)}
+        .caller-avatar svg{width:48px;height:48px;fill:rgba(255,255,255,.9)}
+        .incoming-call h2{font-size:22px;font-weight:700;letter-spacing:-.02em;margin-bottom:8px}
+        .incoming-call p{font-size:13px;color:var(--fg-dim);margin-bottom:18px}
+        .sound-indicator{display:flex;justify-content:center;gap:5px;margin:18px 0}
+        .sound-bar{width:3px;height:16px;background:rgba(255,255,255,.8);border-radius:2px;animation:sound-wave 1s ease-in-out infinite}
+        .sound-bar:nth-child(2){animation-delay:.1s}
+        .sound-bar:nth-child(3){animation-delay:.2s}
+        .sound-bar:nth-child(4){animation-delay:.3s}
+        .sound-bar:nth-child(5){animation-delay:.4s}
+        @keyframes sound-wave{
+            0%,100%{height:14px;opacity:.5}
+            50%{height:30px;opacity:1}
+        }
+        .call-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+        /* Active call */
+        .active-call{background:var(--panel-bg); border:1px solid var(--panel-br); border-radius:20px; padding:32px; margin-bottom:22px; display:none; backdrop-filter:blur(20px)}
+        .active-call.show{display:block}
+        .call-info{text-align:center;margin-bottom:28px}
+        .call-duration{font-size:48px;font-weight:300;margin-bottom:8px; font-variant-numeric:tabular-nums; letter-spacing:-.03em}
+        .call-status-text{font-size:14px;color:var(--fg-dim);font-weight:600;letter-spacing:-.01em}
+
+        .controls-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-bottom:18px}
+        .control-item{
+            background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.12); border-radius:14px;
+            padding:18px 14px; display:flex; flex-direction:column; align-items:center; gap:8px; cursor:pointer; transition:.15s ease;
+            user-select:none;
+        }
+        .control-item:hover{background:rgba(255,255,255,.07); border-color:rgba(255,255,255,.18); transform:translateY(-1px)}
+        .control-item.active{background:var(--btn-bg); color:#000; border-color:rgba(255,255,255,.25)}
+        .control-item svg{width:22px;height:22px;fill:currentColor}
+        .control-item span{font-size:11px;font-weight:800;letter-spacing:.2px; text-transform:uppercase}
+
+        .end-call-btn{
+            width:100%; background:var(--btn-bg); color:var(--btn-fg); padding:16px; border-radius:14px; border:none;
+            font-size:15px; font-weight:800; cursor:pointer; box-shadow:0 6px 18px rgba(255,255,255,.12);
+        }
+        .end-call-btn:hover{transform:translateY(-1px); box-shadow:0 10px 24px rgba(255,255,255,.2)}
+
+        /* Content grid panels */
+        .content-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); gap:18px}
+        .panel{background:var(--panel-bg); border:1px solid var(--panel-br); border-radius:18px; padding:24px; backdrop-filter:blur(18px)}
+        .panel:hover{background:var(--panel-bg-hover); border-color:var(--panel-br-hover)}
+        .panel-header{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--panel-br)}
+        .panel-header .title{font-size:16px;font-weight:800;letter-spacing:-.02em}
+        .panel-badge{background:rgba(255,255,255,.08); padding:6px 12px; border-radius:12px; font-size:10px; font-weight:900; letter-spacing:.5px; text-transform:uppercase; color:var(--fg-dim)}
+
+        .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+        .stat-card{background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); border-radius:12px; padding:22px 16px; text-align:center}
+        .stat-card:hover{background:rgba(255,255,255,.07); border-color:rgba(255,255,255,.16); transform:translateY(-2px)}
+        .stat-value{font-size:32px; font-weight:300; margin-bottom:6px}
+        .stat-label{font-size:11px; color:var(--fg-dim); font-weight:800; letter-spacing:.3px; text-transform:uppercase}
+
+        .call-log{max-height:480px; overflow:auto}
+        .call-log::-webkit-scrollbar{width:6px}
+        .call-log::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15); border-radius:3px}
+        .empty-state{text-align:center; padding:44px 12px; color:var(--fg-dimmer)}
+        .empty-state svg{width:50px;height:50px;fill:rgba(255,255,255,.15);margin-bottom:10px}
+        .log-item{background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); border-radius:12px; padding:14px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center}
+        .log-item:hover{background:rgba(255,255,255,.07); border-color:rgba(255,255,255,.16); transform:translateX(3px)}
+        .log-info h4{font-size:14px;font-weight:700;margin-bottom:4px}
+        .log-info p{font-size:12px;color:var(--fg-dimmer);font-weight:600}
+        .log-duration{font-size:12px;font-weight:800;color:#fff;padding:8px 12px;background:rgba(255,255,255,.1);border-radius:10px;letter-spacing:-.01em}
+
+        /* Voice FX / Devices */
+        .fx-grid{display:grid; grid-template-columns:1fr; gap:10px}
+        .row{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+        .row > *{flex:1}
+        .label{font-size:12px; color:var(--fg-dim); font-weight:800; text-transform:uppercase; letter-spacing:.4px}
+        .range{appearance:none; width:100%; height:8px; background:rgba(255,255,255,.12); border-radius:999px; outline:none}
+        .range::-webkit-slider-thumb{appearance:none;width:16px;height:16px;border-radius:50%;background:#fff;cursor:pointer}
+        .switch{display:flex;align-items:center;gap:8px}
+        .switch input{appearance:none;width:34px;height:20px;background:rgba(255,255,255,.2);border-radius:999px;position:relative;outline:none;cursor:pointer}
+        .switch input:after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;background:#000;border-radius:50%;transition:.15s}
+        .switch input:checked{background:#fff}
+        .switch input:checked:after{left:16px;background:#000}
+        .mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, "Courier New", monospace; font-size:12px}
+
+        /* DTMF keypad */
+        .keypad{display:grid;grid-template-columns:repeat(3,1fr); gap:10px}
+        .key{background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.15); border-radius:12px; padding:16px; font-weight:800; text-align:center; cursor:pointer}
+        .key:hover{background:rgba(255,255,255,.1)}
+        .key:active{transform:translateY(1px)}
+        .kbd{font-variant-numeric:tabular-nums}
+
+        /* Notes modal */
+        .modal{position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.6); padding:20px; z-index:1000}
+        .modal.show{display:flex}
+        .modal-card{width:min(680px, 100%); background:var(--panel-bg); border:1px solid var(--panel-br); border-radius:16px; padding:18px}
+        .modal-header{display:flex; align-items:center; justify-content:space-between; margin-bottom:12px}
+        .modal-title{font-size:16px; font-weight:800}
+        .textarea{width:100%; min-height:160px; background:rgba(255,255,255,.06); color:#fff; border:1px solid rgba(255,255,255,.2); border-radius:12px; padding:12px; font-size:14px; resize:vertical}
+        .modal-actions{display:flex;gap:8px; justify-content:flex-end; margin-top:12px}
+
+        /* Live meters */
+        .meters{display:grid; grid-template-columns:repeat(2,1fr); gap:10px}
+        .meter{background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.15); border-radius:10px; padding:10px}
+        .meter-bar{height:8px; background:rgba(255,255,255,.12); border-radius:8px; overflow:hidden}
+        .meter-fill{height:100%; width:0%; background:#fff; transition:width .08s linear}
+
+        /* Stats grid small */
+        .kv{display:grid; grid-template-columns: 1fr auto; gap:8px; font-size:13px}
+        .kv .k{color:var(--fg-dim); font-weight:700}
+        .kv .v{font-weight:700}
 
         /* Responsive */
-        @media (max-width: 1200px) {
-            .workspace {
-                grid-template-columns: 280px 1fr;
-            }
-
-            .actions-panel {
-                position: fixed;
-                right: -420px;
-                top: 0;
-                width: 380px;
-                height: 100vh;
-                transition: right 0.3s;
-                z-index: 1001;
-                box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
-            }
-
-            .actions-panel.show {
-                right: 0;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .mobile-header {
-                display: flex;
-            }
-
-            .workspace {
-                grid-template-columns: 1fr;
-                height: calc(100vh - 64px);
-            }
-
-            .channels-panel {
-                position: fixed;
-                left: -100%;
-                top: 64px;
-                width: 280px;
-                height: calc(100vh - 64px);
-                transition: left 0.3s;
-                z-index: 1002;
-                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
-            }
-
-            .channels-panel.show {
-                left: 0;
-            }
-
-            .actions-panel {
-                top: 64px;
-                height: calc(100vh - 64px);
-                width: 90%;
-                max-width: 360px;
-            }
-
-            .messages-area {
-                padding: 16px;
-            }
-        }
-
-        .channels-list::-webkit-scrollbar,
-        .actions-body::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .channels-list::-webkit-scrollbar-track,
-        .actions-body::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .channels-list::-webkit-scrollbar-thumb,
-        .actions-body::-webkit-scrollbar-thumb {
-            background: #2a2a2a;
-            border-radius: 3px;
+        @media (max-width:768px){
+            .dashboard{padding:16px}
+            .header{padding:18px}
+            .incoming-call{padding:28px 18px}
+            .active-call{padding:24px 18px}
+            .controls-grid{grid-template-columns:repeat(2, 1fr)}
+            .stats-grid{grid-template-columns:1fr}
         }
     </style>
 </head>
 <body>
-    <!-- Mobile Header -->
-    <div class="mobile-header">
-        <button class="mobile-menu-btn" onclick="toggleChannels()">☰</button>
-        <div class="mobile-title">Helpline Workspace</div>
-        <button class="mobile-menu-btn" onclick="toggleActions()">⋮</button>
-    </div>
-
-    <!-- Overlay -->
-    <div class="overlay" id="overlay" onclick="closeAllPanels()"></div>
-
-    <div class="workspace">
-        <!-- Left Panel -->
-        <div class="channels-panel" id="channelsPanel">
-            <div class="panel-header">
-                <div class="workspace-title">SHARVIKA</div>
-                <div class="workspace-subtitle">Admin Workspace</div>
+    <div class="dashboard">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-left">
+                <h1>Sharvika Call Centre - Technical Support</h1>
+                <div class="peer-info">Agent ID: <span id="peerId">Initializing...</span></div>
             </div>
 
-            <div class="channels-list">
-                <div class="channel-item active" onclick="switchChannel('community')">
-                    <div class="channel-name">Community Chat</div>
-                    <div class="channel-desc">User discussions</div>
-                    <span class="message-count" id="communityCount">0</span>
-                </div>
-                <div class="channel-item" onclick="switchChannel('announcements')">
-                    <div class="channel-name">Announcements</div>
-                    <div class="channel-desc">Post official updates</div>
-                    <span class="message-count" id="announcementCount">0</span>
-                </div>
-            </div>
+            <div class="header-right">
+                <div class="status-badge status-offline" id="statusBadge">Offline</div>
 
-            <div class="panel-footer">
-                <div class="admin-avatar" id="adminAvatar">A</div>
-                <div class="admin-info">
-                    <div class="admin-name" id="adminName">Admin</div>
-                    <div class="admin-role">Helpline Team</div>
-                </div>
-                <div class="logout-btn" onclick="logout()">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>
-                    </svg>
+                <div class="agent-controls">
+                    <select id="agentStatus">
+                        <option value="online">Online</option>
+                        <option value="busy">Busy</option>
+                        <option value="away">Away/Break</option>
+                        <option value="offline">Offline</option>
+                    </select>
+                    <input class="text-input" id="dialPeerId" placeholder="Dial Peer ID (outbound)" />
+                    <button class="btn" id="dialBtn">Call</button>
+                    <button class="btn secondary" id="hangupBtn">Hang Up</button>
                 </div>
             </div>
         </div>
 
-        <!-- Middle Panel -->
-        <div class="messages-panel">
-            <div class="messages-header">
-                <div class="header-info">
-                    <div class="header-avatar" id="headerAvatar">C</div>
-                    <div>
-                        <div class="header-title" id="headerTitle">Community Chat</div>
-                        <div class="header-subtitle" id="headerSubtitle">User discussions</div>
+        <!-- Incoming Call -->
+        <div class="incoming-call" id="incomingCall">
+            <div class="caller-avatar">
+                <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            </div>
+            <h2>Incoming Call</h2>
+            <p id="incomingMeta">User requesting technical support</p>
+            <div class="sound-indicator">
+                <div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div>
+            </div>
+            <div class="call-actions">
+                <button class="btn" id="acceptBtn">Accept Call</button>
+                <button class="btn ghost" id="declineBtn">Decline</button>
+            </div>
+        </div>
+
+        <!-- Active Call -->
+        <div class="active-call" id="activeCall">
+            <div class="call-info">
+                <div class="call-duration" id="callDuration">00:00</div>
+                <div class="call-status-text" id="callStateText">Call in Progress</div>
+            </div>
+
+            <div class="controls-grid">
+                <div class="control-item" id="muteControl">
+                    <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
+                    <span>Mute</span>
+                </div>
+
+                <div class="control-item" id="speakerControl">
+                    <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                    <span>Speaker</span>
+                </div>
+
+                <div class="control-item" id="holdControl">
+                    <svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                    <span>Hold</span>
+                </div>
+
+                <div class="control-item" id="recordControl">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/></svg>
+                    <span>Record</span>
+                </div>
+
+                <div class="control-item" id="notesControl">
+                    <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+                    <span>Notes</span>
+                </div>
+
+                <div class="control-item" id="transferControl">
+                    <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                    <span>Transfer</span>
+                </div>
+            </div>
+
+            <button class="end-call-btn" id="endCallBtn">End Call</button>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="content-grid">
+            <!-- Statistics -->
+            <div class="panel">
+                <div class="panel-header">
+                    <span class="title">Today's Statistics</span>
+                    <span class="panel-badge" id="dateToday"></span>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalCalls">0</div>
+                        <div class="stat-label">Total</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="answeredCalls">0</div>
+                        <div class="stat-label">Answered</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="missedCalls">0</div>
+                        <div class="stat-label">Missed</div>
                     </div>
                 </div>
             </div>
 
-            <div class="messages-area" id="messagesArea">
-                <div class="loading">
-                    <div class="loading-spinner"></div>
-                    <div>Loading messages...</div>
+            <!-- Call History -->
+            <div class="panel">
+                <div class="panel-header">
+                    <span class="title">Call History</span>
+                    <span class="panel-badge" id="historyCount">0</span>
                 </div>
-            </div>
-
-            <div class="announcement-input" id="announcementInput" style="display: none;">
-                <div class="input-wrapper">
-                    <div class="input-box">
-                        <textarea 
-                            class="textarea-input" 
-                            id="announcementText" 
-                            placeholder="Write an announcement..."
-                            rows="1"
-                            oninput="autoResize(this)"
-                        ></textarea>
+                <div class="call-log" id="callLog">
+                    <div class="empty-state">
+                        <svg viewBox="0 0 24 24"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
+                        <p>No calls yet today</p>
                     </div>
-                    <button class="send-btn" onclick="sendAnnouncement()">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
-                        </svg>
-                    </button>
                 </div>
             </div>
-        </div>
 
-        <!-- Right Panel -->
-        <div class="actions-panel" id="actionsPanel">
-            <div class="actions-header">
-                <div class="actions-title">Message Actions</div>
+            <!-- Voice FX and Devices -->
+            <div class="panel">
+                <div class="panel-header">
+                    <span class="title">Voice FX & Devices</span>
+                    <span class="panel-badge">Live</span>
+                </div>
+                <div class="fx-grid">
+                    <div class="row">
+                        <div>
+                            <div class="label">Microphone</div>
+                            <select id="micSelect"></select>
+                        </div>
+                        <div>
+                            <div class="label">Speaker Output</div>
+                            <select id="speakerSelect"></select>
+                        </div>
+                    </div>
+
+                    <div class="row meters">
+                        <div class="meter">
+                            <div class="label">Mic Level</div>
+                            <div class="meter-bar"><div class="meter-fill" id="micMeter"></div></div>
+                        </div>
+                        <div class="meter">
+                            <div class="label">Remote Level</div>
+                            <div class="meter-bar"><div class="meter-fill" id="remoteMeter"></div></div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div>
+                            <div class="label">Effect Preset</div>
+                            <select id="fxPreset">
+                                <option value="off">Off (Clean)</option>
+                                <option value="telephone">Telephone</option>
+                                <option value="radio">Radio</option>
+                                <option value="robotic">Robotic</option>
+                                <option value="deep">Deep</option>
+                                <option value="bright">Bright</option>
+                            </select>
+                        </div>
+                        <div>
+                            <div class="label">Effect Intensity</div>
+                            <input type="range" min="0" max="100" value="50" id="fxAmount" class="range" />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div>
+                            <div class="label">Pitch Shift (experimental)</div>
+                            <input type="range" min="-12" max="12" value="0" id="pitchSemis" class="range" />
+                        </div>
+                        <div class="switch">
+                            <input type="checkbox" id="monitorSelf" />
+                            <label for="monitorSelf" class="label">Monitor Self (use headphones)</label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="switch">
+                            <input type="checkbox" id="echoCancellation" checked />
+                            <label for="echoCancellation" class="label">Echo Cancellation</label>
+                        </div>
+                        <div class="switch">
+                            <input type="checkbox" id="noiseSuppression" checked />
+                            <label for="noiseSuppression" class="label">Noise Suppression</label>
+                        </div>
+                        <div class="switch">
+                            <input type="checkbox" id="autoGainControl" checked />
+                            <label for="autoGainControl" class="label">Auto Gain</label>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="actions-body" id="actionsBody">
-                <div class="no-selection">
-                    Select a message to perform actions
+            <!-- DTMF / Dialpad -->
+            <div class="panel">
+                <div class="panel-header">
+                    <span class="title">DTMF Keypad</span>
+                    <span class="panel-badge">In-Call</span>
+                </div>
+                <div class="keypad">
+                    <div class="key" data-k="1">1</div>
+                    <div class="key" data-k="2">2</div>
+                    <div class="key" data-k="3">3</div>
+                    <div class="key" data-k="4">4</div>
+                    <div class="key" data-k="5">5</div>
+                    <div class="key" data-k="6">6</div>
+                    <div class="key" data-k="7">7</div>
+                    <div class="key" data-k="8">8</div>
+                    <div class="key" data-k="9">9</div>
+                    <div class="key" data-k="*">*</div>
+                    <div class="key" data-k="0">0</div>
+                    <div class="key" data-k="#">#</div>
+                </div>
+                <div style="margin-top:10px" class="row">
+                    <input class="text-input mono" id="dtmfField" placeholder="Touch tones to send..." />
+                    <button class="btn ghost" id="dtmfSendBtn">Send DTMF</button>
+                </div>
+            </div>
+
+            <!-- Recording / Quality -->
+            <div class="panel">
+                <div class="panel-header">
+                    <span class="title">Recording & Quality</span>
+                    <span class="panel-badge">Agent</span>
+                </div>
+
+                <div class="row" style="margin-bottom:10px">
+                    <div class="switch">
+                        <input type="checkbox" id="autoAnswer" />
+                        <label for="autoAnswer" class="label">Auto-Answer</label>
+                    </div>
+                    <div class="switch">
+                        <input type="checkbox" id="keepAwake" />
+                        <label for="keepAwake" class="label">Keep Screen Awake</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <button class="btn" id="startRecBtn">Start Recording</button>
+                    <button class="btn secondary" id="stopRecBtn" disabled>Stop Recording</button>
+                    <button class="btn ghost" id="exportLogsBtn">Export Logs</button>
+                </div>
+
+                <div style="margin-top:16px">
+                    <div class="label" style="margin-bottom:6px">Live Call Stats</div>
+                    <div class="kv">
+                        <div class="k">Bitrate (kbps)</div><div class="v mono" id="statBitrate">-</div>
+                        <div class="k">RTT (ms)</div><div class="v mono" id="statRtt">-</div>
+                        <div class="k">Jitter (ms)</div><div class="v mono" id="statJitter">-</div>
+                        <div class="k">Packet Loss (%)</div><div class="v mono" id="statLoss">-</div>
+                    </div>
+                </div>
+
+                <div style="margin-top:16px">
+                    <div class="label" style="margin-bottom:6px">Recordings</div>
+                    <div id="recordingsList"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Toast -->
-    <div class="toast" id="toast"></div>
+    <!-- Notes Modal -->
+    <div class="modal" id="notesModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title">Call Notes</div>
+                <button class="btn ghost" id="closeNotesBtn">Close</button>
+            </div>
+            <textarea class="textarea" id="notesText" placeholder="Type call notes here..."></textarea>
+            <div class="modal-actions">
+                <button class="btn" id="saveNotesBtn">Save Notes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio sinks -->
+    <audio id="remoteAudio" autoplay playsinline></audio>
+    <audio id="monitorAudio" autoplay playsinline muted></audio>
+
+    <!-- Ringtone -->
+    <audio id="ringtone" loop src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTGH0fPTgjMGHm7A7+OZRQ4ZdNDx0IU2CRxgvO3hnkwOEVmr5O+qVhgITKXi8biCLAYuhsr03ok/CA1esuzvl0cPElKi4vG7bRsFN47W883DcSoGKX3N8d6NOwgWZ7zs4pBADBRcruPwsWYdBjmP1PLPfS0GK4DN8t2RQAoUXrTo7KhWFQlHoe7rwmwhBTCH0fLUgTMGHm2+7+OYRAcadNDx0YU2Bxxgu+3gnEsOEFus5e6qVhgHSKPi8LqAKgYrgMrz3Y0/BwtdsuzvmEUPElKi4vC7bhoFN4/W88+/cSsFKYDN8d6NOwgWZ7rs4Y9ADBVbr+PwsGQeBDiP1PLPfS0GK4DN8t2RQAoUXrTo7KlVFQlHoe7rwmwhBTCG0fLUgTMGHm6/7+OYRAcadNDx0YU2Bxxgu+3hm0sPEFus5e6qVhgHSKPi8LqAKgYrgMrz3Y0+BwtdsuzvmEUPElKh4vC7bhoFOI/W88+/cSsFKYDN8d6NOwgWZ7rs4Y9ADBVbr+PwsGQeBDiP1PLPfS0GK4DN8t2RQAoUXrTo7KlVFQlHoe7rwmwhBTCG0fLUgTMGHm6/7+OYRAcadNDx0YU2Bxxgu+3hm0sPEA=="></audio>
 
     <script>
-        // Firebase Configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyBYEol3wDIUihPTLaM1EjqVkpvjvJ-1_O4",
-            authDomain: "my-website-backend-957db.firebaseapp.com",
-            projectId: "my-website-backend-957db",
-            storageBucket: "my-website-backend-957db.firebasestorage.app",
-            messagingSenderId: "75667291929",
-            appId: "1:75667291929:web:10878882c9c30574144f88",
-            measurementId: "G-8H93W7QZGT"
-        };
+    // Configuration
+    const SUPPORT_PEER_ID = 'sharvika-support-2024';
 
-        // Initialize Firebase
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
+    // State
+    let peer, localStream, processedStream, audioCtx, procNodes, procDest, monitorDest;
+    let currentCall = null, callTimer = null, callDuration = 0;
+    let isMuted = false, isOnHold = false, isSpeakerOn = true;
+    let dtmfSender = null;
+    let wakeLock = null;
+    let mediaRecorder = null, recordChunks = [], mixCtx = null, mixDest = null;
+    let stats = { total: 0, answered: 0, missed: 0 };
+    let settings = {
+        micId: null,
+        sinkId: null,
+        echoCancellation: true,
+        noiseSuppression: true,
+        autoGainControl: true,
+        autoAnswer: false
+    };
+    let localAnalyser = null, remoteAnalyser = null, remoteStreamRef = null;
+    let statTimer = null;
+
+    // UI elements
+    const peerIdEl = document.getElementById('peerId');
+    const statusBadge = document.getElementById('statusBadge');
+    const incomingCall = document.getElementById('incomingCall');
+    const incomingMeta = document.getElementById('incomingMeta');
+    const activeCall = document.getElementById('activeCall');
+    const acceptBtn = document.getElementById('acceptBtn');
+    const declineBtn = document.getElementById('declineBtn');
+    const endCallBtn = document.getElementById('endCallBtn');
+    const callDurationDisplay = document.getElementById('callDuration');
+    const callStateText = document.getElementById('callStateText');
+    const muteControl = document.getElementById('muteControl');
+    const speakerControl = document.getElementById('speakerControl');
+    const holdControl = document.getElementById('holdControl');
+    const recordControl = document.getElementById('recordControl');
+    const notesControl = document.getElementById('notesControl');
+    const transferControl = document.getElementById('transferControl');
+    const remoteAudio = document.getElementById('remoteAudio');
+    const monitorAudio = document.getElementById('monitorAudio');
+    const ringtone = document.getElementById('ringtone');
+
+    const dateTodayEl = document.getElementById('dateToday');
+    const totalCallsEl = document.getElementById('totalCalls');
+    const answeredCallsEl = document.getElementById('answeredCalls');
+    const missedCallsEl = document.getElementById('missedCalls');
+    const callLogEl = document.getElementById('callLog');
+    const historyCountEl = document.getElementById('historyCount');
+
+    const micSelect = document.getElementById('micSelect');
+    const speakerSelect = document.getElementById('speakerSelect');
+    const fxPreset = document.getElementById('fxPreset');
+    const fxAmount = document.getElementById('fxAmount');
+    const pitchSemis = document.getElementById('pitchSemis');
+    const monitorSelf = document.getElementById('monitorSelf');
+    const echoCancellation = document.getElementById('echoCancellation');
+    const noiseSuppression = document.getElementById('noiseSuppression');
+    const autoGainControl = document.getElementById('autoGainControl');
+
+    const micMeter = document.getElementById('micMeter');
+    const remoteMeter = document.getElementById('remoteMeter');
+
+    const keypad = document.querySelectorAll('.key[data-k]');
+       const dtmfField = document.getElementById('dtmfField');
+    const dtmfSendBtn = document.getElementById('dtmfSendBtn');
+
+    const agentStatus = document.getElementById('agentStatus');
+    const dialPeerId = document.getElementById('dialPeerId');
+    const dialBtn = document.getElementById('dialBtn');
+    const hangupBtn = document.getElementById('hangupBtn');
+
+    const startRecBtn = document.getElementById('startRecBtn');
+    const stopRecBtn = document.getElementById('stopRecBtn');
+    const recordingsList = document.getElementById('recordingsList');
+    const statBitrate = document.getElementById('statBitrate');
+    const statRtt = document.getElementById('statRtt');
+    const statJitter = document.getElementById('statJitter');
+    const statLoss = document.getElementById('statLoss');
+
+    const autoAnswer = document.getElementById('autoAnswer');
+    const keepAwake = document.getElementById('keepAwake');
+    const exportLogsBtn = document.getElementById('exportLogsBtn');
+
+    const notesModal = document.getElementById('notesModal');
+    const closeNotesBtn = document.getElementById('closeNotesBtn');
+    const saveNotesBtn = document.getElementById('saveNotesBtn');
+    const notesText = document.getElementById('notesText');
+
+    // Utilities
+    const todayKey = () => new Date().toISOString().slice(0,10);
+    function loadPersist() {
+        try{
+            const s = JSON.parse(localStorage.getItem('sharvika_settings')||'{}');
+            Object.assign(settings, s);
+            const daily = JSON.parse(localStorage.getItem('sharvika_stats_'+todayKey())||'{}');
+            stats.total = daily.total||0; stats.answered = daily.answered||0; stats.missed = daily.missed||0;
+            updateStats();
+            autoAnswer.checked = !!settings.autoAnswer;
+            echoCancellation.checked = !!settings.echoCancellation;
+            noiseSuppression.checked = !!settings.noiseSuppression;
+            autoGainControl.checked = !!settings.autoGainControl;
+        }catch(e){}
+    }
+    function saveSettings(){
+        localStorage.setItem('sharvika_settings', JSON.stringify(settings));
+    }
+    function persistStats(){
+        localStorage.setItem('sharvika_stats_'+todayKey(), JSON.stringify(stats));
+    }
+
+    function setBadge(stateText){
+        if(stateText==='Online'){statusBadge.className='status-badge status-online';}
+        else if(stateText==='On Call' || stateText==='Incoming' || stateText==='Busy'){statusBadge.className='status-badge status-busy';}
+        else{statusBadge.className='status-badge status-offline';}
+        statusBadge.textContent = stateText;
+    }
+
+    function updateStats(){
+        totalCallsEl.textContent = stats.total;
+        answeredCallsEl.textContent = stats.answered;
+        missedCallsEl.textContent = stats.missed;
+        persistStats();
+    }
+
+    // Devices
+    async function listDevices(){
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const mics = devices.filter(d=>d.kind==='audioinput');
+        const sinks = devices.filter(d=>d.kind==='audiooutput');
+
+        micSelect.innerHTML = '';
+        for(const d of mics){
+            const opt = document.createElement('option');
+            opt.value = d.deviceId;
+            opt.textContent = d.label || `Microphone ${micSelect.length+1}`;
+            micSelect.appendChild(opt);
         }
-        const auth = firebase.auth();
-        const db = firebase.firestore();
+        if(settings.micId){
+            const found = [...micSelect.options].some(o=>o.value===settings.micId);
+            micSelect.value = found ? settings.micId : (mics[0]?.deviceId||'');
+        }
 
-        let currentChannel = 'community';
-        let selectedMessage = null;
-        let unsubscribe = null;
+        speakerSelect.innerHTML = '';
+        for(const d of sinks){
+            const opt = document.createElement('option');
+            opt.value = d.deviceId;
+            opt.textContent = d.label || `Speaker ${speakerSelect.length+1}`;
+            speakerSelect.appendChild(opt);
+        }
+        if(settings.sinkId){
+            const found = [...speakerSelect.options].some(o=>o.value===settings.sinkId);
+            speakerSelect.value = found ? settings.sinkId : '';
+        }
+        await applySink();
+    }
 
-        // Mobile Panel Toggles
-        window.toggleChannels = function() {
-            document.getElementById('channelsPanel').classList.toggle('show');
-            document.getElementById('overlay').classList.toggle('show');
+    async function applySink(){
+        const sinkId = speakerSelect.value;
+        try{
+            if(typeof remoteAudio.setSinkId === 'function' && sinkId){
+                await remoteAudio.setSinkId(sinkId);
+                settings.sinkId = sinkId;
+                saveSettings();
+            }
+        }catch(e){ console.warn('setSinkId not supported or failed', e); }
+    }
+
+    // Audio Processing Chain (Web Audio)
+    function dbToGain(db){return Math.pow(10, db/20);}
+    function createVoiceChain(stream){
+        if(audioCtx) audioCtx.close().catch(()=>{});
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const source = audioCtx.createMediaStreamSource(stream);
+
+        // Nodes
+        const inputGain = audioCtx.createGain(); inputGain.gain.value = 1.0;
+        const highpass = audioCtx.createBiquadFilter(); highpass.type='highpass'; highpass.frequency.value = 60;
+        const lowshelf = audioCtx.createBiquadFilter(); lowshelf.type='lowshelf'; lowshelf.frequency.value=180; lowshelf.gain.value=0;
+        const highshelf = audioCtx.createBiquadFilter(); highshelf.type='highshelf'; highshelf.frequency.value=3500; highshelf.gain.value=0;
+        const bandpass = audioCtx.createBiquadFilter(); bandpass.type='bandpass'; bandpass.frequency.value=1200; bandpass.Q.value=0.0001;
+        const waveshaper = audioCtx.createWaveShaper(); waveshaper.curve = makeDistortionCurve(0);
+        const outGain = audioCtx.createGain(); outGain.gain.value=1.0;
+
+        // Simple tremolo for robotic feel
+        const lfo = audioCtx.createOscillator(); lfo.type='square'; lfo.frequency.value=30;
+        const lfoGain = audioCtx.createGain(); lfoGain.gain.value=0; // intensity controlled
+        lfo.connect(lfoGain);
+        lfo.start();
+
+        // Pitch shift (very lightweight, experimental using delay mod)
+        const pitchDelay = audioCtx.createDelay(0.25);
+        pitchDelay.delayTime.value = 0.0;
+        const pitchGain = audioCtx.createGain(); pitchGain.gain.value = 0.0;
+
+        // Modulate gain for robotic effect
+        lfoGain.connect(outGain.gain);
+
+        // Connections: source -> inputGain -> HP -> bands -> dist -> pitch -> outGain -> dest
+        source.connect(inputGain);
+        inputGain.connect(highpass);
+        highpass.connect(lowshelf);
+        lowshelf.connect(highshelf);
+        highshelf.connect(bandpass);
+        bandpass.connect(waveshaper);
+        waveshaper.connect(outGain);
+
+        // pitch path (mix)
+        waveshaper.connect(pitchDelay);
+        pitchDelay.connect(pitchGain);
+        pitchGain.connect(outGain);
+
+        // Destination for processed stream sent to peer
+        procDest = audioCtx.createMediaStreamDestination();
+        outGain.connect(procDest);
+
+        // Optional monitor path
+        monitorDest = audioCtx.createMediaStreamDestination();
+        outGain.connect(monitorDest);
+        monitorAudio.srcObject = monitorDest.stream;
+
+        // Analyser for mic level
+        localAnalyser = audioCtx.createAnalyser();
+        localAnalyser.fftSize = 512;
+        outGain.connect(localAnalyser);
+
+        procNodes = { source, inputGain, highpass, lowshelf, highshelf, bandpass, waveshaper, outGain, lfoGain, pitchDelay, pitchGain };
+        return procDest.stream;
+    }
+
+    function makeDistortionCurve(amount){
+        // amount 0..1
+        const k = amount*100;
+        const n_samples = 44100;
+        const curve = new Float32Array(n_samples);
+        const deg = Math.PI / 180;
+        for (let i=0;i<n_samples;i++){
+            const x = i*2/n_samples - 1;
+            curve[i] = (3+k)*x*20*deg/(Math.PI + k*Math.abs(x));
+        }
+        return curve;
+    }
+
+    function applyFxPreset(){
+        const preset = fxPreset.value;
+        const amt = parseInt(fxAmount.value,10)/100;
+
+        if(!procNodes) return;
+
+        // Reset base
+        procNodes.lowshelf.gain.value = 0;
+        procNodes.highshelf.gain.value = 0;
+        procNodes.bandpass.Q.value = 0.0001;
+        procNodes.bandpass.frequency.value = 1200;
+        procNodes.waveshaper.curve = makeDistortionCurve(0);
+        procNodes.lfoGain.gain.value = 0;
+        procNodes.pitchGain.gain.value = 0;
+
+        switch(preset){
+            case 'telephone':
+                procNodes.bandpass.Q.value = 1.0;
+                procNodes.bandpass.frequency.value = 1200;
+                procNodes.lowshelf.gain.value = -8*amt;
+                procNodes.highshelf.gain.value = -12*amt;
+                break;
+            case 'radio':
+                procNodes.lowshelf.gain.value = -4*amt;
+                procNodes.highshelf.gain.value = -6*amt;
+                procNodes.waveshaper.curve = makeDistortionCurve(0.2*amt);
+                break;
+            case 'robotic':
+                procNodes.lfoGain.gain.value = 0.4*amt; // amplitude modulation
+                procNodes.waveshaper.curve = makeDistortionCurve(0.4*amt);
+                break;
+            case 'deep':
+                procNodes.lowshelf.gain.value = 8*amt;
+                procNodes.highshelf.gain.value = -4*amt;
+                break;
+            case 'bright':
+                procNodes.highshelf.gain.value = 10*amt;
+                break;
+        }
+        // Pitch shift emulation via short delay blend
+        const semis = parseInt(pitchSemis.value,10);
+        if(semis !== 0){
+            const mix = Math.min(1, Math.abs(semis)/12);
+            procNodes.pitchGain.gain.value = 0.25*mix*amt;
+            procNodes.pitchDelay.delayTime.value = Math.min(0.08, 0.02 + mix*0.04);
+        }
+    }
+
+    function updateMonitor(){
+        if(!monitorSelf.checked){
+            monitorAudio.muted = true;
+            monitorAudio.volume = 0;
+        } else {
+            monitorAudio.muted = false;
+            monitorAudio.volume = 1;
+        }
+    }
+
+    function startMeters(){
+        // Local meter from localAnalyser
+        function levelFromAnalyser(analyser){
+            if(!analyser) return 0;
+            const arr = new Uint8Array(analyser.frequencyBinCount);
+            analyser.getByteTimeDomainData(arr);
+            let sum=0;
+            for(let i=0;i<arr.length;i++){
+                const v = (arr[i]-128)/128;
+                sum += v*v;
+            }
+            const rms = Math.sqrt(sum/arr.length);
+            return Math.min(1, rms*2.5);
+        }
+
+        const remoteCtx = new (window.AudioContext||window.webkitAudioContext)();
+        remoteAnalyser = remoteCtx.createAnalyser();
+        remoteAnalyser.fftSize = 512;
+
+        function bindRemoteAnalyser(stream){
+            try{
+                const s = remoteCtx.createMediaStreamSource(stream);
+                s.connect(remoteAnalyser);
+            }catch(e){}
+        }
+        if(remoteStreamRef) bindRemoteAnalyser(remoteStreamRef);
+
+        function tick(){
+            const l = levelFromAnalyser(localAnalyser);
+            micMeter.style.width = (l*100).toFixed(0)+'%';
+
+            if(remoteAnalyser){
+                const arr = new Uint8Array(remoteAnalyser.frequencyBinCount);
+                remoteAnalyser.getByteTimeDomainData(arr);
+                let sum=0;
+                for(let i=0;i<arr.length;i++){
+                    const v = (arr[i]-128)/128;
+                    sum += v*v;
+                }
+                const rms = Math.sqrt(sum/arr.length);
+                remoteMeter.style.width = Math.min(100, rms*250) + '%';
+            }
+            requestAnimationFrame(tick);
+        }
+        tick();
+    }
+
+    // Init mic
+    async function getMicStream(){
+        const constraints = {
+            audio: {
+                deviceId: settings.micId ? {exact: settings.micId} : undefined,
+                echoCancellation: settings.echoCancellation,
+                noiseSuppression: settings.noiseSuppression,
+                autoGainControl: settings.autoGainControl
+            },
+            video:false
         };
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        return stream;
+    }
 
-        window.toggleActions = function() {
-            document.getElementById('actionsPanel').classList.toggle('show');
-            document.getElementById('overlay').classList.toggle('show');
-        };
+    async function restartLocalStream(){
+        if(localStream){
+            localStream.getTracks().forEach(t=>t.stop());
+        }
+        localStream = await getMicStream();
+        processedStream = createVoiceChain(localStream);
+        applyFxPreset();
+        updateMonitor();
+        if(currentCall){
+            // Replace outgoing track if in-call
+            replaceOutgoingTrack();
+        }
+    }
 
-        window.closeAllPanels = function() {
-            document.getElementById('channelsPanel').classList.remove('show');
-            document.getElementById('actionsPanel').classList.remove('show');
-            document.getElementById('overlay').classList.remove('show');
-        };
+    function getPC(){
+        // PeerJS exposes .peerConnection in MediaConnection
+        return currentCall && (currentCall.peerConnection || currentCall._pc || currentCall._peerConnection) || null;
+    }
 
-        // Check Auth
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                const name = user.displayName || user.email.split('@')[0];
-                const initial = name.charAt(0).toUpperCase();
-                document.getElementById('adminAvatar').textContent = initial;
-                document.getElementById('adminName').textContent = name;
-                loadMessages();
-            } else {
-                window.location.href = 'signin.html';
+    function getAudioSender(){
+        const pc = getPC();
+        if(!pc) return null;
+        const senders = pc.getSenders ? pc.getSenders() : [];
+        return senders.find(s=>s.track && s.track.kind==='audio') || null;
+    }
+
+    function replaceOutgoingTrack(){
+        const sender = getAudioSender();
+        if(!sender) return;
+        const preset = fxPreset.value;
+        const useProcessed = preset!=='off' || parseInt(pitchSemis.value,10)!==0 || parseInt(fxAmount.value,10)>0;
+        const track = (useProcessed ? processedStream : localStream).getAudioTracks()[0];
+        sender.replaceTrack(track).catch(()=>{});
+        dtmfSender = sender.dtmf || null;
+    }
+
+    // PeerJS lifecycle
+    async function startPeer(){
+        peer = new Peer(SUPPORT_PEER_ID, {
+            debug: 2,
+            config: {
+                iceServers: [
+                    { urls: 'stun:stun.l.google.com:19302' },
+                    { urls: 'stun:stun1.l.google.com:19302' },
+                    { urls: 'stun:stun2.l.google.com:19302' }
+                ]
             }
         });
 
-        // Switch Channel
-        window.switchChannel = function(channel) {
-            currentChannel = channel;
-            selectedMessage = null;
+        peer.on('open', id=>{
+            peerIdEl.textContent = id;
+            setBadge('Online');
+        });
 
-            // Update active state
-            document.querySelectorAll('.channel-item').forEach(item => item.classList.remove('active'));
-            event.currentTarget.classList.add('active');
+        peer.on('call', call=>{
+            currentCall = call;
+            stats.total++; updateStats();
 
-            // Update header
-            if (channel === 'community') {
-                document.getElementById('headerAvatar').textContent = 'C';
-                document.getElementById('headerTitle').textContent = 'Community Chat';
-                document.getElementById('headerSubtitle').textContent = 'User discussions';
-                document.getElementById('announcementInput').style.display = 'none';
-            } else {
-                document.getElementById('headerAvatar').textContent = 'A';
-                document.getElementById('headerTitle').textContent = 'Announcements';
-                document.getElementById('headerSubtitle').textContent = 'Post official updates';
-                document.getElementById('announcementInput').style.display = 'block';
+            const metaText = call.metadata?.reason || 'User requesting technical support';
+            incomingMeta.textContent = metaText;
+
+            showIncomingCall();
+
+            if(settings.autoAnswer){
+                setTimeout(()=>acceptBtn.click(), 300);
             }
+        });
 
-            loadMessages();
-            updateActionsPanel();
-            closeAllPanels();
-        };
+        peer.on('error', err=>{
+            console.error('Peer error', err);
+            setBadge('Offline');
+        });
+    }
 
-        // Auto-resize textarea
-        window.autoResize = function(textarea) {
-            textarea.style.height = 'auto';
-            textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
-        };
+    function showIncomingCall(){
+        incomingCall.classList.add('show');
+        try{ringtone.currentTime = 0; ringtone.play().catch(()=>{});}catch(e){}
+        setBadge('Incoming');
+        if('vibrate' in navigator) navigator.vibrate([200,100,200]);
+        if(Notification.permission==='granted'){
+            new Notification('Incoming Call - Sharvika Helpline', { body:'New call arriving', silent:false });
+        }
+    }
 
-        // Send Announcement
-        window.sendAnnouncement = async function() {
-            const input = document.getElementById('announcementText');
-            const text = input.value.trim();
+    function hideIncoming(){
+        incomingCall.classList.remove('show');
+        try{ringtone.pause(); ringtone.currentTime = 0;}catch(e){}
+    }
 
-            if (!text) return;
+    // Call controls
+    function startCallTimer(){
+        callDuration = 0;
+        if(callTimer) clearInterval(callTimer);
+        callTimer = setInterval(()=>{
+            callDuration++;
+            const m = Math.floor(callDuration/60);
+            const s = callDuration%60;
+            callDurationDisplay.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+        }, 1000);
+    }
 
-            try {
-                await db.collection('announcements').add({
-                    text: text,
-                    author: 'Sharvika Team',
-                    authorEmail: auth.currentUser.email,
-                    authorUID: auth.currentUser.uid,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                });
+    function stopCallTimer(){
+        if(callTimer) clearInterval(callTimer);
+    }
 
-                input.value = '';
-                autoResize(input);
-                showToast('Announcement posted successfully', 'success');
-            } catch (error) {
-                console.error('Error sending announcement:', error);
-                showToast('Error sending announcement', 'error');
-            }
-        };
+    function addLog(status, duration, meta = {}){
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString();
+        if(callLogEl.querySelector('.empty-state')) callLogEl.innerHTML='';
 
-        // Load Messages
-        function loadMessages() {
-            const messagesArea = document.getElementById('messagesArea');
-            const collectionName = currentChannel === 'community' ? 'communityComments' : 'announcements';
+        const durStr = (duration>0) ? (Math.floor(duration/60)+'m '+(duration%60)+'s') : status;
+        const div = document.createElement('div');
+        div.className = 'log-item';
+        div.innerHTML = `
+            <div class="log-info">
+                <h4>${meta.title || 'User Call'}</h4>
+                <p>${timeStr}${meta.notes ? ' • '+meta.notes : ''}</p>
+            </div>
+            <div class="log-duration">${durStr}</div>
+        `;
+        callLogEl.insertAdjacentElement('afterbegin', div);
+        const count = callLogEl.querySelectorAll('.log-item').length;
+        historyCountEl.textContent = count;
 
-            // Clean up previous listener
-            if (unsubscribe) unsubscribe();
+        // Persist log
+        const arr = JSON.parse(localStorage.getItem('sharvika_logs_'+todayKey())||'[]');
+        arr.unshift({t:now.toISOString(), status, duration, meta});
+        localStorage.setItem('sharvika_logs_'+todayKey(), JSON.stringify(arr));
+    }
 
-            messagesArea.innerHTML = '<div class="loading"><div class="loading-spinner"></div><div>Loading messages...</div></div>';
+    function beginActiveCallUI(){
+        hideIncoming();
+        activeCall.classList.add('show');
+        setBadge('On Call');
+        callStateText.textContent = 'Call in Progress';
+        startCallTimer();
+        startStatsPolling();
+    }
 
-            unsubscribe = db.collection(collectionName)
-                .orderBy('timestamp', 'desc')
-                .onSnapshot((snapshot) => {
-                    // Update count
-                    if (currentChannel === 'community') {
-                        document.getElementById('communityCount').textContent = snapshot.size;
-                    } else {
-                        document.getElementById('announcementCount').textContent = snapshot.size;
+    function endCallUI(){
+        stopCallTimer();
+        activeCall.classList.remove('show');
+        setBadge('Online');
+        callStateText.textContent = 'Idle';
+        stopStatsPolling();
+        dtmfSender = null;
+        isMuted = false; isOnHold = false;
+        muteControl.classList.remove('active');
+        holdControl.classList.remove('active');
+        recordControl.classList.remove('active');
+    }
+
+    function startStatsPolling(){
+        stopStatsPolling();
+        const pc = getPC();
+        if(!pc || !pc.getStats) return;
+        let lastBytes = 0, lastTs = 0;
+        statTimer = setInterval(async ()=>{
+            try{
+                const stats = await pc.getStats();
+                let rtt = 0, jitter = 0, packetsLost = 0, packets = 0, bitrate = 0;
+                let bytesNow = 0, tsNow = 0;
+
+                stats.forEach(report=>{
+                    if(report.type==='remote-inbound-rtp' && report.kind==='audio'){
+                        rtt = report.roundTripTime ? report.roundTripTime*1000 : rtt;
+                        jitter = report.jitter ? report.jitter*1000 : jitter;
+                        packetsLost = report.packetsLost || packetsLost;
+                        packets = report.packetsReceived || packets;
                     }
-
-                    if (snapshot.empty) {
-                        messagesArea.innerHTML = '<div class="loading">No messages yet</div>';
-                        return;
+                    if(report.type==='outbound-rtp' && report.kind==='audio'){
+                        bytesNow = report.bytesSent || bytesNow;
+                        tsNow = report.timestamp || tsNow;
                     }
-
-                    let html = '';
-                    snapshot.forEach((doc) => {
-                        const msg = { id: doc.id, ...doc.data() };
-                        const timeAgo = msg.timestamp ? formatTime(msg.timestamp.toDate()) : 'now';
-                        const initial = msg.author ? msg.author.charAt(0).toUpperCase() : '?';
-                        const msgJSON = JSON.stringify(msg).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-
-                        html += `
-                            <div class="message-item ${selectedMessage?.id === msg.id ? 'selected' : ''}" onclick='selectMessage(${msgJSON})'>
-                                <div class="message-avatar">${initial}</div>
-                                <div class="message-body">
-                                    <div class="message-author">${escapeHtml(msg.author || 'Unknown')}</div>
-                                    <div class="message-text">${escapeHtml(msg.text || '')}</div>
-                                </div>
-                                <div class="message-time">${timeAgo}</div>
-                            </div>
-                        `;
-                    });
-
-                    messagesArea.innerHTML = html;
-                }, (error) => {
-                    console.error('Error loading messages:', error);
-                    messagesArea.innerHTML = '<div class="loading">Error loading messages</div>';
                 });
-        }
-
-        // Escape HTML
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        // Select Message
-        window.selectMessage = function(message) {
-            selectedMessage = message;
-            document.querySelectorAll('.message-item').forEach(item => item.classList.remove('selected'));
-            event.currentTarget.classList.add('selected');
-            updateActionsPanel();
-
-            // Auto-open actions on mobile
-            if (window.innerWidth <= 1200) {
-                document.getElementById('actionsPanel').classList.add('show');
-                document.getElementById('overlay').classList.add('show');
-            }
-        };
-
-        // Update Actions Panel
-        function updateActionsPanel() {
-            const actionsBody = document.getElementById('actionsBody');
-
-            if (!selectedMessage) {
-                actionsBody.innerHTML = '<div class="no-selection">Select a message to perform actions</div>';
-                return;
-            }
-
-            actionsBody.innerHTML = `
-                <div class="selected-message">
-                    <div class="selected-author">${escapeHtml(selectedMessage.author || 'Unknown')}</div>
-                    <div class="selected-text">${escapeHtml(selectedMessage.text || '')}</div>
-                </div>
-
-                ${currentChannel === 'community' ? `
-                    <button class="action-button" onclick="toggleHighlight()">
-                        ${selectedMessage.highlighted ? '★ Remove Highlight' : '☆ Highlight Message'}
-                    </button>
-
-                    <button class="action-button delete" onclick="deleteMessage()">
-                        × Delete Message
-                    </button>
-
-                    <div class="reply-section">
-                        <div class="reply-label">Send Reply</div>
-                        <textarea class="reply-textarea" id="replyText" placeholder="Write your reply..."></textarea>
-                        <button class="reply-send" onclick="sendReply()">Send Reply</button>
-                    </div>
-                ` : `
-                    <button class="action-button delete" onclick="deleteMessage()">
-                        × Delete Announcement
-                    </button>
-                `}
-            `;
-        }
-
-        // Toggle Highlight
-        window.toggleHighlight = async function() {
-            if (!selectedMessage) return;
-
-            try {
-                await db.collection('communityComments').doc(selectedMessage.id).update({
-                    highlighted: !selectedMessage.highlighted
-                });
-                selectedMessage.highlighted = !selectedMessage.highlighted;
-                updateActionsPanel();
-                showToast('Message updated', 'success');
-            } catch (error) {
-                console.error('Error toggling highlight:', error);
-                showToast('Error updating message', 'error');
-            }
-        };
-
-        // Send Reply
-        window.sendReply = async function() {
-            const replyText = document.getElementById('replyText').value.trim();
-            if (!replyText || !selectedMessage) return;
-
-            try {
-                await db.collection('communityComments').doc(selectedMessage.id).update({
-                    adminReply: replyText,
-                    repliedAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
-                document.getElementById('replyText').value = '';
-                showToast('Reply sent successfully', 'success');
-            } catch (error) {
-                console.error('Error sending reply:', error);
-                showToast('Error sending reply', 'error');
-            }
-        };
-
-        // Delete Message
-        window.deleteMessage = async function() {
-            if (!selectedMessage) return;
-            if (!confirm('Are you sure you want to delete this message?')) return;
-
-            try {
-                const collectionName = currentChannel === 'community' ? 'communityComments' : 'announcements';
-                await db.collection(collectionName).doc(selectedMessage.id).delete();
-                selectedMessage = null;
-                updateActionsPanel();
-                showToast('Message deleted', 'success');
-            } catch (error) {
-                console.error('Error deleting message:', error);
-                showToast('Error deleting message', 'error');
-            }
-        };
-
-        // Format Time
-        function formatTime(date) {
-            const now = new Date();
-            const diff = now - date;
-            const seconds = Math.floor(diff / 1000);
-            const minutes = Math.floor(seconds / 60);
-            const hours = Math.floor(minutes / 60);
-
-            if (seconds < 60) return 'now';
-            if (minutes < 60) return `${minutes}m`;
-            if (hours < 24) return `${hours}h`;
-            
-            return date.toLocaleDateString();
-        }
-
-        // Show Toast
-        function showToast(message, type = 'success') {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.className = `toast ${type}`;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
-        }
-
-        // Logout
-        window.logout = async function() {
-            if (confirm('Logout from workspace?')) {
-                try {
-                    if (unsubscribe) unsubscribe();
-                    await auth.signOut();
-                    sessionStorage.clear();
-                    window.location.href = 'signin.html';
-                } catch (error) {
-                    console.error('Logout error:', error);
-                    showToast('Error logging out', 'error');
+                if(lastTs && tsNow && tsNow>lastTs){
+                    bitrate = ((bytesNow - lastBytes)*8) / ((tsNow - lastTs)/1000) / 1000;
                 }
-            }
+                lastBytes = bytesNow; lastTs = tsNow;
+
+                statBitrate.textContent = bitrate ? bitrate.toFixed(1) : '-';
+                statRtt.textContent = rtt ? rtt.toFixed(0) : '-';
+                statJitter.textContent = jitter ? jitter.toFixed(0) : '-';
+                const lossPct = packets ? (100*packetsLost/packets) : 0;
+                statLoss.textContent = packets ? lossPct.toFixed(2) : '-';
+            }catch(e){}
+        }, 1500);
+    }
+    function stopStatsPolling(){
+        if(statTimer){ clearInterval(statTimer); statTimer = null; }
+        statBitrate.textContent = '-'; statRtt.textContent = '-'; statJitter.textContent = '-'; statLoss.textContent = '-';
+    }
+
+    // Recording (mix local processed + remote)
+    function setupMix(recordRemoteStream){
+        if(mixCtx) try{mixCtx.close()}catch(e){}
+        mixCtx = new (window.AudioContext||window.webkitAudioContext)();
+        const g1 = mixCtx.createGain(); g1.gain.value = 1.0;
+        const g2 = mixCtx.createGain(); g2.gain.value = 1.0;
+        const srcLocal = mixCtx.createMediaStreamSource(procDest.stream);
+        srcLocal.connect(g1);
+        if(recordRemoteStream){
+            const srcRemote = mixCtx.createMediaStreamSource(recordRemoteStream);
+            srcRemote.connect(g2);
+        }
+        mixDest = mixCtx.createMediaStreamDestination();
+        g1.connect(mixDest);
+        g2.connect(mixDest);
+    }
+    function startRecording(){
+        if(!remoteStreamRef) setupMix(null);
+        else setupMix(remoteStreamRef);
+        mediaRecorder = new MediaRecorder(mixDest.stream, {mimeType:'audio/webm'});
+        recordChunks = [];
+        mediaRecorder.ondataavailable = e=>{ if(e.data && e.data.size>0) recordChunks.push(e.data); };
+        mediaRecorder.onstop = ()=>{
+            const blob = new Blob(recordChunks, {type:'audio/webm'});
+            const url = URL.createObjectURL(blob);
+            const item = document.createElement('div');
+            item.style.margin = '8px 0';
+            item.innerHTML = `
+                <audio controls src="${url}" style="width:100%"></audio>
+                <div style="display:flex; gap:8px; margin-top:6px">
+                    <a class="btn ghost" href="${url}" download="call-${Date.now()}.webm">Download</a>
+                    <button class="btn ghost" onclick="navigator.clipboard.writeText('${location.href}').catch(()=>{})">Copy Page URL</button>
+                </div>
+            `;
+            recordingsList.prepend(item);
         };
+        mediaRecorder.start(500);
+        recordControl.classList.add('active');
+        startRecBtn.disabled = true;
+        stopRecBtn.disabled = false;
+    }
+    function stopRecording(){
+        try{ mediaRecorder && mediaRecorder.state!=='inactive' && mediaRecorder.stop(); }catch(e){}
+        startRecBtn.disabled = false;
+        stopRecBtn.disabled = true;
+        recordControl.classList.remove('active');
+    }
+
+    // Notes
+    function openNotes(){ notesModal.classList.add('show'); }
+    function closeNotes(){ notesModal.classList.remove('show'); }
+    function getNotes(){ return notesText.value.trim(); }
+
+    // Wake Lock
+    async function setWakeLock(on){
+        try{
+            if(on){
+                if(!wakeLock) wakeLock = await navigator.wakeLock.request('screen');
+                keepAwake.checked = true;
+            }else{
+                if(wakeLock){ await wakeLock.release(); wakeLock = null; }
+                keepAwake.checked = false;
+            }
+        }catch(e){}
+    }
+
+    // Event wiring
+    acceptBtn.onclick = function(){
+        hideIncoming();
+        if(!currentCall) return;
+        try{ ringtone.pause(); ringtone.currentTime=0; }catch(e){}
+        currentCall.answer(processedStream);
+        wireCurrentCall();
+    };
+
+    declineBtn.onclick = function(){
+        hideIncoming();
+        if(currentCall) {
+            currentCall.close();
+            stats.missed++; updateStats();
+            addLog('Declined', 0);
+            currentCall = null;
+        }
+        setBadge('Online');
+    };
+
+    endCallBtn.onclick = hangupBtn.onclick = function(){
+        if(currentCall){
+            try{ currentCall.close(); }catch(e){}
+            addLog('Completed', callDuration, { notes: getNotes() ? 'Notes saved' : undefined });
+            currentCall = null;
+        }
+        endCallUI();
+    };
+
+    dialBtn.onclick = async function(){
+        const target = (dialPeerId.value||'').trim();
+        if(!target){ alert('Enter Peer ID to call'); return; }
+        if(currentCall) { alert('Already on a call'); return; }
+        try{
+            currentCall = peer.call(target, processedStream, { metadata: { reason:'Outbound Support Call' }});
+            stats.total++; updateStats();
+            wireCurrentCall(true);
+        }catch(e){
+            console.error(e);
+            alert('Failed to start call');
+        }
+    };
+
+    function wireCurrentCall(outbound=false){
+        currentCall.on('stream', function(remoteStream){
+            remoteStreamRef = remoteStream;
+            remoteAudio.srcObject = remoteStream;
+            remoteAudio.play().catch(()=>{});
+            beginActiveCallUI();
+            // Bind remote analyser
+            try{
+                const rctx = new (window.AudioContext||window.webkitAudioContext)();
+                const src = rctx.createMediaStreamSource(remoteStream);
+                remoteAnalyser = rctx.createAnalyser(); remoteAnalyser.fftSize=512;
+                src.connect(remoteAnalyser);
+            }catch(e){}
+        });
+        currentCall.on('close', function(){
+            if(callDuration>0){
+                addLog('Completed', callDuration, { notes: getNotes() ? 'Notes saved' : undefined });
+            }
+            endCallUI();
+            currentCall = null;
+        });
+        currentCall.on('error', function(err){
+            console.error('Call error', err);
+            endCallUI();
+            currentCall = null;
+        });
+
+        // Initialize DTMF sender
+        setTimeout(()=>{ replaceOutgoingTrack(); }, 300);
+
+        if(!outbound){
+            stats.answered++; updateStats();
+        }
+    }
+
+    muteControl.onclick = function(){
+        isMuted = !isMuted;
+        const stream = (fxPreset.value==='off' && parseInt(pitchSemis.value,10)===0 && parseInt(fxAmount.value,10)===0) ? localStream : processedStream;
+        const track = stream?.getAudioTracks?.()[0];
+        if(track) track.enabled = !isMuted;
+        muteControl.classList.toggle('active', isMuted);
+        muteControl.querySelector('span').textContent = isMuted ? 'Unmute' : 'Mute';
+    };
+
+    holdControl.onclick = function(){
+        isOnHold = !isOnHold;
+        const track = processedStream?.getAudioTracks?.()[0];
+        if(track) track.enabled = !isOnHold;
+        remoteAudio.muted = isOnHold;
+        holdControl.classList.toggle('active', isOnHold);
+        holdControl.querySelector('span').textContent = isOnHold ? 'Resume' : 'Hold';
+        callStateText.textContent = isOnHold ? 'On Hold' : 'Call in Progress';
+    };
+
+    speakerControl.onclick = function(){
+        isSpeakerOn = !isSpeakerOn;
+        remoteAudio.muted = !isSpeakerOn;
+        speakerControl.classList.toggle('active', isSpeakerOn);
+    };
+
+    recordControl.onclick = function(){
+        if(!currentCall){ return; }
+        if(!mediaRecorder || mediaRecorder.state==='inactive'){
+            startRecording();
+        }else{
+            stopRecording();
+        }
+    };
+
+    notesControl.onclick = function(){ openNotes(); };
+    closeNotesBtn.onclick = function(){ closeNotes(); };
+    saveNotesBtn.onclick = function(){
+        const txt = getNotes();
+        if(txt) {
+            addLog('Notes', 0, { title:'Notes Saved', notes: txt.slice(0,80) + (txt.length>80?'...':'') });
+        }
+        closeNotes();
+    };
+
+    transferControl.onclick = function(){
+        const target = prompt('Transfer to Agent Peer ID:');
+        if(!target) return;
+        // Warm transfer (consult): put current on hold, place new call
+        if(!currentCall){ alert('No active call'); return; }
+        isOnHold = true; holdControl.classList.add('active'); callStateText.textContent = 'On Hold (Consult Transfer)';
+        const track = processedStream.getAudioTracks()[0]; if(track) track.enabled = false;
+        const consultCall = peer.call(target, processedStream, {metadata:{reason:'Consult Transfer'}});
+        consultCall.on('stream', ()=>{ alert('Consult connected. You can now coordinate. End consult to resume or end transfer.'); });
+        consultCall.on('close', ()=>{
+            const resume = confirm('End transfer consult. Resume original call?');
+            if(resume){
+                if(track) track.enabled = true;
+                isOnHold = false; holdControl.classList.remove('active'); callStateText.textContent='Call in Progress';
+            } else {
+                // Blind transfer simulation: end original
+                if(currentCall) currentCall.close();
+                addLog('Transferred', callDuration);
+            }
+        });
+    };
+
+    // DTMF
+    keypad.forEach(k=>{
+        k.addEventListener('click', ()=>{
+            const d = k.getAttribute('data-k');
+            dtmfField.value += d;
+            sendDTMF(d);
+        });
+    });
+    dtmfSendBtn.onclick = ()=>{ const s = dtmfField.value.trim(); if(s) sendDTMF(s); };
+    function sendDTMF(digits){
+        if(!dtmfSender){ dtmfSender = getAudioSender()?.dtmf || null; }
+        if(dtmfSender && dtmfSender.canInsertDTMF){
+            dtmfSender.insertDTMF(digits, 100, 50);
+        } else {
+            alert('DTMF not available on this connection');
+        }
+    }
+
+    // Device change handlers
+    micSelect.onchange = async ()=>{
+        settings.micId = micSelect.value || null; saveSettings();
+        await restartLocalStream();
+    };
+    speakerSelect.onchange = async ()=>{ await applySink(); settings.sinkId = speakerSelect.value||null; saveSettings(); };
+
+    fxPreset.onchange = ()=>{ applyFxPreset(); replaceOutgoingTrack(); };
+    fxAmount.oninput = ()=>{ applyFxPreset(); };
+    pitchSemis.oninput = ()=>{ applyFxPreset(); replaceOutgoingTrack(); };
+    monitorSelf.onchange = ()=>{ updateMonitor(); };
+
+    echoCancellation.onchange = async ()=>{ settings.echoCancellation = echoCancellation.checked; saveSettings(); await restartLocalStream(); };
+    noiseSuppression.onchange = async ()=>{ settings.noiseSuppression = noiseSuppression.checked; saveSettings(); await restartLocalStream(); };
+    autoGainControl.onchange = async ()=>{ settings.autoGainControl = autoGainControl.checked; saveSettings(); await restartLocalStream(); };
+    autoAnswer.onchange = ()=>{ settings.autoAnswer = autoAnswer.checked; saveSettings(); };
+
+    agentStatus.onchange = ()=>{
+        const v = agentStatus.value;
+        if(v==='online') setBadge('Online');
+        else if(v==='busy') setBadge('Busy');
+        else if(v==='away') setBadge('Away');
+        else setBadge('Offline');
+    };
+
+    keepAwake.onchange = ()=>{ setWakeLock(keepAwake.checked); };
+
+    // Export logs
+    exportLogsBtn.onclick = ()=>{
+        const data = localStorage.getItem('sharvika_logs_'+todayKey()) || '[]';
+        const blob = new Blob([data], {type:'application/json'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = 'sharvika-logs-'+todayKey()+'.json';
+        a.click();
+        URL.revokeObjectURL(url);
+    };
+
+    // Incoming/outgoing ring and notifications
+    document.addEventListener('visibilitychange', ()=>{
+        if(document.visibilityState==='visible'){
+            try{ ringtone.pause(); }catch(e){}
+        }
+    });
+
+    // Initialize
+    async function init(){
+        dateTodayEl.textContent = new Date().toLocaleDateString('en-US', {month:'short', day:'numeric'});
+        loadPersist();
+
+        // Permissions
+        try{ if(Notification.permission==='default'){ await Notification.requestPermission(); } }catch(e){}
+
+        // Prepare devices and mic
+        await restartLocalStream();
+        await listDevices();
+        startMeters();
+
+        // Start Peer
+        await startPeer();
+
+        // Online badge
+        setBadge('Online');
+
+        // Service: auto-refresh device labels
+        navigator.mediaDevices.addEventListener('devicechange', listDevices);
+    }
+
+    // Start
+    window.addEventListener('load', init);
+
+    // Accessibility: keyboard shortcuts
+    // M: mute, H: hold, R: record, E: end
+    window.addEventListener('keydown', (e)=>{
+        if(e.target && ['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)) return;
+        if(e.key==='m' || e.key==='M'){ muteControl.click(); }
+        if(e.key==='h' || e.key==='H'){ holdControl.click(); }
+        if(e.key==='r' || e.key==='R'){ recordControl.click(); }
+        if(e.key==='e' || e.key==='E'){ endCallBtn.click(); }
+    });
+
     </script>
 </body>
 </html>

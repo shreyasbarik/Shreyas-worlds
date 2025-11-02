@@ -2,522 +2,1191 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unable to Connect - SharvikaEducation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Voice Call - SharvikaEducation</title>
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-            background: #ffffff;
-            color: #202124;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #000000;
+            color: #ffffff;
             min-height: 100vh;
-            padding: 20px;
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            letter-spacing: -0.02em;
         }
 
-        .error-container {
-            max-width: 600px;
-            text-align: center;
-            animation: fadeIn 0.5s ease-in;
+        /* Animated Background */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at top, rgba(16, 185, 129, 0.08) 0%, transparent 50%),
+                        radial-gradient(ellipse at bottom, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .error-icon {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 32px;
-            position: relative;
-        }
-
-        .icon-circle {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: #f8f9fa;
+        .call-screen {
+            height: 100vh;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
             position: relative;
+            z-index: 1;
         }
 
-        .icon-circle::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 2px solid #ea4335;
-            opacity: 0;
-            animation: pulse 2s infinite;
+        /* Top Section - Enhanced */
+        .call-top {
+            padding: 60px 30px 30px;
+            text-align: center;
         }
 
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(1.3);
-                opacity: 0;
-            }
+        .call-status {
+            font-size: 12px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
         }
 
-        .phone-icon {
-            width: 48px;
-            height: 48px;
-            position: relative;
+        .call-status.connected {
+            color: #10b981;
         }
 
-        .phone-icon svg {
-            width: 100%;
-            height: 100%;
-            fill: #ea4335;
-        }
-
-        .slash {
-            position: absolute;
-            width: 60px;
-            height: 2px;
-            background: #ea4335;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(-45deg);
-        }
-
-        .error-code {
-            font-size: 14px;
-            color: #5f6368;
+        .call-timer {
+            font-size: 18px;
+            font-weight: 300;
+            color: #ffffff;
+            font-variant-numeric: tabular-nums;
             margin-bottom: 16px;
-            font-weight: 500;
             letter-spacing: 0.5px;
         }
 
-        .error-title {
-            font-size: 32px;
-            font-weight: 400;
-            color: #202124;
-            margin-bottom: 16px;
-            line-height: 1.3;
+        .connection-quality {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.03);
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
         }
 
-        .error-message {
-            font-size: 16px;
-            color: #5f6368;
-            line-height: 1.6;
-            margin-bottom: 32px;
+        .quality-indicator {
+            width: 6px;
+            height: 6px;
+            background: #10b981;
+            border-radius: 50%;
+            box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+            animation: pulse-dot 2s infinite;
         }
 
-        .error-details {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 32px;
-            text-align: left;
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.2); }
         }
 
-        .detail-item {
+        /* Middle Section - Enhanced */
+        .call-middle {
+            flex: 1;
             display: flex;
-            align-items: flex-start;
-            margin-bottom: 16px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
         }
 
-        .detail-item:last-child {
-            margin-bottom: 0;
+        .avatar-container {
+            position: relative;
+            margin-bottom: 40px;
         }
 
-        .detail-icon {
-            width: 20px;
-            height: 20px;
-            margin-right: 12px;
-            flex-shrink: 0;
-            margin-top: 2px;
+        .avatar {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 2;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .detail-icon svg {
-            width: 100%;
-            height: 100%;
-            fill: #5f6368;
+        .avatar::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 50%;
+            padding: 2px;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.5), rgba(59, 130, 246, 0.5));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
-        .detail-text {
+        .avatar.active::before {
+            opacity: 1;
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            to { transform: rotate(360deg); }
+        }
+
+        .avatar svg {
+            width: 72px;
+            height: 72px;
+            fill: rgba(255, 255, 255, 0.95);
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+        }
+
+        .pulse-waves {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .pulse-wave {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(16, 185, 129, 0.3);
+            animation: pulse-wave 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        .pulse-wave:nth-child(2) {
+            animation-delay: 0.5s;
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .pulse-wave:nth-child(3) {
+            animation-delay: 1s;
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+
+        @keyframes pulse-wave {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(2.5);
+                opacity: 0;
+            }
+        }
+
+        .contact-name {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #ffffff;
+            letter-spacing: -0.03em;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .contact-subtitle {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.45);
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        /* Audio Visualizer - Enhanced */
+        .audio-viz {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            height: 70px;
+            margin-top: 40px;
+            padding: 20px 30px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .audio-viz.active {
+            display: flex;
+        }
+
+        .viz-bar {
+            width: 4px;
+            background: linear-gradient(180deg, #10b981 0%, rgba(16, 185, 129, 0.3) 100%);
+            border-radius: 3px;
+            animation: viz-animate 1.2s ease-in-out infinite;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+        }
+
+        .viz-bar:nth-child(1) { animation-delay: 0s; height: 14px; }
+        .viz-bar:nth-child(2) { animation-delay: 0.1s; height: 18px; }
+        .viz-bar:nth-child(3) { animation-delay: 0.2s; height: 24px; }
+        .viz-bar:nth-child(4) { animation-delay: 0.3s; height: 30px; }
+        .viz-bar:nth-child(5) { animation-delay: 0.4s; height: 36px; }
+        .viz-bar:nth-child(6) { animation-delay: 0.5s; height: 30px; }
+        .viz-bar:nth-child(7) { animation-delay: 0.6s; height: 24px; }
+        .viz-bar:nth-child(8) { animation-delay: 0.7s; height: 18px; }
+        .viz-bar:nth-child(9) { animation-delay: 0.8s; height: 14px; }
+
+        @keyframes viz-animate {
+            0%, 100% { transform: scaleY(0.3); opacity: 0.4; }
+            50% { transform: scaleY(1); opacity: 1; }
+        }
+
+        /* Bottom Controls - Enhanced */
+        .call-bottom {
+            padding: 30px 30px 50px;
+        }
+
+        .status-info {
+            text-align: center;
+            margin-bottom: 35px;
+            min-height: 60px;
+        }
+
+        .status-message {
+            font-size: 15px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+            margin-bottom: 8px;
+            letter-spacing: -0.01em;
+        }
+
+        .status-submessage {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.35);
+            font-weight: 400;
+            letter-spacing: 0.2px;
+        }
+
+        .controls-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .control-button {
+            aspect-ratio: 1;
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .control-button::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .control-button:hover::before {
+            opacity: 1;
+        }
+
+        .control-button:active {
+            transform: scale(0.92);
+        }
+
+        .control-button.active {
+            background: rgba(255, 255, 255, 0.95);
+            color: #000000;
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 24px rgba(255, 255, 255, 0.2),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        .control-button svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+            transition: transform 0.3s ease;
+        }
+
+        .control-button:hover svg {
+            transform: scale(1.1);
+        }
+
+        .control-label {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+
+        .end-call-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .end-call-button {
+            width: 76px;
+            height: 76px;
+            background: linear-gradient(135deg, #ff3b30 0%, #dc2626 100%);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 12px 32px rgba(255, 59, 48, 0.4),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .end-call-button::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .end-call-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 16px 40px rgba(255, 59, 48, 0.5);
+        }
+
+        .end-call-button:hover::before {
+            opacity: 1;
+        }
+
+        .end-call-button:active {
+            transform: scale(0.95);
+        }
+
+        .end-call-button svg {
+            width: 34px;
+            height: 34px;
+            fill: #ffffff;
+            transform: rotate(135deg);
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        }
+
+        /* Error Banner - Enhanced */
+        .error-banner {
+            position: fixed;
+            top: env(safe-area-inset-top, 20px);
+            top: calc(env(safe-area-inset-top, 20px) + 20px);
+            left: 20px;
+            right: 20px;
+            background: rgba(255, 59, 48, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 18px 24px;
+            border-radius: 16px;
+            display: none;
+            z-index: 1000;
+            animation: slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(255, 59, 48, 0.4);
             font-size: 14px;
-            color: #5f6368;
+            font-weight: 500;
+            letter-spacing: -0.01em;
             line-height: 1.5;
         }
 
-        .detail-text strong {
-            color: #202124;
-            font-weight: 500;
+        .error-banner.show {
+            display: block;
         }
 
-        .button-group {
-            display: flex;
-            gap: 12px;
+        @keyframes slideDown {
+            from {
+                transform: translateY(-120%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Report Modal - Enhanced */
+        .report-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.96);
+            backdrop-filter: blur(20px);
+            display: none;
+            align-items: center;
             justify-content: center;
-            margin-bottom: 24px;
-            flex-wrap: wrap;
+            z-index: 2000;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .report-modal.show {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .report-content {
+            background: linear-gradient(135deg, rgba(30, 30, 30, 0.95) 0%, rgba(20, 20, 20, 0.95) 100%);
+            backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 40px 32px;
+            max-width: 520px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            animation: scaleIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .report-header {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+
+        .report-header h2 {
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            letter-spacing: -0.03em;
+        }
+
+        .report-header p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 400;
+            letter-spacing: -0.01em;
+        }
+
+        .report-form {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .form-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.75);
+            letter-spacing: 0.2px;
+        }
+
+        .form-input,
+        .form-textarea,
+        .form-select {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 16px 18px;
+            color: #ffffff;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+            letter-spacing: -0.01em;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: rgba(16, 185, 129, 0.5);
+            background: rgba(255, 255, 255, 0.06);
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+        }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 130px;
+            line-height: 1.6;
+        }
+
+        .form-select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='rgba(255,255,255,0.4)' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 18px center;
+            padding-right: 45px;
+        }
+
+        .form-select option {
+            background: #1a1a1a;
+            color: #ffffff;
+            padding: 12px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 14px;
+            margin-top: 12px;
         }
 
         .btn {
-            padding: 12px 24px;
-            border-radius: 4px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
+            flex: 1;
+            padding: 18px 24px;
+            border-radius: 14px;
             border: none;
-            transition: all 0.2s;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: -0.01em;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .btn:hover::before {
+            opacity: 1;
         }
 
         .btn-primary {
-            background: #1a73e8;
-            color: #ffffff;
-            box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+            color: #000000;
+            box-shadow: 0 4px 16px rgba(255, 255, 255, 0.15);
         }
 
         .btn-primary:hover {
-            background: #1765cc;
-            box-shadow: 0 1px 3px 0 rgba(60, 64, 67, 0.3), 0 4px 8px 3px rgba(60, 64, 67, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 255, 255, 0.25);
         }
 
         .btn-primary:active {
-            background: #1557b0;
+            transform: translateY(0);
         }
 
         .btn-secondary {
-            background: #ffffff;
-            color: #1a73e8;
-            border: 1px solid #dadce0;
+            background: rgba(255, 255, 255, 0.06);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .btn-secondary:hover {
-            background: #f8f9fa;
-            border-color: #dadce0;
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .btn-secondary:active {
-            background: #f1f3f4;
+            transform: scale(0.98);
         }
 
-        .support-info {
-            padding: 24px;
-            background: #e8f0fe;
-            border-radius: 8px;
-            margin-bottom: 24px;
-        }
-
-        .support-title {
-            font-size: 14px;
-            font-weight: 500;
-            color: #1967d2;
-            margin-bottom: 12px;
-        }
-
-        .support-item {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            font-size: 14px;
-            color: #174ea6;
-            margin-bottom: 8px;
-        }
-
-        .support-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .support-item svg {
-            width: 16px;
-            height: 16px;
-            fill: #1967d2;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 24px;
-            margin-top: 32px;
-            flex-wrap: wrap;
-        }
-
-        .footer-link {
-            font-size: 12px;
-            color: #5f6368;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .footer-link:hover {
-            color: #202124;
-        }
-
-        .divider {
-            height: 1px;
-            background: #e8eaed;
-            margin: 24px 0;
-        }
-
-        /* Countdown Timer */
-        .redirect-notice {
-            font-size: 13px;
-            color: #5f6368;
-            margin-top: 16px;
-            font-style: italic;
-        }
-
-        .countdown {
-            font-weight: 500;
-            color: #1a73e8;
-        }
-
-        /* Loading Animation */
-        .loading-dots {
-            display: inline-flex;
-            gap: 4px;
-        }
-
-        .loading-dots span {
-            width: 4px;
-            height: 4px;
-            background: #5f6368;
+        /* Loading Spinner - Enhanced */
+        .loading-spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2.5px solid rgba(255, 255, 255, 0.15);
+            border-top-color: #ffffff;
             border-radius: 50%;
-            animation: bounce 1.4s infinite ease-in-out both;
+            animation: spin 0.7s linear infinite;
         }
 
-        .loading-dots span:nth-child(1) {
-            animation-delay: -0.32s;
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
-        .loading-dots span:nth-child(2) {
-            animation-delay: -0.16s;
+        /* Custom Scrollbar */
+        .report-content::-webkit-scrollbar {
+            width: 8px;
         }
 
-        @keyframes bounce {
-            0%, 80%, 100% {
-                transform: scale(0);
-            }
-            40% {
-                transform: scale(1);
-            }
+        .report-content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
+        }
+
+        .report-content::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .report-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.15);
         }
 
         /* Responsive */
-        @media (max-width: 600px) {
-            .error-title {
-                font-size: 24px;
+        @media (max-width: 480px) {
+            .call-top {
+                padding: 50px 20px 25px;
             }
 
-            .error-message {
+            .avatar {
+                width: 140px;
+                height: 140px;
+            }
+
+            .avatar svg {
+                width: 64px;
+                height: 64px;
+            }
+
+            .contact-name {
+                font-size: 26px;
+            }
+
+            .controls-container {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 12px;
+            }
+
+            .control-button svg {
+                width: 20px;
+                height: 20px;
+            }
+
+            .control-label {
+                font-size: 9px;
+            }
+
+            .end-call-button {
+                width: 70px;
+                height: 70px;
+            }
+
+            .end-call-button svg {
+                width: 32px;
+                height: 32px;
+            }
+
+            .report-content {
+                padding: 32px 24px;
+            }
+
+            .report-header h2 {
+                font-size: 22px;
+            }
+
+            .form-input,
+            .form-textarea,
+            .form-select {
+                padding: 14px 16px;
                 font-size: 14px;
             }
 
-            .button-group {
-                flex-direction: column;
-            }
-
             .btn {
-                width: 100%;
-                justify-content: center;
+                padding: 16px 20px;
+                font-size: 15px;
             }
+        }
 
-            .footer-links {
-                flex-direction: column;
-                gap: 12px;
+        /* iOS Safe Area */
+        @supports (padding: max(0px)) {
+            .call-screen {
+                padding-top: max(60px, env(safe-area-inset-top));
+                padding-bottom: max(40px, env(safe-area-inset-bottom));
             }
         }
     </style>
 </head>
 <body>
-    <div class="error-container">
-        <!-- Error Icon -->
-        <div class="error-icon">
-            <div class="icon-circle">
-                <div class="phone-icon">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
-                    </svg>
-                    <div class="slash"></div>
-                </div>
+    <div class="bg-gradient"></div>
+    
+    <div class="call-screen">
+        <!-- Top Section -->
+        <div class="call-top">
+            <div class="call-status" id="callStatus">Initializing</div>
+            <div class="call-timer" id="callTimer">00:00</div>
+            <div class="connection-quality">
+                <div class="quality-indicator"></div>
+                <span id="qualityText">Connecting</span>
             </div>
         </div>
 
-        <!-- Error Code -->
-        <div class="error-code">ERROR 503 - SERVICE UNAVAILABLE</div>
-
-        <!-- Error Title -->
-        <h1 class="error-title">Unable to Connect</h1>
-
-        <!-- Error Message -->
-        <p class="error-message">
-            We are unable to connect with you due to lack of facilities at this moment. Please connect with us through email for assistance.
-        </p>
-
-        <!-- Error Details -->
-        <div class="error-details">
-            <div class="detail-item">
-                <div class="detail-icon">
+        <!-- Middle Section -->
+        <div class="call-middle">
+            <div class="avatar-container">
+                <div class="pulse-waves" id="pulseWaves">
+                    <div class="pulse-wave"></div>
+                    <div class="pulse-wave"></div>
+                    <div class="pulse-wave"></div>
+                </div>
+                <div class="avatar" id="avatarElement">
                     <svg viewBox="0 0 24 24">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                     </svg>
                 </div>
-                <div class="detail-text">
-                    <strong>No Active Phone Support:</strong> Our phone helpline is currently unavailable due to technical limitations.
+            </div>
+
+            <div class="contact-name">Technical Support</div>
+            <div class="contact-subtitle">Sharvika Support</div>
+
+            <div class="audio-viz" id="audioViz">
+                <div class="viz-bar"></div>
+                <div class="viz-bar"></div>
+                <div class="viz-bar"></div>
+                <div class="viz-bar"></div>
+                <div class="viz-bar"></div>
+                <div class="viz-bar"></div>
+                <div class="viz-bar"></div>
+                <div class="viz-bar"></div>
+                <div class="viz-bar"></div>
+            </div>
+        </div>
+
+        <!-- Bottom Controls -->
+        <div class="call-bottom">
+            <div class="status-info">
+                <div class="status-message" id="statusMessage">Setting up connection</div>
+                <div class="status-submessage" id="statusSubmessage">Please allow microphone access</div>
+            </div>
+
+            <div class="controls-container">
+                <div class="control-button" id="muteBtn">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                        <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                    </svg>
+                    <div class="control-label">Mute</div>
+                </div>
+
+                <div class="control-button" id="speakerBtn">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
+                    </svg>
+                    <div class="control-label">Speaker</div>
+                </div>
+
+                <div class="control-button" id="videoBtn">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M15 8v8H5V8h10m1-2H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4V7c0-.55-.45-1-1-1z"/>
+                    </svg>
+                    <div class="control-label">Video</div>
+                </div>
+
+                <div class="control-button" id="keypadBtn">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="5" cy="5" r="2"/>
+                        <circle cx="12" cy="5" r="2"/>
+                        <circle cx="19" cy="5" r="2"/>
+                        <circle cx="5" cy="12" r="2"/>
+                        <circle cx="12" cy="12" r="2"/>
+                        <circle cx="19" cy="12" r="2"/>
+                        <circle cx="5" cy="19" r="2"/>
+                        <circle cx="12" cy="19" r="2"/>
+                        <circle cx="19" cy="19" r="2"/>
+                    </svg>
+                    <div class="control-label">Keypad</div>
                 </div>
             </div>
 
-            <div class="detail-item">
-                <div class="detail-icon">
+            <div class="end-call-container">
+                <div class="end-call-button" id="endCallBtn">
                     <svg viewBox="0 0 24 24">
-                        <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                        <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/>
                     </svg>
                 </div>
-                <div class="detail-text">
-                    <strong>Scheduled Hours:</strong> Phone support is planned for 3:00 PM - 6:00 PM, but currently not operational.
-                </div>
             </div>
-
-            <div class="detail-item">
-                <div class="detail-icon">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-                    </svg>
-                </div>
-                <div class="detail-text">
-                    <strong>Email Available:</strong> Our email support is fully operational and ready to assist you.
-                </div>
-            </div>
-        </div>
-
-        <!-- Support Info Box -->
-        <div class="support-info">
-            <div class="support-title">Recommended Contact Method</div>
-            <div class="support-item">
-                <svg viewBox="0 0 24 24">
-                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-                </svg>
-                Shareyascreative59@gmail.com
-            </div>
-            <div class="support-item">
-                <svg viewBox="0 0 24 24">
-                    <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
-                </svg>
-                Average response time: 24 hours
-            </div>
-        </div>
-
-        <!-- Action Buttons -->
-        <div class="button-group">
-            <button class="btn btn-primary" onclick="openEmail()">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-                </svg>
-                Contact via Email
-            </button>
-            <a href="index.html" class="btn btn-secondary">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-                </svg>
-                Return Home
-            </a>
-        </div>
-
-        <!-- Redirect Notice -->
-        <div class="redirect-notice">
-            Redirecting to email in <span class="countdown" id="countdown">10</span> seconds
-            <div class="loading-dots">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-
-        <!-- Divider -->
-        <div class="divider"></div>
-
-        <!-- Footer Links -->
-        <div class="footer-links">
-            <a href="index.html" class="footer-link">Home</a>
-            <a href="#" class="footer-link">Help Center</a>
-            <a href="#" class="footer-link">Privacy Policy</a>
-            <a href="#" class="footer-link">Terms of Service</a>
         </div>
     </div>
 
+    <!-- Error Banner -->
+    <div class="error-banner" id="errorBanner"></div>
+
+    <!-- Report Modal -->
+    <div class="report-modal" id="reportModal">
+        <div class="report-content">
+            <div class="report-header">
+                <h2>Report Your Issue</h2>
+                <p>Help us understand your problem better</p>
+            </div>
+
+            <form class="report-form" id="reportForm">
+                <div class="form-group">
+                    <label class="form-label">Your Name</label>
+                    <input type="text" class="form-input" id="userName" placeholder="Enter your name" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Contact Number</label>
+                    <input type="tel" class="form-input" id="userPhone" placeholder="Enter your phone number" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" id="userEmail" placeholder="Enter your email" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Issue Category</label>
+                    <select class="form-select" id="issueCategory" required>
+                        <option value="">Select category</option>
+                        <option value="Technical Issue">Technical Issue</option>
+                        <option value="Payment Problem">Payment Problem</option>
+                        <option value="Course Access">Course Access</option>
+                        <option value="Account Issue">Account Issue</option>
+                        <option value="Content Quality">Content Quality</option>
+                        <option value="General Inquiry">General Inquiry</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Priority Level</label>
+                    <select class="form-select" id="priorityLevel" required>
+                        <option value="">Select priority</option>
+                        <option value="High">High - Urgent</option>
+                        <option value="Medium">Medium - Important</option>
+                        <option value="Low">Low - General</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Describe Your Problem</label>
+                    <textarea class="form-textarea" id="problemDescription" placeholder="Please provide detailed information about your issue..." required></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="skipReportBtn">Skip</button>
+                    <button type="submit" class="btn btn-primary" id="submitReportBtn">Submit Report</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <audio id="remoteAudio" autoplay></audio>
+    <audio id="ringtone" loop src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTGH0fPTgjMGHm7A7+OZRQ4ZdNDx0IU2CRxgvO3hnkwOEVmr5O+qVhgITKXi8biCLAYuhsr03ok/CA1esuzvl0cPElKi4vG7bRsFN47W883DcSoGKX3N8d6NOwgWZ7zs4pBADBRcruPwsWYdBjmP1PLPfS0GK4DN8t2RQAoUXrTo7KhWFQlHoe7rwmwhBTCH0fLUgTMGHm2+7+OYRAcadNDx0YU2Bxxgu+3gnEsOEFus5e6qVhgHSKPi8LqAKgYrgMrz3Y0/BwtdsuzvmEUPElKi4vC7bhoFN4/W88+/cSsFKYDN8d6NOwgWZ7rs4Y9ADBVbr+PwsGQeBDiP1PLPfS0GK4DN8t2RQAoUXrTo7KlVFQlHoe7rwmwhBTCG0fLUgTMGHm6/7+OYRAcadNDx0YU2Bxxgu+3hm0sPEFus5e6qVhgHSKPi8LqAKgYrgMrz3Y0+BwtdsuzvmEUPElKh4vC7bhoFOI/W88+/cSsFKYDN8d6NOwgWZ7rs4Y9ADBVbr+PwsGQeBDiP1PLPfS0GK4DN8t2RQAoUXrTo7KlVFQlHoe7rwmwhBTCG0fLUgTMGHm6/7+OYRAcadNDx0YU2Bxxgu+3hm0sPEA=="></audio>
+
     <script>
-        // Countdown timer
-        let countdown = 10;
-        const countdownElement = document.getElementById('countdown');
+        const SUPPORT_PEER_ID = 'sharvika-support-2024';
+        
+        let peer, localStream, call, callTimer, callDuration = 0;
+        let isMuted = false, callEndTime = null;
 
-        const timer = setInterval(() => {
-            countdown--;
-            countdownElement.textContent = countdown;
+        // DOM Elements
+        const callStatus = document.getElementById('callStatus');
+        const callTimerDisplay = document.getElementById('callTimer');
+        const qualityText = document.getElementById('qualityText');
+        const statusMessage = document.getElementById('statusMessage');
+        const statusSubmessage = document.getElementById('statusSubmessage');
+        const muteBtn = document.getElementById('muteBtn');
+        const speakerBtn = document.getElementById('speakerBtn');
+        const endCallBtn = document.getElementById('endCallBtn');
+        const pulseWaves = document.getElementById('pulseWaves');
+        const audioViz = document.getElementById('audioViz');
+        const errorBanner = document.getElementById('errorBanner');
+        const reportModal = document.getElementById('reportModal');
+        const reportForm = document.getElementById('reportForm');
+        const skipReportBtn = document.getElementById('skipReportBtn');
+        const remoteAudio = document.getElementById('remoteAudio');
+        const ringtone = document.getElementById('ringtone');
+        const avatarElement = document.getElementById('avatarElement');
 
-            if (countdown <= 0) {
-                clearInterval(timer);
-                openEmail();
+        // Initialize
+        async function init() {
+            try {
+                updateStatus('Initializing', 'Requesting microphone', 'Connecting');
+
+                localStream = await navigator.mediaDevices.getUserMedia({
+                    audio: {
+                        echoCancellation: true,
+                        noiseSuppression: true,
+                        autoGainControl: true
+                    },
+                    video: false
+                });
+
+                console.log('Microphone granted');
+                updateStatus('Connecting', 'Establishing connection', 'Connecting');
+
+                const userPeerId = 'user-' + Math.random().toString(36).substr(2, 9);
+
+                peer = new Peer(userPeerId, {
+                    debug: 2,
+                    config: {
+                        iceServers: [
+                            { urls: 'stun:stun.l.google.com:19302' },
+                            { urls: 'stun:stun1.l.google.com:19302' },
+                            { urls: 'stun:stun2.l.google.com:19302' }
+                        ]
+                    }
+                });
+
+                peer.on('open', function(id) {
+                    console.log('Connected with ID:', id);
+                    makeCall();
+                });
+
+                peer.on('error', function(err) {
+                    console.error('Peer error:', err);
+                    showError('Connection error. Please try again.');
+                });
+
+            } catch (error) {
+                console.error('Init error:', error);
+                showError('Microphone access denied. Please allow and refresh.');
             }
-        }, 1000);
-
-        // Open Gmail compose with pre-filled information
-        function openEmail() {
-            const email = 'Shareyascreative59@gmail.com';
-            const subject = encodeURIComponent('Support Request - SharvikaEducation');
-            const body = encodeURIComponent(`Hello SharvikaEducation Team,
-
-I tried to contact you via phone but the service was unavailable. I need assistance with:
-
-[Please describe your issue here]
-
-Thank you for your support.
-
-Best regards`);
-
-            // Open Gmail compose in new tab
-            const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`;
-            window.open(gmailUrl, '_blank');
-
-            // Also provide fallback to default mail client
-            setTimeout(() => {
-                const mailtoUrl = `mailto:${email}?subject=${subject}&body=${body}`;
-                window.location.href = mailtoUrl;
-            }, 500);
         }
 
-        // Prevent back navigation during call
+        // Make call
+        function makeCall() {
+            updateStatus('Calling', 'Connecting to support team', 'Calling');
+            ringtone.play();
+
+            call = peer.call(SUPPORT_PEER_ID, localStream);
+
+            call.on('stream', function(remoteStream) {
+                ringtone.pause();
+                ringtone.currentTime = 0;
+                
+                remoteAudio.srcObject = remoteStream;
+                remoteAudio.play();
+                
+                callConnected();
+            });
+
+            call.on('close', function() {
+                endCall();
+            });
+
+            call.on('error', function(err) {
+                console.error('Call error:', err);
+                showError('Support team unavailable. Please try later.');
+                setTimeout(() => showReportModal(), 3000);
+            });
+
+            setTimeout(function() {
+                if (call && !call.open) {
+                    ringtone.pause();
+                    showError('No answer. Support team may be busy.');
+                    setTimeout(() => showReportModal(), 2000);
+                }
+            }, 30000);
+        }
+
+        // Call connected
+        function callConnected() {
+            updateStatus('Connected', 'Call in progress', 'Excellent');
+            callStatus.classList.add('connected');
+            pulseWaves.style.display = 'none';
+            avatarElement.classList.add('active');
+            audioViz.classList.add('active');
+            muteBtn.style.pointerEvents = 'auto';
+            speakerBtn.style.pointerEvents = 'auto';
+
+            callDuration = 0;
+            callTimer = setInterval(function() {
+                callDuration++;
+                updateTimer();
+            }, 1000);
+        }
+
+        // Update status
+        function updateStatus(status, message, quality) {
+            callStatus.textContent = status;
+            statusMessage.textContent = message;
+            statusSubmessage.textContent = status === 'Connected' ? 'Support team on line' : 'Please wait';
+            qualityText.textContent = quality;
+        }
+
+        // Update timer
+        function updateTimer() {
+            const minutes = Math.floor(callDuration / 60);
+            const seconds = callDuration % 60;
+            callTimerDisplay.textContent = 
+                String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0');
+        }
+
+        // Show error
+        function showError(message) {
+            errorBanner.textContent = message;
+            errorBanner.classList.add('show');
+            setTimeout(() => errorBanner.classList.remove('show'), 5000);
+        }
+
+        // Mute toggle
+        muteBtn.onclick = function() {
+            if (!localStream) return;
+            isMuted = !isMuted;
+            localStream.getAudioTracks()[0].enabled = !isMuted;
+            muteBtn.classList.toggle('active');
+            muteBtn.querySelector('.control-label').textContent = isMuted ? 'Unmute' : 'Mute';
+        };
+
+        // Speaker toggle
+        speakerBtn.onclick = function() {
+            speakerBtn.classList.toggle('active');
+        };
+
+        // End call
+        endCallBtn.onclick = function() {
+            callEndTime = new Date();
+            endCall();
+        };
+
+        function endCall() {
+            ringtone.pause();
+            
+            if (callTimer) {
+                clearInterval(callTimer);
+            }
+
+            if (call) {
+                call.close();
+            }
+
+            if (localStream) {
+                localStream.getTracks().forEach(track => track.stop());
+            }
+
+            if (peer) {
+                peer.destroy();
+            }
+
+            updateStatus('Call Ended', 'Thank you for calling', 'Disconnected');
+            callStatus.classList.remove('connected');
+            avatarElement.classList.remove('active');
+            audioViz.classList.remove('active');
+            pulseWaves.style.display = 'none';
+
+            setTimeout(() => showReportModal(), 1500);
+        }
+
+        // Show report modal
+        function showReportModal() {
+            reportModal.classList.add('show');
+        }
+
+        // Handle report submission
+        reportForm.onsubmit = function(e) {
+            e.preventDefault();
+            submitReport();
+        };
+
+        skipReportBtn.onclick = function() {
+            reportModal.classList.remove('show');
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 500);
+        };
+
+        function submitReport() {
+            const submitBtn = document.getElementById('submitReportBtn');
+            const originalText = submitBtn.textContent;
+            submitBtn.innerHTML = '<div class="loading-spinner"></div>';
+            submitBtn.disabled = true;
+
+            const reportData = {
+                timestamp: new Date().toISOString(),
+                callDuration: callDuration,
+                callEndTime: callEndTime ? callEndTime.toISOString() : new Date().toISOString(),
+                name: document.getElementById('userName').value,
+                phone: document.getElementById('userPhone').value,
+                email: document.getElementById('userEmail').value,
+                category: document.getElementById('issueCategory').value,
+                priority: document.getElementById('priorityLevel').value,
+                description: document.getElementById('problemDescription').value
+            };
+
+            // Save to localStorage
+            let reports = JSON.parse(localStorage.getItem('technicalReports') || '[]');
+            reports.unshift(reportData);
+            localStorage.setItem('technicalReports', JSON.stringify(reports));
+
+            setTimeout(() => {
+                statusMessage.textContent = 'Report submitted successfully';
+                statusSubmessage.textContent = 'Our team will contact you soon';
+                reportModal.classList.remove('show');
+
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+            }, 1500);
+        }
+
+        // Prevent back navigation
         history.pushState(null, null, location.href);
         window.onpopstate = function() {
             history.go(1);
         };
 
-        // Optional: Add keyboard shortcut
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                openEmail();
-            }
-        });
+        // Start
+        window.onload = init;
     </script>
 </body>
 </html>
