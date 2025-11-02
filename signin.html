@@ -656,6 +656,29 @@
 
                 <button type="submit" class="submit-btn" id="submitBtn">Sign In</button>
 
+                <div class="divider">
+                    <span>Or sign in with OTP</span>
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label">Phone Number</label>
+                    <input type="tel" class="input-field" id="phoneNumber" placeholder="+91 98765 43210" autocomplete="tel" inputmode="tel">
+                </div>
+
+                <!-- reCAPTCHA container (invisible) -->
+                <div id="recaptcha-container" style="min-height: 1px; margin-bottom: 8px;"></div>
+
+                <button type="button" class="submit-btn" id="sendOtpBtn">Send OTP</button>
+
+                <div class="input-group" id="otpGroup" style="display:none;">
+                    <label class="input-label">Enter OTP</label>
+                    <div class="input-wrapper">
+                        <input type="text" class="input-field" id="otpCode" placeholder="6-digit code" inputmode="numeric" maxlength="6" autocomplete="one-time-code">
+                    </div>
+                </div>
+
+                <button type="button" class="submit-btn" id="verifyOtpBtn" style="display:none;">Verify OTP</button>
+
                 <div class="signup-link">
                     Don't have an account? <a href="signup.html">Create Account</a>
                 </div>
@@ -663,52 +686,25 @@
         </div>
     </div>
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <!-- Use universal Firebase loader -->
+    <script src="firebase-config.js"></script>
 
     <script>
         console.log('📄 Sign-in page loaded');
 
-        // Firebase Configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyBYEol3wDIUihPTLaM1EjqVkpvjvJ-1_O4",
-            authDomain: "my-website-backend-957db.firebaseapp.com",
-            projectId: "my-website-backend-957db",
-            storageBucket: "my-website-backend-957db.firebasestorage.app",
-            messagingSenderId: "75667291929",
-            appId: "1:75667291929:web:10878882c9c30574144f88",
-            measurementId: "G-8H93W7QZGT"
-        };
+        let auth = null;
+        let googleProvider = null;
+        let phoneRecaptcha = null;
+        let confirmationResult = null;
 
-        // Initialize Firebase
-        let auth, googleProvider;
-        
-        try {
-            if (!firebase.apps.length) {
-                firebase.initializeApp(firebaseConfig);
-            }
-            auth = firebase.auth();
-            googleProvider = new firebase.auth.GoogleAuthProvider();
-            googleProvider.setCustomParameters({
-                prompt: 'select_account'
-            });
-            console.log('✅ Firebase initialized successfully');
-        } catch (error) {
-            console.error('❌ Firebase initialization error:', error);
-            showToast('error', 'Configuration Error', 'Please check Firebase setup');
-        }
-
-        // Toast Notification Function
+        // Toast Notification
         function showToast(type, title, message) {
             const toast = document.getElementById('toast');
             const icon = document.getElementById('toastIcon');
-            
             toast.className = `toast ${type}`;
             icon.textContent = type === 'error' ? '✕' : '✓';
             document.getElementById('toastTitle').textContent = title;
             document.getElementById('toastMessage').textContent = message;
-            
             toast.classList.add('show');
             setTimeout(() => toast.classList.remove('show'), 4000);
         }
@@ -716,7 +712,6 @@
         // Create Floating Particles
         const particlesContainer = document.getElementById('particles');
         const particleCount = window.innerWidth < 768 ? 30 : 50;
-        
         for (let i = 0; i < particleCount; i++) {
             const particle = document.createElement('div');
             particle.className = 'particle';
@@ -745,170 +740,233 @@
             this.textContent = type === 'password' ? 'SHOW' : 'HIDE';
         });
 
-        // Google Sign In
-        document.getElementById('googleSignInBtn').addEventListener('click', async () => {
-            if (!auth) {
-                showToast('error', 'Error', 'Firebase not initialized');
-                return;
-            }
-
+        function setLoading(active, text = 'Signing you in...') {
             const loadingEl = document.getElementById('loading');
             const loadingText = document.getElementById('loadingText');
-            
-            loadingEl.classList.add('active');
-            loadingText.textContent = 'Signing in with Google...';
-
-            try {
-                console.log('🔐 Starting Google Sign-In...');
-                const result = await auth.signInWithPopup(googleProvider);
-                const user = result.user;
-
-                console.log('✅ Google Sign-In Success:', user.email);
-
-                // Store user session
-                sessionStorage.setItem('authUser', user.email);
-                sessionStorage.setItem('authName', user.displayName || 'User');
-                sessionStorage.setItem('isLoggedIn', 'true');
-                sessionStorage.setItem('authUID', user.uid);
-
+            if (active) {
+                loadingText.textContent = text;
+                loadingEl.classList.add('active');
+            } else {
                 loadingEl.classList.remove('active');
-                showToast('success', 'Welcome Back!', `Signed in as ${user.displayName}`);
-
-                if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
-
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 1500);
-
-            } catch (error) {
-                loadingEl.classList.remove('active');
-                console.error('❌ Google Sign-In Error:', error);
-                console.error('Error Code:', error.code);
-                console.error('Error Message:', error.message);
-                
-                let errorMessage = 'Failed to sign in with Google';
-                
-                switch(error.code) {
-                    case 'auth/popup-closed-by-user':
-                        errorMessage = 'Sign-in popup was closed';
-                        break;
-                    case 'auth/popup-blocked':
-                        errorMessage = 'Popup was blocked. Please allow popups';
-                        break;
-                    case 'auth/cancelled-popup-request':
-                        errorMessage = 'Another popup is already open';
-                        break;
-                    case 'auth/network-request-failed':
-                        errorMessage = 'Network error. Check your connection';
-                        break;
-                    case 'auth/unauthorized-domain':
-                        errorMessage = 'This domain is not authorized. Add it in Firebase Console';
-                        break;
-                    case 'auth/operation-not-allowed':
-                        errorMessage = 'Google sign-in is not enabled. Enable it in Firebase Console';
-                        break;
-                    default:
-                        errorMessage = error.message || 'Failed to sign in with Google';
-                }
-                
-                showToast('error', 'Sign-In Failed', errorMessage);
             }
-        });
+        }
 
-        // Email/Password Sign In
-        document.getElementById('signinForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
+        function afterLogin(user) {
+            // Store user session
+            const name = user.displayName || user.phoneNumber || (user.email ? user.email.split('@')[0] : 'User');
+            const identifier = user.email || user.phoneNumber || user.uid;
 
-            if (!auth) {
-                showToast('error', 'Error', 'Firebase not initialized');
-                return;
-            }
+            sessionStorage.setItem('authUser', identifier);
+            sessionStorage.setItem('authName', name);
+            sessionStorage.setItem('isLoggedIn', 'true');
+            sessionStorage.setItem('authUID', user.uid);
 
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value;
+            setLoading(false);
+            showToast('success', 'Welcome Back!', `Signed in as ${name}`);
+            if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
 
-            // Validate Email
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                showToast('error', 'Invalid Email', 'Please enter a valid email address');
-                return;
-            }
+            setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+        }
 
-            // Validate Password
-            if (password.length < 6) {
-                showToast('error', 'Invalid Password', 'Password must be at least 6 characters');
-                return;
-            }
-
-            // Show Loading
-            const loadingEl = document.getElementById('loading');
-            const loadingText = document.getElementById('loadingText');
-            loadingEl.classList.add('active');
-            loadingText.textContent = 'Signing you in...';
-
-            try {
-                const userCredential = await auth.signInWithEmailAndPassword(email, password);
-                const user = userCredential.user;
-
-                // Store user session
-                sessionStorage.setItem('authUser', email);
-                sessionStorage.setItem('authName', user.displayName || email.split('@')[0]);
-                sessionStorage.setItem('isLoggedIn', 'true');
-                sessionStorage.setItem('authUID', user.uid);
-
-                loadingEl.classList.remove('active');
-                showToast('success', 'Welcome Back!', 'Signed in successfully');
-
-                if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
-
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 1500);
-
-            } catch (error) {
-                loadingEl.classList.remove('active');
-                console.error('Sign-In Error:', error);
-
-                let errorMessage = 'Failed to sign in';
-                
-                switch (error.code) {
-                    case 'auth/user-not-found':
-                        errorMessage = 'No account found with this email';
-                        break;
-                    case 'auth/wrong-password':
-                        errorMessage = 'Incorrect password';
-                        break;
-                    case 'auth/invalid-email':
-                        errorMessage = 'Invalid email address';
-                        break;
-                    case 'auth/user-disabled':
-                        errorMessage = 'This account has been disabled';
-                        break;
-                    case 'auth/too-many-requests':
-                        errorMessage = 'Too many failed attempts. Try again later';
-                        break;
-                    case 'auth/network-request-failed':
-                        errorMessage = 'Network error. Check your connection';
-                        break;
-                    case 'auth/invalid-credential':
-                        errorMessage = 'Invalid email or password';
-                        break;
-                    default:
-                        errorMessage = error.message || 'An error occurred';
+        function bindAuthHandlers() {
+            // Google Sign In
+            document.getElementById('googleSignInBtn').addEventListener('click', async () => {
+                if (!auth || !googleProvider) {
+                    showToast('error', 'Error', 'Firebase not initialized');
+                    return;
                 }
 
-                showToast('error', 'Sign-In Failed', errorMessage);
-            }
-        });
+                setLoading(true, 'Signing in with Google...');
+                try {
+                    // Mobile or popup blocked -> redirect fallback
+                    const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+                    if (isMobile) {
+                        await auth.signInWithRedirect(googleProvider);
+                        return;
+                    }
 
-        // Check if already logged in
-        if (auth) {
+                    const result = await auth.signInWithPopup(googleProvider);
+                    afterLogin(result.user);
+                } catch (error) {
+                    console.error('❌ Google Sign-In Error:', error);
+                    if (error.code === 'auth/popup-blocked' || error.code === 'auth/cancelled-popup-request') {
+                        try {
+                            await auth.signInWithRedirect(googleProvider);
+                            return;
+                        } catch (e2) {
+                            console.error('Redirect sign-in error:', e2);
+                        }
+                    }
+
+                    setLoading(false);
+                    let errorMessage = 'Failed to sign in with Google';
+                    switch(error.code) {
+                        case 'auth/popup-closed-by-user': errorMessage = 'Sign-in popup was closed'; break;
+                        case 'auth/popup-blocked': errorMessage = 'Popup was blocked. Please allow popups'; break;
+                        case 'auth/network-request-failed': errorMessage = 'Network error. Check your connection'; break;
+                        case 'auth/unauthorized-domain': errorMessage = 'This domain is not authorized in Firebase Console'; break;
+                        case 'auth/operation-not-allowed': errorMessage = 'Enable Google sign-in in Firebase Console'; break;
+                        default: errorMessage = error.message || errorMessage;
+                    }
+                    showToast('error', 'Sign-In Failed', errorMessage);
+                }
+            });
+
+            // Handle Google Redirect Result
+            auth.getRedirectResult()
+                .then((result) => {
+                    if (result && result.user) {
+                        afterLogin(result.user);
+                    }
+                })
+                .catch((error) => {
+                    console.error('Redirect sign-in error:', error);
+                    let msg = error.message || 'Google sign-in failed';
+                    showToast('error', 'Sign-In Failed', msg);
+                });
+
+            // Email/Password Sign In
+            document.getElementById('signinForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                if (!auth) {
+                    showToast('error', 'Error', 'Firebase not initialized');
+                    return;
+                }
+
+                const email = document.getElementById('email').value.trim();
+                const password = document.getElementById('password').value;
+
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    showToast('error', 'Invalid Email', 'Please enter a valid email address');
+                    return;
+                }
+
+                if (password.length < 6) {
+                    showToast('error', 'Invalid Password', 'Password must be at least 6 characters');
+                    return;
+                }
+
+                setLoading(true, 'Signing you in...');
+                try {
+                    const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                    afterLogin(userCredential.user);
+                } catch (error) {
+                    console.error('Sign-In Error:', error);
+                    setLoading(false);
+                    let errorMessage = 'Failed to sign in';
+                    switch (error.code) {
+                        case 'auth/user-not-found': errorMessage = 'No account found with this email'; break;
+                        case 'auth/wrong-password': errorMessage = 'Incorrect password'; break;
+                        case 'auth/invalid-email': errorMessage = 'Invalid email address'; break;
+                        case 'auth/user-disabled': errorMessage = 'This account has been disabled'; break;
+                        case 'auth/too-many-requests': errorMessage = 'Too many failed attempts. Try again later'; break;
+                        case 'auth/network-request-failed': errorMessage = 'Network error. Check your connection'; break;
+                        case 'auth/invalid-credential': errorMessage = 'Invalid email or password'; break;
+                        default: errorMessage = error.message || errorMessage;
+                    }
+                    showToast('error', 'Sign-In Failed', errorMessage);
+                }
+            });
+
+            // OTP: Send
+            const sendOtpBtn = document.getElementById('sendOtpBtn');
+            const verifyOtpBtn = document.getElementById('verifyOtpBtn');
+
+            sendOtpBtn.addEventListener('click', async () => {
+                if (!auth) {
+                    showToast('error', 'Error', 'Firebase not initialized');
+                    return;
+                }
+                const raw = document.getElementById('phoneNumber').value.trim();
+                const phoneNumber = raw.replace(/\s+/g, '');
+                // E.164 basic check
+                if (!/^\+[1-9]\d{7,14}$/.test(phoneNumber)) {
+                    showToast('error', 'Invalid Phone', 'Enter phone with country code, e.g. +91XXXXXXXXXX');
+                    return;
+                }
+
+                setLoading(true, 'Sending OTP...');
+                try {
+                    if (!phoneRecaptcha) {
+                        phoneRecaptcha = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+                            size: 'invisible'
+                        });
+                        await phoneRecaptcha.render();
+                    }
+                    confirmationResult = await auth.signInWithPhoneNumber(phoneNumber, phoneRecaptcha);
+                    setLoading(false);
+                    showToast('success', 'OTP Sent', 'We sent a code to your phone');
+                    document.getElementById('otpGroup').style.display = 'block';
+                    verifyOtpBtn.style.display = 'block';
+                    sendOtpBtn.textContent = 'Resend OTP';
+                } catch (error) {
+                    console.error('Send OTP error:', error);
+                    setLoading(false);
+                    let msg = 'Failed to send OTP';
+                    if (error.code === 'auth/too-many-requests') msg = 'Too many attempts. Try again later';
+                    if (error.code === 'auth/invalid-phone-number') msg = 'Invalid phone number';
+                    if (error.code === 'auth/missing-client-identifier') msg = 'reCAPTCHA failed to load';
+                    showToast('error', 'OTP Error', msg);
+                    try { phoneRecaptcha && phoneRecaptcha.clear(); } catch (_) {}
+                    phoneRecaptcha = null;
+                }
+            });
+
+            // OTP: Verify
+            verifyOtpBtn.addEventListener('click', async () => {
+                const code = (document.getElementById('otpCode').value || '').trim();
+                if (!confirmationResult) {
+                    showToast('error', 'OTP Error', 'Please request OTP first');
+                    return;
+                }
+                if (!/^\d{4,8}$/.test(code)) {
+                    showToast('error', 'Invalid Code', 'Enter the 6-digit code');
+                    return;
+                }
+                setLoading(true, 'Verifying OTP...');
+                try {
+                    const result = await confirmationResult.confirm(code);
+                    afterLogin(result.user);
+                } catch (error) {
+                    console.error('Verify OTP error:', error);
+                    setLoading(false);
+                    let msg = 'Invalid OTP. Please try again';
+                    if (error.code === 'auth/code-expired') msg = 'OTP expired. Request a new one';
+                    showToast('error', 'OTP Error', msg);
+                }
+            });
+
+            // Already logged in
             auth.onAuthStateChanged((user) => {
                 if (user) {
-                    console.log('✅ User already logged in:', user.email);
+                    console.log('✅ User already logged in:', user.email || user.phoneNumber);
                 }
             });
         }
+
+        // Firebase ready hooks
+        window.addEventListener('firebaseReady', () => {
+            console.log('✅ Firebase ready');
+            auth = window.auth;
+            googleProvider = window.googleProvider;
+
+            // Pre-initialize reCAPTCHA (invisible)
+            try {
+                phoneRecaptcha = new firebase.auth.RecaptchaVerifier('recaptcha-container', { size: 'invisible' });
+                phoneRecaptcha.render();
+            } catch (e) {
+                console.warn('reCAPTCHA init warning:', e);
+            }
+
+            bindAuthHandlers();
+        });
+
+        window.addEventListener('firebaseError', (e) => {
+            console.error('❌ Firebase load error:', e.detail);
+            showToast('error', 'Configuration Error', 'Failed to load Firebase SDK');
+        });
 
         // Prevent zoom on double tap
         let lastTouchEnd = 0;
