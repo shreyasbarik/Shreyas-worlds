@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sign In - Sharvika</title>
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: 'unsafe-inline' 'unsafe-eval'; font-src 'self' https://fonts.gstatic.com data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -671,7 +670,7 @@
     <script>
         console.log('📄 Sign-in page loaded');
 
-        // Firebase Configuration - YOUR ACTUAL CONFIG
+        // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBYEol3wDIUihPTLaM1EjqVkpvjvJ-1_O4",
             authDomain: "my-website-backend-957db.firebaseapp.com",
@@ -760,8 +759,11 @@
             loadingText.textContent = 'Signing in with Google...';
 
             try {
+                console.log('🔐 Starting Google Sign-In...');
                 const result = await auth.signInWithPopup(googleProvider);
                 const user = result.user;
+
+                console.log('✅ Google Sign-In Success:', user.email);
 
                 // Store user session
                 sessionStorage.setItem('authUser', user.email);
@@ -780,15 +782,33 @@
 
             } catch (error) {
                 loadingEl.classList.remove('active');
-                console.error('Google Sign-In Error:', error);
+                console.error('❌ Google Sign-In Error:', error);
+                console.error('Error Code:', error.code);
+                console.error('Error Message:', error.message);
                 
                 let errorMessage = 'Failed to sign in with Google';
-                if (error.code === 'auth/popup-closed-by-user') {
-                    errorMessage = 'Sign-in popup was closed';
-                } else if (error.code === 'auth/cancelled-popup-request') {
-                    errorMessage = 'Another popup is already open';
-                } else if (error.code === 'auth/network-request-failed') {
-                    errorMessage = 'Network error. Check your connection';
+                
+                switch(error.code) {
+                    case 'auth/popup-closed-by-user':
+                        errorMessage = 'Sign-in popup was closed';
+                        break;
+                    case 'auth/popup-blocked':
+                        errorMessage = 'Popup was blocked. Please allow popups';
+                        break;
+                    case 'auth/cancelled-popup-request':
+                        errorMessage = 'Another popup is already open';
+                        break;
+                    case 'auth/network-request-failed':
+                        errorMessage = 'Network error. Check your connection';
+                        break;
+                    case 'auth/unauthorized-domain':
+                        errorMessage = 'This domain is not authorized. Add it in Firebase Console';
+                        break;
+                    case 'auth/operation-not-allowed':
+                        errorMessage = 'Google sign-in is not enabled. Enable it in Firebase Console';
+                        break;
+                    default:
+                        errorMessage = error.message || 'Failed to sign in with Google';
                 }
                 
                 showToast('error', 'Sign-In Failed', errorMessage);

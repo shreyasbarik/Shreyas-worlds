@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chakra Gallery — Sharvika</title>
+  <title>Sharvika - Tube | Premium Video Platform</title>
   
   <style>
-    /* ==================== Apple-Style CSS Reset ==================== */
+    /* ==================== PREMIUM RESET ==================== */
     * {
       margin: 0;
       padding: 0;
@@ -16,116 +16,169 @@
     }
 
     :root {
-      --apple-black: #1d1d1f;
-      --apple-gray: #86868b;
-      --apple-light-gray: #f5f5f7;
-      --apple-white: #fbfbfd;
-      --apple-blue: #0071e3;
-      --apple-hover-blue: #0077ed;
-      --card-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-      --card-shadow-hover: 0 8px 32px rgba(0, 0, 0, 0.12);
+      --black: #000000;
+      --dark-gray: #1a1a1a;
+      --medium-gray: #333333;
+      --light-gray: #666666;
+      --lighter-gray: #999999;
+      --border-gray: #e0e0e0;
+      --white: #ffffff;
+      --off-white: #fafafa;
+      --shadow: rgba(0, 0, 0, 0.1);
     }
+
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap');
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
-      background-color: var(--apple-white);
-      color: var(--apple-black);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--white);
+      color: var(--black);
       overflow-x: hidden;
-      line-height: 1.47059;
+      line-height: 1.6;
       font-weight: 400;
-      letter-spacing: -0.022em;
-      cursor: crosshair;
     }
 
-    /* ==================== Navigation Bar (Apple Style) ==================== */
+    /* ==================== NAVIGATION BAR ==================== */
     .navbar {
-      position: sticky;
+      position: fixed;
       top: 0;
-      z-index: 9999;
-      background: rgba(251, 251, 253, 0.72);
-      backdrop-filter: saturate(180%) blur(20px);
-      -webkit-backdrop-filter: saturate(180%) blur(20px);
-      border-bottom: 1px solid rgba(0, 0, 0, 0.07);
-      transition: all 0.4s cubic-bezier(0.28, 0.11, 0.32, 1);
-      cursor: default;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border-bottom: 1px solid var(--border-gray);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .navbar.scrolled {
-      background: rgba(251, 251, 253, 0.88);
-      box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05);
+      background: rgba(255, 255, 255, 1);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     }
 
     .nav-content {
-      max-width: 980px;
+      max-width: 100%;
       margin: 0 auto;
-      padding: 0 22px;
-      height: 44px;
+      padding: 0 clamp(16px, 4vw, 40px);
+      height: clamp(60px, 15vw, 80px);
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
 
-    .nav-logo {
-      font-size: 21px;
-      font-weight: 600;
-      color: var(--apple-black);
-      letter-spacing: -0.02em;
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: clamp(12px, 3vw, 20px);
+    }
+
+    .brand-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(20px, 5vw, 36px);
+      font-weight: 900;
+      color: var(--black);
+      letter-spacing: -0.03em;
       text-decoration: none;
-      transition: opacity 0.3s ease;
-      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      display: inline-block;
     }
 
-    .nav-logo:hover {
+    .brand-logo::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background: var(--black);
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .brand-logo:hover::after {
+      width: 100%;
+    }
+
+    .brand-logo:hover {
       opacity: 0.7;
+      transform: translateY(-2px);
     }
 
-    .nav-tagline {
-      font-size: 12px;
-      color: var(--apple-gray);
-      font-weight: 400;
-      letter-spacing: -0.01em;
+    .brand-separator {
+      width: 2px;
+      height: clamp(20px, 5vw, 28px);
+      background: linear-gradient(180deg, var(--black) 0%, var(--light-gray) 100%);
     }
 
-    /* ==================== Hero Section ==================== */
+    .brand-subtitle {
+      font-size: clamp(9px, 2.5vw, 12px);
+      font-weight: 700;
+      color: var(--light-gray);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    /* ==================== HERO SECTION ==================== */
     .hero {
-      text-align: center;
-      padding: 80px 20px 60px;
-      max-width: 980px;
+      padding: clamp(100px, 20vw, 160px) clamp(16px, 4vw, 40px) clamp(60px, 12vw, 100px);
+      max-width: 100%;
       margin: 0 auto;
-      cursor: crosshair;
+      text-align: center;
     }
 
-    .hero-eyebrow {
-      font-size: 17px;
-      line-height: 1.23536;
-      font-weight: 600;
-      letter-spacing: -0.022em;
-      color: var(--apple-blue);
-      margin-bottom: 8px;
+    .hero-label {
+      display: inline-block;
+      font-size: clamp(9px, 2.5vw, 11px);
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--light-gray);
+      margin-bottom: clamp(16px, 4vw, 24px);
+      padding: clamp(6px, 2vw, 8px) clamp(16px, 4vw, 20px);
+      border: 2px solid var(--black);
+      border-radius: 50px;
       opacity: 0;
-      animation: fadeInUp 0.8s ease forwards;
+      animation: fadeInUp 0.8s ease 0.2s forwards;
+      transition: all 0.3s ease;
+    }
+
+    .hero-label:hover {
+      background: var(--black);
+      color: var(--white);
+      transform: translateY(-2px);
     }
 
     .hero-title {
-      font-size: 64px;
-      line-height: 1.0625;
-      font-weight: 700;
-      letter-spacing: -0.015em;
-      color: var(--apple-black);
-      margin-bottom: 12px;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(32px, 10vw, 80px);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: var(--black);
+      margin-bottom: clamp(16px, 4vw, 24px);
+      line-height: 1.1;
       opacity: 0;
-      animation: fadeInUp 0.8s ease 0.1s forwards;
+      animation: fadeInUp 0.8s ease 0.3s forwards;
     }
 
     .hero-subtitle {
-      font-size: 28px;
-      line-height: 1.14286;
+      font-size: clamp(14px, 4vw, 24px);
       font-weight: 400;
-      letter-spacing: 0.007em;
-      color: var(--apple-gray);
-      margin-bottom: 20px;
+      color: var(--light-gray);
+      max-width: 800px;
+      margin: 0 auto clamp(24px, 6vw, 40px);
+      line-height: 1.6;
       opacity: 0;
-      animation: fadeInUp 0.8s ease 0.2s forwards;
+      animation: fadeInUp 0.8s ease 0.4s forwards;
+    }
+
+    .hero-divider {
+      width: clamp(40px, 10vw, 80px);
+      height: 3px;
+      background: var(--black);
+      margin: clamp(40px, 10vw, 60px) auto 0;
+      opacity: 0;
+      animation: expandWidth 1s ease 0.6s forwards;
     }
 
     @keyframes fadeInUp {
@@ -139,19 +192,29 @@
       }
     }
 
-    /* ==================== Video Gallery ==================== */
+    @keyframes expandWidth {
+      from {
+        opacity: 0;
+        width: 0;
+      }
+      to {
+        opacity: 1;
+        width: clamp(40px, 10vw, 80px);
+      }
+    }
+
+    /* ==================== VIDEO GALLERY ==================== */
     .gallery {
-      max-width: 1200px;
+      max-width: 100%;
       margin: 0 auto;
-      padding: 40px 20px 100px;
-      cursor: crosshair;
+      padding: clamp(40px, 8vw, 60px) clamp(16px, 4vw, 40px) clamp(80px, 16vw, 120px);
     }
 
     .video-item {
-      margin-bottom: 120px;
+      margin-bottom: clamp(80px, 16vw, 140px);
       opacity: 0;
       transform: translateY(60px);
-      transition: all 0.8s cubic-bezier(0.28, 0.11, 0.32, 1);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .video-item.visible {
@@ -159,194 +222,334 @@
       transform: translateY(0);
     }
 
-    /* Video Container */
-    .video-wrapper {
+    /* ==================== PREMIUM VIDEO PLAYER ==================== */
+    .video-container {
       position: relative;
-      border-radius: 28px;
+      background: var(--black);
+      border-radius: clamp(8px, 2vw, 16px);
       overflow: hidden;
-      background: #000;
-      box-shadow: var(--card-shadow);
-      transition: all 0.5s cubic-bezier(0.28, 0.11, 0.32, 1);
-      max-width: 980px;
-      margin: 0 auto 32px;
-      cursor: default;
+      box-shadow: 0 clamp(10px, 4vw, 25px) clamp(30px, 8vw, 70px) rgba(0, 0, 0, 0.2);
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      margin-bottom: clamp(16px, 4vw, 24px);
     }
 
-    .video-wrapper:hover {
-      box-shadow: var(--card-shadow-hover);
-      transform: scale(1.01);
+    .video-container:hover {
+      box-shadow: 0 clamp(15px, 6vw, 35px) clamp(40px, 10vw, 90px) rgba(0, 0, 0, 0.3);
+      transform: translateY(-4px);
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      background: var(--black);
     }
 
     .video-wrapper video {
       width: 100%;
+      height: auto;
       display: block;
-      background: #000;
-      cursor: pointer;
+      background: var(--black);
     }
 
     .video-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, transparent 50%);
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 50%);
       opacity: 0;
-      transition: opacity 0.4s ease;
+      transition: opacity 0.3s ease;
       pointer-events: none;
     }
 
-    .video-wrapper:hover .video-overlay {
+    .video-container:hover .video-overlay {
       opacity: 1;
     }
 
-    /* Content Section */
+    /* ==================== VIDEO CONTENT (YOUTUBE STYLE) ==================== */
     .video-content {
-      text-align: center;
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 0 20px;
-      cursor: crosshair;
+      padding: 0 clamp(12px, 3vw, 20px);
     }
 
-    .video-quote {
-      font-size: 24px;
-      line-height: 1.33341;
-      font-weight: 600;
-      letter-spacing: 0.009em;
-      color: var(--apple-black);
-      margin-bottom: 32px;
-      position: relative;
-      padding: 0 40px;
+    .video-header {
+      margin-bottom: clamp(12px, 3vw, 16px);
     }
 
-    .video-quote::before,
-    .video-quote::after {
-      content: '';
-      position: absolute;
-      width: 24px;
-      height: 2px;
-      background: linear-gradient(90deg, var(--apple-blue), var(--apple-hover-blue));
-      top: 50%;
-      transform: translateY(-50%);
+    .video-title {
+      font-size: clamp(14px, 3.5vw, 28px);
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: clamp(8px, 2vw, 12px);
+      letter-spacing: -0.02em;
+      line-height: 1.3;
     }
 
-    .video-quote::before {
-      left: 0;
-    }
-
-    .video-quote::after {
-      right: 0;
-    }
-
-    /* ==================== Emoji Reactions (Apple Style) ==================== */
-    .reactions {
-      display: inline-flex;
-      gap: 12px;
-      background: var(--apple-light-gray);
-      padding: 8px;
-      border-radius: 50px;
-      position: relative;
-      cursor: default;
-    }
-
-    .reaction-btn {
-      position: relative;
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      border: none;
-      background: var(--apple-white);
-      font-size: 26px;
-      cursor: pointer;
+    .video-meta {
       display: flex;
       align-items: center;
-      justify-content: center;
-      transition: all 0.3s cubic-bezier(0.28, 0.11, 0.32, 1);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      gap: clamp(6px, 2vw, 12px);
+      flex-wrap: wrap;
+      margin-bottom: clamp(12px, 3vw, 16px);
+    }
+
+    .video-views {
+      font-size: clamp(11px, 2.5vw, 15px);
+      color: var(--light-gray);
+      font-weight: 500;
+    }
+
+    .meta-separator {
+      width: 3px;
+      height: 3px;
+      background: var(--light-gray);
+      border-radius: 50%;
+    }
+
+    .video-date {
+      font-size: clamp(11px, 2.5vw, 15px);
+      color: var(--light-gray);
+      font-weight: 500;
+    }
+
+    .video-description {
+      font-size: clamp(12px, 3vw, 16px);
+      color: var(--light-gray);
+      line-height: 1.6;
+      margin-bottom: clamp(12px, 3vw, 20px);
+    }
+
+    /* ==================== YOUTUBE-STYLE REACTIONS (COMPACT MOBILE) ==================== */
+    .reactions-container {
+      display: flex;
+      gap: clamp(8px, 2vw, 16px);
+      align-items: center;
+      flex-wrap: wrap;
+      padding: clamp(10px, 2.5vw, 16px) 0;
+      border-top: 1px solid var(--border-gray);
+      border-bottom: 1px solid var(--border-gray);
+      margin-bottom: clamp(12px, 3vw, 20px);
+    }
+
+    .reaction-group {
+      display: flex;
+      background: var(--off-white);
+      border-radius: 50px;
+      overflow: hidden;
+      border: 2px solid var(--black);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .reaction-group:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .reaction-button {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: clamp(5px, 1.5vw, 10px);
+      padding: clamp(8px, 2vw, 14px) clamp(12px, 3vw, 24px);
+      background: transparent;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(12px, 3vw, 16px);
+      font-weight: 700;
+      color: var(--black);
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      overflow: visible;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
     }
 
-    .reaction-btn:hover {
-      transform: scale(1.08);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      background: #fff;
+    .reaction-button:active {
+      transform: scale(0.92);
     }
 
-    .reaction-btn:active {
-      transform: scale(0.95);
+    .reaction-button.active {
+      background: var(--black);
+      color: var(--white);
     }
 
-    /* ==================== Emoji Animations ==================== */
-    
-    @keyframes thumbsUp {
-      0% { transform: scale(1) translateY(0) rotate(0deg); }
-      30% { transform: scale(1.3) translateY(-10px) rotate(-15deg); }
-      60% { transform: scale(1.1) translateY(-5px) rotate(5deg); }
-      100% { transform: scale(1) translateY(0) rotate(0deg); }
+    .reaction-button.active .reaction-icon,
+    .reaction-button.active .reaction-count {
+      color: var(--white);
     }
 
-    .reaction-btn[data-type="like"].animate {
-      animation: thumbsUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    .reaction-button:not(.active):hover {
+      background: var(--border-gray);
     }
 
-    @keyframes thumbsDown {
-      0% { transform: scale(1) translateY(0) rotate(0deg); }
-      30% { transform: scale(1.3) translateY(10px) rotate(15deg); }
-      60% { transform: scale(1.1) translateY(5px) rotate(-5deg); }
-      100% { transform: scale(1) translateY(0) rotate(0deg); }
+    .reaction-icon {
+      position: relative;
+      z-index: 1;
+      font-size: clamp(14px, 3.5vw, 22px);
+      font-weight: 900;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: inline-block;
     }
 
-    .reaction-btn[data-type="dislike"].animate {
-      animation: thumbsDown 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    .reaction-button.active .reaction-icon {
+      animation: iconPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    @keyframes heartBeat {
+    .reaction-count {
+      position: relative;
+      z-index: 1;
+      min-width: clamp(18px, 4vw, 30px);
+      text-align: left;
+      font-variant-numeric: tabular-nums;
+      transition: all 0.3s ease;
+    }
+
+    .reaction-divider {
+      width: 2px;
+      height: clamp(18px, 4vw, 28px);
+      background: var(--black);
+    }
+
+    /* ==================== PREMIUM ANIMATION EFFECTS ==================== */
+    @keyframes iconPop {
       0% { transform: scale(1); }
-      15% { transform: scale(1.4); }
-      30% { transform: scale(1.2); }
-      45% { transform: scale(1.35); }
-      60% { transform: scale(1.25); }
+      30% { transform: scale(1.4) rotate(-10deg); }
+      50% { transform: scale(1.3) rotate(10deg); }
+      70% { transform: scale(1.35) rotate(-5deg); }
       100% { transform: scale(1); }
     }
 
-    .reaction-btn[data-type="love"].animate {
-      animation: heartBeat 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    .particle-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 9998;
-    }
-
-    .emoji-particle {
-      position: absolute;
-      font-size: 24px;
-      pointer-events: none;
-      animation: floatAway 2s cubic-bezier(0.28, 0.11, 0.32, 1) forwards;
-      filter: blur(0);
-    }
-
-    @keyframes floatAway {
+    @keyframes particleFloat {
       0% {
+        transform: translateY(0) translateX(0) scale(1);
         opacity: 1;
-        transform: translateY(0) scale(1) rotate(0deg);
-        filter: blur(0);
       }
       100% {
+        transform: translateY(-100px) translateX(var(--x-offset)) scale(0);
         opacity: 0;
-        transform: translateY(-150px) scale(0.3) rotate(180deg);
-        filter: blur(4px);
       }
     }
 
+    @keyframes heartBurst {
+      0% {
+        transform: scale(0) rotate(0deg);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.2) rotate(180deg);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(0) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    @keyframes pulseRing {
+      0% {
+        transform: scale(0.8);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(2);
+        opacity: 0;
+      }
+    }
+
+    .particle {
+      position: absolute;
+      pointer-events: none;
+      font-size: clamp(12px, 3vw, 20px);
+      font-weight: 900;
+      animation: particleFloat 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      z-index: 1000;
+    }
+
+    .pulse-ring {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      border: 3px solid var(--black);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: pulseRing 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      z-index: 999;
+    }
+
+    /* ==================== STATS BAR (COMPACT MOBILE) ==================== */
+    .stats-bar {
+      display: flex;
+      gap: clamp(8px, 2vw, 16px);
+      padding: 0;
+      margin-top: 0;
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(4px, 1vw, 6px);
+      padding: clamp(8px, 2vw, 16px) clamp(12px, 3vw, 20px);
+      background: var(--off-white);
+      border-radius: clamp(6px, 1.5vw, 10px);
+      border: 2px solid var(--black);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      flex: 1;
+      min-width: 0;
+    }
+
+    .stat-item:hover {
+      background: var(--black);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .stat-item:hover .stat-value,
+    .stat-item:hover .stat-label {
+      color: var(--white);
+    }
+
+    .stat-value {
+      font-size: clamp(14px, 4vw, 28px);
+      font-weight: 900;
+      color: var(--black);
+      letter-spacing: -0.02em;
+      font-variant-numeric: tabular-nums;
+      transition: all 0.3s ease;
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: clamp(8px, 2vw, 11px);
+      font-weight: 700;
+      color: var(--light-gray);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+
+    /* ==================== SCROLL PROGRESS ==================== */
+    .scroll-indicator {
+      position: fixed;
+      top: clamp(60px, 15vw, 80px);
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--border-gray);
+      z-index: 999;
+    }
+
+    .scroll-progress {
+      height: 100%;
+      background: var(--black);
+      width: 0%;
+      transition: width 0.1s ease;
+    }
+
+    /* ==================== RIPPLE EFFECT ==================== */
     .ripple {
       position: absolute;
       border-radius: 50%;
-      background: rgba(0, 113, 227, 0.3);
+      background: rgba(0, 0, 0, 0.3);
       transform: scale(0);
       animation: rippleEffect 0.6s ease-out;
       pointer-events: none;
@@ -354,231 +557,159 @@
 
     @keyframes rippleEffect {
       to {
-        transform: scale(3);
+        transform: scale(4);
         opacity: 0;
       }
     }
 
-    /* ==================== BEAUTIFUL HEART ANIMATIONS ==================== */
-    .heart-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 9997;
-      overflow: hidden;
-    }
-
-    .animated-heart {
-      position: absolute;
-      pointer-events: none;
-      filter: drop-shadow(0 0 20px rgba(255, 105, 180, 0.8));
-    }
-
-    /* Heart SVG with gradient */
-    .heart-svg {
-      width: 100%;
-      height: 100%;
-      animation: heartPulse 0.6s ease-out;
-    }
-
-    @keyframes heartPulse {
-      0% {
-        transform: scale(0) rotate(-45deg);
-        opacity: 0;
-      }
-      50% {
-        transform: scale(1.3) rotate(0deg);
-        opacity: 1;
-      }
-      100% {
-        transform: scale(1) rotate(0deg);
-        opacity: 1;
-      }
-    }
-
-    /* Floating heart animation */
-    .heart-float {
-      animation: floatUpHeart 4s ease-out forwards;
-    }
-
-    @keyframes floatUpHeart {
-      0% {
-        transform: translateY(0) translateX(0) scale(1) rotate(0deg);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-600px) translateX(var(--random-x)) scale(0.3) rotate(360deg);
-        opacity: 0;
-      }
-    }
-
-    /* Heart burst animation */
-    .heart-burst {
-      animation: burstHeart 1.5s ease-out forwards;
-    }
-
-    @keyframes burstHeart {
-      0% {
-        transform: scale(0) rotate(0deg);
-        opacity: 1;
-      }
-      50% {
-        opacity: 1;
-      }
-      100% {
-        transform: scale(3) rotate(180deg);
-        opacity: 0;
-      }
-    }
-
-    /* Sharvika text */
-    .sharvika-text {
-      position: absolute;
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
-      font-size: 18px;
-      font-weight: 600;
-      background: linear-gradient(135deg, #FF6B9D 0%, #C239B3 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      white-space: nowrap;
-      pointer-events: none;
-      animation: textFloat 3s ease-out forwards;
-      filter: drop-shadow(0 2px 8px rgba(255, 105, 180, 0.4));
-    }
-
-    @keyframes textFloat {
-      0% {
-        opacity: 0;
-        transform: translateY(20px) scale(0.8);
-      }
-      20% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-      80% {
-        opacity: 1;
-      }
-      100% {
-        opacity: 0;
-        transform: translateY(-100px) scale(0.5);
-      }
-    }
-
-    /* Sparkle particles */
-    .sparkle-particle {
-      position: absolute;
-      width: 8px;
-      height: 8px;
-      background: linear-gradient(135deg, #FFD700, #FFA500);
-      border-radius: 50%;
-      pointer-events: none;
-      animation: sparkleFloat 2s ease-out forwards;
-      box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
-    }
-
-    @keyframes sparkleFloat {
-      0% {
-        transform: translate(0, 0) scale(1);
-        opacity: 1;
-      }
-      100% {
-        transform: translate(var(--spark-x), var(--spark-y)) scale(0);
-        opacity: 0;
-      }
-    }
-
-    /* Click ripple effect */
-    .heart-ripple {
-      position: absolute;
-      border: 3px solid #FF1744;
-      border-radius: 50%;
-      pointer-events: none;
-      animation: heartRipple 1s ease-out forwards;
-    }
-
-    @keyframes heartRipple {
-      0% {
-        width: 0;
-        height: 0;
-        opacity: 1;
-      }
-      100% {
-        width: 300px;
-        height: 300px;
-        opacity: 0;
-      }
-    }
-
-    /* ==================== Responsive Design ==================== */
-    @media (max-width: 1068px) {
-      .hero-title { font-size: 48px; }
-      .hero-subtitle { font-size: 24px; }
-      .video-quote { font-size: 20px; }
-    }
-
-    @media (max-width: 735px) {
-      .hero { padding: 60px 20px 40px; }
-      .hero-title { font-size: 40px; }
-      .hero-subtitle { font-size: 20px; }
-      .video-quote { font-size: 18px; padding: 0 30px; }
-      .video-item { margin-bottom: 80px; }
-      .video-wrapper { border-radius: 18px; }
-      .reaction-btn { width: 48px; height: 48px; font-size: 22px; }
-      .reactions { gap: 8px; }
-    }
-
-    @media (max-width: 480px) {
-      .nav-logo { font-size: 18px; }
-      .hero-title { font-size: 32px; }
-      .hero-subtitle { font-size: 18px; }
-      .video-quote { font-size: 16px; padding: 0 20px; }
-      .video-quote::before, .video-quote::after { width: 16px; }
-      .reaction-btn { width: 44px; height: 44px; font-size: 20px; }
-    }
-
-    .video-wrapper.loading::after {
+    /* ==================== LOADING STATE ==================== */
+    .video-container.loading::after {
       content: '';
       position: absolute;
-      inset: 0;
-      background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0) 100%);
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%);
       animation: shimmer 2s infinite;
     }
 
     @keyframes shimmer {
-      0% { transform: translateX(-100%); }
-      100% { transform: translateX(100%); }
+      0% { left: -100%; }
+      100% { left: 100%; }
     }
 
-    ::-webkit-scrollbar { width: 12px; }
-    ::-webkit-scrollbar-track { background: var(--apple-light-gray); }
-    ::-webkit-scrollbar-thumb { background: var(--apple-gray); border-radius: 6px; border: 3px solid var(--apple-light-gray); }
-    ::-webkit-scrollbar-thumb:hover { background: #6e6e73; }
-    ::selection { background: rgba(0, 113, 227, 0.2); color: var(--apple-black); }
-    button:focus-visible { outline: 2px solid var(--apple-blue); outline-offset: 2px; }
+    /* ==================== CUSTOM SCROLLBAR ==================== */
+    ::-webkit-scrollbar {
+      width: clamp(8px, 2vw, 12px);
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--off-white);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--black);
+      border-radius: clamp(4px, 1vw, 6px);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--medium-gray);
+    }
+
+    ::selection {
+      background: var(--black);
+      color: var(--white);
+    }
+
+    /* ==================== FOCUS STYLES ==================== */
+    button:focus-visible {
+      outline: 3px solid var(--black);
+      outline-offset: 4px;
+    }
+
+    /* ==================== RESPONSIVE ADJUSTMENTS ==================== */
+    @media (max-width: 768px) {
+      .brand-separator,
+      .brand-subtitle {
+        display: none;
+      }
+
+      .stats-bar {
+        gap: clamp(6px, 2vw, 10px);
+      }
+
+      .stat-item {
+        padding: clamp(10px, 2.5vw, 14px) clamp(8px, 2vw, 12px);
+      }
+
+      .stat-value {
+        font-size: clamp(16px, 4.5vw, 24px);
+      }
+
+      .stat-label {
+        font-size: clamp(8px, 2vw, 10px);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .video-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+      }
+
+      .meta-separator {
+        display: none;
+      }
+
+      .reactions-container {
+        padding: clamp(8px, 2vw, 12px) 0;
+      }
+
+      .reaction-button {
+        padding: clamp(6px, 1.5vw, 10px) clamp(10px, 2.5vw, 16px);
+        gap: clamp(4px, 1vw, 8px);
+      }
+
+      .stat-value {
+        font-size: clamp(15px, 4vw, 20px);
+      }
+
+      .stat-label {
+        font-size: clamp(7px, 1.8vw, 9px);
+        letter-spacing: 0.05em;
+      }
+    }
+
+    /* ==================== ANIMATIONS ==================== */
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .loading-pulse {
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    /* ==================== ACCESSIBILITY ==================== */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
   </style>
 </head>
 <body>
-  
-  <!-- Heart Animation Container -->
-  <div class="heart-container" id="heartContainer"></div>
+
+  <!-- Scroll Progress Indicator -->
+  <div class="scroll-indicator">
+    <div class="scroll-progress" id="scrollProgress"></div>
+  </div>
 
   <!-- Navigation Bar -->
   <nav class="navbar" id="navbar">
     <div class="nav-content">
-      <a href="#" class="nav-logo">Chakra Gallery</a>
-      <span class="nav-tagline">by Sharvika</span>
+      <div class="brand">
+        <a href="#" class="brand-logo">Sharvika - Tube</a>
+        <div class="brand-separator"></div>
+        <span class="brand-subtitle">Premium Platform</span>
+      </div>
     </div>
   </nav>
 
   <!-- Hero Section -->
   <section class="hero">
-    <div class="hero-eyebrow">Experience Energy</div>
-    <h1 class="hero-title">Awaken Your Chakras.</h1>
-    <p class="hero-subtitle">A journey through mindfulness and energy.</p>
+    <div class="hero-label">Premium Video Experience</div>
+    <h1 class="hero-title">Excellence in Every Frame</h1>
+    <p class="hero-subtitle">Discover a curated collection of premium content, designed with sophistication and crafted for perfection.</p>
+    <div class="hero-divider"></div>
   </section>
 
   <!-- Video Gallery -->
@@ -586,326 +717,184 @@
     
     <!-- Video 1 -->
     <article class="video-item">
-      <div class="video-wrapper">
-        <video controls preload="metadata" src="Chakra Gallery videos/video1.mp4" playsinline></video>
-        <div class="video-overlay"></div>
+      <div class="video-container">
+        <div class="video-wrapper">
+          <video controls preload="metadata" src="Chakra Gallery videos/video1.mp4" playsinline>
+            Your browser does not support the video tag.
+          </video>
+          <div class="video-overlay"></div>
+        </div>
       </div>
+
       <div class="video-content">
-        <p class="video-quote">You are the energy you choose to emit. Choose wisely.</p>
-        <div class="reactions">
-          <button class="reaction-btn" data-type="like" data-emoji="👍" aria-label="Like">
-            <span>👍</span>
-          </button>
-          <button class="reaction-btn" data-type="dislike" data-emoji="👎" aria-label="Dislike">
-            <span>👎</span>
-          </button>
-          <button class="reaction-btn" data-type="love" data-emoji="❤️" aria-label="Love">
-            <span>❤️</span>
-          </button>
+        <div class="video-header">
+          <h2 class="video-title">Energy & Mindfulness: The Power Within</h2>
+          <div class="video-meta">
+            <span class="video-views">1K views</span>
+            <span class="meta-separator"></span>
+            <span class="video-date">12 days ago</span>
+          </div>
+          <p class="video-description">Discover the power of focused energy and intentional living. A transformative journey into self-awareness and purposeful existence.</p>
+        </div>
+
+        <div class="reactions-container">
+          <div class="reaction-group">
+            <button class="reaction-button like-btn" data-video="1" data-type="like" aria-label="Like this video">
+              <span class="reaction-icon">▲</span>
+              <span class="reaction-count">346</span>
+            </button>
+            <div class="reaction-divider"></div>
+            <button class="reaction-button dislike-btn" data-video="1" data-type="dislike" aria-label="Dislike this video">
+              <span class="reaction-icon">▼</span>
+              <span class="reaction-count">143</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="stats-bar">
+          <div class="stat-item">
+            <div class="stat-value">4K</div>
+            <div class="stat-label">Resolution</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">98%</div>
+            <div class="stat-label">Quality</div>
+          </div>
         </div>
       </div>
     </article>
 
     <!-- Video 2 -->
     <article class="video-item">
-      <div class="video-wrapper">
-        <video controls preload="metadata" src="Chakra Gallery videos/video2.mp4" playsinline></video>
-        <div class="video-overlay"></div>
+      <div class="video-container">
+        <div class="video-wrapper">
+          <video controls preload="metadata" src="Chakra Gallery videos/video2.mp4" playsinline>
+            Your browser does not support the video tag.
+          </video>
+          <div class="video-overlay"></div>
+        </div>
       </div>
+
       <div class="video-content">
-        <p class="video-quote">Each chakra opens a new door of potential. Unlock yours.</p>
-        <div class="reactions">
-          <button class="reaction-btn" data-type="like" data-emoji="👍" aria-label="Like">
-            <span>👍</span>
-          </button>
-          <button class="reaction-btn" data-type="dislike" data-emoji="👎" aria-label="Dislike">
-            <span>👎</span>
-          </button>
-          <button class="reaction-btn" data-type="love" data-emoji="❤️" aria-label="Love">
-            <span>❤️</span>
-          </button>
+        <div class="video-header">
+          <h2 class="video-title">Unlock Your Potential: Journey to Excellence</h2>
+          <div class="video-meta">
+            <span class="video-views">1.2K views</span>
+            <span class="meta-separator"></span>
+            <span class="video-date">11 days ago</span>
+          </div>
+          <p class="video-description">Every moment presents an opportunity for growth and transformation. Embrace the journey of continuous evolution and unlock your true potential.</p>
+        </div>
+
+        <div class="reactions-container">
+          <div class="reaction-group">
+            <button class="reaction-button like-btn" data-video="2" data-type="like" aria-label="Like this video">
+              <span class="reaction-icon">▲</span>
+              <span class="reaction-count">220</span>
+            </button>
+            <div class="reaction-divider"></div>
+            <button class="reaction-button dislike-btn" data-video="2" data-type="dislike" aria-label="Dislike this video">
+              <span class="reaction-icon">▼</span>
+              <span class="reaction-count">23</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="stats-bar">
+          <div class="stat-item">
+            <div class="stat-value">4K</div>
+            <div class="stat-label">Resolution</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">99%</div>
+            <div class="stat-label">Quality</div>
+          </div>
         </div>
       </div>
     </article>
 
     <!-- Video 3 -->
     <article class="video-item">
-      <div class="video-wrapper">
-        <video controls preload="metadata" src="Chakra Gallery videos/video3.mp4" playsinline></video>
-        <div class="video-overlay"></div>
+      <div class="video-container">
+        <div class="video-wrapper">
+          <video controls preload="metadata" src="Chakra Gallery videos/video3.mp4" playsinline>
+            Your browser does not support the video tag.
+          </video>
+          <div class="video-overlay"></div>
+        </div>
       </div>
+
       <div class="video-content">
-        <p class="video-quote">Balance your mind. Light your path. Awaken your power.</p>
-        <div class="reactions">
-          <button class="reaction-btn" data-type="like" data-emoji="👍" aria-label="Like">
-            <span>👍</span>
-          </button>
-          <button class="reaction-btn" data-type="dislike" data-emoji="👎" aria-label="Dislike">
-            <span>👎</span>
-          </button>
-          <button class="reaction-btn" data-type="love" data-emoji="❤️" aria-label="Love">
-            <span>❤️</span>
-          </button>
+        <div class="video-header">
+          <h2 class="video-title">Balance & Harmony: The Art of Living</h2>
+          <div class="video-meta">
+            <span class="video-views">1K views</span>
+            <span class="meta-separator"></span>
+            <span class="video-date">12 days ago</span>
+          </div>
+          <p class="video-description">Find equilibrium in the chaos. Illuminate your path with clarity and awaken the power that resides within. Master the art of balanced living.</p>
+        </div>
+
+        <div class="reactions-container">
+          <div class="reaction-group">
+            <button class="reaction-button like-btn" data-video="3" data-type="like" aria-label="Like this video">
+              <span class="reaction-icon">▲</span>
+              <span class="reaction-count">769</span>
+            </button>
+            <div class="reaction-divider"></div>
+            <button class="reaction-button dislike-btn" data-video="3" data-type="dislike" aria-label="Dislike this video">
+              <span class="reaction-icon">▼</span>
+              <span class="reaction-count">97</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="stats-bar">
+          <div class="stat-item">
+            <div class="stat-value">4K</div>
+            <div class="stat-label">Resolution</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">97%</div>
+            <div class="stat-label">Quality</div>
+          </div>
         </div>
       </div>
     </article>
 
   </main>
 
-  <div class="particle-container" id="particleContainer"></div>
-
   <script>
-    // ==================== BEAUTIFUL HEART ANIMATION SYSTEM ====================
-    const heartContainer = document.getElementById('heartContainer');
-
-    // Heart gradient colors
-    const heartGradients = [
-      { start: '#FF6B9D', end: '#C239B3' }, // Pink to Purple
-      { start: '#FF1744', end: '#F50057' }, // Red to Deep Pink
-      { start: '#FF4081', end: '#F50057' }, // Pink
-      { start: '#E91E63', end: '#9C27B0' }, // Pink to Purple
-      { start: '#FF6F00', end: '#FF1744' }, // Orange to Red
-      { start: '#FF5722', end: '#E91E63' }, // Deep Orange to Pink
-    ];
-
-    // ==================== CREATE SVG HEART ====================
-    function createHeartSVG(gradient) {
-      const svgNS = "http://www.w3.org/2000/svg";
-      const svg = document.createElementNS(svgNS, "svg");
-      svg.setAttribute("viewBox", "0 0 100 100");
-      svg.classList.add("heart-svg");
-
-      // Create gradient
-      const defs = document.createElementNS(svgNS, "defs");
-      const gradientEl = document.createElementNS(svgNS, "linearGradient");
-      const gradientId = `heartGradient${Math.random().toString(36).substr(2, 9)}`;
-      gradientEl.setAttribute("id", gradientId);
-      gradientEl.setAttribute("x1", "0%");
-      gradientEl.setAttribute("y1", "0%");
-      gradientEl.setAttribute("x2", "100%");
-      gradientEl.setAttribute("y2", "100%");
-
-      const stop1 = document.createElementNS(svgNS, "stop");
-      stop1.setAttribute("offset", "0%");
-      stop1.setAttribute("style", `stop-color:${gradient.start};stop-opacity:1`);
-
-      const stop2 = document.createElementNS(svgNS, "stop");
-      stop2.setAttribute("offset", "100%");
-      stop2.setAttribute("style", `stop-color:${gradient.end};stop-opacity:1`);
-
-      gradientEl.appendChild(stop1);
-      gradientEl.appendChild(stop2);
-      defs.appendChild(gradientEl);
-      svg.appendChild(defs);
-
-      // Create heart path
-      const heart = document.createElementNS(svgNS, "path");
-      heart.setAttribute("d", "M50,92 C50,92 10,65 10,40 C10,25 20,15 32,15 C40,15 47,20 50,28 C53,20 60,15 68,15 C80,15 90,25 90,40 C90,65 50,92 50,92 Z");
-      heart.setAttribute("fill", `url(#${gradientId})`);
-      heart.setAttribute("stroke", "#FFF");
-      heart.setAttribute("stroke-width", "2");
-
-      svg.appendChild(heart);
-      return svg;
-    }
-
-    // ==================== CREATE ANIMATED HEART ====================
-    function createAnimatedHeart(x, y) {
-      const gradient = heartGradients[Math.floor(Math.random() * heartGradients.length)];
-      const size = Math.random() * 60 + 80; // 80-140px
+    // ==================== SCROLL PROGRESS INDICATOR ====================
+    const scrollProgress = document.getElementById('scrollProgress');
+    
+    function updateScrollProgress() {
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight - windowHeight;
+      const scrolled = window.pageYOffset;
+      const progress = (scrolled / documentHeight) * 100;
       
-      const heartDiv = document.createElement('div');
-      heartDiv.className = 'animated-heart heart-float';
-      heartDiv.style.left = (x - size / 2) + 'px';
-      heartDiv.style.top = (y - size / 2) + 'px';
-      heartDiv.style.width = size + 'px';
-      heartDiv.style.height = size + 'px';
-      heartDiv.style.setProperty('--random-x', `${(Math.random() - 0.5) * 200}px`);
-
-      const heartSVG = createHeartSVG(gradient);
-      heartDiv.appendChild(heartSVG);
-
-      heartContainer.appendChild(heartDiv);
-
-      setTimeout(() => heartDiv.remove(), 4000);
+      scrollProgress.style.width = Math.min(progress, 100) + '%';
     }
 
-    // ==================== CREATE HEART BURST ====================
-    function createHeartBurst(x, y) {
-      const count = 8;
-      for (let i = 0; i < count; i++) {
-        setTimeout(() => {
-          const gradient = heartGradients[Math.floor(Math.random() * heartGradients.length)];
-          const angle = (Math.PI * 2 / count) * i;
-          const distance = 80;
-          const heartX = x + Math.cos(angle) * distance;
-          const heartY = y + Math.sin(angle) * distance;
-          const size = Math.random() * 30 + 40;
+    window.addEventListener('scroll', updateScrollProgress);
+    window.addEventListener('resize', updateScrollProgress);
 
-          const heartDiv = document.createElement('div');
-          heartDiv.className = 'animated-heart heart-burst';
-          heartDiv.style.left = (heartX - size / 2) + 'px';
-          heartDiv.style.top = (heartY - size / 2) + 'px';
-          heartDiv.style.width = size + 'px';
-          heartDiv.style.height = size + 'px';
-
-          const heartSVG = createHeartSVG(gradient);
-          heartDiv.appendChild(heartSVG);
-
-          heartContainer.appendChild(heartDiv);
-
-          setTimeout(() => heartDiv.remove(), 1500);
-        }, i * 50);
-      }
-    }
-
-    // ==================== CREATE SHARVIKA TEXT ====================
-    function createSharvikaText(x, y) {
-      const text = document.createElement('div');
-      text.className = 'sharvika-text';
-      text.textContent = 'From Sharvika ✨';
-      text.style.left = (x - 80) + 'px';
-      text.style.top = (y + 60) + 'px';
-
-      heartContainer.appendChild(text);
-
-      setTimeout(() => text.remove(), 3000);
-    }
-
-    // ==================== CREATE SPARKLES ====================
-    function createSparkles(x, y) {
-      const count = 20;
-      for (let i = 0; i < count; i++) {
-        const sparkle = document.createElement('div');
-        sparkle.className = 'sparkle-particle';
-        sparkle.style.left = x + 'px';
-        sparkle.style.top = y + 'px';
-        
-        const angle = (Math.PI * 2 / count) * i;
-        const distance = Math.random() * 100 + 50;
-        sparkle.style.setProperty('--spark-x', `${Math.cos(angle) * distance}px`);
-        sparkle.style.setProperty('--spark-y', `${Math.sin(angle) * distance}px`);
-
-        heartContainer.appendChild(sparkle);
-
-        setTimeout(() => sparkle.remove(), 2000);
-      }
-    }
-
-    // ==================== CREATE RIPPLE EFFECT ====================
-    function createHeartRipple(x, y) {
-      const ripple = document.createElement('div');
-      ripple.className = 'heart-ripple';
-      ripple.style.left = (x - 0) + 'px';
-      ripple.style.top = (y - 0) + 'px';
-
-      heartContainer.appendChild(ripple);
-
-      setTimeout(() => ripple.remove(), 1000);
-    }
-
-    // ==================== SOUND EFFECTS ====================
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    const audioContext = new AudioContext();
-
-    function playHeartSound() {
-      const now = audioContext.currentTime;
-
-      // Magical chime sound
-      const frequencies = [523.25, 659.25, 783.99, 1046.50]; // C, E, G, C
-      
-      frequencies.forEach((freq, index) => {
-        setTimeout(() => {
-          const osc = audioContext.createOscillator();
-          const gain = audioContext.createGain();
-          
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(freq, audioContext.currentTime);
-          
-          gain.gain.setValueAtTime(0.3, audioContext.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.8);
-          
-          osc.connect(gain);
-          gain.connect(audioContext.destination);
-          
-          osc.start(audioContext.currentTime);
-          osc.stop(audioContext.currentTime + 0.8);
-        }, index * 100);
-      });
-    }
-
-    function playSparkleSound() {
-      const osc = audioContext.createOscillator();
-      const gain = audioContext.createGain();
-      
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(2000, audioContext.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(4000, audioContext.currentTime + 0.2);
-      
-      gain.gain.setValueAtTime(0.2, audioContext.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
-      
-      osc.connect(gain);
-      gain.connect(audioContext.destination);
-      
-      osc.start(audioContext.currentTime);
-      osc.stop(audioContext.currentTime + 0.2);
-    }
-
-    // ==================== MAIN HEART EFFECT ====================
-    function triggerHeartEffect(x, y) {
-      if (audioContext.state === 'suspended') {
-        audioContext.resume();
-      }
-
-      // Play sounds
-      playHeartSound();
-      setTimeout(() => playSparkleSound(), 200);
-
-      // Create ripple
-      createHeartRipple(x, y);
-
-      // Create multiple floating hearts
-      for (let i = 0; i < 5; i++) {
-        setTimeout(() => {
-          const offsetX = (Math.random() - 0.5) * 100;
-          const offsetY = (Math.random() - 0.5) * 50;
-          createAnimatedHeart(x + offsetX, y + offsetY);
-        }, i * 100);
-      }
-
-      // Create heart burst
-      setTimeout(() => createHeartBurst(x, y), 300);
-
-      // Create sparkles
-      createSparkles(x, y);
-
-      // Create Sharvika text
-      createSharvikaText(x, y);
-
-      // Haptic feedback
-      if (navigator.vibrate) {
-        navigator.vibrate([30, 50, 30, 50, 30]);
-      }
-    }
-
-    // ==================== CLICK HANDLER ====================
-    document.addEventListener('click', (e) => {
-      const target = e.target;
-      const isButton = target.closest('button');
-      const isVideo = target.closest('video');
-      const isLink = target.closest('a');
-      const isControl = target.closest('.reactions, .navbar, .video-wrapper');
-
-      if (!isButton && !isVideo && !isLink && !isControl) {
-        triggerHeartEffect(e.clientX, e.clientY);
+    // ==================== NAVBAR SCROLL EFFECT ====================
+    const navbar = document.getElementById('navbar');
+    
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
       }
     });
 
-    // ==================== SCROLL REVEAL ====================
+    // ==================== SCROLL REVEAL ANIMATION ====================
     const observerOptions = {
-      threshold: 0.2,
-      rootMargin: '0px 0px -100px 0px'
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
     };
 
     const observer = new IntersectionObserver((entries) => {
@@ -920,85 +909,235 @@
       observer.observe(item);
     });
 
-    // ==================== NAVBAR SCROLL ====================
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      if (window.pageYOffset > 50) {
-        navbar.classList.add('scrolled');
-      } else {
-        navbar.classList.remove('scrolled');
+    // ==================== PREMIUM LIKE/DISLIKE SYSTEM WITH ANIMATIONS ====================
+    class PremiumReactionSystem {
+      constructor() {
+        this.userReactions = {};
+        this.initializeButtons();
       }
-    });
 
-    // ==================== EMOJI REACTIONS ====================
-    const reactionButtons = document.querySelectorAll('.reaction-btn');
+      initializeButtons() {
+        document.querySelectorAll('.reaction-button').forEach(button => {
+          button.addEventListener('click', (e) => this.handleReaction(e, button));
+        });
+      }
 
-    reactionButtons.forEach(button => {
-      const emoji = button.dataset.emoji;
-      const type = button.dataset.type;
-
-      button.addEventListener('click', function(e) {
+      handleReaction(e, button) {
         e.preventDefault();
         e.stopPropagation();
 
-        this.classList.add('animate');
-        setTimeout(() => this.classList.remove('animate'), 800);
+        const videoId = button.dataset.video;
+        const reactionType = button.dataset.type;
+        const countElement = button.querySelector('.reaction-count');
+        const iconElement = button.querySelector('.reaction-icon');
+        const currentCount = parseInt(countElement.textContent);
 
-        createRipple(e, this);
-        createFloatingEmoji(e, emoji);
+        const oppositeType = reactionType === 'like' ? 'dislike' : 'like';
+        const oppositeButton = document.querySelector(
+          `.reaction-button[data-video="${videoId}"][data-type="${oppositeType}"]`
+        );
+        const oppositeCountElement = oppositeButton.querySelector('.reaction-count');
+        const oppositeCount = parseInt(oppositeCountElement.textContent);
 
-        if (navigator.vibrate) {
-          navigator.vibrate(10);
+        const currentReaction = this.userReactions[videoId];
+
+        if (currentReaction === reactionType) {
+          // Removing reaction - subtle animation
+          button.classList.remove('active');
+          countElement.textContent = currentCount - 1;
+          this.userReactions[videoId] = null;
+          
+          this.createSubtleRipple(e, button);
+          this.announce(`${reactionType} removed`);
+          
+        } else if (currentReaction === oppositeType) {
+          // Switching reaction - premium animation
+          oppositeButton.classList.remove('active');
+          oppositeCountElement.textContent = oppositeCount - 1;
+          
+          button.classList.add('active');
+          countElement.textContent = currentCount + 1;
+          this.userReactions[videoId] = reactionType;
+          
+          this.createPremiumEffect(e, button, reactionType);
+          this.announce(`Changed to ${reactionType}`);
+          
+        } else {
+          // New reaction - full premium animation
+          button.classList.add('active');
+          countElement.textContent = currentCount + 1;
+          this.userReactions[videoId] = reactionType;
+          
+          this.createPremiumEffect(e, button, reactionType);
+          this.announce(`${reactionType} added`);
         }
-      });
-    });
 
-    function createRipple(event, button) {
-      const ripple = document.createElement('span');
-      ripple.classList.add('ripple');
+        // Haptic feedback
+        if (navigator.vibrate) {
+          navigator.vibrate(15);
+        }
 
-      const rect = button.getBoundingClientRect();
-      const size = Math.max(rect.width, rect.height);
-      const x = event.clientX - rect.left - size / 2;
-      const y = event.clientY - rect.top - size / 2;
+        // Save to localStorage
+        this.saveReactions();
+      }
 
-      ripple.style.width = ripple.style.height = size + 'px';
-      ripple.style.left = x + 'px';
-      ripple.style.top = y + 'px';
+      createPremiumEffect(event, button, type) {
+        // Icon animation
+        const icon = button.querySelector('.reaction-icon');
+        icon.style.animation = 'none';
+        setTimeout(() => {
+          icon.style.animation = '';
+        }, 10);
 
-      button.appendChild(ripple);
-      setTimeout(() => ripple.remove(), 600);
+        // Pulse ring effect
+        this.createPulseRing(event, button);
+
+        // Particle burst effect
+        this.createParticleBurst(event, button, type);
+
+        // Ripple effect
+        this.createRipple(event, button);
+
+        // Button scale feedback
+        button.style.transform = 'scale(0.92)';
+        setTimeout(() => {
+          button.style.transform = '';
+        }, 200);
+      }
+
+      createPulseRing(event, button) {
+        const ring = document.createElement('div');
+        ring.classList.add('pulse-ring');
+
+        const rect = button.getBoundingClientRect();
+        ring.style.left = (event.clientX - rect.left - 30) + 'px';
+        ring.style.top = (event.clientY - rect.top - 30) + 'px';
+
+        button.appendChild(ring);
+        setTimeout(() => ring.remove(), 600);
+      }
+
+      createParticleBurst(event, button, type) {
+        const particleCount = window.innerWidth < 768 ? 5 : 8;
+        const symbol = type === 'like' ? '▲' : '▼';
+        
+        for (let i = 0; i < particleCount; i++) {
+          const particle = document.createElement('div');
+          particle.classList.add('particle');
+          particle.textContent = symbol;
+          particle.style.color = 'var(--black)';
+
+          const rect = button.getBoundingClientRect();
+          const angle = (Math.PI * 2 * i) / particleCount;
+          const velocity = 30 + Math.random() * 20;
+          const xOffset = Math.cos(angle) * velocity;
+          
+          particle.style.left = (event.clientX - rect.left) + 'px';
+          particle.style.top = (event.clientY - rect.top) + 'px';
+          particle.style.setProperty('--x-offset', xOffset + 'px');
+
+          button.appendChild(particle);
+          setTimeout(() => particle.remove(), 1200);
+        }
+      }
+
+      createRipple(event, button) {
+        const ripple = document.createElement('span');
+        ripple.classList.add('ripple');
+
+        const rect = button.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = event.clientX - rect.left - size / 2;
+        const y = event.clientY - rect.top - size / 2;
+
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = x + 'px';
+        ripple.style.top = y + 'px';
+
+        button.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 600);
+      }
+
+      createSubtleRipple(event, button) {
+        const ripple = document.createElement('span');
+        ripple.classList.add('ripple');
+        ripple.style.background = 'rgba(0, 0, 0, 0.1)';
+
+        const rect = button.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = event.clientX - rect.left - size / 2;
+        const y = event.clientY - rect.top - size / 2;
+
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = x + 'px';
+        ripple.style.top = y + 'px';
+
+        button.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 600);
+      }
+
+      announce(message) {
+        const announcement = document.createElement('div');
+        announcement.setAttribute('role', 'status');
+        announcement.setAttribute('aria-live', 'polite');
+        announcement.className = 'sr-only';
+        announcement.textContent = message;
+        document.body.appendChild(announcement);
+        setTimeout(() => announcement.remove(), 1000);
+      }
+
+      saveReactions() {
+        localStorage.setItem('sharvikaReactions', JSON.stringify(this.userReactions));
+      }
+
+      loadReactions() {
+        const saved = localStorage.getItem('sharvikaReactions');
+        if (saved) {
+          try {
+            this.userReactions = JSON.parse(saved);
+            Object.keys(this.userReactions).forEach(videoId => {
+              const reactionType = this.userReactions[videoId];
+              if (reactionType) {
+                const button = document.querySelector(
+                  `.reaction-button[data-video="${videoId}"][data-type="${reactionType}"]`
+                );
+                if (button) {
+                  button.classList.add('active');
+                }
+              }
+            });
+          } catch (e) {
+            console.error('Error loading saved reactions:', e);
+          }
+        }
+      }
     }
 
-    function createFloatingEmoji(event, emoji) {
-      const particle = document.createElement('div');
-      particle.classList.add('emoji-particle');
-      particle.textContent = emoji;
-      
-      const randomOffset = (Math.random() - 0.5) * 100;
-      particle.style.left = event.clientX + randomOffset + 'px';
-      particle.style.top = event.clientY + 'px';
-
-      document.getElementById('particleContainer').appendChild(particle);
-      setTimeout(() => particle.remove(), 2000);
-    }
+    // Initialize the premium reaction system
+    const reactionSystem = new PremiumReactionSystem();
+    reactionSystem.loadReactions();
 
     // ==================== VIDEO CONTROLS ====================
     document.querySelectorAll('video').forEach(video => {
-      const wrapper = video.closest('.video-wrapper');
+      const container = video.closest('.video-container');
       
       video.addEventListener('loadstart', () => {
-        wrapper.classList.add('loading');
+        container.classList.add('loading');
       });
 
       video.addEventListener('loadeddata', () => {
-        wrapper.classList.remove('loading');
+        container.classList.remove('loading');
       });
 
       video.addEventListener('play', () => {
         document.querySelectorAll('video').forEach(v => {
           if (v !== video) v.pause();
         });
+      });
+
+      video.addEventListener('error', () => {
+        console.error('Video failed to load');
+        container.classList.remove('loading');
       });
     });
 
@@ -1007,20 +1146,94 @@
       if (e.key === 'Escape') {
         document.querySelectorAll('video').forEach(v => v.pause());
       }
-      
-      if (e.code === 'Space' && e.target.tagName !== 'VIDEO') {
+
+      if (e.code === 'Space' && e.target.tagName === 'VIDEO') {
         e.preventDefault();
-        const x = window.innerWidth / 2;
-        const y = window.innerHeight / 2;
-        triggerHeartEffect(x, y);
+        if (e.target.paused) {
+          e.target.play();
+        } else {
+          e.target.pause();
+        }
       }
     });
 
-    // ==================== WELCOME HEART ANIMATION ====================
+    // ==================== SMOOTH SCROLL ====================
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          const navHeight = document.querySelector('.navbar').offsetHeight;
+          const targetPosition = target.offsetTop - navHeight - 20;
+          
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // ==================== PERFORMANCE OPTIMIZATION ====================
+    function debounce(func, wait) {
+      let timeout;
+      return function executedFunction(...args) {
+        const later = () => {
+          clearTimeout(timeout);
+          func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+      };
+    }
+
+    const optimizedScroll = debounce(() => {
+      updateScrollProgress();
+    }, 10);
+
+    window.addEventListener('scroll', optimizedScroll, { passive: true });
+
+    // ==================== INITIALIZATION ====================
     window.addEventListener('load', () => {
+      updateScrollProgress();
+      
+      document.body.style.opacity = '0';
       setTimeout(() => {
-        triggerHeartEffect(window.innerWidth / 2, window.innerHeight / 3);
-      }, 1200);
+        document.body.style.transition = 'opacity 0.5s ease';
+        document.body.style.opacity = '1';
+      }, 100);
+
+      console.log(
+        '%c SHARVIKA - TUBE ',
+        'background: #000; color: #fff; font-size: 24px; font-weight: bold; padding: 15px; font-family: Inter;'
+      );
+      console.log(
+        '%c Premium Video Platform - Designed for Excellence ',
+        'background: #fff; color: #000; font-size: 12px; padding: 8px; border: 2px solid #000; font-family: Inter;'
+      );
+    });
+
+    // ==================== ACCESSIBILITY ENHANCEMENTS ====================
+    document.querySelectorAll('video').forEach(video => {
+      video.addEventListener('play', () => {
+        const announcement = document.createElement('div');
+        announcement.setAttribute('role', 'status');
+        announcement.setAttribute('aria-live', 'polite');
+        announcement.className = 'sr-only';
+        announcement.textContent = 'Video playing';
+        document.body.appendChild(announcement);
+        setTimeout(() => announcement.remove(), 1000);
+      });
+
+      video.addEventListener('pause', () => {
+        const announcement = document.createElement('div');
+        announcement.setAttribute('role', 'status');
+        announcement.setAttribute('aria-live', 'polite');
+        announcement.className = 'sr-only';
+        announcement.textContent = 'Video paused';
+        document.body.appendChild(announcement);
+        setTimeout(() => announcement.remove(), 1000);
+      });
     });
   </script>
 
