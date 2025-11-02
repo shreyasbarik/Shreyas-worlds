@@ -665,7 +665,7 @@
                     <input type="tel" class="input-field" id="phoneNumber" placeholder="+91 98765 43210" autocomplete="tel" inputmode="tel">
                 </div>
 
-                <!-- reCAPTCHA container (invisible) -->
+                <!-- Invisible reCAPTCHA -->
                 <div id="recaptcha-container" style="min-height: 1px; margin-bottom: 8px;"></div>
 
                 <button type="button" class="submit-btn" id="sendOtpBtn">Send OTP</button>
@@ -686,7 +686,7 @@
         </div>
     </div>
 
-    <!-- Use universal Firebase loader -->
+    <!-- Load your universal Firebase config/loader (uses your existing project) -->
     <script src="firebase-config.js"></script>
 
     <script>
@@ -696,8 +696,8 @@
         let googleProvider = null;
         let phoneRecaptcha = null;
         let confirmationResult = null;
+        let handlersBound = false;
 
-        // Toast Notification
         function showToast(type, title, message) {
             const toast = document.getElementById('toast');
             const icon = document.getElementById('toastIcon');
@@ -709,7 +709,34 @@
             setTimeout(() => toast.classList.remove('show'), 4000);
         }
 
-        // Create Floating Particles
+        function setLoading(active, text = 'Signing you in...') {
+            const loadingEl = document.getElementById('loading');
+            const loadingText = document.getElementById('loadingText');
+            if (active) {
+                loadingText.textContent = text;
+                loadingEl.classList.add('active');
+            } else {
+                loadingEl.classList.remove('active');
+            }
+        }
+
+        function afterLogin(user) {
+            const name = user.displayName || user.phoneNumber || (user.email ? user.email.split('@')[0] : 'User');
+            const identifier = user.email || user.phoneNumber || user.uid;
+
+            sessionStorage.setItem('authUser', identifier);
+            sessionStorage.setItem('authName', name);
+            sessionStorage.setItem('isLoggedIn', 'true');
+            sessionStorage.setItem('authUID', user.uid);
+
+            setLoading(false);
+            showToast('success', 'Welcome Back!', `Signed in as ${name}`);
+            if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+
+            setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+        }
+
+        // Particles
         const particlesContainer = document.getElementById('particles');
         const particleCount = window.innerWidth < 768 ? 30 : 50;
         for (let i = 0; i < particleCount; i++) {
@@ -723,7 +750,7 @@
             particlesContainer.appendChild(particle);
         }
 
-        // Spotlight follows mouse (desktop only)
+        // Spotlight on desktop
         if (window.innerWidth >= 769) {
             document.addEventListener('mousemove', (e) => {
                 const spotlight = document.getElementById('spotlight');
@@ -740,35 +767,10 @@
             this.textContent = type === 'password' ? 'SHOW' : 'HIDE';
         });
 
-        function setLoading(active, text = 'Signing you in...') {
-            const loadingEl = document.getElementById('loading');
-            const loadingText = document.getElementById('loadingText');
-            if (active) {
-                loadingText.textContent = text;
-                loadingEl.classList.add('active');
-            } else {
-                loadingEl.classList.remove('active');
-            }
-        }
-
-        function afterLogin(user) {
-            // Store user session
-            const name = user.displayName || user.phoneNumber || (user.email ? user.email.split('@')[0] : 'User');
-            const identifier = user.email || user.phoneNumber || user.uid;
-
-            sessionStorage.setItem('authUser', identifier);
-            sessionStorage.setItem('authName', name);
-            sessionStorage.setItem('isLoggedIn', 'true');
-            sessionStorage.setItem('authUID', user.uid);
-
-            setLoading(false);
-            showToast('success', 'Welcome Back!', `Signed in as ${name}`);
-            if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
-
-            setTimeout(() => { window.location.href = 'index.html'; }, 1500);
-        }
-
         function bindAuthHandlers() {
+            if (handlersBound) return;
+            handlersBound = true;
+
             // Google Sign In
             document.getElementById('googleSignInBtn').addEventListener('click', async () => {
                 if (!auth || !googleProvider) {
@@ -778,8 +780,8 @@
 
                 setLoading(true, 'Signing in with Google...');
                 try {
-                    // Mobile or popup blocked -> redirect fallback
-                    const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+                    const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
                     if (isMobile) {
                         await auth.signInWithRedirect(googleProvider);
                         return;
@@ -789,6 +791,7 @@
                     afterLogin(result.user);
                 } catch (error) {
                     console.error('❌ Google Sign-In Error:', error);
+
                     if (error.code === 'auth/popup-blocked' || error.code === 'auth/cancelled-popup-request') {
                         try {
                             await auth.signInWithRedirect(googleProvider);
@@ -804,7 +807,7 @@
                         case 'auth/popup-closed-by-user': errorMessage = 'Sign-in popup was closed'; break;
                         case 'auth/popup-blocked': errorMessage = 'Popup was blocked. Please allow popups'; break;
                         case 'auth/network-request-failed': errorMessage = 'Network error. Check your connection'; break;
-                        case 'auth/unauthorized-domain': errorMessage = 'This domain is not authorized in Firebase Console'; break;
+                        case 'auth/unauthorized-domain': errorMessage = 'Add this domain in Firebase → Authentication → Settings → Authorized domains'; break;
                         case 'auth/operation-not-allowed': errorMessage = 'Enable Google sign-in in Firebase Console'; break;
                         default: errorMessage = error.message || errorMessage;
                     }
@@ -812,7 +815,7 @@
                 }
             });
 
-            // Handle Google Redirect Result
+            // Complete redirect sign-in if we came back from Google
             auth.getRedirectResult()
                 .then((result) => {
                     if (result && result.user) {
@@ -821,8 +824,8 @@
                 })
                 .catch((error) => {
                     console.error('Redirect sign-in error:', error);
-                    let msg = error.message || 'Google sign-in failed';
-                    showToast('error', 'Sign-In Failed', msg);
+                    showToast('error', 'Sign-In Failed', error.message || 'Google sign-in failed');
+                    setLoading(false);
                 });
 
             // Email/Password Sign In
@@ -879,9 +882,7 @@
                     showToast('error', 'Error', 'Firebase not initialized');
                     return;
                 }
-                const raw = document.getElementById('phoneNumber').value.trim();
-                const phoneNumber = raw.replace(/\s+/g, '');
-                // E.164 basic check
+                const phoneNumber = document.getElementById('phoneNumber').value.replace(/\s+/g, '').trim();
                 if (!/^\+[1-9]\d{7,14}$/.test(phoneNumber)) {
                     showToast('error', 'Invalid Phone', 'Enter phone with country code, e.g. +91XXXXXXXXXX');
                     return;
@@ -890,9 +891,7 @@
                 setLoading(true, 'Sending OTP...');
                 try {
                     if (!phoneRecaptcha) {
-                        phoneRecaptcha = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-                            size: 'invisible'
-                        });
+                        phoneRecaptcha = new firebase.auth.RecaptchaVerifier('recaptcha-container', { size: 'invisible' });
                         await phoneRecaptcha.render();
                     }
                     confirmationResult = await auth.signInWithPhoneNumber(phoneNumber, phoneRecaptcha);
@@ -946,16 +945,17 @@
             });
         }
 
-        // Firebase ready hooks
+        // Firebase loader events
         window.addEventListener('firebaseReady', () => {
             console.log('✅ Firebase ready');
             auth = window.auth;
             googleProvider = window.googleProvider;
 
-            // Pre-initialize reCAPTCHA (invisible)
             try {
-                phoneRecaptcha = new firebase.auth.RecaptchaVerifier('recaptcha-container', { size: 'invisible' });
-                phoneRecaptcha.render();
+                if (!phoneRecaptcha) {
+                    phoneRecaptcha = new firebase.auth.RecaptchaVerifier('recaptcha-container', { size: 'invisible' });
+                    phoneRecaptcha.render();
+                }
             } catch (e) {
                 console.warn('reCAPTCHA init warning:', e);
             }
