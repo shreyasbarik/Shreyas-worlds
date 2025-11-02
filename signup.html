@@ -900,6 +900,30 @@
 
                 <button type="submit" class="submit-btn" id="submitBtn">Create Account</button>
 
+                <!-- OTP section -->
+                <div class="divider">
+                    <span>Or sign up with OTP</span>
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label">Phone Number</label>
+                    <input type="tel" class="input-field" id="phoneNumber" placeholder="+91 98765 43210" autocomplete="tel" inputmode="tel">
+                </div>
+
+                <!-- Invisible reCAPTCHA for phone auth -->
+                <div id="recaptcha-signup" style="min-height: 1px; margin-bottom: 8px;"></div>
+
+                <button type="button" class="submit-btn" id="sendOtpBtn">Send OTP</button>
+
+                <div class="input-group" id="otpGroup" style="display:none;">
+                    <label class="input-label">Enter OTP</label>
+                    <div class="input-wrapper">
+                        <input type="text" class="input-field" id="otpCode" placeholder="6-digit code" inputmode="numeric" maxlength="6" autocomplete="one-time-code">
+                    </div>
+                </div>
+
+                <button type="button" class="submit-btn" id="verifyOtpBtn" style="display:none;">Verify OTP</button>
+
                 <div class="login-link">
                     Already have an account? <a href="signin.html">Sign In</a>
                 </div>
@@ -913,6 +937,9 @@
 
         function initializePage() {
             console.log('✅ Firebase ready, initializing signup page...');
+
+            let phoneRecaptcha = null;
+            let confirmationResult = null;
 
             // Create Floating Particles
             const particlesContainer = document.getElementById('particles');
@@ -1067,59 +1094,87 @@
                 setTimeout(() => toast.classList.remove('show'), 4000);
             }
 
-            // Google Sign In
-            document.getElementById('googleSignInBtn').addEventListener('click', async () => {
-                document.getElementById('loading').classList.add('active');
-                document.getElementById('loadingText').textContent = 'Signing in with Google...';
+            function setLoading(active, text) {
+                const loadingEl = document.getElementById('loading');
+                const loadingText = document.getElementById('loadingText');
+                if (active) {
+                    if (text) loadingText.textContent = text;
+                    loadingEl.classList.add('active');
+                } else {
+                    loadingEl.classList.remove('active');
+                }
+            }
 
+            async function afterGoogleSignup(user) {
                 try {
+                    await db.collection('users').doc(user.uid).set({
+                        name: user.displayName || 'User',
+                        email: user.email || null,
+                        phoneNumber: user.phoneNumber || null,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    }, { merge: true });
+                } catch (err) {
+                    console.error('Firestore save error:', err);
+                }
+
+                sessionStorage.setItem('authUser', user.email || user.phoneNumber || user.uid);
+                sessionStorage.setItem('authName', user.displayName || user.phoneNumber || 'User');
+                sessionStorage.setItem('isLoggedIn', 'true');
+                sessionStorage.setItem('authUID', user.uid);
+
+                setLoading(false);
+                showToast('success', 'Welcome!', `Signed in as ${user.displayName || user.phoneNumber || 'User'}`);
+                if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+                setTimeout(() => window.location.href = 'index.html', 1500);
+            }
+
+            // Google Sign In (popup + redirect fallback)
+            document.getElementById('googleSignInBtn').addEventListener('click', async () => {
+                setLoading(true, 'Signing in with Google...');
+                try {
+                    const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+                    if (isMobile) {
+                        await auth.signInWithRedirect(googleProvider);
+                        return;
+                    }
                     const result = await auth.signInWithPopup(googleProvider);
-                    const user = result.user;
-
-                    // Save user to Firestore
-                    try {
-                        await db.collection('users').doc(user.uid).set({
-                            name: user.displayName,
-                            email: user.email,
-                            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                        }, { merge: true });
-                    } catch (error) {
-                        console.error('Firestore save error:', error);
-                    }
-
-                    // Store user session
-                    sessionStorage.setItem('authUser', user.email);
-                    sessionStorage.setItem('authName', user.displayName || 'User');
-                    sessionStorage.setItem('isLoggedIn', 'true');
-                    sessionStorage.setItem('authUID', user.uid);
-
-                    document.getElementById('loading').classList.remove('active');
-                    showToast('success', 'Welcome!', `Signed in as ${user.displayName}`);
-
-                    if (navigator.vibrate) {
-                        navigator.vibrate([100, 50, 100]);
-                    }
-
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 1500);
-
+                    await afterGoogleSignup(result.user);
                 } catch (error) {
-                    document.getElementById('loading').classList.remove('active');
                     console.error('Google Sign-In Error:', error);
-                    
-                    let errorMessage = 'Failed to sign in with Google';
-                    if (error.code === 'auth/popup-closed-by-user') {
-                        errorMessage = 'Sign-in popup was closed';
-                    } else if (error.code === 'auth/cancelled-popup-request') {
-                        errorMessage = 'Another popup is already open';
-                    } else if (error.code === 'auth/network-request-failed') {
-                        errorMessage = 'Network error. Check your connection';
+                    if (error.code === 'auth/popup-blocked' || error.code === 'auth/cancelled-popup-request') {
+                        try {
+                            await auth.signInWithRedirect(googleProvider);
+                            return;
+                        } catch (e2) {
+                            console.error('Redirect sign-in error:', e2);
+                        }
                     }
-                    
-                    showToast('error', 'Sign-In Failed', errorMessage);
+                    setLoading(false);
+                    let msg = 'Failed to sign in with Google';
+                    switch (error.code) {
+                        case 'auth/popup-closed-by-user': msg = 'Sign-in popup was closed'; break;
+                        case 'auth/popup-blocked': msg = 'Popup was blocked. Please allow popups'; break;
+                        case 'auth/network-request-failed': msg = 'Network error. Check your connection'; break;
+                        case 'auth/unauthorized-domain': msg = 'Add this domain in Firebase → Authentication → Settings → Authorized domains'; break;
+                        case 'auth/operation-not-allowed': msg = 'Enable Google sign-in in Firebase Console'; break;
+                        default: msg = error.message || msg;
+                    }
+                    showToast('error', 'Sign-In Failed', msg);
                 }
             });
+
+            // Complete Google redirect result
+            auth.getRedirectResult()
+                .then(async (result) => {
+                    if (result && result.user) {
+                        await afterGoogleSignup(result.user);
+                    }
+                })
+                .catch((error) => {
+                    console.error('Redirect sign-in error:', error);
+                    setLoading(false);
+                    showToast('error', 'Sign-In Failed', error.message || 'Google sign-in failed');
+                });
 
             // Email/Password Signup
             document.getElementById('signupForm').addEventListener('submit', async function(e) {
@@ -1162,9 +1217,7 @@
                     return;
                 }
 
-                // Show Loading
-                document.getElementById('loading').classList.add('active');
-                document.getElementById('loadingText').textContent = 'Creating your account...';
+                setLoading(true, 'Creating your account...');
 
                 try {
                     // Create user with email and password
@@ -1195,7 +1248,7 @@
                     sessionStorage.setItem('isLoggedIn', 'true');
                     sessionStorage.setItem('authUID', user.uid);
 
-                    document.getElementById('loading').classList.remove('active');
+                    setLoading(false);
                     showToast('success', 'Welcome to Sharvika!', 'Account created successfully');
 
                     if (navigator.vibrate) {
@@ -1208,7 +1261,7 @@
                     }, 2000);
 
                 } catch (error) {
-                    document.getElementById('loading').classList.remove('active');
+                    setLoading(false);
                     console.error('Signup Error:', error);
 
                     let errorMessage = 'Failed to create account';
@@ -1234,6 +1287,96 @@
                     }
 
                     showToast('error', 'Signup Failed', errorMessage);
+                }
+            });
+
+            // OTP: Send
+            document.getElementById('sendOtpBtn').addEventListener('click', async () => {
+                const phoneNumber = document.getElementById('phoneNumber').value.replace(/\s+/g, '').trim();
+
+                if (!/^\+[1-9]\d{7,14}$/.test(phoneNumber)) {
+                    showToast('error', 'Invalid Phone', 'Enter phone with country code, e.g. +91XXXXXXXXXX');
+                    return;
+                }
+
+                setLoading(true, 'Sending OTP...');
+                try {
+                    if (!phoneRecaptcha) {
+                        phoneRecaptcha = new firebase.auth.RecaptchaVerifier('recaptcha-signup', { size: 'invisible' });
+                        await phoneRecaptcha.render();
+                    }
+                    confirmationResult = await auth.signInWithPhoneNumber(phoneNumber, phoneRecaptcha);
+                    setLoading(false);
+                    showToast('success', 'OTP Sent', 'We sent a code to your phone');
+                    document.getElementById('otpGroup').style.display = 'block';
+                    document.getElementById('verifyOtpBtn').style.display = 'block';
+                    document.getElementById('sendOtpBtn').textContent = 'Resend OTP';
+                } catch (error) {
+                    console.error('Send OTP error:', error);
+                    setLoading(false);
+                    let msg = 'Failed to send OTP';
+                    if (error.code === 'auth/too-many-requests') msg = 'Too many attempts. Try again later';
+                    if (error.code === 'auth/invalid-phone-number') msg = 'Invalid phone number';
+                    if (error.code === 'auth/missing-client-identifier') msg = 'reCAPTCHA failed to load';
+                    showToast('error', 'OTP Error', msg);
+                    try { phoneRecaptcha && phoneRecaptcha.clear(); } catch (_) {}
+                    phoneRecaptcha = null;
+                }
+            });
+
+            // OTP: Verify
+            document.getElementById('verifyOtpBtn').addEventListener('click', async () => {
+                const code = (document.getElementById('otpCode').value || '').trim();
+                if (!confirmationResult) {
+                    showToast('error', 'OTP Error', 'Please request OTP first');
+                    return;
+                }
+                if (!/^\d{4,8}$/.test(code)) {
+                    showToast('error', 'Invalid Code', 'Enter the 6-digit code');
+                    return;
+                }
+
+                setLoading(true, 'Verifying OTP...');
+                try {
+                    const result = await confirmationResult.confirm(code);
+                    const user = result.user;
+
+                    // If user filled their name, save it
+                    const firstName = document.getElementById('firstName').value.trim();
+                    const lastName = document.getElementById('lastName').value.trim();
+                    const hasName = firstName.length >= 2 && lastName.length >= 2;
+
+                    try {
+                        if (hasName) {
+                            await user.updateProfile({ displayName: `${firstName} ${lastName}` });
+                        }
+                        await db.collection('users').doc(user.uid).set({
+                            firstName: hasName ? firstName : null,
+                            lastName: hasName ? lastName : null,
+                            name: hasName ? `${firstName} ${lastName}` : (user.displayName || user.phoneNumber || 'User'),
+                            email: user.email || null,
+                            phoneNumber: user.phoneNumber || null,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                        }, { merge: true });
+                    } catch (err) {
+                        console.error('Firestore save error:', err);
+                    }
+
+                    sessionStorage.setItem('authUser', user.phoneNumber || user.email || user.uid);
+                    sessionStorage.setItem('authName', user.displayName || user.phoneNumber || 'User');
+                    sessionStorage.setItem('isLoggedIn', 'true');
+                    sessionStorage.setItem('authUID', user.uid);
+
+                    setLoading(false);
+                    showToast('success', 'Welcome!', `Signed in as ${user.displayName || user.phoneNumber || 'User'}`);
+                    if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+                    setTimeout(() => window.location.href = 'index.html', 1500);
+                } catch (error) {
+                    console.error('Verify OTP error:', error);
+                    setLoading(false);
+                    let msg = 'Invalid OTP. Please try again';
+                    if (error.code === 'auth/code-expired') msg = 'OTP expired. Request a new one';
+                    showToast('error', 'OTP Error', msg);
                 }
             });
 
