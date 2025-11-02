@@ -360,7 +360,7 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             padding: 18px;
-            position: relative;
+            position: relative.
         }
 
         .captcha-instruction {
@@ -936,9 +936,22 @@
         window.addEventListener('firebaseReady', initializePage);
 
         function initializePage() {
+            // Guard against duplicate init (prevents re-rendering reCAPTCHA)
+            if (window.__signupInitDone) {
+                console.log('⚠️ Signup page already initialized — skipping duplicate init');
+                return;
+            }
+            window.__signupInitDone = true;
+
             console.log('✅ Firebase ready, initializing signup page...');
 
-            let phoneRecaptcha = null;
+            // Use globals provided by firebase-config.js
+            const auth = window.auth;
+            const db = window.db;
+            const googleProvider = window.googleProvider;
+
+            // Reuse a single RecaptchaVerifier instance across calls
+            let phoneRecaptcha = window.__signupRecaptcha || null;
             let confirmationResult = null;
 
             // Create Floating Particles
@@ -1290,7 +1303,7 @@
                 }
             });
 
-            // OTP: Send
+            // OTP: Send (reuses one RecaptchaVerifier; avoids "already rendered" error)
             document.getElementById('sendOtpBtn').addEventListener('click', async () => {
                 const phoneNumber = document.getElementById('phoneNumber').value.replace(/\s+/g, '').trim();
 
@@ -1303,7 +1316,8 @@
                 try {
                     if (!phoneRecaptcha) {
                         phoneRecaptcha = new firebase.auth.RecaptchaVerifier('recaptcha-signup', { size: 'invisible' });
-                        await phoneRecaptcha.render();
+                        await phoneRecaptcha.render(); // render ONCE
+                        window.__signupRecaptcha = phoneRecaptcha; // persist globally
                     }
                     confirmationResult = await auth.signInWithPhoneNumber(phoneNumber, phoneRecaptcha);
                     setLoading(false);
@@ -1318,9 +1332,13 @@
                     if (error.code === 'auth/too-many-requests') msg = 'Too many attempts. Try again later';
                     if (error.code === 'auth/invalid-phone-number') msg = 'Invalid phone number';
                     if (error.code === 'auth/missing-client-identifier') msg = 'reCAPTCHA failed to load';
+                    if (error.code === 'auth/network-request-failed') msg = 'Network error. Check your connection';
                     showToast('error', 'OTP Error', msg);
+
+                    // Clean up so we can re-initialize cleanly next time
                     try { phoneRecaptcha && phoneRecaptcha.clear(); } catch (_) {}
                     phoneRecaptcha = null;
+                    window.__signupRecaptcha = null;
                 }
             });
 
