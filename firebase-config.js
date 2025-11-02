@@ -1,119 +1,898 @@
-// firebase-config.js - Universal Firebase Configuration
-(function() {
-    'use strict';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sign In - Sharvika</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: 'unsafe-inline' 'unsafe-eval'; font-src 'self' https://fonts.gstatic.com data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Load Firebase Config FIRST -->
+    <script src="firebase-config.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyBYEol3wDIUihPTLaM1EjqVkpvjvJ-1_O4",
-        authDomain: "my-website-backend-957db.firebaseapp.com",
-        projectId: "my-website-backend-957db",
-        storageBucket: "my-website-backend-957db.firebasestorage.app",
-        messagingSenderId: "75667291929",
-        appId: "1:75667291929:web:10878882c9c30574144f88",
-        measurementId: "G-8H93W7QZGT"
-    };
+        html {
+            scroll-behavior: smooth;
+        }
 
-    console.log('🔥 Loading Firebase SDK...');
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 20px 0;
+        }
 
-    function loadFirebaseSDK() {
-        return new Promise((resolve, reject) => {
-            // Check if Firebase is already loaded
-            if (typeof firebase !== 'undefined') {
-                console.log('✅ Firebase already loaded');
-                resolve();
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+        }
+
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float-particle 20s infinite ease-in-out;
+        }
+
+        @keyframes float-particle {
+            0%, 100% { 
+                transform: translate(0, 0) scale(1);
+                opacity: 0;
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { 
+                transform: translate(var(--tx), var(--ty)) scale(0);
+                opacity: 0;
+            }
+        }
+
+        .grid-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: grid-move 20s linear infinite;
+        }
+
+        @keyframes grid-move {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .spotlight {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        /* Back Button */
+        .back-home {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .back-home:active {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(0.95);
+        }
+
+        /* Signin Container */
+        .signin-wrapper {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 450px;
+            padding: 16px;
+            margin: auto;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .signin-container {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .signin-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            50%, 100% { left: 100%; }
+        }
+
+        /* Header */
+        .signin-header {
+            padding: 40px 24px 28px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .brand-logo {
+            margin-bottom: 20px;
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .brand-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            font-weight: 600;
+            color: #fff;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #fff 0%, #999 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            display: inline-block;
+        }
+
+        .brand-name::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #fff, transparent);
+        }
+
+        .brand-tagline {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            margin-top: 14px;
+            font-weight: 300;
+        }
+
+        /* Form */
+        .signin-form {
+            padding: 32px 24px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .input-field:focus {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.05);
+        }
+
+        .input-field::placeholder {
+            color: rgba(255, 255, 255, 0.25);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 12px;
+            transition: all 0.3s ease;
+            user-select: none;
+            padding: 8px;
+        }
+
+        .toggle-password:active {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .divider span {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Google Button */
+        .google-btn {
+            width: 100%;
+            padding: 14px;
+            background: #fff;
+            border: none;
+            border-radius: 12px;
+            color: #202124;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            touch-action: manipulation;
+        }
+
+        .google-btn:active {
+            transform: scale(0.98);
+        }
+
+        .google-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .google-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #fff, #e0e0e0);
+            border: none;
+            border-radius: 12px;
+            color: #000;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            touch-action: manipulation;
+        }
+
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .signup-link a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            right: 16px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 14px;
+            padding: 16px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform: translateY(-150px);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 10000;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .toast.show {
+            transform: translateY(0);
+        }
+
+        .toast-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .toast.error .toast-icon {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .toast.success .toast-icon {
+            background: rgba(74, 222, 128, 0.2);
+            color: #4ade80;
+        }
+
+        .toast-content h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 3px;
+        }
+
+        .toast-content p {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.4;
+        }
+
+        /* Loading Overlay */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .loading.active {
+            display: flex;
+        }
+
+        .spinner-container {
+            text-align: center;
+        }
+
+        .spinner {
+            width: 45px;
+            height: 45px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 14px;
+        }
+
+        .loading-text {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 13px;
+            letter-spacing: 1px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Desktop Styles */
+        @media (min-width: 769px) {
+            body {
+                padding: 40px 0;
+            }
+
+            .back-home {
+                top: 24px;
+                left: 24px;
+                padding: 12px 24px;
+                font-size: 14px;
+            }
+
+            .back-home:hover {
+                background: rgba(255, 255, 255, 0.08);
+                transform: translateX(-5px);
+                border-color: rgba(255, 255, 255, 0.2);
+            }
+
+            .signin-wrapper {
+                padding: 20px;
+            }
+
+            .signin-header {
+                padding: 48px 40px 32px;
+            }
+
+            .brand-name {
+                font-size: 48px;
+            }
+
+            .brand-tagline {
+                font-size: 13px;
+                letter-spacing: 3px;
+            }
+
+            .signin-form {
+                padding: 40px;
+            }
+
+            .input-group {
+                margin-bottom: 24px;
+            }
+
+            .input-label {
+                font-size: 12px;
+            }
+
+            .input-field {
+                padding: 14px 18px;
+            }
+
+            .input-field:focus {
+                transform: translateY(-2px);
+            }
+
+            .submit-btn:hover,
+            .google-btn:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2);
+            }
+
+            .toast {
+                top: 24px;
+                left: auto;
+                right: 24px;
+                max-width: 380px;
+            }
+        }
+
+        /* Small Mobile */
+        @media (max-width: 380px) {
+            .brand-name {
+                font-size: 36px;
+            }
+
+            .brand-tagline {
+                font-size: 10px;
+            }
+
+            .signin-header {
+                padding: 32px 20px 24px;
+            }
+
+            .signin-form {
+                padding: 28px 20px;
+            }
+
+            .input-field {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="particles" id="particles"></div>
+        <div class="grid-overlay"></div>
+        <div class="spotlight" id="spotlight"></div>
+    </div>
+
+    <!-- Back Button -->
+    <a href="index.html" class="back-home">
+        <span>←</span>
+        <span>Back to Home</span>
+    </a>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <div class="toast-icon" id="toastIcon">✓</div>
+        <div class="toast-content">
+            <h4 id="toastTitle">Success</h4>
+            <p id="toastMessage">Message</p>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading" id="loading">
+        <div class="spinner-container">
+            <div class="spinner"></div>
+            <div class="loading-text" id="loadingText">Signing In...</div>
+        </div>
+    </div>
+
+    <!-- Signin Container -->
+    <div class="signin-wrapper">
+        <div class="signin-container">
+            <div class="signin-header">
+                <div class="brand-logo">
+                    <h1 class="brand-name">SHARVIKA</h1>
+                </div>
+                <p class="brand-tagline">Welcome Back</p>
+            </div>
+
+            <form class="signin-form" id="signinForm">
+                <!-- Google Sign In Button -->
+                <button type="button" class="google-btn" id="googleSignInBtn" disabled>
+                    <svg class="google-icon" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                    Continue with Google
+                </button>
+
+                <div class="divider">
+                    <span>Or sign in with email</span>
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label">Email Address</label>
+                    <input type="email" class="input-field" id="email" placeholder="your.email@example.com" required autocomplete="email">
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label">Password</label>
+                    <div class="input-wrapper">
+                        <input type="password" class="input-field" id="password" placeholder="Enter your password" required autocomplete="current-password">
+                        <div class="toggle-password" id="togglePassword">SHOW</div>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn" disabled>Sign In</button>
+
+                <div class="signup-link">
+                    Don't have an account? <a href="signup.html">Create Account</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        console.log('📄 Sign-in page loaded');
+
+        // Toast Notification Function
+        function showToast(type, title, message) {
+            const toast = document.getElementById('toast');
+            const icon = document.getElementById('toastIcon');
+            
+            toast.className = `toast ${type}`;
+            icon.textContent = type === 'error' ? '✕' : '✓';
+            document.getElementById('toastTitle').textContent = title;
+            document.getElementById('toastMessage').textContent = message;
+            
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 4000);
+        }
+
+        // Wait for Firebase to be ready
+        let firebaseReady = false;
+
+        window.addEventListener('firebaseReady', function() {
+            console.log('✅ Firebase is ready in signin page');
+            firebaseReady = true;
+            
+            // Enable buttons when Firebase is ready
+            document.getElementById('googleSignInBtn').disabled = false;
+            document.getElementById('submitBtn').disabled = false;
+        });
+
+        window.addEventListener('firebaseError', function(e) {
+            console.error('❌ Firebase error:', e.detail);
+            showToast('error', 'Firebase Error', 'Please refresh the page');
+        });
+
+        // Create Floating Particles
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = window.innerWidth < 768 ? 30 : 50;
+        
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.setProperty('--tx', (Math.random() - 0.5) * 200 + 'px');
+            particle.style.setProperty('--ty', (Math.random() - 0.5) * 200 + 'px');
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        // Spotlight follows mouse (desktop only)
+        if (window.innerWidth >= 769) {
+            document.addEventListener('mousemove', (e) => {
+                const spotlight = document.getElementById('spotlight');
+                spotlight.style.left = e.clientX - 300 + 'px';
+                spotlight.style.top = e.clientY - 300 + 'px';
+            });
+        }
+
+        // Toggle Password
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const type = passwordInput.type === 'password' ? 'text' : 'password';
+            passwordInput.type = type;
+            this.textContent = type === 'password' ? 'SHOW' : 'HIDE';
+        });
+
+        // Google Sign In
+        document.getElementById('googleSignInBtn').addEventListener('click', async () => {
+            if (!firebaseReady || !window.auth || !window.googleProvider) {
+                showToast('error', 'Error', 'Firebase not ready. Please wait...');
                 return;
             }
 
-            // Firebase SDK URLs (using compat version for compatibility)
-            const scripts = [
-                'https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js',
-                'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js',
-                'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js'
-            ];
+            const loadingEl = document.getElementById('loading');
+            const loadingText = document.getElementById('loadingText');
+            
+            loadingEl.classList.add('active');
+            loadingText.textContent = 'Signing in with Google...';
 
-            let loadedCount = 0;
-            const totalScripts = scripts.length;
+            try {
+                const result = await window.auth.signInWithPopup(window.googleProvider);
+                const user = result.user;
 
-            scripts.forEach((src, index) => {
-                const script = document.createElement('script');
-                script.src = src;
-                script.async = false; // Load in order
+                // Store user session
+                sessionStorage.setItem('authUser', user.email);
+                sessionStorage.setItem('authName', user.displayName || 'User');
+                sessionStorage.setItem('isLoggedIn', 'true');
+                sessionStorage.setItem('authUID', user.uid);
+
+                loadingEl.classList.remove('active');
+                showToast('success', 'Welcome Back!', `Signed in as ${user.displayName}`);
+
+                if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1500);
+
+            } catch (error) {
+                loadingEl.classList.remove('active');
+                console.error('Google Sign-In Error:', error);
                 
-                script.onload = () => {
-                    loadedCount++;
-                    console.log(`✅ Loaded ${index + 1}/${totalScripts}: ${src.split('/').pop()}`);
-                    
-                    if (loadedCount === totalScripts) {
-                        console.log('✅ All Firebase scripts loaded');
-                        resolve();
-                    }
-                };
+                let errorMessage = 'Failed to sign in with Google';
+                if (error.code === 'auth/popup-closed-by-user') {
+                    errorMessage = 'Sign-in popup was closed';
+                } else if (error.code === 'auth/cancelled-popup-request') {
+                    errorMessage = 'Another popup is already open';
+                } else if (error.code === 'auth/network-request-failed') {
+                    errorMessage = 'Network error. Check your connection';
+                } else if (error.code === 'auth/operation-not-supported-in-this-environment') {
+                    errorMessage = 'Please use a web server (http://localhost)';
+                }
                 
-                script.onerror = (error) => {
-                    console.error(`❌ Failed to load: ${src}`);
-                    reject(new Error(`Failed to load ${src}`));
-                };
-                
-                document.head.appendChild(script);
-            });
+                showToast('error', 'Sign-In Failed', errorMessage);
+            }
         });
-    }
 
-    function initializeFirebase() {
-        try {
-            // Initialize Firebase only if not already initialized
-            if (!firebase.apps || firebase.apps.length === 0) {
-                firebase.initializeApp(firebaseConfig);
-                console.log('🔥 Firebase app initialized');
-            } else {
-                console.log('✅ Firebase app already initialized');
+        // Email/Password Sign In
+        document.getElementById('signinForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            if (!firebaseReady || !window.auth) {
+                showToast('error', 'Error', 'Firebase not ready. Please wait...');
+                return;
             }
 
-            // Create global references
-            window.auth = firebase.auth();
-            window.db = firebase.firestore();
-            
-            // Google Provider setup
-            window.googleProvider = new firebase.auth.GoogleAuthProvider();
-            window.googleProvider.setCustomParameters({
-                prompt: 'select_account'
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+
+            // Validate Email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showToast('error', 'Invalid Email', 'Please enter a valid email address');
+                return;
+            }
+
+            // Validate Password
+            if (password.length < 6) {
+                showToast('error', 'Invalid Password', 'Password must be at least 6 characters');
+                return;
+            }
+
+            // Show Loading
+            const loadingEl = document.getElementById('loading');
+            const loadingText = document.getElementById('loadingText');
+            loadingEl.classList.add('active');
+            loadingText.textContent = 'Signing you in...';
+
+            try {
+                const userCredential = await window.auth.signInWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+
+                // Store user session
+                sessionStorage.setItem('authUser', email);
+                sessionStorage.setItem('authName', user.displayName || email.split('@')[0]);
+                sessionStorage.setItem('isLoggedIn', 'true');
+                sessionStorage.setItem('authUID', user.uid);
+
+                loadingEl.classList.remove('active');
+                showToast('success', 'Welcome Back!', 'Signed in successfully');
+
+                if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1500);
+
+            } catch (error) {
+                loadingEl.classList.remove('active');
+                console.error('Sign-In Error:', error);
+
+                let errorMessage = 'Failed to sign in';
+                
+                switch (error.code) {
+                    case 'auth/user-not-found':
+                        errorMessage = 'No account found with this email';
+                        break;
+                    case 'auth/wrong-password':
+                        errorMessage = 'Incorrect password';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMessage = 'Invalid email address';
+                        break;
+                    case 'auth/user-disabled':
+                        errorMessage = 'This account has been disabled';
+                        break;
+                    case 'auth/too-many-requests':
+                        errorMessage = 'Too many failed attempts. Try again later';
+                        break;
+                    case 'auth/network-request-failed':
+                        errorMessage = 'Network error. Check your connection';
+                        break;
+                    case 'auth/invalid-credential':
+                        errorMessage = 'Invalid email or password';
+                        break;
+                    default:
+                        errorMessage = error.message || 'An error occurred';
+                }
+
+                showToast('error', 'Sign-In Failed', errorMessage);
+            }
+        });
+
+        // Check if already logged in
+        if (window.auth) {
+            window.auth.onAuthStateChanged((user) => {
+                if (user) {
+                    console.log('✅ User already logged in:', user.email);
+                }
             });
-
-            console.log('✅ Firebase services ready:');
-            console.log('   - Authentication');
-            console.log('   - Firestore Database');
-            console.log('   - Google Sign-In Provider');
-
-            // Dispatch custom event to notify pages Firebase is ready
-            window.dispatchEvent(new CustomEvent('firebaseReady'));
-            
-        } catch (error) {
-            console.error('❌ Firebase initialization error:', error);
-            throw error;
         }
-    }
 
-    // Start loading process
-    function init() {
-        loadFirebaseSDK()
-            .then(() => {
-                console.log('🔥 Initializing Firebase...');
-                initializeFirebase();
-            })
-            .catch((error) => {
-                console.error('❌ Firebase loading failed:', error);
-                // Dispatch error event
-                window.dispatchEvent(new CustomEvent('firebaseError', { detail: error }));
-            });
-    }
-
-    // Execute when DOM is ready
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-    } else {
-        init();
-    }
-
-    // Export config for debugging
-    window.firebaseConfig = firebaseConfig;
-
-})();
+        // Prevent zoom on double tap
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(e) {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                e.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
+</body>
+</html>
