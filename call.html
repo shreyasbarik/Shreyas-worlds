@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no, viewport-fit=cover">
     <title>Voice Call - SharvikaEducation</title>
     <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -16,354 +16,214 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #000000;
-            color: #ffffff;
-            min-height: 100vh;
-            overflow: hidden;
-            position: fixed;
-            width: 100%;
-            letter-spacing: -0.02em;
-        }
-
-        /* Animated Background */
-        .bg-gradient {
-            position: fixed;
-            top: 0;
-            left: 0;
+        html, body {
             width: 100%;
             height: 100%;
-            background: radial-gradient(ellipse at top, rgba(16, 185, 129, 0.08) 0%, transparent 50%),
-                        radial-gradient(ellipse at bottom, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
+            position: fixed;
+            overflow: hidden;
+            overscroll-behavior: none;
+        }
+
+        body {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(180deg, #0a4d3c 0%, #0d1c16 100%);
+            color: #ffffff;
+            -webkit-font-smoothing: antialiased;
         }
 
         .call-screen {
+            width: 100%;
             height: 100vh;
+            height: 100dvh;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
             position: relative;
-            z-index: 1;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
         }
 
-        /* Top Section - Enhanced */
+        /* Top Section - Minimal like WhatsApp */
         .call-top {
-            padding: 60px 30px 30px;
+            padding: 16px 20px;
             text-align: center;
+            flex-shrink: 0;
         }
 
-        .call-status {
+        .encryption-text {
             font-size: 12px;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.5);
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: all 0.3s ease;
-        }
-
-        .call-status.connected {
-            color: #10b981;
-        }
-
-        .call-timer {
-            font-size: 18px;
-            font-weight: 300;
-            color: #ffffff;
-            font-variant-numeric: tabular-nums;
-            margin-bottom: 16px;
-            letter-spacing: 0.5px;
-        }
-
-        .connection-quality {
-            display: inline-flex;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 400;
+            display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 11px;
-            font-weight: 500;
-            color: rgba(255, 255, 255, 0.4);
-            background: rgba(255, 255, 255, 0.03);
-            padding: 6px 14px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
+            justify-content: center;
+            gap: 6px;
         }
 
-        .quality-indicator {
-            width: 6px;
-            height: 6px;
-            background: #10b981;
-            border-radius: 50%;
-            box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
-            animation: pulse-dot 2s infinite;
+        .lock-icon {
+            width: 12px;
+            height: 12px;
+            fill: rgba(255, 255, 255, 0.6);
         }
 
-        @keyframes pulse-dot {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.6; transform: scale(1.2); }
-        }
-
-        /* Middle Section - Enhanced */
+        /* Middle Section - Avatar and Info */
         .call-middle {
             flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 40px 20px;
+            padding: 20px;
+            min-height: 0;
         }
 
         .avatar-container {
             position: relative;
-            margin-bottom: 40px;
+            margin-bottom: 24px;
+        }
+
+        .pulse-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 2px solid rgba(37, 211, 102, 0.4);
+            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1.4); opacity: 0; }
         }
 
         .avatar {
-            width: 160px;
-            height: 160px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
-            backdrop-filter: blur(20px);
-            border: 2px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.1);
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
             position: relative;
             z-index: 2;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .avatar::before {
-            content: '';
-            position: absolute;
-            inset: -2px;
-            border-radius: 50%;
-            padding: 2px;
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.5), rgba(59, 130, 246, 0.5));
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .avatar.active::before {
-            opacity: 1;
-            animation: rotate 3s linear infinite;
-        }
-
-        @keyframes rotate {
-            to { transform: rotate(360deg); }
         }
 
         .avatar svg {
-            width: 72px;
-            height: 72px;
-            fill: rgba(255, 255, 255, 0.95);
-            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
-        }
-
-        .pulse-waves {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .pulse-wave {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 160px;
-            height: 160px;
-            border-radius: 50%;
-            border: 1.5px solid rgba(16, 185, 129, 0.3);
-            animation: pulse-wave 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-
-        .pulse-wave:nth-child(2) {
-            animation-delay: 0.5s;
-            border-color: rgba(59, 130, 246, 0.3);
-        }
-
-        .pulse-wave:nth-child(3) {
-            animation-delay: 1s;
-            border-color: rgba(16, 185, 129, 0.2);
-        }
-
-        @keyframes pulse-wave {
-            0% {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 1;
-            }
-            100% {
-                transform: translate(-50%, -50%) scale(2.5);
-                opacity: 0;
-            }
+            width: 56px;
+            height: 56px;
+            fill: rgba(255, 255, 255, 0.9);
         }
 
         .contact-name {
-            font-size: 32px;
-            font-weight: 600;
-            margin-bottom: 10px;
+            font-size: 26px;
+            font-weight: 400;
+            margin-bottom: 8px;
             color: #ffffff;
-            letter-spacing: -0.03em;
-            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
         }
 
-        .contact-subtitle {
+        .call-status {
             font-size: 15px;
-            color: rgba(255, 255, 255, 0.45);
-            font-weight: 500;
-            letter-spacing: 0.3px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 4px;
+            font-weight: 400;
         }
 
-        /* Audio Visualizer - Enhanced */
+        .call-timer {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 400;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Audio Visualizer - Compact */
         .audio-viz {
             display: none;
             justify-content: center;
             align-items: center;
-            gap: 6px;
-            height: 70px;
-            margin-top: 40px;
-            padding: 20px 30px;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
+            gap: 4px;
+            height: 40px;
+            margin-top: 16px;
         }
 
-        .audio-viz.active {
-            display: flex;
-        }
+        .audio-viz.active { display: flex; }
 
         .viz-bar {
-            width: 4px;
-            background: linear-gradient(180deg, #10b981 0%, rgba(16, 185, 129, 0.3) 100%);
-            border-radius: 3px;
+            width: 3px;
+            background: rgba(37, 211, 102, 0.8);
+            border-radius: 2px;
             animation: viz-animate 1.2s ease-in-out infinite;
-            box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
         }
 
-        .viz-bar:nth-child(1) { animation-delay: 0s; height: 14px; }
-        .viz-bar:nth-child(2) { animation-delay: 0.1s; height: 18px; }
-        .viz-bar:nth-child(3) { animation-delay: 0.2s; height: 24px; }
-        .viz-bar:nth-child(4) { animation-delay: 0.3s; height: 30px; }
-        .viz-bar:nth-child(5) { animation-delay: 0.4s; height: 36px; }
-        .viz-bar:nth-child(6) { animation-delay: 0.5s; height: 30px; }
-        .viz-bar:nth-child(7) { animation-delay: 0.6s; height: 24px; }
-        .viz-bar:nth-child(8) { animation-delay: 0.7s; height: 18px; }
-        .viz-bar:nth-child(9) { animation-delay: 0.8s; height: 14px; }
+        .viz-bar:nth-child(1) { animation-delay: 0s; height: 12px; }
+        .viz-bar:nth-child(2) { animation-delay: 0.1s; height: 16px; }
+        .viz-bar:nth-child(3) { animation-delay: 0.2s; height: 20px; }
+        .viz-bar:nth-child(4) { animation-delay: 0.3s; height: 24px; }
+        .viz-bar:nth-child(5) { animation-delay: 0.4s; height: 20px; }
+        .viz-bar:nth-child(6) { animation-delay: 0.5s; height: 16px; }
+        .viz-bar:nth-child(7) { animation-delay: 0.6s; height: 12px; }
 
         @keyframes viz-animate {
-            0%, 100% { transform: scaleY(0.3); opacity: 0.4; }
+            0%, 100% { transform: scaleY(0.3); opacity: 0.5; }
             50% { transform: scaleY(1); opacity: 1; }
         }
 
-        /* Bottom Controls - Enhanced */
+        /* Bottom Controls - WhatsApp Style */
         .call-bottom {
-            padding: 30px 30px 50px;
+            padding: 0 24px calc(32px + env(safe-area-inset-bottom)) 24px;
+            flex-shrink: 0;
         }
 
-        .status-info {
-            text-align: center;
-            margin-bottom: 35px;
-            min-height: 60px;
-        }
-
-        .status-message {
-            font-size: 15px;
-            font-weight: 500;
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.6;
-            margin-bottom: 8px;
-            letter-spacing: -0.01em;
-        }
-
-        .status-submessage {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.35);
-            font-weight: 400;
-            letter-spacing: 0.2px;
-        }
-
-        .controls-container {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-            margin-bottom: 32px;
-            max-width: 400px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .control-button {
-            aspect-ratio: 1;
-            background: rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
+        .controls-row {
             display: flex;
-            flex-direction: column;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .control-btn {
+            width: 56px;
+            height: 56px;
+            background: rgba(255, 255, 255, 0.12);
+            border: none;
+            border-radius: 50%;
+            display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            color: #ffffff;
+            transition: all 0.2s ease;
             position: relative;
-            overflow: hidden;
         }
 
-        .control-button::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.1), transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
+        .control-btn:active {
+            transform: scale(0.9);
+            background: rgba(255, 255, 255, 0.2);
         }
 
-        .control-button:hover::before {
-            opacity: 1;
-        }
-
-        .control-button:active {
-            transform: scale(0.92);
-        }
-
-        .control-button.active {
+        .control-btn.active {
             background: rgba(255, 255, 255, 0.95);
-            color: #000000;
-            border-color: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 24px rgba(255, 255, 255, 0.2),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.3);
         }
 
-        .control-button svg {
-            width: 22px;
-            height: 22px;
-            fill: currentColor;
-            transition: transform 0.3s ease;
+        .control-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: #ffffff;
+            transition: fill 0.2s;
         }
 
-        .control-button:hover svg {
-            transform: scale(1.1);
+        .control-btn.active svg {
+            fill: #075e54;
         }
 
         .control-label {
-            font-size: 10px;
-            font-weight: 600;
-            letter-spacing: 0.3px;
-            text-transform: uppercase;
+            position: absolute;
+            bottom: -20px;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.7);
+            white-space: nowrap;
+            font-weight: 400;
         }
 
         .end-call-container {
@@ -371,422 +231,247 @@
             justify-content: center;
         }
 
-        .end-call-button {
-            width: 76px;
-            height: 76px;
-            background: linear-gradient(135deg, #ff3b30 0%, #dc2626 100%);
+        .end-call-btn {
+            width: 68px;
+            height: 68px;
+            background: #ff3b30;
             border: none;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 12px 32px rgba(255, 59, 48, 0.4),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-            position: relative;
-            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(255, 59, 48, 0.4);
+            transition: all 0.2s ease;
         }
 
-        .end-call-button::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.2), transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
+        .end-call-btn:active {
+            transform: scale(0.92);
         }
 
-        .end-call-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 16px 40px rgba(255, 59, 48, 0.5);
-        }
-
-        .end-call-button:hover::before {
-            opacity: 1;
-        }
-
-        .end-call-button:active {
-            transform: scale(0.95);
-        }
-
-        .end-call-button svg {
-            width: 34px;
-            height: 34px;
+        .end-call-btn svg {
+            width: 30px;
+            height: 30px;
             fill: #ffffff;
             transform: rotate(135deg);
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
         }
 
-        /* Error Banner - Enhanced */
+        /* Error Banner */
         .error-banner {
             position: fixed;
-            top: env(safe-area-inset-top, 20px);
-            top: calc(env(safe-area-inset-top, 20px) + 20px);
-            left: 20px;
-            right: 20px;
+            top: calc(env(safe-area-inset-top) + 16px);
+            left: 16px;
+            right: 16px;
             background: rgba(255, 59, 48, 0.95);
-            backdrop-filter: blur(20px);
-            padding: 18px 24px;
-            border-radius: 16px;
+            padding: 14px 18px;
+            border-radius: 12px;
             display: none;
             z-index: 1000;
-            animation: slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px rgba(255, 59, 48, 0.4);
             font-size: 14px;
-            font-weight: 500;
-            letter-spacing: -0.01em;
-            line-height: 1.5;
+            animation: slideDown 0.3s ease;
         }
 
-        .error-banner.show {
-            display: block;
-        }
+        .error-banner.show { display: block; }
 
         @keyframes slideDown {
-            from {
-                transform: translateY(-120%);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
-        /* Report Modal - Enhanced */
+        /* Report Modal */
         .report-modal {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.96);
-            backdrop-filter: blur(20px);
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
             display: none;
             align-items: center;
             justify-content: center;
             z-index: 2000;
             padding: 20px;
-            animation: fadeIn 0.3s ease;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
-        .report-modal.show {
-            display: flex;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
+        .report-modal.show { display: flex; }
 
         .report-content {
-            background: linear-gradient(135deg, rgba(30, 30, 30, 0.95) 0%, rgba(20, 20, 20, 0.95) 100%);
-            backdrop-filter: blur(40px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 24px;
-            padding: 40px 32px;
-            max-width: 520px;
+            background: #1f1f1f;
+            border-radius: 20px;
+            padding: 32px 24px;
+            max-width: 480px;
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.05);
-            animation: scaleIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        @keyframes scaleIn {
-            from {
-                transform: scale(0.9);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
         }
 
         .report-header {
             text-align: center;
-            margin-bottom: 36px;
+            margin-bottom: 28px;
         }
 
         .report-header h2 {
-            font-size: 26px;
-            font-weight: 600;
-            margin-bottom: 10px;
-            letter-spacing: -0.03em;
+            font-size: 22px;
+            font-weight: 500;
+            margin-bottom: 8px;
         }
 
         .report-header p {
             font-size: 14px;
-            color: rgba(255, 255, 255, 0.5);
-            font-weight: 400;
-            letter-spacing: -0.01em;
+            color: rgba(255, 255, 255, 0.6);
         }
 
         .report-form {
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            gap: 20px;
         }
 
         .form-group {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
         }
 
         .form-label {
             font-size: 13px;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.75);
-            letter-spacing: 0.2px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
         }
 
-        .form-input,
-        .form-textarea,
-        .form-select {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1.5px solid rgba(255, 255, 255, 0.08);
-            border-radius: 14px;
-            padding: 16px 18px;
+        .form-input, .form-textarea, .form-select {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            padding: 14px 16px;
             color: #ffffff;
             font-size: 15px;
-            font-family: 'Inter', sans-serif;
-            transition: all 0.3s ease;
-            letter-spacing: -0.01em;
+            font-family: 'Roboto', sans-serif;
         }
 
-        .form-input:focus,
-        .form-textarea:focus,
-        .form-select:focus {
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
             outline: none;
-            border-color: rgba(16, 185, 129, 0.5);
-            background: rgba(255, 255, 255, 0.06);
-            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
-        }
-
-        .form-input::placeholder,
-        .form-textarea::placeholder {
-            color: rgba(255, 255, 255, 0.3);
+            border-color: #25d366;
+            background: rgba(255, 255, 255, 0.12);
         }
 
         .form-textarea {
             resize: vertical;
-            min-height: 130px;
-            line-height: 1.6;
+            min-height: 100px;
         }
 
         .form-select {
             cursor: pointer;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='rgba(255,255,255,0.4)' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 18px center;
-            padding-right: 45px;
-        }
-
-        .form-select option {
-            background: #1a1a1a;
-            color: #ffffff;
-            padding: 12px;
         }
 
         .form-actions {
             display: flex;
-            gap: 14px;
-            margin-top: 12px;
+            gap: 12px;
+            margin-top: 8px;
         }
 
         .btn {
             flex: 1;
-            padding: 18px 24px;
-            border-radius: 14px;
+            padding: 16px;
+            border-radius: 12px;
             border: none;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            letter-spacing: -0.01em;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.2), transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .btn:hover::before {
-            opacity: 1;
+            transition: all 0.2s;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
-            color: #000000;
-            box-shadow: 0 4px 16px rgba(255, 255, 255, 0.15);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(255, 255, 255, 0.25);
+            background: #25d366;
+            color: #ffffff;
         }
 
         .btn-primary:active {
-            transform: translateY(0);
+            transform: scale(0.98);
+            background: #20bd5a;
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.06);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
         }
 
         .btn-secondary:active {
             transform: scale(0.98);
+            background: rgba(255, 255, 255, 0.15);
         }
 
-        /* Loading Spinner - Enhanced */
         .loading-spinner {
             display: inline-block;
-            width: 18px;
-            height: 18px;
-            border: 2.5px solid rgba(255, 255, 255, 0.15);
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
             border-top-color: #ffffff;
             border-radius: 50%;
-            animation: spin 0.7s linear infinite;
+            animation: spin 0.6s linear infinite;
         }
 
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
 
-        /* Custom Scrollbar */
-        .report-content::-webkit-scrollbar {
-            width: 8px;
+        /* Hide scrollbars */
+        * {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
 
-        .report-content::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 10px;
+        *::-webkit-scrollbar {
+            display: none;
         }
 
-        .report-content::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
+        /* Responsive adjustments for very small screens */
+        @media (max-height: 640px) {
+            .call-top { padding: 12px 20px; }
+            .call-middle { padding: 12px; }
+            .avatar { width: 100px; height: 100px; }
+            .avatar svg { width: 48px; height: 48px; }
+            .pulse-ring { width: 120px; height: 120px; }
+            .contact-name { font-size: 22px; margin-bottom: 6px; }
+            .call-status, .call-timer { font-size: 14px; }
+            .audio-viz { height: 32px; margin-top: 12px; }
+            .controls-row { gap: 16px; margin-bottom: 24px; }
+            .control-btn { width: 52px; height: 52px; }
+            .control-btn svg { width: 22px; height: 22px; }
+            .end-call-btn { width: 64px; height: 64px; }
+            .end-call-btn svg { width: 28px; height: 28px; }
+            .call-bottom { padding-bottom: calc(24px + env(safe-area-inset-bottom)); }
         }
 
-        .report-content::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        /* Responsive */
-        @media (max-width: 480px) {
-            .call-top {
-                padding: 50px 20px 25px;
-            }
-
-            .avatar {
-                width: 140px;
-                height: 140px;
-            }
-
-            .avatar svg {
-                width: 64px;
-                height: 64px;
-            }
-
-            .contact-name {
-                font-size: 26px;
-            }
-
-            .controls-container {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 12px;
-            }
-
-            .control-button svg {
-                width: 20px;
-                height: 20px;
-            }
-
-            .control-label {
-                font-size: 9px;
-            }
-
-            .end-call-button {
-                width: 70px;
-                height: 70px;
-            }
-
-            .end-call-button svg {
-                width: 32px;
-                height: 32px;
-            }
-
-            .report-content {
-                padding: 32px 24px;
-            }
-
-            .report-header h2 {
-                font-size: 22px;
-            }
-
-            .form-input,
-            .form-textarea,
-            .form-select {
-                padding: 14px 16px;
-                font-size: 14px;
-            }
-
-            .btn {
-                padding: 16px 20px;
-                font-size: 15px;
-            }
-        }
-
-        /* iOS Safe Area */
-        @supports (padding: max(0px)) {
-            .call-screen {
-                padding-top: max(60px, env(safe-area-inset-top));
-                padding-bottom: max(40px, env(safe-area-inset-bottom));
-            }
+        @media (max-height: 568px) {
+            .call-top { padding: 8px 20px; }
+            .encryption-text { font-size: 11px; }
+            .avatar { width: 90px; height: 90px; }
+            .avatar svg { width: 42px; height: 42px; }
+            .pulse-ring { width: 110px; height: 110px; }
+            .contact-name { font-size: 20px; }
+            .control-btn { width: 48px; height: 48px; }
+            .control-btn svg { width: 20px; height: 20px; }
+            .control-label { font-size: 10px; bottom: -18px; }
         }
     </style>
 </head>
 <body>
-    <div class="bg-gradient"></div>
-    
     <div class="call-screen">
         <!-- Top Section -->
         <div class="call-top">
-            <div class="call-status" id="callStatus">Initializing</div>
-            <div class="call-timer" id="callTimer">00:00</div>
-            <div class="connection-quality">
-                <div class="quality-indicator"></div>
-                <span id="qualityText">Connecting</span>
+            <div class="encryption-text">
+                <svg class="lock-icon" viewBox="0 0 24 24">
+                    <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM9 8V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9z"/>
+                </svg>
+                <span>End-to-end encrypted</span>
             </div>
         </div>
 
         <!-- Middle Section -->
         <div class="call-middle">
             <div class="avatar-container">
-                <div class="pulse-waves" id="pulseWaves">
-                    <div class="pulse-wave"></div>
-                    <div class="pulse-wave"></div>
-                    <div class="pulse-wave"></div>
-                </div>
-                <div class="avatar" id="avatarElement">
+                <div class="pulse-ring" id="pulseRing"></div>
+                <div class="avatar">
                     <svg viewBox="0 0 24 24">
                         <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                     </svg>
@@ -794,11 +479,10 @@
             </div>
 
             <div class="contact-name">Technical Support</div>
-            <div class="contact-subtitle">Sharvika Support</div>
+            <div class="call-status" id="callStatus">Calling...</div>
+            <div class="call-timer" id="callTimer" style="display:none;">00:00</div>
 
             <div class="audio-viz" id="audioViz">
-                <div class="viz-bar"></div>
-                <div class="viz-bar"></div>
                 <div class="viz-bar"></div>
                 <div class="viz-bar"></div>
                 <div class="viz-bar"></div>
@@ -811,13 +495,8 @@
 
         <!-- Bottom Controls -->
         <div class="call-bottom">
-            <div class="status-info">
-                <div class="status-message" id="statusMessage">Setting up connection</div>
-                <div class="status-submessage" id="statusSubmessage">Please allow microphone access</div>
-            </div>
-
-            <div class="controls-container">
-                <div class="control-button" id="muteBtn">
+            <div class="controls-row">
+                <div class="control-btn" id="muteBtn">
                     <svg viewBox="0 0 24 24">
                         <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
                         <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
@@ -825,38 +504,30 @@
                     <div class="control-label">Mute</div>
                 </div>
 
-                <div class="control-button" id="speakerBtn">
+                <div class="control-btn" id="speakerBtn">
                     <svg viewBox="0 0 24 24">
                         <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
                     </svg>
                     <div class="control-label">Speaker</div>
                 </div>
 
-                <div class="control-button" id="videoBtn">
+                <div class="control-btn" id="videoBtn">
                     <svg viewBox="0 0 24 24">
                         <path d="M15 8v8H5V8h10m1-2H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4V7c0-.55-.45-1-1-1z"/>
                     </svg>
                     <div class="control-label">Video</div>
                 </div>
 
-                <div class="control-button" id="keypadBtn">
+                <div class="control-btn" id="addCallBtn">
                     <svg viewBox="0 0 24 24">
-                        <circle cx="5" cy="5" r="2"/>
-                        <circle cx="12" cy="5" r="2"/>
-                        <circle cx="19" cy="5" r="2"/>
-                        <circle cx="5" cy="12" r="2"/>
-                        <circle cx="12" cy="12" r="2"/>
-                        <circle cx="19" cy="12" r="2"/>
-                        <circle cx="5" cy="19" r="2"/>
-                        <circle cx="12" cy="19" r="2"/>
-                        <circle cx="19" cy="19" r="2"/>
+                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
                     </svg>
-                    <div class="control-label">Keypad</div>
+                    <div class="control-label">Add call</div>
                 </div>
             </div>
 
             <div class="end-call-container">
-                <div class="end-call-button" id="endCallBtn">
+                <div class="end-call-btn" id="endCallBtn">
                     <svg viewBox="0 0 24 24">
                         <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/>
                     </svg>
@@ -918,7 +589,7 @@
 
                 <div class="form-group">
                     <label class="form-label">Describe Your Problem</label>
-                    <textarea class="form-textarea" id="problemDescription" placeholder="Please provide detailed information about your issue..." required></textarea>
+                    <textarea class="form-textarea" id="problemDescription" placeholder="Please provide detailed information..." required></textarea>
                 </div>
 
                 <div class="form-actions">
@@ -930,157 +601,118 @@
     </div>
 
     <audio id="remoteAudio" autoplay></audio>
-    <audio id="ringtone" loop src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTGH0fPTgjMGHm7A7+OZRQ4ZdNDx0IU2CRxgvO3hnkwOEVmr5O+qVhgITKXi8biCLAYuhsr03ok/CA1esuzvl0cPElKi4vG7bRsFN47W883DcSoGKX3N8d6NOwgWZ7zs4pBADBRcruPwsWYdBjmP1PLPfS0GK4DN8t2RQAoUXrTo7KhWFQlHoe7rwmwhBTCH0fLUgTMGHm2+7+OYRAcadNDx0YU2Bxxgu+3gnEsOEFus5e6qVhgHSKPi8LqAKgYrgMrz3Y0/BwtdsuzvmEUPElKi4vC7bhoFN4/W88+/cSsFKYDN8d6NOwgWZ7rs4Y9ADBVbr+PwsGQeBDiP1PLPfS0GK4DN8t2RQAoUXrTo7KlVFQlHoe7rwmwhBTCG0fLUgTMGHm6/7+OYRAcadNDx0YU2Bxxgu+3hm0sPEFus5e6qVhgHSKPi8LqAKgYrgMrz3Y0+BwtdsuzvmEUPElKh4vC7bhoFOI/W88+/cSsFKYDN8d6NOwgWZ7rs4Y9ADBVbr+PwsGQeBDiP1PLPfS0GK4DN8t2RQAoUXrTo7KlVFQlHoe7rwmwhBTCG0fLUgTMGHm6/7+OYRAcadNDx0YU2Bxxgu+3hm0sPEA=="></audio>
+    <audio id="ringtone" loop preload="auto" src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTGH0fPTgjMGHm7A7+OZRQ4ZdNDx0IU2CRxgvO3hnkwOEVmr5O+qVhgITKXi8biCLAYuhsr03ok/CA1esuzvl0cPElKi4vG7bRsFN47W883DcSoGKX3N8d6NOwgWZ7zs4pBADBRcruPwsWYdBjmP1PLPfS0GK4DN8t2RQAoUXrTo7KhWFQlHoe7rwmwhBTCH0fLUgTMGHm2+7+OYRAcadNDx0YU2Bxxgu+3gnEsOEFus5e6qVhgHSKPi8LqAKgYrgMrz3Y0/BwtdsuzvmEUPElKi4vC7bhoFN4/W88+/cSsFKYDN8d6NOwgWZ7rs4Y9ADBVbr+PwsGQeBDiP1PLPfS0GK4DN8t2RQAoUXrTo7KlVFQlHoe7rwmwhBTCG0fLUgTMGHm6/7+OYRAcadNDx0YU2Bxxgu+3hm0sPEA=="></audio>
 
     <script>
-        const SUPPORT_PEER_ID = 'sharvika-support-2024';
-        
-        let peer, localStream, call, callTimer, callDuration = 0;
-        let isMuted = false, callEndTime = null;
-
-        // DOM Elements
+        const remoteAudio = document.getElementById('remoteAudio');
+        const ringtone = document.getElementById('ringtone');
         const callStatus = document.getElementById('callStatus');
         const callTimerDisplay = document.getElementById('callTimer');
-        const qualityText = document.getElementById('qualityText');
-        const statusMessage = document.getElementById('statusMessage');
-        const statusSubmessage = document.getElementById('statusSubmessage');
         const muteBtn = document.getElementById('muteBtn');
         const speakerBtn = document.getElementById('speakerBtn');
+        const videoBtn = document.getElementById('videoBtn');
         const endCallBtn = document.getElementById('endCallBtn');
-        const pulseWaves = document.getElementById('pulseWaves');
+        const pulseRing = document.getElementById('pulseRing');
         const audioViz = document.getElementById('audioViz');
         const errorBanner = document.getElementById('errorBanner');
         const reportModal = document.getElementById('reportModal');
         const reportForm = document.getElementById('reportForm');
         const skipReportBtn = document.getElementById('skipReportBtn');
-        const remoteAudio = document.getElementById('remoteAudio');
-        const ringtone = document.getElementById('ringtone');
-        const avatarElement = document.getElementById('avatarElement');
+
+        const SUPPORT_PEER_ID = 'sharvika-support-2024';
+        let peer, localStream, call, callTimer, callDuration = 0;
+        let isMuted = false, callEndTime = null;
+
+        // Prevent overscroll
+        document.body.addEventListener('touchmove', (e) => {
+            if (e.target === document.body) e.preventDefault();
+        }, { passive: false });
+
+        // Audio unlock for mobile
+        function unlockAudio() {
+            ringtone.play().then(() => { ringtone.pause(); ringtone.currentTime = 0; }).catch(() => {});
+            document.removeEventListener('touchstart', unlockAudio);
+            document.removeEventListener('click', unlockAudio);
+        }
+        document.addEventListener('touchstart', unlockAudio, { once: true });
+        document.addEventListener('click', unlockAudio, { once: true });
 
         // Initialize
         async function init() {
             try {
-                updateStatus('Initializing', 'Requesting microphone', 'Connecting');
-
                 localStream = await navigator.mediaDevices.getUserMedia({
-                    audio: {
-                        echoCancellation: true,
-                        noiseSuppression: true,
-                        autoGainControl: true
-                    },
+                    audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true },
                     video: false
                 });
 
-                console.log('Microphone granted');
-                updateStatus('Connecting', 'Establishing connection', 'Connecting');
-
                 const userPeerId = 'user-' + Math.random().toString(36).substr(2, 9);
-
                 peer = new Peer(userPeerId, {
                     debug: 2,
                     config: {
                         iceServers: [
                             { urls: 'stun:stun.l.google.com:19302' },
-                            { urls: 'stun:stun1.l.google.com:19302' },
-                            { urls: 'stun:stun2.l.google.com:19302' }
+                            { urls: 'stun:stun1.l.google.com:19302' }
                         ]
                     }
                 });
 
-                peer.on('open', function(id) {
-                    console.log('Connected with ID:', id);
-                    makeCall();
-                });
-
-                peer.on('error', function(err) {
-                    console.error('Peer error:', err);
-                    showError('Connection error. Please try again.');
-                });
+                peer.on('open', () => makeCall());
+                peer.on('error', () => showError('Connection error. Please try again.'));
 
             } catch (error) {
-                console.error('Init error:', error);
                 showError('Microphone access denied. Please allow and refresh.');
             }
         }
 
-        // Make call
         function makeCall() {
-            updateStatus('Calling', 'Connecting to support team', 'Calling');
-            ringtone.play();
-
+            ringtone.play().catch(() => {});
             call = peer.call(SUPPORT_PEER_ID, localStream);
 
-            call.on('stream', function(remoteStream) {
+            call.on('stream', (remoteStream) => {
                 ringtone.pause();
                 ringtone.currentTime = 0;
-                
                 remoteAudio.srcObject = remoteStream;
-                remoteAudio.play();
-                
+                remoteAudio.play().catch(() => {});
                 callConnected();
             });
 
-            call.on('close', function() {
-                endCall();
+            call.on('close', endCall);
+            call.on('error', () => {
+                showError('Support team unavailable.');
+                setTimeout(() => showReportModal(), 2000);
             });
 
-            call.on('error', function(err) {
-                console.error('Call error:', err);
-                showError('Support team unavailable. Please try later.');
-                setTimeout(() => showReportModal(), 3000);
-            });
-
-            setTimeout(function() {
+            setTimeout(() => {
                 if (call && !call.open) {
                     ringtone.pause();
-                    showError('No answer. Support team may be busy.');
+                    showError('No answer from support.');
                     setTimeout(() => showReportModal(), 2000);
                 }
             }, 30000);
         }
 
-        // Call connected
         function callConnected() {
-            updateStatus('Connected', 'Call in progress', 'Excellent');
-            callStatus.classList.add('connected');
-            pulseWaves.style.display = 'none';
-            avatarElement.classList.add('active');
+            callStatus.style.display = 'none';
+            callTimerDisplay.style.display = 'block';
+            pulseRing.style.display = 'none';
             audioViz.classList.add('active');
-            muteBtn.style.pointerEvents = 'auto';
-            speakerBtn.style.pointerEvents = 'auto';
 
             callDuration = 0;
-            callTimer = setInterval(function() {
+            callTimer = setInterval(() => {
                 callDuration++;
-                updateTimer();
+                const mins = Math.floor(callDuration / 60);
+                const secs = callDuration % 60;
+                callTimerDisplay.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
             }, 1000);
         }
 
-        // Update status
-        function updateStatus(status, message, quality) {
-            callStatus.textContent = status;
-            statusMessage.textContent = message;
-            statusSubmessage.textContent = status === 'Connected' ? 'Support team on line' : 'Please wait';
-            qualityText.textContent = quality;
-        }
-
-        // Update timer
-        function updateTimer() {
-            const minutes = Math.floor(callDuration / 60);
-            const seconds = callDuration % 60;
-            callTimerDisplay.textContent = 
-                String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0');
-        }
-
-        // Show error
         function showError(message) {
             errorBanner.textContent = message;
             errorBanner.classList.add('show');
-            setTimeout(() => errorBanner.classList.remove('show'), 5000);
+            setTimeout(() => errorBanner.classList.remove('show'), 4000);
         }
 
-        // Mute toggle
-        muteBtn.onclick = function() {
+        muteBtn.onclick = () => {
             if (!localStream) return;
             isMuted = !isMuted;
             localStream.getAudioTracks()[0].enabled = !isMuted;
@@ -1088,66 +720,46 @@
             muteBtn.querySelector('.control-label').textContent = isMuted ? 'Unmute' : 'Mute';
         };
 
-        // Speaker toggle
-        speakerBtn.onclick = function() {
-            speakerBtn.classList.toggle('active');
-        };
+        speakerBtn.onclick = () => speakerBtn.classList.toggle('active');
+        videoBtn.onclick = () => videoBtn.classList.toggle('active');
 
-        // End call
-        endCallBtn.onclick = function() {
+        endCallBtn.onclick = () => {
             callEndTime = new Date();
             endCall();
         };
 
         function endCall() {
             ringtone.pause();
-            
-            if (callTimer) {
-                clearInterval(callTimer);
-            }
+            if (callTimer) clearInterval(callTimer);
+            if (call) call.close();
+            if (localStream) localStream.getTracks().forEach(t => t.stop());
+            if (peer) peer.destroy();
 
-            if (call) {
-                call.close();
-            }
-
-            if (localStream) {
-                localStream.getTracks().forEach(track => track.stop());
-            }
-
-            if (peer) {
-                peer.destroy();
-            }
-
-            updateStatus('Call Ended', 'Thank you for calling', 'Disconnected');
-            callStatus.classList.remove('connected');
-            avatarElement.classList.remove('active');
+            callStatus.textContent = 'Call ended';
+            callStatus.style.display = 'block';
+            callTimerDisplay.style.display = 'none';
             audioViz.classList.remove('active');
-            pulseWaves.style.display = 'none';
+            pulseRing.style.display = 'none';
 
             setTimeout(() => showReportModal(), 1500);
         }
 
-        // Show report modal
         function showReportModal() {
             reportModal.classList.add('show');
         }
 
-        // Handle report submission
-        reportForm.onsubmit = function(e) {
+        reportForm.onsubmit = (e) => {
             e.preventDefault();
             submitReport();
         };
 
-        skipReportBtn.onclick = function() {
+        skipReportBtn.onclick = () => {
             reportModal.classList.remove('show');
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 500);
+            setTimeout(() => window.location.href = 'index.html', 300);
         };
 
         function submitReport() {
             const submitBtn = document.getElementById('submitReportBtn');
-            const originalText = submitBtn.textContent;
             submitBtn.innerHTML = '<div class="loading-spinner"></div>';
             submitBtn.disabled = true;
 
@@ -1163,29 +775,19 @@
                 description: document.getElementById('problemDescription').value
             };
 
-            // Save to localStorage
             let reports = JSON.parse(localStorage.getItem('technicalReports') || '[]');
             reports.unshift(reportData);
             localStorage.setItem('technicalReports', JSON.stringify(reports));
 
             setTimeout(() => {
-                statusMessage.textContent = 'Report submitted successfully';
-                statusSubmessage.textContent = 'Our team will contact you soon';
                 reportModal.classList.remove('show');
-
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 2000);
+                setTimeout(() => window.location.href = 'index.html', 500);
             }, 1500);
         }
 
-        // Prevent back navigation
         history.pushState(null, null, location.href);
-        window.onpopstate = function() {
-            history.go(1);
-        };
+        window.onpopstate = () => history.go(1);
 
-        // Start
         window.onload = init;
     </script>
 </body>
