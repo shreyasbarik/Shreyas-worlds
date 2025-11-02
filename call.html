@@ -43,9 +43,45 @@
             background: #000000;
         }
 
+        /* Connection Status Badge */
+        .connection-status {
+            position: fixed;
+            top: calc(env(safe-area-inset-top) + 16px);
+            left: 16px;
+            right: 16px;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 12px 16px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ef4444;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .status-dot.connected {
+            background: #10b981;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
         /* Top Section */
         .call-top {
-            padding: 16px 20px;
+            padding: 60px 20px 16px;
             text-align: center;
             flex-shrink: 0;
         }
@@ -263,7 +299,7 @@
         /* Error Banner */
         .error-banner {
             position: fixed;
-            top: calc(env(safe-area-inset-top) + 16px);
+            top: calc(env(safe-area-inset-top) + 70px);
             left: 16px;
             right: 16px;
             background: rgba(220, 38, 38, 0.95);
@@ -524,7 +560,7 @@
 
         /* Responsive */
         @media (max-height: 640px) {
-            .call-top { padding: 12px 20px; }
+            .call-top { padding: 60px 20px 12px; }
             .call-middle { padding: 12px; }
             .avatar { width: 100px; height: 100px; }
             .avatar svg { width: 48px; height: 48px; }
@@ -541,7 +577,7 @@
         }
 
         @media (max-height: 568px) {
-            .call-top { padding: 8px 20px; }
+            .call-top { padding: 60px 20px 8px; }
             .encryption-text { font-size: 11px; }
             .avatar { width: 90px; height: 90px; }
             .avatar svg { width: 42px; height: 42px; }
@@ -568,6 +604,12 @@
     </style>
 </head>
 <body>
+    <!-- Connection Status -->
+    <div class="connection-status" id="connectionStatus">
+        <div class="status-dot" id="statusDot"></div>
+        <span id="statusText">Connecting to server...</span>
+    </div>
+
     <div class="call-screen">
         <!-- Top Section -->
         <div class="call-top">
@@ -591,7 +633,7 @@
             </div>
 
             <div class="contact-name">Technical Support</div>
-            <div class="call-status" id="callStatus">Calling...</div>
+            <div class="call-status" id="callStatus">Connecting...</div>
             <div class="call-timer" id="callTimer" style="display:none;">00:00</div>
 
             <div class="audio-viz" id="audioViz">
@@ -712,7 +754,7 @@
         </div>
     </div>
 
-    <audio id="remoteAudio" autoplay></audio>
+    <audio id="remoteAudio" autoplay playsinline></audio>
     <audio id="ringtone" loop preload="auto" src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTGH0fPTgjMGHm7A7+OZRQ4ZdNDx0IU2CRxgvO3hnkwOEVmr5O+qVhgITKXi8biCLAYuhsr03ok/CA1esuzvl0cPElKi4vG7bRsFN47W883DcSoGKX3N8d6NOwgWZ7zs4pBADBRcruPwsWYdBjmP1PLPfS0GK4DN8t2RQAoUXrTo7KhWFQlHoe7rwmwhBTCH0fLUgTMGHm2+7+OYRAcadNDx0YU2Bxxgu+3gnEsOEFus5e6qVhgHSKPi8LqAKgYrgMrz3Y0/BwtdsuzvmEUPElKi4vC7bhoFN4/W88+/cSsFKYDN8d6NOwgWZ7rs4Y9ADBVbr+PwsGQeBDiP1PLPfS0GK4DN8t2RQAoUXrTo7KlVFQlHoe7rwmwhBTCG0fLUgTMGHm6/7+OYRAcadNDx0YU2Bxxgu+3hm0sPEA=="></audio>
 
     <script>
@@ -730,10 +772,24 @@
         const reportModal = document.getElementById('reportModal');
         const reportForm = document.getElementById('reportForm');
         const skipReportBtn = document.getElementById('skipReportBtn');
+        const statusDot = document.getElementById('statusDot');
+        const statusText = document.getElementById('statusText');
 
         const SUPPORT_PEER_ID = 'sharvika-support-2024';
         let peer, localStream, call, callTimer, callDuration = 0;
         let isMuted = false, callEndTime = null;
+        let retryCount = 0;
+        const MAX_RETRIES = 3;
+
+        // Update connection status
+        function updateConnectionStatus(status, message) {
+            statusText.textContent = message;
+            if (status === 'connected') {
+                statusDot.classList.add('connected');
+            } else {
+                statusDot.classList.remove('connected');
+            }
+        }
 
         // Prevent overscroll
         document.body.addEventListener('touchmove', (e) => {
@@ -743,6 +799,7 @@
         // Audio unlock for mobile
         function unlockAudio() {
             ringtone.play().then(() => { ringtone.pause(); ringtone.currentTime = 0; }).catch(() => {});
+            remoteAudio.play().then(() => remoteAudio.pause()).catch(() => {});
             document.removeEventListener('touchstart', unlockAudio);
             document.removeEventListener('click', unlockAudio);
         }
@@ -752,89 +809,160 @@
         // Initialize
         async function init() {
             try {
+                updateConnectionStatus('connecting', 'Getting microphone permission...');
+                
                 localStream = await navigator.mediaDevices.getUserMedia({
-                    audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true },
+                    audio: { 
+                        echoCancellation: true, 
+                        noiseSuppression: true, 
+                        autoGainControl: true 
+                    },
                     video: false
                 });
 
+                updateConnectionStatus('connecting', 'Connecting to server...');
+                
                 const userPeerId = 'user-' + Math.random().toString(36).substr(2, 9);
+                
                 peer = new Peer(userPeerId, {
                     debug: 2,
+                    host: '0.peerjs.com',
+                    port: 443,
+                    path: '/',
+                    secure: true,
                     config: {
                         iceServers: [
                             { urls: 'stun:stun.l.google.com:19302' },
                             { urls: 'stun:stun1.l.google.com:19302' },
-                            { urls: 'stun:stun2.l.google.com:19302' }
-                        ]
+                            { urls: 'stun:stun2.l.google.com:19302' },
+                            { urls: 'stun:stun3.l.google.com:19302' },
+                            { urls: 'stun:stun4.l.google.com:19302' }
+                        ],
+                        iceTransportPolicy: 'all'
                     }
                 });
 
                 peer.on('open', (id) => {
-                    console.log('User Peer connected with ID:', id);
-                    makeCall();
+                    console.log('✅ User Peer connected with ID:', id);
+                    updateConnectionStatus('connected', 'Connected • ID: ' + id.substr(0, 12) + '...');
+                    callStatus.textContent = 'Ready to call';
+                    
+                    // Wait a bit for connection to stabilize, then make call
+                    setTimeout(() => {
+                        makeCall();
+                    }, 1000);
                 });
 
                 peer.on('error', (err) => {
-                    console.error('Peer error:', err);
-                    showError('Connection error. Please try again.');
+                    console.error('❌ Peer error:', err);
+                    updateConnectionStatus('error', 'Connection failed');
+                    
+                    if (err.type === 'peer-unavailable') {
+                        showError('Support team is offline. Please try again later.');
+                        setTimeout(() => showReportModal(), 2000);
+                    } else if (retryCount < MAX_RETRIES) {
+                        retryCount++;
+                        showError(`Connection error. Retrying (${retryCount}/${MAX_RETRIES})...`);
+                        setTimeout(() => {
+                            if (peer) peer.destroy();
+                            setTimeout(init, 2000);
+                        }, 3000);
+                    } else {
+                        showError('Unable to connect. Please check your internet.');
+                        setTimeout(() => showReportModal(), 3000);
+                    }
+                });
+
+                peer.on('disconnected', () => {
+                    console.warn('⚠️ Peer disconnected');
+                    updateConnectionStatus('disconnected', 'Disconnected');
+                    if (retryCount < MAX_RETRIES) {
+                        setTimeout(() => {
+                            console.log('🔄 Attempting to reconnect...');
+                            peer.reconnect();
+                        }, 2000);
+                    }
                 });
 
             } catch (error) {
-                console.error('Media error:', error);
+                console.error('❌ Media error:', error);
+                updateConnectionStatus('error', 'Microphone access denied');
                 showError('Microphone access denied. Please allow and refresh.');
+                setTimeout(() => showReportModal(), 3000);
             }
         }
 
         function makeCall() {
-            console.log('Making call to:', SUPPORT_PEER_ID);
+            console.log('📞 Making call to:', SUPPORT_PEER_ID);
+            callStatus.textContent = 'Calling...';
+            updateConnectionStatus('calling', 'Calling support...');
+            
             ringtone.play().catch(() => {});
             
             call = peer.call(SUPPORT_PEER_ID, localStream, {
-                metadata: { reason: 'User requesting technical support', timestamp: new Date().toISOString() }
+                metadata: { 
+                    reason: 'User requesting technical support', 
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent
+                }
             });
 
             if (!call) {
-                console.error('Failed to create call');
+                console.error('❌ Failed to create call');
                 showError('Failed to initiate call');
+                updateConnectionStatus('error', 'Call failed');
                 return;
             }
 
+            console.log('📱 Call created, waiting for answer...');
+
             call.on('stream', (remoteStream) => {
-                console.log('Received remote stream');
+                console.log('🎙️ Received remote stream');
                 ringtone.pause();
                 ringtone.currentTime = 0;
                 remoteAudio.srcObject = remoteStream;
-                remoteAudio.play().catch(() => {});
+                remoteAudio.play().catch((e) => {
+                    console.error('Audio play error:', e);
+                    // Try again on user interaction
+                    document.addEventListener('touchstart', () => {
+                        remoteAudio.play().catch(() => {});
+                    }, { once: true });
+                });
                 callConnected();
             });
 
             call.on('close', () => {
-                console.log('Call closed');
+                console.log('📵 Call closed');
                 endCall();
             });
 
             call.on('error', (err) => {
-                console.error('Call error:', err);
-                showError('Support team unavailable.');
+                console.error('❌ Call error:', err);
+                ringtone.pause();
+                showError('Call failed. Support may be unavailable.');
+                updateConnectionStatus('error', 'Call error');
                 setTimeout(() => showReportModal(), 2000);
             });
 
+            // No answer timeout
             setTimeout(() => {
-                if (call && !call.open) {
-                    console.log('Call timeout - no answer');
+                if (call && !call.peerConnection) {
+                    console.log('⏱️ Call timeout - no answer');
                     ringtone.pause();
                     showError('No answer from support.');
+                    updateConnectionStatus('error', 'No answer');
                     setTimeout(() => showReportModal(), 2000);
                 }
             }, 30000);
         }
 
         function callConnected() {
-            console.log('Call connected');
+            console.log('✅ Call connected successfully');
             callStatus.style.display = 'none';
             callTimerDisplay.style.display = 'block';
             pulseRing.style.display = 'none';
             audioViz.classList.add('active');
+            updateConnectionStatus('connected', 'Call in progress');
 
             callDuration = 0;
             callTimer = setInterval(() => {
@@ -846,9 +974,10 @@
         }
 
         function showError(message) {
+            console.log('⚠️ Error:', message);
             errorBanner.textContent = message;
             errorBanner.classList.add('show');
-            setTimeout(() => errorBanner.classList.remove('show'), 4000);
+            setTimeout(() => errorBanner.classList.remove('show'), 5000);
         }
 
         muteBtn.onclick = () => {
@@ -879,6 +1008,7 @@
             callTimerDisplay.style.display = 'none';
             audioViz.classList.remove('active');
             pulseRing.style.display = 'none';
+            updateConnectionStatus('disconnected', 'Call ended');
 
             setTimeout(() => showReportModal(), 1500);
         }
@@ -894,7 +1024,13 @@
 
         skipReportBtn.onclick = () => {
             reportModal.classList.remove('show');
-            setTimeout(() => window.location.href = 'index.html', 300);
+            setTimeout(() => {
+                if (window.history.length > 1) {
+                    window.history.back();
+                } else {
+                    window.location.href = '/';
+                }
+            }, 300);
         };
 
         function submitReport() {
@@ -920,7 +1056,13 @@
 
             setTimeout(() => {
                 reportModal.classList.remove('show');
-                setTimeout(() => window.location.href = 'index.html', 500);
+                setTimeout(() => {
+                    if (window.history.length > 1) {
+                        window.history.back();
+                    } else {
+                        window.location.href = '/';
+                    }
+                }, 500);
             }, 1500);
         }
 
