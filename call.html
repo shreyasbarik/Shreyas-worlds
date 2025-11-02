@@ -7,7 +7,7 @@
     <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -25,8 +25,8 @@
         }
 
         body {
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(180deg, #0a4d3c 0%, #0d1c16 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #000000;
             color: #ffffff;
             -webkit-font-smoothing: antialiased;
         }
@@ -40,9 +40,10 @@
             justify-content: space-between;
             position: relative;
             padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+            background: #000000;
         }
 
-        /* Top Section - Minimal like WhatsApp */
+        /* Top Section */
         .call-top {
             padding: 16px 20px;
             text-align: center;
@@ -51,7 +52,7 @@
 
         .encryption-text {
             font-size: 12px;
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.4);
             font-weight: 400;
             display: flex;
             align-items: center;
@@ -62,10 +63,10 @@
         .lock-icon {
             width: 12px;
             height: 12px;
-            fill: rgba(255, 255, 255, 0.6);
+            fill: rgba(255, 255, 255, 0.4);
         }
 
-        /* Middle Section - Avatar and Info */
+        /* Middle Section */
         .call-middle {
             flex: 1;
             display: flex;
@@ -89,7 +90,7 @@
             width: 140px;
             height: 140px;
             border-radius: 50%;
-            border: 2px solid rgba(37, 211, 102, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.15);
             animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
 
@@ -102,43 +103,45 @@
             width: 120px;
             height: 120px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
             z-index: 2;
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .avatar svg {
             width: 56px;
             height: 56px;
-            fill: rgba(255, 255, 255, 0.9);
+            fill: rgba(255, 255, 255, 0.7);
         }
 
         .contact-name {
             font-size: 26px;
-            font-weight: 400;
+            font-weight: 500;
             margin-bottom: 8px;
             color: #ffffff;
             text-align: center;
+            letter-spacing: -0.02em;
         }
 
         .call-status {
             font-size: 15px;
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.5);
             margin-bottom: 4px;
             font-weight: 400;
         }
 
         .call-timer {
             font-size: 15px;
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.6);
             font-weight: 400;
             font-variant-numeric: tabular-nums;
         }
 
-        /* Audio Visualizer - Compact */
+        /* Audio Visualizer */
         .audio-viz {
             display: none;
             justify-content: center;
@@ -152,7 +155,7 @@
 
         .viz-bar {
             width: 3px;
-            background: rgba(37, 211, 102, 0.8);
+            background: rgba(255, 255, 255, 0.6);
             border-radius: 2px;
             animation: viz-animate 1.2s ease-in-out infinite;
         }
@@ -166,11 +169,11 @@
         .viz-bar:nth-child(7) { animation-delay: 0.6s; height: 12px; }
 
         @keyframes viz-animate {
-            0%, 100% { transform: scaleY(0.3); opacity: 0.5; }
+            0%, 100% { transform: scaleY(0.3); opacity: 0.4; }
             50% { transform: scaleY(1); opacity: 1; }
         }
 
-        /* Bottom Controls - WhatsApp Style */
+        /* Bottom Controls */
         .call-bottom {
             padding: 0 24px calc(32px + env(safe-area-inset-bottom)) 24px;
             flex-shrink: 0;
@@ -186,7 +189,7 @@
         .control-btn {
             width: 56px;
             height: 56px;
-            background: rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.08);
             border: none;
             border-radius: 50%;
             display: flex;
@@ -195,11 +198,12 @@
             cursor: pointer;
             transition: all 0.2s ease;
             position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .control-btn:active {
             transform: scale(0.9);
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.15);
         }
 
         .control-btn.active {
@@ -209,19 +213,19 @@
         .control-btn svg {
             width: 24px;
             height: 24px;
-            fill: #ffffff;
+            fill: rgba(255, 255, 255, 0.9);
             transition: fill 0.2s;
         }
 
         .control-btn.active svg {
-            fill: #075e54;
+            fill: #000000;
         }
 
         .control-label {
             position: absolute;
             bottom: -20px;
             font-size: 11px;
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.5);
             white-space: nowrap;
             font-weight: 400;
         }
@@ -234,14 +238,14 @@
         .end-call-btn {
             width: 68px;
             height: 68px;
-            background: #ff3b30;
+            background: #dc2626;
             border: none;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(255, 59, 48, 0.4);
+            box-shadow: 0 4px 16px rgba(220, 38, 38, 0.3);
             transition: all 0.2s ease;
         }
 
@@ -262,13 +266,15 @@
             top: calc(env(safe-area-inset-top) + 16px);
             left: 16px;
             right: 16px;
-            background: rgba(255, 59, 48, 0.95);
+            background: rgba(220, 38, 38, 0.95);
+            backdrop-filter: blur(10px);
             padding: 14px 18px;
             border-radius: 12px;
             display: none;
             z-index: 1000;
             font-size: 14px;
             animation: slideDown 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .error-banner.show { display: block; }
@@ -278,11 +284,12 @@
             to { transform: translateY(0); opacity: 1; }
         }
 
-        /* Report Modal */
+        /* Premium Report Modal */
         .report-modal {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.95);
+            background: rgba(0, 0, 0, 0.98);
+            backdrop-filter: blur(20px);
             display: none;
             align-items: center;
             justify-content: center;
@@ -290,131 +297,218 @@
             padding: 20px;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
+            animation: fadeIn 0.3s ease;
         }
 
         .report-modal.show { display: flex; }
 
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
         .report-content {
-            background: #1f1f1f;
-            border-radius: 20px;
-            padding: 32px 24px;
-            max-width: 480px;
+            background: linear-gradient(135deg, #0a0a0a 0%, #000000 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 40px 28px;
+            max-width: 500px;
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8),
+                        0 0 1px rgba(255, 255, 255, 0.1) inset;
+            animation: scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes scaleIn {
+            from { 
+                transform: scale(0.95) translateY(20px); 
+                opacity: 0; 
+            }
+            to { 
+                transform: scale(1) translateY(0); 
+                opacity: 1; 
+            }
         }
 
         .report-header {
             text-align: center;
-            margin-bottom: 28px;
+            margin-bottom: 36px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         .report-header h2 {
-            font-size: 22px;
-            font-weight: 500;
+            font-size: 24px;
+            font-weight: 600;
             margin-bottom: 8px;
+            letter-spacing: -0.03em;
+            color: #ffffff;
         }
 
         .report-header p {
             font-size: 14px;
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.45);
+            font-weight: 400;
+            letter-spacing: -0.01em;
         }
 
         .report-form {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 24px;
         }
 
         .form-group {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
         }
 
         .form-label {
             font-size: 13px;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.7);
             font-weight: 500;
+            letter-spacing: -0.01em;
         }
 
         .form-input, .form-textarea, .form-select {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 12px;
-            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 16px 18px;
             color: #ffffff;
             font-size: 15px;
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+            letter-spacing: -0.01em;
+            font-weight: 400;
         }
 
-        .form-input:focus, .form-textarea:focus, .form-select:focus {
+        .form-input:focus, 
+        .form-textarea:focus, 
+        .form-select:focus {
             outline: none;
-            border-color: #25d366;
-            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.06);
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.03);
+        }
+
+        .form-input::placeholder, 
+        .form-textarea::placeholder {
+            color: rgba(255, 255, 255, 0.25);
         }
 
         .form-textarea {
             resize: vertical;
-            min-height: 100px;
+            min-height: 110px;
+            line-height: 1.6;
         }
 
         .form-select {
             cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='14' height='8' viewBox='0 0 14 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L7 7L13 1' stroke='rgba(255,255,255,0.4)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 18px center;
+            padding-right: 50px;
+        }
+
+        .form-select option {
+            background: #0a0a0a;
+            color: #ffffff;
+            padding: 12px;
         }
 
         .form-actions {
             display: flex;
             gap: 12px;
-            margin-top: 8px;
+            margin-top: 12px;
         }
 
         .btn {
             flex: 1;
-            padding: 16px;
-            border-radius: 12px;
+            padding: 17px 24px;
+            border-radius: 14px;
             border: none;
             font-size: 16px;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: -0.02em;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .btn:hover::before {
+            opacity: 1;
         }
 
         .btn-primary {
-            background: #25d366;
-            color: #ffffff;
+            background: linear-gradient(135deg, #ffffff 0%, #e5e5e5 100%);
+            color: #000000;
+            box-shadow: 0 4px 16px rgba(255, 255, 255, 0.12);
         }
 
         .btn-primary:active {
             transform: scale(0.98);
-            background: #20bd5a;
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
             color: #ffffff;
+            border: 1.5px solid rgba(255, 255, 255, 0.1);
         }
 
         .btn-secondary:active {
             transform: scale(0.98);
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.08);
         }
 
         .loading-spinner {
             display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-top-color: #ffffff;
+            width: 18px;
+            height: 18px;
+            border: 2.5px solid rgba(0, 0, 0, 0.15);
+            border-top-color: #000000;
             border-radius: 50%;
-            animation: spin 0.6s linear infinite;
+            animation: spin 0.7s linear infinite;
         }
 
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
 
-        /* Hide scrollbars */
+        /* Custom Scrollbar for Modal */
+        .report-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .report-content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
+        }
+
+        .report-content::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .report-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Hide scrollbars on main screen */
         * {
             -ms-overflow-style: none;
             scrollbar-width: none;
@@ -424,7 +518,11 @@
             display: none;
         }
 
-        /* Responsive adjustments for very small screens */
+        .report-content::-webkit-scrollbar {
+            display: block;
+        }
+
+        /* Responsive */
         @media (max-height: 640px) {
             .call-top { padding: 12px 20px; }
             .call-middle { padding: 12px; }
@@ -452,6 +550,20 @@
             .control-btn { width: 48px; height: 48px; }
             .control-btn svg { width: 20px; height: 20px; }
             .control-label { font-size: 10px; bottom: -18px; }
+        }
+
+        @media (max-width: 480px) {
+            .report-content {
+                padding: 32px 24px;
+            }
+            
+            .report-header h2 {
+                font-size: 22px;
+            }
+            
+            .form-input, .form-textarea, .form-select {
+                font-size: 16px;
+            }
         }
     </style>
 </head>
@@ -539,7 +651,7 @@
     <!-- Error Banner -->
     <div class="error-banner" id="errorBanner"></div>
 
-    <!-- Report Modal -->
+    <!-- Premium Report Modal -->
     <div class="report-modal" id="reportModal">
         <div class="report-content">
             <div class="report-header">
@@ -550,17 +662,17 @@
             <form class="report-form" id="reportForm">
                 <div class="form-group">
                     <label class="form-label">Your Name</label>
-                    <input type="text" class="form-input" id="userName" placeholder="Enter your name" required>
+                    <input type="text" class="form-input" id="userName" placeholder="Enter your name" required autocomplete="name">
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Contact Number</label>
-                    <input type="tel" class="form-input" id="userPhone" placeholder="Enter your phone number" required>
+                    <input type="tel" class="form-input" id="userPhone" placeholder="Enter your phone number" required autocomplete="tel">
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Email Address</label>
-                    <input type="email" class="form-input" id="userEmail" placeholder="Enter your email" required>
+                    <input type="email" class="form-input" id="userEmail" placeholder="Enter your email" required autocomplete="email">
                 </div>
 
                 <div class="form-group">
