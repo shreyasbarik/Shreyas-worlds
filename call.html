@@ -763,24 +763,44 @@
                     config: {
                         iceServers: [
                             { urls: 'stun:stun.l.google.com:19302' },
-                            { urls: 'stun:stun1.l.google.com:19302' }
+                            { urls: 'stun:stun1.l.google.com:19302' },
+                            { urls: 'stun:stun2.l.google.com:19302' }
                         ]
                     }
                 });
 
-                peer.on('open', () => makeCall());
-                peer.on('error', () => showError('Connection error. Please try again.'));
+                peer.on('open', (id) => {
+                    console.log('User Peer connected with ID:', id);
+                    makeCall();
+                });
+
+                peer.on('error', (err) => {
+                    console.error('Peer error:', err);
+                    showError('Connection error. Please try again.');
+                });
 
             } catch (error) {
+                console.error('Media error:', error);
                 showError('Microphone access denied. Please allow and refresh.');
             }
         }
 
         function makeCall() {
+            console.log('Making call to:', SUPPORT_PEER_ID);
             ringtone.play().catch(() => {});
-            call = peer.call(SUPPORT_PEER_ID, localStream);
+            
+            call = peer.call(SUPPORT_PEER_ID, localStream, {
+                metadata: { reason: 'User requesting technical support', timestamp: new Date().toISOString() }
+            });
+
+            if (!call) {
+                console.error('Failed to create call');
+                showError('Failed to initiate call');
+                return;
+            }
 
             call.on('stream', (remoteStream) => {
+                console.log('Received remote stream');
                 ringtone.pause();
                 ringtone.currentTime = 0;
                 remoteAudio.srcObject = remoteStream;
@@ -788,14 +808,20 @@
                 callConnected();
             });
 
-            call.on('close', endCall);
-            call.on('error', () => {
+            call.on('close', () => {
+                console.log('Call closed');
+                endCall();
+            });
+
+            call.on('error', (err) => {
+                console.error('Call error:', err);
                 showError('Support team unavailable.');
                 setTimeout(() => showReportModal(), 2000);
             });
 
             setTimeout(() => {
                 if (call && !call.open) {
+                    console.log('Call timeout - no answer');
                     ringtone.pause();
                     showError('No answer from support.');
                     setTimeout(() => showReportModal(), 2000);
@@ -804,6 +830,7 @@
         }
 
         function callConnected() {
+            console.log('Call connected');
             callStatus.style.display = 'none';
             callTimerDisplay.style.display = 'block';
             pulseRing.style.display = 'none';
