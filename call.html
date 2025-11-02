@@ -2,827 +2,168 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-    <title>Voice Call - SharvikaEducation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Call Support - Sharvika</title>
     <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        html, body {
-            width: 100%;
-            height: 100%;
-            position: fixed;
-            overflow: hidden;
-            overscroll-behavior: none;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #000000;
-            color: #ffffff;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .call-screen {
-            width: 100%;
-            height: 100vh;
-            height: 100dvh;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            position: relative;
-            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-            background: #000000;
-        }
-
-        /* Connection Status Badge */
-        .connection-status {
-            position: fixed;
-            top: calc(env(safe-area-inset-top) + 16px);
-            left: 16px;
-            right: 16px;
-            background: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(10px);
-            padding: 12px 16px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            z-index: 1000;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #ef4444;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        .status-dot.connected {
-            background: #10b981;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        /* Top Section */
-        .call-top {
-            padding: 60px 20px 16px;
-            text-align: center;
-            flex-shrink: 0;
-        }
-
-        .encryption-text {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.4);
-            font-weight: 400;
+            font-family: 'Inter', sans-serif;
+            background: #000;
+            color: #fff;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
-        }
-
-        .lock-icon {
-            width: 12px;
-            height: 12px;
-            fill: rgba(255, 255, 255, 0.4);
-        }
-
-        /* Middle Section */
-        .call-middle {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            min-height: 100vh;
             padding: 20px;
-            min-height: 0;
         }
 
-        .avatar-container {
-            position: relative;
-            margin-bottom: 24px;
-        }
-
-        .pulse-ring {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            border: 2px solid rgba(255, 255, 255, 0.15);
-            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-
-        @keyframes pulse-ring {
-            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-            100% { transform: translate(-50%, -50%) scale(1.4); opacity: 0; }
+        .container {
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
         }
 
         .avatar {
             width: 120px;
             height: 120px;
+            background: rgba(255,255,255,0.1);
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05);
+            margin: 0 auto 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
-            z-index: 2;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
         }
 
         .avatar svg {
-            width: 56px;
-            height: 56px;
-            fill: rgba(255, 255, 255, 0.7);
+            width: 60px;
+            height: 60px;
+            fill: rgba(255,255,255,0.7);
         }
 
-        .contact-name {
-            font-size: 26px;
-            font-weight: 500;
-            margin-bottom: 8px;
-            color: #ffffff;
-            text-align: center;
-            letter-spacing: -0.02em;
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
         }
 
-        .call-status {
-            font-size: 15px;
-            color: rgba(255, 255, 255, 0.5);
-            margin-bottom: 4px;
-            font-weight: 400;
-        }
-
-        .call-timer {
-            font-size: 15px;
-            color: rgba(255, 255, 255, 0.6);
-            font-weight: 400;
-            font-variant-numeric: tabular-nums;
-        }
-
-        /* Audio Visualizer */
-        .audio-viz {
-            display: none;
-            justify-content: center;
-            align-items: center;
-            gap: 4px;
-            height: 40px;
-            margin-top: 16px;
-        }
-
-        .audio-viz.active { display: flex; }
-
-        .viz-bar {
-            width: 3px;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 2px;
-            animation: viz-animate 1.2s ease-in-out infinite;
-        }
-
-        .viz-bar:nth-child(1) { animation-delay: 0s; height: 12px; }
-        .viz-bar:nth-child(2) { animation-delay: 0.1s; height: 16px; }
-        .viz-bar:nth-child(3) { animation-delay: 0.2s; height: 20px; }
-        .viz-bar:nth-child(4) { animation-delay: 0.3s; height: 24px; }
-        .viz-bar:nth-child(5) { animation-delay: 0.4s; height: 20px; }
-        .viz-bar:nth-child(6) { animation-delay: 0.5s; height: 16px; }
-        .viz-bar:nth-child(7) { animation-delay: 0.6s; height: 12px; }
-
-        @keyframes viz-animate {
-            0%, 100% { transform: scaleY(0.3); opacity: 0.4; }
-            50% { transform: scaleY(1); opacity: 1; }
-        }
-
-        /* Bottom Controls */
-        .call-bottom {
-            padding: 0 24px calc(32px + env(safe-area-inset-bottom)) 24px;
-            flex-shrink: 0;
-        }
-
-        .controls-row {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 32px;
-        }
-
-        .control-btn {
-            width: 56px;
-            height: 56px;
-            background: rgba(255, 255, 255, 0.08);
-            border: none;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            position: relative;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .control-btn:active {
-            transform: scale(0.9);
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .control-btn.active {
-            background: rgba(255, 255, 255, 0.95);
-        }
-
-        .control-btn svg {
-            width: 24px;
-            height: 24px;
-            fill: rgba(255, 255, 255, 0.9);
-            transition: fill 0.2s;
-        }
-
-        .control-btn.active svg {
-            fill: #000000;
-        }
-
-        .control-label {
-            position: absolute;
-            bottom: -20px;
-            font-size: 11px;
-            color: rgba(255, 255, 255, 0.5);
-            white-space: nowrap;
-            font-weight: 400;
-        }
-
-        .end-call-container {
-            display: flex;
-            justify-content: center;
-        }
-
-        .end-call-btn {
-            width: 68px;
-            height: 68px;
-            background: #dc2626;
-            border: none;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 16px rgba(220, 38, 38, 0.3);
-            transition: all 0.2s ease;
-        }
-
-        .end-call-btn:active {
-            transform: scale(0.92);
-        }
-
-        .end-call-btn svg {
-            width: 30px;
-            height: 30px;
-            fill: #ffffff;
-            transform: rotate(135deg);
-        }
-
-        /* Error Banner */
-        .error-banner {
-            position: fixed;
-            top: calc(env(safe-area-inset-top) + 70px);
-            left: 16px;
-            right: 16px;
-            background: rgba(220, 38, 38, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 14px 18px;
-            border-radius: 12px;
-            display: none;
-            z-index: 1000;
-            font-size: 14px;
-            animation: slideDown 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .error-banner.show { display: block; }
-
-        @keyframes slideDown {
-            from { transform: translateY(-100%); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        /* Premium Report Modal */
-        .report-modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.98);
-            backdrop-filter: blur(20px);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            padding: 20px;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .report-modal.show { display: flex; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .report-content {
-            background: linear-gradient(135deg, #0a0a0a 0%, #000000 100%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 24px;
-            padding: 40px 28px;
-            max-width: 500px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8),
-                        0 0 1px rgba(255, 255, 255, 0.1) inset;
-            animation: scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        @keyframes scaleIn {
-            from { 
-                transform: scale(0.95) translateY(20px); 
-                opacity: 0; 
-            }
-            to { 
-                transform: scale(1) translateY(0); 
-                opacity: 1; 
-            }
-        }
-
-        .report-header {
-            text-align: center;
-            margin-bottom: 36px;
-            padding-bottom: 24px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        .report-header h2 {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            letter-spacing: -0.03em;
-            color: #ffffff;
-        }
-
-        .report-header p {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.45);
-            font-weight: 400;
-            letter-spacing: -0.01em;
-        }
-
-        .report-form {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .form-label {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.7);
-            font-weight: 500;
-            letter-spacing: -0.01em;
-        }
-
-        .form-input, .form-textarea, .form-select {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1.5px solid rgba(255, 255, 255, 0.08);
-            border-radius: 14px;
-            padding: 16px 18px;
-            color: #ffffff;
-            font-size: 15px;
-            font-family: 'Inter', sans-serif;
-            transition: all 0.3s ease;
-            letter-spacing: -0.01em;
-            font-weight: 400;
-        }
-
-        .form-input:focus, 
-        .form-textarea:focus, 
-        .form-select:focus {
-            outline: none;
-            border-color: rgba(255, 255, 255, 0.25);
-            background: rgba(255, 255, 255, 0.06);
-            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.03);
-        }
-
-        .form-input::placeholder, 
-        .form-textarea::placeholder {
-            color: rgba(255, 255, 255, 0.25);
-        }
-
-        .form-textarea {
-            resize: vertical;
-            min-height: 110px;
-            line-height: 1.6;
-        }
-
-        .form-select {
-            cursor: pointer;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg width='14' height='8' viewBox='0 0 14 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L7 7L13 1' stroke='rgba(255,255,255,0.4)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 18px center;
-            padding-right: 50px;
-        }
-
-        .form-select option {
-            background: #0a0a0a;
-            color: #ffffff;
-            padding: 12px;
-        }
-
-        .form-actions {
-            display: flex;
-            gap: 12px;
-            margin-top: 12px;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 17px 24px;
-            border-radius: 14px;
-            border: none;
+        .status {
             font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            letter-spacing: -0.02em;
-            position: relative;
-            overflow: hidden;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 30px;
         }
 
-        .btn::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .btn:hover::before {
-            opacity: 1;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #ffffff 0%, #e5e5e5 100%);
-            color: #000000;
-            box-shadow: 0 4px 16px rgba(255, 255, 255, 0.12);
-        }
-
-        .btn-primary:active {
-            transform: scale(0.98);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.05);
-            color: #ffffff;
-            border: 1.5px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .btn-secondary:active {
-            transform: scale(0.98);
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .loading-spinner {
-            display: inline-block;
-            width: 18px;
-            height: 18px;
-            border: 2.5px solid rgba(0, 0, 0, 0.15);
-            border-top-color: #000000;
-            border-radius: 50%;
-            animation: spin 0.7s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Custom Scrollbar for Modal */
-        .report-content::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .report-content::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 10px;
-        }
-
-        .report-content::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-        }
-
-        .report-content::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        /* Hide scrollbars on main screen */
-        * {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-        *::-webkit-scrollbar {
+        .timer {
+            font-size: 48px;
+            font-weight: 300;
+            margin-bottom: 30px;
             display: none;
         }
 
-        .report-content::-webkit-scrollbar {
+        .timer.show {
             display: block;
         }
 
-        /* Responsive */
-        @media (max-height: 640px) {
-            .call-top { padding: 60px 20px 12px; }
-            .call-middle { padding: 12px; }
-            .avatar { width: 100px; height: 100px; }
-            .avatar svg { width: 48px; height: 48px; }
-            .pulse-ring { width: 120px; height: 120px; }
-            .contact-name { font-size: 22px; margin-bottom: 6px; }
-            .call-status, .call-timer { font-size: 14px; }
-            .audio-viz { height: 32px; margin-top: 12px; }
-            .controls-row { gap: 16px; margin-bottom: 24px; }
-            .control-btn { width: 52px; height: 52px; }
-            .control-btn svg { width: 22px; height: 22px; }
-            .end-call-btn { width: 64px; height: 64px; }
-            .end-call-btn svg { width: 28px; height: 28px; }
-            .call-bottom { padding-bottom: calc(24px + env(safe-area-inset-bottom)); }
+        .end-btn {
+            width: 70px;
+            height: 70px;
+            background: #dc2626;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(220, 38, 38, 0.4);
+            transition: transform 0.2s;
         }
 
-        @media (max-height: 568px) {
-            .call-top { padding: 60px 20px 8px; }
-            .encryption-text { font-size: 11px; }
-            .avatar { width: 90px; height: 90px; }
-            .avatar svg { width: 42px; height: 42px; }
-            .pulse-ring { width: 110px; height: 110px; }
-            .contact-name { font-size: 20px; }
-            .control-btn { width: 48px; height: 48px; }
-            .control-btn svg { width: 20px; height: 20px; }
-            .control-label { font-size: 10px; bottom: -18px; }
+        .end-btn:active {
+            transform: scale(0.95);
         }
 
-        @media (max-width: 480px) {
-            .report-content {
-                padding: 32px 24px;
-            }
-            
-            .report-header h2 {
-                font-size: 22px;
-            }
-            
-            .form-input, .form-textarea, .form-select {
-                font-size: 16px;
-            }
+        .end-btn svg {
+            width: 32px;
+            height: 32px;
+            fill: #fff;
+            transform: rotate(135deg);
+        }
+
+        .error {
+            background: rgba(220, 38, 38, 0.2);
+            border: 1px solid rgba(220, 38, 38, 0.5);
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .error.show {
+            display: block;
         }
     </style>
 </head>
 <body>
-    <!-- Connection Status -->
-    <div class="connection-status" id="connectionStatus">
-        <div class="status-dot" id="statusDot"></div>
-        <span id="statusText">Connecting to server...</span>
-    </div>
-
-    <div class="call-screen">
-        <!-- Top Section -->
-        <div class="call-top">
-            <div class="encryption-text">
-                <svg class="lock-icon" viewBox="0 0 24 24">
-                    <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM9 8V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9z"/>
-                </svg>
-                <span>End-to-end encrypted</span>
-            </div>
+    <div class="container">
+        <div class="error" id="error"></div>
+        
+        <div class="avatar">
+            <svg viewBox="0 0 24 24">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
         </div>
 
-        <!-- Middle Section -->
-        <div class="call-middle">
-            <div class="avatar-container">
-                <div class="pulse-ring" id="pulseRing"></div>
-                <div class="avatar">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                    </svg>
-                </div>
-            </div>
+        <h1>Technical Support</h1>
+        <div class="status" id="status">Connecting...</div>
+        <div class="timer" id="timer">00:00</div>
 
-            <div class="contact-name">Technical Support</div>
-            <div class="call-status" id="callStatus">Connecting...</div>
-            <div class="call-timer" id="callTimer" style="display:none;">00:00</div>
-
-            <div class="audio-viz" id="audioViz">
-                <div class="viz-bar"></div>
-                <div class="viz-bar"></div>
-                <div class="viz-bar"></div>
-                <div class="viz-bar"></div>
-                <div class="viz-bar"></div>
-                <div class="viz-bar"></div>
-                <div class="viz-bar"></div>
-            </div>
-        </div>
-
-        <!-- Bottom Controls -->
-        <div class="call-bottom">
-            <div class="controls-row">
-                <div class="control-btn" id="muteBtn">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                        <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                    </svg>
-                    <div class="control-label">Mute</div>
-                </div>
-
-                <div class="control-btn" id="speakerBtn">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
-                    </svg>
-                    <div class="control-label">Speaker</div>
-                </div>
-
-                <div class="control-btn" id="videoBtn">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M15 8v8H5V8h10m1-2H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4V7c0-.55-.45-1-1-1z"/>
-                    </svg>
-                    <div class="control-label">Video</div>
-                </div>
-
-                <div class="control-btn" id="addCallBtn">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
-                    </svg>
-                    <div class="control-label">Add call</div>
-                </div>
-            </div>
-
-            <div class="end-call-container">
-                <div class="end-call-btn" id="endCallBtn">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/>
-                    </svg>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Error Banner -->
-    <div class="error-banner" id="errorBanner"></div>
-
-    <!-- Premium Report Modal -->
-    <div class="report-modal" id="reportModal">
-        <div class="report-content">
-            <div class="report-header">
-                <h2>Report Your Issue</h2>
-                <p>Help us understand your problem better</p>
-            </div>
-
-            <form class="report-form" id="reportForm">
-                <div class="form-group">
-                    <label class="form-label">Your Name</label>
-                    <input type="text" class="form-input" id="userName" placeholder="Enter your name" required autocomplete="name">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Contact Number</label>
-                    <input type="tel" class="form-input" id="userPhone" placeholder="Enter your phone number" required autocomplete="tel">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Email Address</label>
-                    <input type="email" class="form-input" id="userEmail" placeholder="Enter your email" required autocomplete="email">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Issue Category</label>
-                    <select class="form-select" id="issueCategory" required>
-                        <option value="">Select category</option>
-                        <option value="Technical Issue">Technical Issue</option>
-                        <option value="Payment Problem">Payment Problem</option>
-                        <option value="Course Access">Course Access</option>
-                        <option value="Account Issue">Account Issue</option>
-                        <option value="Content Quality">Content Quality</option>
-                        <option value="General Inquiry">General Inquiry</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Priority Level</label>
-                    <select class="form-select" id="priorityLevel" required>
-                        <option value="">Select priority</option>
-                        <option value="High">High - Urgent</option>
-                        <option value="Medium">Medium - Important</option>
-                        <option value="Low">Low - General</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Describe Your Problem</label>
-                    <textarea class="form-textarea" id="problemDescription" placeholder="Please provide detailed information..." required></textarea>
-                </div>
-
-                <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" id="skipReportBtn">Skip</button>
-                    <button type="submit" class="btn btn-primary" id="submitReportBtn">Submit Report</button>
-                </div>
-            </form>
-        </div>
+        <button class="end-btn" id="endBtn">
+            <svg viewBox="0 0 24 24">
+                <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/>
+            </svg>
+        </button>
     </div>
 
     <audio id="remoteAudio" autoplay playsinline></audio>
-    <audio id="ringtone" loop preload="auto" src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTGH0fPTgjMGHm7A7+OZRQ4ZdNDx0IU2CRxgvO3hnkwOEVmr5O+qVhgITKXi8biCLAYuhsr03ok/CA1esuzvl0cPElKi4vG7bRsFN47W883DcSoGKX3N8d6NOwgWZ7zs4pBADBRcruPwsWYdBjmP1PLPfS0GK4DN8t2RQAoUXrTo7KhWFQlHoe7rwmwhBTCH0fLUgTMGHm2+7+OYRAcadNDx0YU2Bxxgu+3gnEsOEFus5e6qVhgHSKPi8LqAKgYrgMrz3Y0/BwtdsuzvmEUPElKi4vC7bhoFN4/W88+/cSsFKYDN8d6NOwgWZ7rs4Y9ADBVbr+PwsGQeBDiP1PLPfS0GK4DN8t2RQAoUXrTo7KlVFQlHoe7rwmwhBTCG0fLUgTMGHm6/7+OYRAcadNDx0YU2Bxxgu+3hm0sPEA=="></audio>
+    <audio id="ringtone" loop src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTGH0fPTgjMGHm7A7+OZRQ4ZdNDx0IU2CRxgvO3hnkwOEVmr5O+qVhgITKXi8biCLAYuhsr03ok/CA1esuzvl0cPElKi4vG7bRsFN47W883DcSoGKX3N8d6NOwgWZ7zs4pBADBRcruPwsWYdBjmP1PLPfS0GK4DN8t2RQAoUXrTo7KhWFQlHoe7rwmwhBTCH0fLUgTMGHm2+7+OYRAcadNDx0YU2Bxxgu+3gnEsOEFus5e6qVhgHSKPi8LqAKgYrgMrz3Y0/BwtdsuzvmEUPElKi4vC7bhoFN4/W88+/cSsFKYDN8d6NOwgWZ7rs4Y9ADBVbr+PwsGQeBDiP1PLPfS0GK4DN8t2RQAoUXrTo7KlVFQlHoe7rwmwhBTCG0fLUgTMGHm6/7+OYRAcadNDx0YU2Bxxgu+3hm0sPEA=="></audio>
 
     <script>
+        const status = document.getElementById('status');
+        const timer = document.getElementById('timer');
+        const endBtn = document.getElementById('endBtn');
+        const error = document.getElementById('error');
         const remoteAudio = document.getElementById('remoteAudio');
         const ringtone = document.getElementById('ringtone');
-        const callStatus = document.getElementById('callStatus');
-        const callTimerDisplay = document.getElementById('callTimer');
-        const muteBtn = document.getElementById('muteBtn');
-        const speakerBtn = document.getElementById('speakerBtn');
-        const videoBtn = document.getElementById('videoBtn');
-        const endCallBtn = document.getElementById('endCallBtn');
-        const pulseRing = document.getElementById('pulseRing');
-        const audioViz = document.getElementById('audioViz');
-        const errorBanner = document.getElementById('errorBanner');
-        const reportModal = document.getElementById('reportModal');
-        const reportForm = document.getElementById('reportForm');
-        const skipReportBtn = document.getElementById('skipReportBtn');
-        const statusDot = document.getElementById('statusDot');
-        const statusText = document.getElementById('statusText');
 
-        const SUPPORT_PEER_ID = 'sharvika-support-2024';
-        let peer, localStream, call, callTimer, callDuration = 0;
-        let isMuted = false, callEndTime = null;
-        let retryCount = 0;
-        const MAX_RETRIES = 3;
+        let peer, localStream, call, callInterval;
+        let supportPeerId = null;
 
-        // Update connection status
-        function updateConnectionStatus(status, message) {
-            statusText.textContent = message;
-            if (status === 'connected') {
-                statusDot.classList.add('connected');
-            } else {
-                statusDot.classList.remove('connected');
-            }
+        // Get support peer ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        supportPeerId = urlParams.get('support');
+
+        if (!supportPeerId) {
+            showError('❌ Invalid call link. Please get a new link from support.');
+        } else {
+            init();
         }
 
-        // Prevent overscroll
-        document.body.addEventListener('touchmove', (e) => {
-            if (e.target === document.body) e.preventDefault();
-        }, { passive: false });
-
-        // Audio unlock for mobile
-        function unlockAudio() {
-            ringtone.play().then(() => { ringtone.pause(); ringtone.currentTime = 0; }).catch(() => {});
-            remoteAudio.play().then(() => remoteAudio.pause()).catch(() => {});
-            document.removeEventListener('touchstart', unlockAudio);
-            document.removeEventListener('click', unlockAudio);
-        }
-        document.addEventListener('touchstart', unlockAudio, { once: true });
-        document.addEventListener('click', unlockAudio, { once: true });
-
-        // Initialize
         async function init() {
             try {
-                updateConnectionStatus('connecting', 'Getting microphone permission...');
+                status.textContent = 'Getting microphone...';
                 
-                localStream = await navigator.mediaDevices.getUserMedia({
-                    audio: { 
-                        echoCancellation: true, 
-                        noiseSuppression: true, 
-                        autoGainControl: true 
-                    },
-                    video: false
+                localStream = await navigator.mediaDevices.getUserMedia({ 
+                    audio: true, 
+                    video: false 
                 });
 
-                updateConnectionStatus('connecting', 'Connecting to server...');
+                status.textContent = 'Connecting...';
                 
-                const userPeerId = 'user-' + Math.random().toString(36).substr(2, 9);
+                const userPeerId = 'user-' + Date.now() + '-' + Math.random().toString(36).substr(2, 6);
                 
                 peer = new Peer(userPeerId, {
                     debug: 2,
@@ -833,243 +174,95 @@
                     config: {
                         iceServers: [
                             { urls: 'stun:stun.l.google.com:19302' },
-                            { urls: 'stun:stun1.l.google.com:19302' },
-                            { urls: 'stun:stun2.l.google.com:19302' },
-                            { urls: 'stun:stun3.l.google.com:19302' },
-                            { urls: 'stun:stun4.l.google.com:19302' }
-                        ],
-                        iceTransportPolicy: 'all'
+                            { urls: 'stun:stun1.l.google.com:19302' }
+                        ]
                     }
                 });
 
                 peer.on('open', (id) => {
-                    console.log('✅ User Peer connected with ID:', id);
-                    updateConnectionStatus('connected', 'Connected • ID: ' + id.substr(0, 12) + '...');
-                    callStatus.textContent = 'Ready to call';
-                    
-                    // Wait a bit for connection to stabilize, then make call
-                    setTimeout(() => {
-                        makeCall();
-                    }, 1000);
+                    console.log('✅ Connected with ID:', id);
+                    makeCall();
                 });
 
                 peer.on('error', (err) => {
-                    console.error('❌ Peer error:', err);
-                    updateConnectionStatus('error', 'Connection failed');
-                    
-                    if (err.type === 'peer-unavailable') {
-                        showError('Support team is offline. Please try again later.');
-                        setTimeout(() => showReportModal(), 2000);
-                    } else if (retryCount < MAX_RETRIES) {
-                        retryCount++;
-                        showError(`Connection error. Retrying (${retryCount}/${MAX_RETRIES})...`);
-                        setTimeout(() => {
-                            if (peer) peer.destroy();
-                            setTimeout(init, 2000);
-                        }, 3000);
-                    } else {
-                        showError('Unable to connect. Please check your internet.');
-                        setTimeout(() => showReportModal(), 3000);
-                    }
+                    console.error('❌ Error:', err);
+                    showError('Connection error. Please try again.');
                 });
 
-                peer.on('disconnected', () => {
-                    console.warn('⚠️ Peer disconnected');
-                    updateConnectionStatus('disconnected', 'Disconnected');
-                    if (retryCount < MAX_RETRIES) {
-                        setTimeout(() => {
-                            console.log('🔄 Attempting to reconnect...');
-                            peer.reconnect();
-                        }, 2000);
-                    }
-                });
-
-            } catch (error) {
-                console.error('❌ Media error:', error);
-                updateConnectionStatus('error', 'Microphone access denied');
-                showError('Microphone access denied. Please allow and refresh.');
-                setTimeout(() => showReportModal(), 3000);
+            } catch (err) {
+                console.error('❌ Media error:', err);
+                showError('Microphone permission denied');
             }
         }
 
         function makeCall() {
-            console.log('📞 Making call to:', SUPPORT_PEER_ID);
-            callStatus.textContent = 'Calling...';
-            updateConnectionStatus('calling', 'Calling support...');
-            
+            status.textContent = 'Calling support...';
             ringtone.play().catch(() => {});
             
-            call = peer.call(SUPPORT_PEER_ID, localStream, {
-                metadata: { 
-                    reason: 'User requesting technical support', 
-                    timestamp: new Date().toISOString(),
-                    userAgent: navigator.userAgent
-                }
+            call = peer.call(supportPeerId, localStream, {
+                metadata: { reason: 'User requesting support', timestamp: new Date().toISOString() }
             });
 
-            if (!call) {
-                console.error('❌ Failed to create call');
-                showError('Failed to initiate call');
-                updateConnectionStatus('error', 'Call failed');
-                return;
-            }
-
-            console.log('📱 Call created, waiting for answer...');
-
             call.on('stream', (remoteStream) => {
-                console.log('🎙️ Received remote stream');
+                console.log('✅ Call connected');
                 ringtone.pause();
-                ringtone.currentTime = 0;
+                status.textContent = 'Connected';
+                timer.classList.add('show');
+                
                 remoteAudio.srcObject = remoteStream;
-                remoteAudio.play().catch((e) => {
-                    console.error('Audio play error:', e);
-                    // Try again on user interaction
-                    document.addEventListener('touchstart', () => {
-                        remoteAudio.play().catch(() => {});
-                    }, { once: true });
-                });
-                callConnected();
+                remoteAudio.play().catch(() => {});
+                
+                startTimer();
             });
 
             call.on('close', () => {
-                console.log('📵 Call closed');
                 endCall();
             });
 
-            call.on('error', (err) => {
-                console.error('❌ Call error:', err);
-                ringtone.pause();
-                showError('Call failed. Support may be unavailable.');
-                updateConnectionStatus('error', 'Call error');
-                setTimeout(() => showReportModal(), 2000);
+            call.on('error', () => {
+                showError('Call failed. Support may be offline.');
             });
 
-            // No answer timeout
             setTimeout(() => {
                 if (call && !call.peerConnection) {
-                    console.log('⏱️ Call timeout - no answer');
                     ringtone.pause();
-                    showError('No answer from support.');
-                    updateConnectionStatus('error', 'No answer');
-                    setTimeout(() => showReportModal(), 2000);
+                    showError('No answer. Support is offline.');
                 }
             }, 30000);
         }
 
-        function callConnected() {
-            console.log('✅ Call connected successfully');
-            callStatus.style.display = 'none';
-            callTimerDisplay.style.display = 'block';
-            pulseRing.style.display = 'none';
-            audioViz.classList.add('active');
-            updateConnectionStatus('connected', 'Call in progress');
-
-            callDuration = 0;
-            callTimer = setInterval(() => {
-                callDuration++;
-                const mins = Math.floor(callDuration / 60);
-                const secs = callDuration % 60;
-                callTimerDisplay.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        function startTimer() {
+            let seconds = 0;
+            callInterval = setInterval(() => {
+                seconds++;
+                const m = Math.floor(seconds / 60);
+                const s = seconds % 60;
+                timer.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
             }, 1000);
         }
 
-        function showError(message) {
-            console.log('⚠️ Error:', message);
-            errorBanner.textContent = message;
-            errorBanner.classList.add('show');
-            setTimeout(() => errorBanner.classList.remove('show'), 5000);
-        }
-
-        muteBtn.onclick = () => {
-            if (!localStream) return;
-            isMuted = !isMuted;
-            localStream.getAudioTracks()[0].enabled = !isMuted;
-            muteBtn.classList.toggle('active');
-            muteBtn.querySelector('.control-label').textContent = isMuted ? 'Unmute' : 'Mute';
-        };
-
-        speakerBtn.onclick = () => speakerBtn.classList.toggle('active');
-        videoBtn.onclick = () => videoBtn.classList.toggle('active');
-
-        endCallBtn.onclick = () => {
-            callEndTime = new Date();
-            endCall();
-        };
-
         function endCall() {
             ringtone.pause();
-            if (callTimer) clearInterval(callTimer);
+            if (callInterval) clearInterval(callInterval);
             if (call) call.close();
             if (localStream) localStream.getTracks().forEach(t => t.stop());
             if (peer) peer.destroy();
-
-            callStatus.textContent = 'Call ended';
-            callStatus.style.display = 'block';
-            callTimerDisplay.style.display = 'none';
-            audioViz.classList.remove('active');
-            pulseRing.style.display = 'none';
-            updateConnectionStatus('disconnected', 'Call ended');
-
-            setTimeout(() => showReportModal(), 1500);
+            status.textContent = 'Call ended';
+            timer.classList.remove('show');
         }
 
-        function showReportModal() {
-            reportModal.classList.add('show');
+        function showError(msg) {
+            error.textContent = msg;
+            error.classList.add('show');
+            status.textContent = '';
         }
 
-        reportForm.onsubmit = (e) => {
-            e.preventDefault();
-            submitReport();
-        };
+        endBtn.onclick = endCall;
 
-        skipReportBtn.onclick = () => {
-            reportModal.classList.remove('show');
-            setTimeout(() => {
-                if (window.history.length > 1) {
-                    window.history.back();
-                } else {
-                    window.location.href = '/';
-                }
-            }, 300);
-        };
-
-        function submitReport() {
-            const submitBtn = document.getElementById('submitReportBtn');
-            submitBtn.innerHTML = '<div class="loading-spinner"></div>';
-            submitBtn.disabled = true;
-
-            const reportData = {
-                timestamp: new Date().toISOString(),
-                callDuration: callDuration,
-                callEndTime: callEndTime ? callEndTime.toISOString() : new Date().toISOString(),
-                name: document.getElementById('userName').value,
-                phone: document.getElementById('userPhone').value,
-                email: document.getElementById('userEmail').value,
-                category: document.getElementById('issueCategory').value,
-                priority: document.getElementById('priorityLevel').value,
-                description: document.getElementById('problemDescription').value
-            };
-
-            let reports = JSON.parse(localStorage.getItem('technicalReports') || '[]');
-            reports.unshift(reportData);
-            localStorage.setItem('technicalReports', JSON.stringify(reports));
-
-            setTimeout(() => {
-                reportModal.classList.remove('show');
-                setTimeout(() => {
-                    if (window.history.length > 1) {
-                        window.history.back();
-                    } else {
-                        window.location.href = '/';
-                    }
-                }, 500);
-            }, 1500);
-        }
-
-        history.pushState(null, null, location.href);
-        window.onpopstate = () => history.go(1);
-
-        window.onload = init;
+        // Audio unlock
+        document.addEventListener('click', () => {
+            remoteAudio.play().then(() => remoteAudio.pause()).catch(() => {});
+        }, { once: true });
     </script>
 </body>
 </html>
