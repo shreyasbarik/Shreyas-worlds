@@ -17,23 +17,47 @@
   <script src="firebase-config.js"></script>
 
   <style>
-    /* Maintenance Page Mobile Responsive Styles */
+    /* Dynamic viewport height var (set via JS) */
+    :root { --vh: 1vh; }
+
+    /* Overlay: fixed, full-screen, safe for mobile, no text cut */
     #maintenanceWarning {
-      overflow-y: auto !important;
-      overflow-x: hidden !important;
-      -webkit-overflow-scrolling: touch;
-      padding: 20px 0;
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: auto; /* allow content height */
+      min-height: calc(var(--vh, 1vh) * 100); /* real visual viewport on mobile */
+      background: #000000;
+      z-index: 999999;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      display: none; /* toggled by JS */
+      /* Lock overlay to contain scroll inside container to avoid iOS issues */
+      overflow: hidden;
+      /* Layout: center horizontally, start at top vertically */
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 12px 0;
     }
 
+    /* Scrollable container inside overlay */
     .maintenance-container {
       max-width: 700px;
       width: 100%;
+      margin: 12px auto 20px auto;
       padding: 80px 60px;
       text-align: center;
       background: #0a0a0a;
       border: 1px solid #1a1a1a;
-      margin: auto;
       box-sizing: border-box;
+
+      /* Make container itself scrollable to prevent overlay cut-off */
+      max-height: calc(var(--vh, 1vh) * 100 - 32px);
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px));
     }
 
     .countdown-grid {
@@ -43,11 +67,13 @@
       margin-top: 32px;
     }
 
+    /* Responsive tweaks */
     @media (max-width: 768px) {
       .maintenance-container {
         padding: 50px 30px !important;
-        margin: 10px !important;
+        margin: 10px auto 16px auto !important;
         border: none !important;
+        max-height: calc(var(--vh, 1vh) * 100 - 24px);
       }
 
       .maintenance-title {
@@ -62,6 +88,9 @@
       .maintenance-message {
         font-size: 15px !important;
         line-height: 1.7 !important;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+        white-space: normal;
       }
 
       .launch-box {
@@ -105,7 +134,8 @@
     @media (max-width: 480px) {
       .maintenance-container {
         padding: 40px 20px !important;
-        margin: 5px !important;
+        margin: 8px auto 12px auto !important;
+        max-height: calc(var(--vh, 1vh) * 100 - 20px);
       }
 
       .maintenance-title {
@@ -181,12 +211,20 @@
         font-size: 12px !important;
       }
     }
+
+    /* Lock background when overlay open */
+    body.maintenance-open {
+      overflow: hidden;
+      height: calc(var(--vh, 1vh) * 100);
+      position: relative;
+    }
   </style>
 </head>
 <body>
 
   <!-- ✅ Maintenance Mode Warning -->
-  <div id="maintenanceWarning" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: #000000; align-items: center; justify-content: center; z-index: 999999; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;">
+  <!-- keep inline minimal to avoid conflicts; everything else in CSS -->
+  <div id="maintenanceWarning" style="display: none;">
     <div class="maintenance-container">
       
       <!-- Title -->
@@ -199,13 +237,19 @@
       <div class="maintenance-divider" style="width: 80px; height: 1px; background: #222222; margin: 0 auto 40px auto;"></div>
       
       <!-- Main Message -->
-      <p class="maintenance-message" style="font-size: 16px; line-height: 1.9; color: #999999; margin: 0 0 32px 0; font-weight: 300;">We are currently performing critical system maintenance to enhance platform performance and security. Our services will be restored shortly.</p>
+      <p class="maintenance-message" style="font-size: 16px; line-height: 1.9; color: #999999; margin: 0 0 24px 0; font-weight: 300;">We are currently performing critical system maintenance to enhance platform performance and security. Our services will be restored shortly.</p>
+
+      <!-- Live IST Clock -->
+      <div class="live-clock" style="display:flex; align-items:center; justify-content:center; gap:12px; background:#050505; border:1px solid #151515; padding:12px 16px; margin: 0 0 24px 0;">
+        <span style="font-size: 11px; color: #888; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600;">Current IST Time</span>
+        <span id="liveClock" class="live-time" style="font-size: 18px; color:#ffffff; font-weight:600; letter-spacing: 1px;">--:--:--</span>
+      </div>
       
       <!-- Launch Info -->
       <div class="launch-box" style="background: #050505; border: 1px solid #151515; padding: 32px; margin: 0 0 40px 0;">
-        <p class="launch-label" style="font-size: 12px; color: #666666; margin: 0 0 20px 0; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;">Scheduled Live Time</p>
-        <p class="launch-time" style="font-size: 24px; color: #ffffff; margin: 0 0 8px 0; font-weight: 400; letter-spacing: 0.5px;">11:00 PM IST</p>
-        <p class="launch-date" style="font-size: 14px; color: #808080; margin: 0 0 32px 0; font-weight: 400;">January 11, 2025</p>
+        <p class="launch-label" style="font-size: 12px; color: #666666; margin: 0 0 16px 0; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;">Launch Time</p>
+        <p class="launch-time" style="font-size: 24px; color: #ffffff; margin: 0 0 8px 0; font-weight: 400; letter-spacing: 0.5px;">9:00 PM IST</p>
+        <p class="launch-date" style="font-size: 14px; color: #808080; margin: 0 0 24px 0; font-weight: 400;">November 4, 2025</p>
         
         <!-- Countdown Timer -->
         <div class="countdown-grid">
@@ -226,12 +270,25 @@
             <div class="countdown-label" style="font-size: 10px; color: #666666; letter-spacing: 1px; text-transform: uppercase; font-weight: 600;">Seconds</div>
           </div>
         </div>
+
+        <!-- Maintenance Window (30 mins before launch) -->
+        <p class="window-label" style="font-size: 12px; color: #666666; margin: 24px 0 8px 0; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;">Maintenance Window</p>
+        <p class="window-range" style="font-size: 14px; color: #aaaaaa; margin: 0 0 12px 0;">8:30 PM – 9:00 PM IST</p>
+
+        <div class="window-status" style="display:flex; align-items:center; justify-content:space-between; background:#000000; border:1px solid #1a1a1a; padding:12px 14px; margin-bottom:10px;">
+          <span id="windowState" style="font-size: 12px; color: #bbbbbb; letter-spacing: 1px; text-transform: uppercase; font-weight: 600;">Starts in</span>
+          <span id="windowRemaining" style="font-size: 16px; color: #ffffff; font-weight: 600;">--:--:--</span>
+        </div>
+        <div class="progress-wrap" style="width:100%; height:8px; background:#0b0b0b; border:1px solid #1a1a1a; border-radius: 999px; overflow: hidden;">
+          <div id="windowProgress" class="progress-bar" style="width:0%; height:100%; background: linear-gradient(90deg, #00ccff, #66ff66);"></div>
+        </div>
       </div>
       
       <!-- Support Section -->
       <div class="support-section" style="padding-top: 40px; border-top: 1px solid #151515;">
         <p class="support-label" style="font-size: 11px; color: #666666; margin: 0 0 16px 0; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600;">Technical Support</p>
         <a href="mailto:teamsharvika.inbox@gmail.com" class="support-email" style="display: inline-block; font-size: 14px; color: #ffffff; text-decoration: none; padding: 14px 36px; border: 1px solid #2a2a2a; letter-spacing: 0.5px; transition: all 0.3s ease; background: transparent;" onmouseover="this.style.background='#ffffff'; this.style.color='#000000'; this.style.borderColor='#ffffff';" onmouseout="this.style.background='transparent'; this.style.color='#ffffff'; this.style.borderColor='#2a2a2a';">teamsharvika.inbox@gmail.com</a>
+        <a href="call.html" class="support-email" style="display: block; font-size: 14px; color: #ffffff; text-decoration: none; padding: 14px 36px; border: 1px solid #2a2a2a; letter-spacing: 0.5px; transition: all 0.3s ease; background: transparent; margin: 12px auto 0 auto; max-width: max-content;" onmouseover="this.style.background='#ffffff'; this.style.color='#000000'; this.style.borderColor='#ffffff';" onmouseout="this.style.background='transparent'; this.style.color='#ffffff'; this.style.borderColor='#2a2a2a';">Call Helpline Team</a>
       </div>
       
       <!-- Footer Note -->
@@ -247,8 +304,8 @@
     </div>
     <div class="nav-right">
       <a href="index.html">Home</a>
-      <a href="signup.html">Sign Up</a>
-      <a href="signin.html">Sign In </a>
+      <!-- Sign Up removed -->
+      <a id="authLink" href="signin.html">Sign In</a>
       <a href="authority.html">Authority Login</a>
     </div>
   </header>
@@ -268,7 +325,7 @@
    </ul>
   </div>
 
-  <!-- ✅ Fullscreen Hero Slideshow (REPLACED FROM OLD HTML) -->
+  <!-- ✅ Fullscreen Hero Slideshow -->
   <main class="slideshow-container">
     <section class="slide active">
       <video src="Slide Show Design/Slide2.mp4" autoplay muted loop playsinline></video>
@@ -297,10 +354,136 @@
     <p>&copy; 2025 Sharvika. All Rights Reserved </p>
   </footer>
 
-  <!-- ✅ Maintenance Check & Countdown Script -->
+  <!-- ✅ Maintenance Check, Auth Link Toggle & Countdown Script -->
   <script>
+    // Set real viewport height CSS var to prevent mobile 100vh issues
+    function setVhVar() {
+      const h = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+      const vh = h * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+    setVhVar();
+    window.addEventListener('resize', setVhVar);
+    window.addEventListener('orientationchange', setVhVar);
+    if (window.visualViewport) window.visualViewport.addEventListener('resize', setVhVar);
+
     let isAdmin = false;
-    let countdownInterval;
+    let timerInterval;
+
+    // Target times (IST)
+    const LAUNCH_ISO = '2025-11-04T21:00:00+05:30';     // 9:00 PM IST, Nov 4, 2025
+    const WINDOW_START_ISO = '2025-11-04T20:30:00+05:30'; // 8:30 PM IST
+    const WINDOW_END_ISO   = '2025-11-04T21:00:00+05:30'; // 9:00 PM IST
+
+    function pad(n) { return String(n).padStart(2, '0'); }
+
+    function formatHHMMSS(ms) {
+      if (ms < 0) ms = 0;
+      const totalSeconds = Math.floor(ms / 1000);
+      const days = Math.floor(totalSeconds / (3600 * 24));
+      const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+      const time = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+      return days > 0 ? `${days}d ${time}` : time;
+    }
+
+    // Live IST clock
+    function updateLiveClock() {
+      const el = document.getElementById('liveClock');
+      if (!el) return;
+      const now = new Date();
+      el.textContent = now.toLocaleTimeString('en-US', {
+        timeZone: 'Asia/Kolkata',
+        hour12: true,
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      });
+    }
+
+    // Countdown to launch time
+    function updateCountdownGrid() {
+      const target = new Date(LAUNCH_ISO).getTime();
+      const now = Date.now();
+      let distance = target - now;
+      if (distance < 0) distance = 0;
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      const setText = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = String(val).padStart(2, '0');
+      };
+
+      setText('countdownDays', days);
+      setText('countdownHours', hours);
+      setText('countdownMinutes', minutes);
+      setText('countdownSeconds', seconds);
+    }
+
+    // Maintenance window status
+    function updateWindowStatus() {
+      const start = new Date(WINDOW_START_ISO).getTime();
+      const end = new Date(WINDOW_END_ISO).getTime();
+      const now = Date.now();
+
+      const stateEl = document.getElementById('windowState');
+      const remainEl = document.getElementById('windowRemaining');
+      const progressEl = document.getElementById('windowProgress');
+
+      if (!stateEl || !remainEl || !progressEl) return;
+
+      if (now < start) {
+        stateEl.textContent = 'Starts in';
+        remainEl.textContent = formatHHMMSS(start - now);
+        progressEl.style.width = '0%';
+      } else if (now >= start && now <= end) {
+        stateEl.textContent = 'Ends in';
+        remainEl.textContent = formatHHMMSS(end - now);
+        const percent = Math.min(100, Math.max(0, ((now - start) / (end - start)) * 100));
+        progressEl.style.width = percent + '%';
+      } else {
+        stateEl.textContent = 'Completed';
+        remainEl.textContent = '00:00:00';
+        progressEl.style.width = '100%';
+      }
+    }
+
+    // Initialize timers (runs every second)
+    function initTimers() {
+      try { if (timerInterval) clearInterval(timerInterval); } catch(e) {}
+      const update = () => {
+        updateLiveClock();
+        updateCountdownGrid();
+        updateWindowStatus();
+      };
+      update();
+      timerInterval = setInterval(update, 1000);
+    }
+
+    // Maintain function name used by existing calls
+    function startCountdown() {
+      initTimers();
+    }
+
+    // Show/Hide overlay and lock background scroll
+    function showMaintenanceOverlay() {
+      const overlay = document.getElementById('maintenanceWarning');
+      overlay.style.display = 'flex';
+      document.body.classList.add('maintenance-open');
+      setVhVar(); // refresh vh in case keyboard/URL bar changed
+      startCountdown();
+    }
+
+    function hideMaintenanceOverlay() {
+      const overlay = document.getElementById('maintenanceWarning');
+      overlay.style.display = 'none';
+      document.body.classList.remove('maintenance-open');
+    }
 
     // Check if user is admin via authority login or Firebase
     window.addEventListener('firebaseReady', () => {
@@ -310,74 +493,82 @@
       if (isAdminSession === 'true' && authUser) {
         isAdmin = true;
         checkMaintenanceMode();
-        return;
-      }
-
-      auth.onAuthStateChanged(async (user) => {
-        if (user) {
-          const ADMIN_EMAILS = ['teamsharvika.inbox.@gmail.com', 'admin@sharvika.com'];
-          if (ADMIN_EMAILS.includes(user.email)) {
-            isAdmin = true;
-          } else {
-            const adminDoc = await db.collection('admins').doc(user.uid).get();
-            if (adminDoc.exists && adminDoc.data().isAdmin) {
+      } else {
+        auth.onAuthStateChanged(async (user) => {
+          if (user) {
+            const ADMIN_EMAILS = ['teamsharvika.inbox.@gmail.com', 'admin@sharvika.com'];
+            if (ADMIN_EMAILS.includes(user.email)) {
               isAdmin = true;
+            } else {
+              try {
+                const adminDoc = await db.collection('admins').doc(user.uid).get();
+                if (adminDoc.exists && adminDoc.data().isAdmin) {
+                  isAdmin = true;
+                }
+              } catch (e) {
+                console.error('Admin check error:', e);
+              }
             }
           }
-        }
-        checkMaintenanceMode();
-      });
+          checkMaintenanceMode();
+        });
+      }
     });
 
     // Check maintenance mode from Firestore
     async function checkMaintenanceMode() {
       try {
         const maintenanceDoc = await db.collection('systemSettings').doc('siteMaintenanceMode').get();
-        
         if (maintenanceDoc.exists && maintenanceDoc.data().enabled === true) {
           if (!isAdmin) {
-            document.getElementById('maintenanceWarning').style.display = 'flex';
-            startCountdown();
+            showMaintenanceOverlay();
           }
+        } else {
+          hideMaintenanceOverlay();
         }
       } catch (error) {
         console.error('Maintenance check error:', error);
       }
     }
 
-    // Countdown Timer to 11:00 PM IST, January 11, 2025
-    function startCountdown() {
-      const targetDate = new Date('2025-01-11T23:00:00+05:30').getTime(); // 11:00 PM IST
-
-      countdownInterval = setInterval(() => {
-        const now = new Date().getTime();
-        const distance = targetDate - now;
-
-        if (distance < 0) {
-          clearInterval(countdownInterval);
-          document.getElementById('countdownDays').textContent = '00';
-          document.getElementById('countdownHours').textContent = '00';
-          document.getElementById('countdownMinutes').textContent = '00';
-          document.getElementById('countdownSeconds').textContent = '00';
-          return;
-        }
-
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        document.getElementById('countdownDays').textContent = String(days).padStart(2, '0');
-        document.getElementById('countdownHours').textContent = String(hours).padStart(2, '0');
-        document.getElementById('countdownMinutes').textContent = String(minutes).padStart(2, '0');
-        document.getElementById('countdownSeconds').textContent = String(seconds).padStart(2, '0');
-      }, 1000);
-    }
-
-    // Initial check on page load
+    // Initial check on page load if db already available
     if (typeof db !== 'undefined') {
       checkMaintenanceMode();
     }
+
+    // Sign In -> Sign Out toggle for header nav
+    function setupAuthLinkToggle() {
+      const link = document.getElementById('authLink');
+      if (!link || typeof auth === 'undefined') return;
+
+      const apply = (user) => {
+        if (user) {
+          link.textContent = 'Sign Out';
+          link.href = '#';
+          link.onclick = async (e) => {
+            e.preventDefault();
+            try {
+              await auth.signOut();
+            } catch (err) {
+              console.error('Sign-out failed:', err);
+            }
+          };
+        } else {
+          link.textContent = 'Sign In';
+          link.href = 'signin.html';
+          link.onclick = null;
+        }
+      };
+
+      try {
+        auth.onAuthStateChanged(apply);
+      } catch (e) {
+        console.error('Auth link setup error:', e);
+      }
+    }
+
+    if (typeof auth !== 'undefined') setupAuthLinkToggle();
+    window.addEventListener('firebaseReady', setupAuthLinkToggle);
   </script>
 </body>
 </html>
