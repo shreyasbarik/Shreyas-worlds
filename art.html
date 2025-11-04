@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sharvika Studio - Art Gallery</title>
+    <title>Sharvika Studio - Gallery Prism</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -810,11 +810,11 @@
 
         <ul>
             <li>
-                <button onclick="showStudioHub()">Studio Hub</button>
+                <button onclick="showStudio Sphere()">Studio Sphere</button>
                 <div class="menu-subtitle">View all published artwork</div>
             </li>
             <li>
-                <button onclick="showPublishContent()">Publish Content</button>
+                <button onclick="showExpressLane()">ExpressLane</button>
                 <div class="menu-subtitle">Share your creative work</div>
             </li>
             <li>
@@ -840,12 +840,12 @@
         </div>
 
         <div class="view-toggle">
-            <button class="toggle-btn active" onclick="showStudioHub()">Studio Hub</button>
-            <button class="toggle-btn" onclick="showPublishContent()">Publish Content</button>
+            <button class="toggle-btn active" onclick="showStudio Sphere()">Studio Sphere</button>
+            <button class="toggle-btn" onclick="showExpressLane()">ExpressLane</button>
         </div>
 
         <!-- ✅ Studio Hub Section -->
-        <div class="content-section active" id="studioHubSection">
+        <div class="content-section active" id="Studio SphereSection">
             <div id="galleryContainer">
                 <div class="page-loading">
                     <div class="loading-spinner"></div>
@@ -870,7 +870,7 @@
                                     </svg>
                                     <span class="file-input-text">Click to upload image</span>
                                     <span class="file-input-subtext">PNG, JPG, GIF (smaller images work best)</span>
-                                    <span class="file-size-warning">⚠️ Keep images under 500KB for best performance</span>
+                                    <span class="file-size-warning"> Keep images under 500KB for best performance</span>
                                 </label>
                                 <input type="file" id="imageInput" accept="image/*" required onchange="previewImage(event)">
                             </div>
@@ -892,7 +892,7 @@
                         </div>
 
                         <button type="submit" class="submit-btn" id="submitBtn">
-                            <span id="submitBtnText">Publish to Studio Hub</span>
+                            <span id="submitBtnText">Publish to Studio Sphere</span>
                         </button>
                     </form>
                 </div>
@@ -1116,7 +1116,7 @@ async function checkPageStatus() {
             if (!file) return;
 
             if (file.size > 800 * 1024) {
-                showToast('⚠️ Image too large! Please use images under 800KB');
+                showToast(' Image too large! Please use images under 800KB');
                 event.target.value = '';
                 return;
             }
@@ -1216,7 +1216,7 @@ async function checkPageStatus() {
                 document.getElementById('publishForm').reset();
                 removeImage();
                 
-                setTimeout(() => showStudioHub(), 1500);
+                setTimeout(() => showStudio Sphere(), 1500);
 
             } catch (error) {
                 console.error('Publish error:', error);
@@ -1227,7 +1227,7 @@ async function checkPageStatus() {
                 }
             } finally {
                 submitBtn.disabled = false;
-                submitBtnText.textContent = 'Publish to Studio Hub';
+                submitBtnText.textContent = 'Publish to Studio Sphere';
             }
         }
 
@@ -1251,7 +1251,7 @@ async function checkPageStatus() {
                     if (snapshot.empty) {
                         container.innerHTML = `
                             <div class="empty-gallery">
-                                <div class="empty-icon">🎨</div>
+                                <div class="empty-icon"></div>
                                 <div class="empty-text">No artwork yet</div>
                                 <div class="empty-subtext">Be the first to share your creative work!</div>
                             </div>
