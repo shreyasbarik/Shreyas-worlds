@@ -1,0 +1,2481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Train Manager - Professional Railway Simulation</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --primary: #dc2626;
+            --primary-dark: #991b1b;
+            --secondary: #ea580c;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --dark: #0f172a;
+            --gray: #64748b;
+            --light: #f1f5f9;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0f172a;
+            color: #1e293b;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Premium Intro Screen */
+        .intro-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 50%, #b91c1c 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 1s ease-out;
+        }
+
+        .intro-screen.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .intro-logo {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 30px;
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        .train-svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 10px 30px rgba(220, 38, 38, 0.5));
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-15px) translateX(10px); }
+        }
+
+        .intro-company {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #fecaca;
+            margin-bottom: 8px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .intro-presents {
+            font-size: 14px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            color: #fca5a5;
+            margin-bottom: 40px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .intro-title {
+            font-size: 42px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #fca5a5, #fbbf24, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            animation: fadeInUp 1.2s ease-out;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .intro-subtitle {
+            font-size: 16px;
+            font-weight: 500;
+            color: #fecaca;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            animation: fadeInUp 1.4s ease-out;
+        }
+
+        .intro-loader {
+            margin-top: 60px;
+            width: 300px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            animation: fadeInUp 1.6s ease-out;
+        }
+
+        .intro-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #fca5a5, #fbbf24);
+            width: 0%;
+            animation: loadProgress 2.5s ease-in-out forwards;
+            box-shadow: 0 0 20px rgba(252, 165, 165, 0.6);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes loadProgress {
+            to { width: 100%; }
+        }
+
+        /* Main Container */
+        .game-container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: #f8fafc;
+            min-height: 100vh;
+            opacity: 0;
+            transition: opacity 0.8s ease-in;
+        }
+
+        .game-container.visible {
+            opacity: 1;
+        }
+
+        /* Compact Premium Header */
+        .header {
+            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+            padding: 12px 16px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .company-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .company-logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 10px rgba(251, 191, 36, 0.4);
+            font-size: 18px;
+            font-weight: 900;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .company-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .company-name-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .company-name {
+            font-size: 16px;
+            font-weight: 800;
+            color: #ffffff;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 6px;
+            transition: all 0.3s;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 180px;
+        }
+
+        .company-name:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .edit-icon {
+            width: 16px;
+            height: 16px;
+            opacity: 0.7;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .company-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            color: #fecaca;
+            margin-top: 2px;
+        }
+
+        .level-badge {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .reputation {
+            display: flex;
+            gap: 2px;
+        }
+
+        .star {
+            width: 10px;
+            height: 10px;
+            background: #fbbf24;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        }
+
+        .star.empty {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .quick-stats {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            padding-bottom: 2px;
+        }
+
+        .quick-stats::-webkit-scrollbar {
+            display: none;
+        }
+
+        .quick-stat {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            flex-shrink: 0;
+            min-width: 90px;
+        }
+
+        .quick-stat-label {
+            font-size: 9px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 3px;
+        }
+
+        .quick-stat-value {
+            font-size: 14px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .header-btn {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .header-btn:active {
+            transform: scale(0.95);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .header-btn svg {
+            width: 18px;
+            height: 18px;
+            stroke: white;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        /* Mobile Navigation */
+        .nav-container {
+            background: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 92px;
+            z-index: 999;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .nav-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-tabs {
+            display: flex;
+            padding: 0 8px;
+            min-width: min-content;
+        }
+
+        .nav-tab {
+            padding: 12px 16px;
+            background: none;
+            border: none;
+            font-size: 13px;
+            font-weight: 600;
+            color: #64748b;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .nav-tab:active {
+            background: #f8fafc;
+        }
+
+        .nav-tab.active {
+            color: #dc2626;
+            border-bottom-color: #dc2626;
+        }
+
+        /* Content */
+        .content {
+            padding: 16px;
+            background: #f8fafc;
+            min-height: calc(100vh - 160px);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .page-header {
+            margin-bottom: 20px;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 12px;
+        }
+
+        .page-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        /* Train Cards - Mobile Optimized */
+        .train-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        @media (min-width: 640px) {
+            .train-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .train-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .train-card {
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid transparent;
+        }
+
+        .train-card:active {
+            transform: scale(0.98);
+        }
+
+        .train-image-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            overflow: hidden;
+        }
+
+        .train-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .train-card:active .train-image {
+            transform: scale(1.05);
+        }
+
+        .train-type-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(220, 38, 38, 0.95);
+            backdrop-filter: blur(10px);
+            color: #ffffff;
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .new-train-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #ffffff;
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .train-card-body {
+            padding: 16px;
+        }
+
+        .train-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 14px;
+        }
+
+        .train-details {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .train-name {
+            font-size: 16px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 4px;
+            line-height: 1.2;
+        }
+
+        .train-manufacturer {
+            font-size: 11px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .train-price {
+            text-align: right;
+            flex-shrink: 0;
+            margin-left: 12px;
+        }
+
+        .price-label {
+            font-size: 9px;
+            font-weight: 600;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+        }
+
+        .price-amount {
+            font-size: 18px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #dc2626, #ea580c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .train-specs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 14px 0;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .spec-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .spec-icon {
+            width: 32px;
+            height: 32px;
+            background: #ffffff;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            flex-shrink: 0;
+        }
+
+        .spec-icon svg {
+            width: 16px;
+            height: 16px;
+            stroke: #dc2626;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .spec-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .spec-label {
+            font-size: 9px;
+            font-weight: 600;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 1px;
+        }
+
+        .spec-value {
+            font-size: 13px;
+            font-weight: 700;
+            color: #0f172a;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .train-actions {
+            display: flex;
+            gap: 8px;
+            padding-top: 14px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            touch-action: manipulation;
+        }
+
+        .btn:active:not(:disabled) {
+            transform: scale(0.95);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #dc2626, #991b1b);
+            color: #ffffff;
+            box-shadow: 0 3px 10px rgba(220, 38, 38, 0.3);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #ffffff;
+            box-shadow: 0 3px 10px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: #ffffff;
+            box-shadow: 0 3px 10px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, #ea580c, #c2410c);
+            color: #ffffff;
+            box-shadow: 0 3px 10px rgba(234, 88, 12, 0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-block {
+            width: 100%;
+        }
+
+        .btn-sm {
+            padding: 8px 14px;
+            font-size: 11px;
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 12px 14px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            border-left: 3px solid;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .alert-icon {
+            flex-shrink: 0;
+            width: 18px;
+            height: 18px;
+        }
+
+        .alert-success {
+            background: #ecfdf5;
+            border-color: #10b981;
+            color: #065f46;
+        }
+
+        .alert-info {
+            background: #fff7ed;
+            border-color: #ea580c;
+            color: #9a3412;
+        }
+
+        .alert-warning {
+            background: #fffbeb;
+            border-color: #f59e0b;
+            color: #92400e;
+        }
+
+        .alert-danger {
+            background: #fef2f2;
+            border-color: #ef4444;
+            color: #991b1b;
+        }
+
+        /* Dashboard */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        @media (min-width: 640px) {
+            .dashboard-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .dashboard-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e2e8f0;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .card-icon-wrapper {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #dc2626, #991b1b);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 10px rgba(220, 38, 38, 0.3);
+            flex-shrink: 0;
+        }
+
+        .card-icon-wrapper svg {
+            width: 20px;
+            height: 20px;
+            stroke: #ffffff;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .metric-item {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .metric-value {
+            font-size: 18px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #dc2626, #ea580c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 4px;
+        }
+
+        .metric-label {
+            font-size: 10px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Route Cards */
+        .route-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            border-left: 3px solid #dc2626;
+        }
+
+        .route-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            gap: 12px;
+        }
+
+        .route-path {
+            font-size: 20px;
+            font-weight: 900;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .route-arrow {
+            color: #dc2626;
+            font-size: 16px;
+        }
+
+        .route-status-badge {
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            flex-shrink: 0;
+        }
+
+        .status-active {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #10b981;
+        }
+
+        .route-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .detail-label {
+            font-size: 9px;
+            font-weight: 600;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .detail-value {
+            font-size: 14px;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 5000;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #ffffff;
+            border-radius: 16px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            animation: modalSlide 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes modalSlide {
+            from {
+                transform: scale(0.95) translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8fafc;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            font-size: 20px;
+            color: #64748b;
+            flex-shrink: 0;
+        }
+
+        .modal-close:active {
+            background: #cbd5e1;
+            transform: scale(0.95);
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: #334155;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.3s;
+            background: #ffffff;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #dc2626;
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            opacity: 0.3;
+        }
+
+        .empty-icon svg {
+            width: 100%;
+            height: 100%;
+            stroke: #94a3b8;
+            stroke-width: 1.5;
+            fill: none;
+        }
+
+        .empty-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: #334155;
+            margin-bottom: 8px;
+        }
+
+        .empty-text {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        /* World Map */
+        #railwayMap {
+            width: 100%;
+            height: 400px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e2e8f0;
+            margin-bottom: 16px;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin: 16px 0;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #64748b;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #dc2626, #ea580c);
+            transition: width 0.6s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            left: 16px;
+            right: 16px;
+            background: #ffffff;
+            padding: 14px 16px;
+            border-radius: 10px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            z-index: 6000;
+            animation: slideInUp 0.3s ease;
+            max-width: 400px;
+            margin: 0 auto;
+            border-left: 3px solid;
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .notification.success {
+            border-left-color: #10b981;
+        }
+
+        .notification.error {
+            border-left-color: #ef4444;
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification-icon {
+            flex-shrink: 0;
+            font-size: 18px;
+        }
+
+        .notification-text {
+            font-size: 13px;
+            font-weight: 600;
+            color: #0f172a;
+            flex: 1;
+        }
+
+        /* Tablet & Desktop */
+        @media (min-width: 768px) {
+            .intro-title {
+                font-size: 56px;
+            }
+
+            .intro-loader {
+                width: 400px;
+            }
+
+            .header {
+                padding: 16px 24px;
+            }
+
+            .company-logo {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+            }
+
+            .company-name {
+                font-size: 20px;
+                max-width: 300px;
+            }
+
+            .quick-stats {
+                gap: 12px;
+            }
+
+            .quick-stat {
+                min-width: 110px;
+                padding: 8px 14px;
+            }
+
+            .nav-container {
+                top: 104px;
+            }
+
+            .content {
+                padding: 24px;
+            }
+
+            .page-title {
+                font-size: 28px;
+            }
+
+            #railwayMap {
+                height: 500px;
+            }
+
+            .notification {
+                left: auto;
+                right: 24px;
+                bottom: 24px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .game-container {
+                max-width: 1400px;
+                margin: 0 auto;
+            }
+
+            .content {
+                padding: 30px;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #dc2626, #ea580c);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Premium Intro Screen -->
+    <div class="intro-screen" id="introScreen">
+        <div class="intro-logo">
+            <svg class="train-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <rect x="4" y="6" width="16" height="12" rx="2" fill="#dc2626" stroke="#fca5a5" stroke-width="1.5"/>
+                <line x1="4" y1="18" x2="2" y2="20" stroke="#fca5a5" stroke-width="2"/>
+                <line x1="20" y1="18" x2="22" y2="20" stroke="#fca5a5" stroke-width="2"/>
+                <circle cx="8" cy="18" r="1.5" fill="#fbbf24"/>
+                <circle cx="16" cy="18" r="1.5" fill="#fbbf24"/>
+                <line x1="4" y1="11" x2="20" y2="11" stroke="#fca5a5" stroke-width="1"/>
+                <rect x="6" y="7" width="3" height="3" fill="#fca5a5"/>
+                <rect x="11" y="7" width="3" height="3" fill="#fca5a5"/>
+                <rect x="16" y="7" width="2" height="3" fill="#fca5a5"/>
+            </svg>
+        </div>
+        <div class="intro-company">SHARVIKA GAMES</div>
+        <div class="intro-presents">P R E S E N T S</div>
+        <div class="intro-title">TRAIN MANAGER</div>
+        <div class="intro-subtitle">Professional Edition</div>
+        <div class="intro-loader">
+            <div class="intro-progress"></div>
+        </div>
+    </div>
+
+    <!-- Main Game Container -->
+    <div class="game-container" id="gameContainer">
+        <!-- Compact Premium Header -->
+        <div class="header">
+            <div class="header-main">
+                <div class="company-brand">
+                    <div class="company-logo">TM</div>
+                    <div class="company-info">
+                        <div class="company-name-wrapper">
+                            <div class="company-name" id="companyName" onclick="editCompanyName()">Railway Express</div>
+                            <svg class="edit-icon" onclick="editCompanyName()" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                            </svg>
+                        </div>
+                        <div class="company-meta">
+                            <span class="level-badge">LVL <span id="headerLevel">1</span></span>
+                            <div class="reputation" id="headerReputation"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <div class="header-btn" onclick="toggleStats()">
+                        <svg viewBox="0 0 24 24">
+                            <line x1="12" y1="20" x2="12" y2="10"/>
+                            <line x1="18" y1="20" x2="18" y2="4"/>
+                            <line x1="6" y1="20" x2="6" y2="16"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="quick-stats" id="quickStats">
+                <div class="quick-stat">
+                    <div class="quick-stat-label">Cash</div>
+                    <div class="quick-stat-value" id="cashDisplay">$10M</div>
+                </div>
+                <div class="quick-stat">
+                    <div class="quick-stat-label">Profit</div>
+                    <div class="quick-stat-value" id="profitDisplay">$0</div>
+                </div>
+                <div class="quick-stat">
+                    <div class="quick-stat-label">Fleet</div>
+                    <div class="quick-stat-value" id="fleetCount">0</div>
+                </div>
+                <div class="quick-stat">
+                    <div class="quick-stat-label">Routes</div>
+                    <div class="quick-stat-value" id="routeCount">0</div>
+                </div>
+                <div class="quick-stat">
+                    <div class="quick-stat-label">Stations</div>
+                    <div class="quick-stat-value" id="stationCount">0</div>
+                </div>
+                <div class="quick-stat">
+                    <div class="quick-stat-label">Research</div>
+                    <div class="quick-stat-value" id="rpDisplay">100</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="nav-container">
+            <div class="nav-tabs">
+                <button class="nav-tab active" onclick="switchTab('dashboard')">Dashboard</button>
+                <button class="nav-tab" onclick="switchTab('map')">Rail Map</button>
+                <button class="nav-tab" onclick="switchTab('fleet')">Fleet</button>
+                <button class="nav-tab" onclick="switchTab('routes')">Routes</button>
+                <button class="nav-tab" onclick="switchTab('market')">Market</button>
+                <button class="nav-tab" onclick="switchTab('research')">Research</button>
+                <button class="nav-tab" onclick="switchTab('statistics')">Stats</button>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- Dashboard Tab -->
+            <div id="dashboard" class="tab-content active">
+                <div class="page-header">
+                    <h2 class="page-title">Control Center</h2>
+                    <div class="page-actions">
+                        <button class="btn btn-primary btn-sm" onclick="switchTab('market')">Buy Trains</button>
+                        <button class="btn btn-success btn-sm" onclick="openCreateRouteModal()">New Route</button>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-icon-wrapper">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                                </svg>
+                            </div>
+                            <h3 class="card-title">Financial</h3>
+                        </div>
+                        <div class="metric-grid">
+                            <div class="metric-item">
+                                <div class="metric-value" id="dashCash">$10M</div>
+                                <div class="metric-label">Cash</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value" id="dashRevenue">$0</div>
+                                <div class="metric-label">Revenue</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value" id="dashCosts">$0</div>
+                                <div class="metric-label">Costs</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value" id="dashProfit">$0</div>
+                                <div class="metric-label">Profit</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div class="card-icon-wrapper">
+                                <svg viewBox="0 0 24 24">
+                                    <rect x="4" y="6" width="16" height="12" rx="2"/>
+                                    <circle cx="8" cy="18" r="1"/>
+                                    <circle cx="16" cy="18" r="1"/>
+                                </svg>
+                            </div>
+                            <h3 class="card-title">Fleet</h3>
+                        </div>
+                        <div class="metric-grid">
+                            <div class="metric-item">
+                                <div class="metric-value" id="dashTrains">0</div>
+                                <div class="metric-label">Trains</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value" id="dashRoutes">0</div>
+                                <div class="metric-label">Routes</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value" id="dashPassengers">0</div>
+                                <div class="metric-label">Passengers</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value" id="dashUtilization">0%</div>
+                                <div class="metric-label">Utilization</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card" style="grid-column: 1 / -1;">
+                        <div class="card-header">
+                            <div class="card-icon-wrapper">
+                                <svg viewBox="0 0 24 24">
+                                    <line x1="12" y1="20" x2="12" y2="10"/>
+                                    <line x1="18" y1="20" x2="18" y2="4"/>
+                                    <line x1="6" y1="20" x2="6" y2="16"/>
+                                </svg>
+                            </div>
+                            <h3 class="card-title">Growth Progress</h3>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-header">
+                                <span>Level Progress</span>
+                                <span id="levelProgress">0 / 100 Trips</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="levelProgressBar" style="width: 0%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Railway Map Tab -->
+            <div id="map" class="tab-content">
+                <div class="page-header">
+                    <h2 class="page-title">Railway Network</h2>
+                </div>
+                <div id="railwayMap"></div>
+                <div class="alert alert-info">
+                    <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="12" y1="16" x2="12" y2="12"/>
+                        <line x1="12" y1="8" x2="12.01" y2="8"/>
+                    </svg>
+                    <div><strong>Interactive Map:</strong> View your railway routes in real-time. Tap stations to see details.</div>
+                </div>
+            </div>
+
+            <!-- Fleet Tab -->
+            <div id="fleet" class="tab-content">
+                <div class="page-header">
+                    <h2 class="page-title">Train Fleet</h2>
+                    <button class="btn btn-primary btn-sm" onclick="switchTab('market')">Buy Trains</button>
+                </div>
+                <div id="fleetList"></div>
+            </div>
+
+            <!-- Routes Tab -->
+            <div id="routes" class="tab-content">
+                <div class="page-header">
+                    <h2 class="page-title">Routes</h2>
+                    <button class="btn btn-success btn-sm" onclick="openCreateRouteModal()">New Route</button>
+                </div>
+                <div id="routesList"></div>
+            </div>
+
+            <!-- Train Market Tab -->
+            <div id="market" class="tab-content">
+                <div class="page-header">
+                    <h2 class="page-title">Train Market</h2>
+                </div>
+                <div class="alert alert-info">
+                    <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                        <line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
+                    <div><strong>Choose wisely:</strong> Select trains based on route distance and passenger demand.</div>
+                </div>
+                <div id="trainMarket"></div>
+            </div>
+
+            <!-- Research Tab -->
+            <div id="research" class="tab-content">
+                <div class="page-header">
+                    <h2 class="page-title">Research</h2>
+                </div>
+                <div class="alert alert-info">
+                    <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                    </svg>
+                    <div><strong>Research Points:</strong> <span id="rpDisplayTab">100 RP</span> | Earn by operating routes</div>
+                </div>
+                <div id="researchList"></div>
+            </div>
+
+            <!-- Statistics Tab -->
+            <div id="statistics" class="tab-content">
+                <div class="page-header">
+                    <h2 class="page-title">Analytics</h2>
+                </div>
+                <div id="statsContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Route Modal -->
+    <div id="createRouteModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Create Route</h3>
+                <button class="modal-close" onclick="closeModal('createRouteModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Select Train</label>
+                    <select id="routeTrain" class="form-control">
+                        <option value="">Choose train...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Origin Station</label>
+                    <select id="routeOrigin" class="form-control"></select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Destination Station</label>
+                    <select id="routeDestination" class="form-control"></select>
+                </div>
+                <div id="routePreview" style="display: none;"></div>
+                <button class="btn btn-success btn-block" onclick="createRoute()">Launch Route</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Company Name Modal -->
+    <div id="editCompanyModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Edit Company Name</h3>
+                <button class="modal-close" onclick="closeModal('editCompanyModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Company Name</label>
+                    <input type="text" id="companyNameInput" class="form-control" maxlength="30" placeholder="Enter your railway name">
+                </div>
+                <button class="btn btn-primary btn-block" onclick="saveCompanyName()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Game State
+        const gameState = {
+            companyName: 'Railway Express',
+            cash: 10000000,
+            researchPoints: 100,
+            level: 1,
+            reputation: 3,
+            fleet: [],
+            routes: [],
+            research: { efficiency: 0, maintenance: 0, marketing: 0 },
+            totalPassengers: 0,
+            totalTrips: 0
+        };
+
+        // Train Database with Real Images
+        const trainTypes = [
+            {
+                id: 'regional1',
+                name: 'Regional Express 2000',
+                manufacturer: 'Siemens',
+                price: 800000,
+                capacity: 150,
+                maxDistance: 300,
+                speed: 120,
+                fuelCost: 800,
+                maintenanceCost: 300,
+                type: 'Regional',
+                image: 'https://images.unsplash.com/photo-1474487548417-781cb71495f3?w=800&h=450&fit=crop&q=80'
+            },
+            {
+                id: 'regional2',
+                name: 'Stadler FLIRT',
+                manufacturer: 'Stadler',
+                price: 1200000,
+                capacity: 200,
+                maxDistance: 400,
+                speed: 140,
+                fuelCost: 1000,
+                maintenanceCost: 400,
+                type: 'Regional',
+                image: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=800&h=450&fit=crop&q=80'
+            },
+            {
+                id: 'intercity1',
+                name: 'IC Express 300',
+                manufacturer: 'Bombardier',
+                price: 2500000,
+                capacity: 300,
+                maxDistance: 800,
+                speed: 180,
+                fuelCost: 1800,
+                maintenanceCost: 700,
+                type: 'Intercity',
+                image: 'https://images.unsplash.com/photo-1532105956626-9569c03602f6?w=800&h=450&fit=crop&q=80'
+            },
+            {
+                id: 'intercity2',
+                name: 'Alstom Coradia',
+                manufacturer: 'Alstom',
+                price: 3000000,
+                capacity: 350,
+                maxDistance: 900,
+                speed: 200,
+                fuelCost: 2000,
+                maintenanceCost: 800,
+                type: 'Intercity',
+                image: 'https://images.unsplash.com/photo-1508746829417-e6f548d8d4ed?w=800&h=450&fit=crop&q=80'
+            },
+            {
+                id: 'highspeed1',
+                name: 'TGV POS',
+                manufacturer: 'Alstom',
+                price: 8000000,
+                capacity: 450,
+                maxDistance: 1500,
+                speed: 320,
+                fuelCost: 4500,
+                maintenanceCost: 2000,
+                type: 'High-Speed',
+                image: 'https://images.unsplash.com/photo-1517094330788-6956b52eb553?w=800&h=450&fit=crop&q=80'
+            },
+            {
+                id: 'highspeed2',
+                name: 'ICE 4',
+                manufacturer: 'Siemens',
+                price: 9000000,
+                capacity: 480,
+                maxDistance: 1600,
+                speed: 330,
+                fuelCost: 4800,
+                maintenanceCost: 2200,
+                type: 'High-Speed',
+                image: 'https://images.unsplash.com/photo-1581349485608-9469926a8e5e?w=800&h=450&fit=crop&q=80'
+            },
+            {
+                id: 'highspeed3',
+                name: 'Shinkansen N700S',
+                manufacturer: 'Hitachi',
+                price: 12000000,
+                capacity: 520,
+                maxDistance: 2000,
+                speed: 360,
+                fuelCost: 5500,
+                maintenanceCost: 2500,
+                type: 'High-Speed',
+                image: 'https://images.unsplash.com/photo-1590816945647-e5c7c8e57861?w=800&h=450&fit=crop&q=80'
+            },
+            {
+                id: 'highspeed4',
+                name: 'Frecciarossa 1000',
+                manufacturer: 'Bombardier-AnsaldoBreda',
+                price: 11000000,
+                capacity: 500,
+                maxDistance: 1800,
+                speed: 350,
+                fuelCost: 5200,
+                maintenanceCost: 2400,
+                type: 'High-Speed',
+                image: 'https://images.unsplash.com/photo-1513716776455-7c1f49e5d2c8?w=800&h=450&fit=crop&q=80'
+            },
+            {
+                id: 'maglev1',
+                name: 'Shanghai Maglev',
+                manufacturer: 'Transrapid',
+                price: 20000000,
+                capacity: 574,
+                maxDistance: 2500,
+                speed: 430,
+                fuelCost: 8000,
+                maintenanceCost: 4000,
+                type: 'Maglev',
+                image: 'https://images.unsplash.com/photo-1558109736-8e1d655ce546?w=800&h=450&fit=crop&q=80'
+            },
+            {
+                id: 'freight1',
+                name: 'Cargo Master 500',
+                manufacturer: 'GE Transportation',
+                price: 3500000,
+                capacity: 0,
+                cargoCapacity: 5000,
+                maxDistance: 1200,
+                speed: 100,
+                fuelCost: 2500,
+                maintenanceCost: 900,
+                type: 'Freight',
+                image: 'https://images.unsplash.com/photo-1517094330788-6956b52eb553?w=800&h=450&fit=crop&q=80'
+            }
+        ];
+
+        // Railway Stations Database
+        const stations = [
+            { code: 'NYC', name: 'Grand Central Terminal', city: 'New York', country: 'USA', lat: 40.7527, lon: -73.9772, demand: 'Very High' },
+            { code: 'WAS', name: 'Union Station', city: 'Washington DC', country: 'USA', lat: 38.8977, lon: -77.0063, demand: 'Very High' },
+            { code: 'CHI', name: 'Chicago Union Station', city: 'Chicago', country: 'USA', lat: 41.8789, lon: -87.6359, demand: 'Very High' },
+            { code: 'LAX', name: 'Los Angeles Union', city: 'Los Angeles', country: 'USA', lat: 34.0568, lon: -118.2368, demand: 'High' },
+            { code: 'LON', name: 'King\'s Cross', city: 'London', country: 'UK', lat: 51.5308, lon: -0.1238, demand: 'Very High' },
+            { code: 'PAR', name: 'Gare du Nord', city: 'Paris', country: 'France', lat: 48.8809, lon: 2.3553, demand: 'Very High' },
+            { code: 'BER', name: 'Berlin Hauptbahnhof', city: 'Berlin', country: 'Germany', lat: 52.5250, lon: 13.3694, demand: 'High' },
+            { code: 'FRA', name: 'Frankfurt Hauptbahnhof', city: 'Frankfurt', country: 'Germany', lat: 50.1069, lon: 8.6631, demand: 'High' },
+            { code: 'AMS', name: 'Amsterdam Centraal', city: 'Amsterdam', country: 'Netherlands', lat: 52.3789, lon: 4.9004, demand: 'High' },
+            { code: 'ROM', name: 'Roma Termini', city: 'Rome', country: 'Italy', lat: 41.9010, lon: 12.5026, demand: 'High' },
+            { code: 'TOK', name: 'Tokyo Station', city: 'Tokyo', country: 'Japan', lat: 35.6812, lon: 139.7671, demand: 'Very High' },
+            { code: 'OSA', name: 'Shin-Osaka Station', city: 'Osaka', country: 'Japan', lat: 34.7339, lon: 135.5003, demand: 'Very High' },
+            { code: 'BEI', name: 'Beijing Railway Station', city: 'Beijing', country: 'China', lat: 39.9028, lon: 116.4270, demand: 'Very High' },
+            { code: 'SHA', name: 'Shanghai Hongqiao', city: 'Shanghai', country: 'China', lat: 31.1978, lon: 121.3153, demand: 'Very High' },
+            { code: 'MOS', name: 'Moscow Kazansky', city: 'Moscow', country: 'Russia', lat: 55.7731, lon: 37.6556, demand: 'High' },
+            { code: 'MAD', name: 'Madrid Atocha', city: 'Madrid', country: 'Spain', lat: 40.4067, lon: -3.6903, demand: 'High' },
+            { code: 'BCN', name: 'Barcelona Sants', city: 'Barcelona', country: 'Spain', lat: 41.3791, lon: 2.1400, demand: 'High' },
+            { code: 'MIL', name: 'Milano Centrale', city: 'Milan', country: 'Italy', lat: 45.4868, lon: 9.2042, demand: 'High' },
+            { code: 'MUM', name: 'Chhatrapati Shivaji', city: 'Mumbai', country: 'India', lat: 18.9399, lon: 72.8353, demand: 'Very High' },
+            { code: 'SEO', name: 'Seoul Station', city: 'Seoul', country: 'South Korea', lat: 37.5547, lon: 126.9707, demand: 'Very High' }
+        ];
+
+        const researchOptions = [
+            { id: 'eff1', name: 'Efficiency I', description: 'Reduce fuel costs by 10%', cost: 50, type: 'efficiency', level: 1, benefit: '-10% Fuel' },
+            { id: 'eff2', name: 'Efficiency II', description: 'Reduce fuel costs by 15%', cost: 100, type: 'efficiency', level: 2, benefit: '-15% Fuel', requires: 'eff1' },
+            { id: 'maint1', name: 'Maintenance I', description: 'Reduce maintenance by 15%', cost: 75, type: 'maintenance', level: 1, benefit: '-15% Maint' },
+            { id: 'maint2', name: 'Maintenance II', description: 'Reduce maintenance by 20%', cost: 150, type: 'maintenance', level: 2, benefit: '-20% Maint', requires: 'maint1' },
+            { id: 'marketing1', name: 'Marketing I', description: 'Increase demand by 20%', cost: 100, type: 'marketing', level: 1, benefit: '+20% Demand' },
+            { id: 'marketing2', name: 'Marketing II', description: 'Increase demand by 25%', cost: 200, type: 'marketing', level: 2, benefit: '+25% Demand', requires: 'marketing1' }
+        ];
+
+        let completedResearch = [];
+        let railwayMap = null;
+        let statsVisible = true;
+
+        // Helper Functions
+        function formatMoney(amount) {
+            if (amount >= 1000000000) return '$' + (amount / 1000000000).toFixed(1) + 'B';
+            if (amount >= 1000000) return '$' + (amount / 1000000).toFixed(1) + 'M';
+            if (amount >= 1000) return '$' + (amount / 1000).toFixed(1) + 'K';
+            return '$' + Math.floor(amount).toLocaleString();
+        }
+
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371;
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                      Math.sin(dLon/2) * Math.sin(dLon/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return Math.round(R * c);
+        }
+
+        function calculateTravelTime(distance, speed) {
+            const hours = distance / speed;
+            return { hours: Math.floor(hours), minutes: Math.round((hours % 1) * 60) };
+        }
+
+        function calculateRouteRevenue(train, distance, demand) {
+            if (train.type === 'Freight') {
+                return Math.round(train.cargoCapacity * distance * 0.05 * (demand === 'Very High' ? 1.3 : 1.1));
+            }
+            const basePrice = 0.12;
+            const demandMult = demand === 'Very High' ? 1.4 : 1.2;
+            const marketingBonus = 1 + (gameState.research.marketing * 0.2);
+            return Math.round(train.capacity * distance * basePrice * demandMult * marketingBonus);
+        }
+
+        function calculateRouteCost(train, distance) {
+            const fuelRed = 1 - (gameState.research.efficiency * 0.1);
+            const maintRed = 1 - (gameState.research.maintenance * 0.15);
+            return Math.round(train.fuelCost * (distance / 100) * fuelRed + train.maintenanceCost * maintRed);
+        }
+
+        // UI Functions
+        function toggleStats() {
+            statsVisible = !statsVisible;
+            document.getElementById('quickStats').style.display = statsVisible ? 'flex' : 'none';
+        }
+
+        function editCompanyName() {
+            document.getElementById('companyNameInput').value = gameState.companyName;
+            document.getElementById('editCompanyModal').classList.add('active');
+        }
+
+        function saveCompanyName() {
+            const newName = document.getElementById('companyNameInput').value.trim();
+            if (newName && newName.length >= 3) {
+                gameState.companyName = newName;
+                document.getElementById('companyName').textContent = newName;
+                closeModal('editCompanyModal');
+                showNotification('Company name updated!', 'success');
+                saveGame();
+            } else {
+                showNotification('Name must be at least 3 characters', 'error');
+            }
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+
+            if (tabName === 'map') initMap();
+            if (tabName === 'fleet') renderFleet();
+            if (tabName === 'routes') renderRoutes();
+            if (tabName === 'market') renderMarket();
+            if (tabName === 'research') renderResearch();
+            if (tabName === 'statistics') renderStatistics();
+        }
+
+        function updateUI() {
+            const dailyRev = gameState.routes.reduce((s, r) => s + r.revenue, 0);
+            const dailyCost = gameState.routes.reduce((s, r) => s + r.cost, 0);
+            const dailyProfit = dailyRev - dailyCost;
+
+            document.getElementById('cashDisplay').textContent = formatMoney(gameState.cash);
+            document.getElementById('profitDisplay').textContent = formatMoney(dailyProfit);
+            document.getElementById('fleetCount').textContent = gameState.fleet.length;
+            document.getElementById('routeCount').textContent = gameState.routes.length;
+            
+            const uniqueStations = new Set();
+            gameState.routes.forEach(r => {
+                uniqueStations.add(r.origin.code);
+                uniqueStations.add(r.destination.code);
+            });
+            document.getElementById('stationCount').textContent = uniqueStations.size;
+            document.getElementById('rpDisplay').textContent = gameState.researchPoints;
+            document.getElementById('headerLevel').textContent = gameState.level;
+            document.getElementById('companyName').textContent = gameState.companyName;
+
+            const reputation = document.getElementById('headerReputation');
+            reputation.innerHTML = '';
+            for (let i = 0; i < 5; i++) {
+                const star = document.createElement('div');
+                star.className = i < gameState.reputation ? 'star' : 'star empty';
+                reputation.appendChild(star);
+            }
+
+            updateDashboard();
+        }
+
+        function updateDashboard() {
+            const dailyRev = gameState.routes.reduce((s, r) => s + r.revenue, 0);
+            const dailyCost = gameState.routes.reduce((s, r) => s + r.cost, 0);
+            const totalPass = gameState.routes.reduce((s, r) => s + (r.train.capacity || 0), 0);
+            const util = gameState.fleet.length > 0 ? Math.round((gameState.routes.length / gameState.fleet.length) * 100) : 0;
+
+            document.getElementById('dashCash').textContent = formatMoney(gameState.cash);
+            document.getElementById('dashRevenue').textContent = formatMoney(dailyRev);
+            document.getElementById('dashCosts').textContent = formatMoney(dailyCost);
+            document.getElementById('dashProfit').textContent = formatMoney(dailyRev - dailyCost);
+            document.getElementById('dashTrains').textContent = gameState.fleet.length;
+            document.getElementById('dashRoutes').textContent = gameState.routes.length;
+            document.getElementById('dashPassengers').textContent = totalPass.toLocaleString();
+            document.getElementById('dashUtilization').textContent = util + '%';
+
+            const current = gameState.totalTrips % 100;
+            document.getElementById('levelProgress').textContent = `${current} / 100 Trips`;
+            document.getElementById('levelProgressBar').style.width = (current / 100 * 100) + '%';
+        }
+
+        function renderMarket() {
+            const market = document.getElementById('trainMarket');
+            market.innerHTML = `
+                <div class="train-grid">
+                    ${trainTypes.map((train, index) => {
+                        const canAfford = gameState.cash >= train.price;
+                        const isNew = index >= trainTypes.length - 3;
+                        return `
+                            <div class="train-card">
+                                <div class="train-image-wrapper">
+                                    <img src="${train.image}" alt="${train.name}" class="train-image" 
+                                         onerror="this.src='https://via.placeholder.com/800x450/fee2e2/dc2626?text=${encodeURIComponent(train.name)}'">
+                                    <span class="train-type-badge">${train.type}</span>
+                                    ${isNew ? '<span class="new-train-badge">NEW</span>' : ''}
+                                </div>
+                                <div class="train-card-body">
+                                    <div class="train-header">
+                                        <div class="train-details">
+                                            <div class="train-name">${train.name}</div>
+                                            <div class="train-manufacturer">${train.manufacturer}</div>
+                                        </div>
+                                        <div class="train-price">
+                                            <div class="price-label">Price</div>
+                                            <div class="price-amount">${formatMoney(train.price)}</div>
+                                        </div>
+                                    </div>
+                                    <div class="train-specs">
+                                        <div class="spec-item">
+                                            <div class="spec-icon">
+                                                <svg viewBox="0 0 24 24">
+                                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                                    <circle cx="12" cy="7" r="4"/>
+                                                </svg>
+                                            </div>
+                                            <div class="spec-info">
+                                                <div class="spec-label">${train.type === 'Freight' ? 'Cargo' : 'Capacity'}</div>
+                                                <div class="spec-value">${train.capacity || train.cargoCapacity} ${train.type === 'Freight' ? 't' : 'pax'}</div>
+                                            </div>
+                                        </div>
+                                        <div class="spec-item">
+                                            <div class="spec-icon">
+                                                <svg viewBox="0 0 24 24">
+                                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                                                </svg>
+                                            </div>
+                                            <div class="spec-info">
+                                                <div class="spec-label">Max Dist</div>
+                                                <div class="spec-value">${train.maxDistance} km</div>
+                                            </div>
+                                        </div>
+                                        <div class="spec-item">
+                                            <div class="spec-icon">
+                                                <svg viewBox="0 0 24 24">
+                                                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                                                </svg>
+                                            </div>
+                                            <div class="spec-info">
+                                                <div class="spec-label">Speed</div>
+                                                <div class="spec-value">${train.speed} km/h</div>
+                                            </div>
+                                        </div>
+                                        <div class="spec-item">
+                                            <div class="spec-icon">
+                                                <svg viewBox="0 0 24 24">
+                                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                                    <polyline points="14 2 14 8 20 8"/>
+                                                </svg>
+                                            </div>
+                                            <div class="spec-info">
+                                                <div class="spec-label">Fuel</div>
+                                                <div class="spec-value">${formatMoney(train.fuelCost)}/100k</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="train-actions">
+                                        <button class="btn ${canAfford ? 'btn-success' : 'btn-primary'} btn-block" 
+                                                onclick="buyTrain('${train.id}')" 
+                                                ${!canAfford ? 'disabled' : ''}>
+                                            ${canAfford ? 'Purchase' : 'Insufficient Funds'}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        function renderFleet() {
+            const fleetList = document.getElementById('fleetList');
+            if (gameState.fleet.length === 0) {
+                fleetList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <svg viewBox="0 0 24 24">
+                                <rect x="4" y="6" width="16" height="12" rx="2"/>
+                                <circle cx="8" cy="18" r="1"/>
+                                <circle cx="16" cy="18" r="1"/>
+                            </svg>
+                        </div>
+                        <h3 class="empty-title">No Trains</h3>
+                        <p class="empty-text">Start building your fleet by purchasing trains from the market.</p>
+                        <button class="btn btn-primary" onclick="switchTab('market')">Browse Market</button>
+                    </div>
+                `;
+                return;
+            }
+
+            fleetList.innerHTML = `
+                <div class="train-grid">
+                    ${gameState.fleet.map((train, index) => {
+                        const route = gameState.routes.find(r => r.trainId === train.id);
+                        const isActive = !!route;
+                        return `
+                            <div class="train-card">
+                                <div class="train-image-wrapper">
+                                    <img src="${train.image}" alt="${train.name}" class="train-image">
+                                    <span class="train-type-badge">${isActive ? 'IN SERVICE' : 'AVAILABLE'}</span>
+                                </div>
+                                <div class="train-card-body">
+                                    <div class="train-header">
+                                        <div class="train-details">
+                                            <div class="train-name">${train.name}</div>
+                                            <div class="train-manufacturer">${train.manufacturer}</div>
+                                        </div>
+                                        <div class="train-price">
+                                            <div class="price-label">Value</div>
+                                            <div class="price-amount" style="font-size: 16px;">${formatMoney(train.price * 0.7)}</div>
+                                        </div>
+                                    </div>
+                                    ${isActive ? `
+                                        <div class="alert alert-info" style="margin: 14px 0;">
+                                            <div>
+                                                <strong>${route.origin.code} → ${route.destination.code}</strong><br>
+                                                <small>Profit: ${formatMoney(route.revenue - route.cost)}/day</small>
+                                            </div>
+                                        </div>
+                                    ` : `
+                                        <div class="alert alert-warning" style="margin: 14px 0;">
+                                            <div>
+                                                <strong>Train Idle</strong><br>
+                                                <small>Assign to route to earn revenue</small>
+                                            </div>
+                                        </div>
+                                    `}
+                                    <div class="train-actions">
+                                        ${!isActive ? `
+                                            <button class="btn btn-success btn-sm" onclick="quickAssignRoute(${index})" style="flex: 1;">Assign</button>
+                                            <button class="btn btn-danger btn-sm" onclick="sellTrain(${index})">Sell</button>
+                                        ` : `
+                                            <button class="btn btn-info btn-block btn-sm" onclick="switchTab('routes')">View Route</button>
+                                        `}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        function renderRoutes() {
+            const routesList = document.getElementById('routesList');
+            if (gameState.routes.length === 0) {
+                routesList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <svg viewBox="0 0 24 24">
+                                <line x1="22" y1="2" x2="11" y2="13"/>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                            </svg>
+                        </div>
+                        <h3 class="empty-title">No Routes</h3>
+                        <p class="empty-text">Create your first route to start earning revenue.</p>
+                        <button class="btn btn-success" onclick="openCreateRouteModal()">Create Route</button>
+                    </div>
+                `;
+                return;
+            }
+
+            routesList.innerHTML = gameState.routes.map((route, index) => `
+                <div class="route-card">
+                    <div class="route-header">
+                        <div class="route-path">
+                            <span>${route.origin.code}</span>
+                            <span class="route-arrow">→</span>
+                            <span>${route.destination.code}</span>
+                        </div>
+                        <button class="btn btn-danger btn-sm" onclick="deleteRoute(${index})">Close</button>
+                    </div>
+                    <div style="margin-bottom: 12px; color: #64748b; font-size: 13px;">
+                        ${route.origin.city} to ${route.destination.city}
+                    </div>
+                    <div class="route-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Train</div>
+                            <div class="detail-value">${route.train.name}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Distance</div>
+                            <div class="detail-value">${route.distance} km</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Time</div>
+                            <div class="detail-value">${route.travelTime.hours}h ${route.travelTime.minutes}m</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Capacity</div>
+                            <div class="detail-value">${route.train.capacity || route.train.cargoCapacity} ${route.train.type === 'Freight' ? 't' : 'pax'}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Revenue</div>
+                            <div class="detail-value" style="color: #10b981;">${formatMoney(route.revenue)}/day</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Costs</div>
+                            <div class="detail-value" style="color: #ef4444;">${formatMoney(route.cost)}/day</div>
+                        </div>
+                        <div class="detail-item" style="grid-column: 1 / -1;">
+                            <div class="detail-label">Daily Profit</div>
+                            <div class="detail-value" style="color: ${route.revenue - route.cost > 0 ? '#10b981' : '#ef4444'}; font-size: 20px;">
+                                ${formatMoney(route.revenue - route.cost)}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderResearch() {
+            const list = document.getElementById('researchList');
+            document.getElementById('rpDisplayTab').textContent = gameState.researchPoints + ' RP';
+            list.innerHTML = `
+                <div class="dashboard-grid">
+                    ${researchOptions.map(res => {
+                        const isCompleted = completedResearch.includes(res.id);
+                        const canAfford = gameState.researchPoints >= res.cost;
+                        const meetsReq = !res.requires || completedResearch.includes(res.requires);
+                        const canResearch = canAfford && meetsReq && !isCompleted;
+                        return `
+                            <div class="dashboard-card" style="opacity: ${isCompleted ? 0.6 : 1};">
+                                <div class="card-header">
+                                    <h3 class="card-title">${res.name}</h3>
+                                </div>
+                                <p style="color: #64748b; margin-bottom: 14px; font-size: 13px;">${res.description}</p>
+                                <div style="background: #f8fafc; padding: 12px; border-radius: 8px; margin-bottom: 14px;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 12px;">
+                                        <span style="font-weight: 600;">Cost:</span>
+                                        <span style="font-weight: 700; color: #dc2626;">${res.cost} RP</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                                        <span style="font-weight: 600;">Benefit:</span>
+                                        <span style="font-weight: 700; color: #10b981;">${res.benefit}</span>
+                                    </div>
+                                </div>
+                                <button class="btn ${isCompleted ? 'btn-success' : 'btn-primary'} btn-block btn-sm" 
+                                        onclick="conductResearch('${res.id}')"
+                                        ${!canResearch ? 'disabled' : ''}>
+                                    ${isCompleted ? 'Completed' : canResearch ? 'Research' : !meetsReq ? 'Locked' : 'Need RP'}
+                                </button>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        function renderStatistics() {
+            const div = document.getElementById('statsContent');
+            const dailyRev = gameState.routes.reduce((s, r) => s + r.revenue, 0);
+            const dailyCost = gameState.routes.reduce((s, r) => s + r.cost, 0);
+            const fleetVal = gameState.fleet.reduce((s, t) => s + t.price * 0.7, 0);
+            
+            div.innerHTML = `
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Financial</h3>
+                        </div>
+                        <div class="metric-grid">
+                            <div class="metric-item">
+                                <div class="metric-value">${formatMoney(gameState.cash)}</div>
+                                <div class="metric-label">Cash</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">${formatMoney(fleetVal)}</div>
+                                <div class="metric-label">Fleet</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value" style="color: #10b981;">${formatMoney(dailyRev)}</div>
+                                <div class="metric-label">Revenue</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value" style="color: #ef4444;">${formatMoney(dailyCost)}</div>
+                                <div class="metric-label">Costs</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Operations</h3>
+                        </div>
+                        <div class="metric-grid">
+                            <div class="metric-item">
+                                <div class="metric-value">${gameState.totalTrips.toLocaleString()}</div>
+                                <div class="metric-label">Trips</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">${gameState.totalPassengers.toLocaleString()}</div>
+                                <div class="metric-label">Passengers</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">${completedResearch.length}/${researchOptions.length}</div>
+                                <div class="metric-label">Research</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">${gameState.level}</div>
+                                <div class="metric-label">Level</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function initMap() {
+            if (railwayMap) railwayMap.remove();
+            railwayMap = L.map('railwayMap').setView([40, 0], 2);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap',
+                maxZoom: 18
+            }).addTo(railwayMap);
+
+            stations.forEach(station => {
+                L.marker([station.lat, station.lon]).addTo(railwayMap)
+                    .bindPopup(`<strong>${station.code}</strong><br>${station.name}<br>${station.city}`);
+            });
+
+            gameState.routes.forEach(route => {
+                L.polyline([[route.origin.lat, route.origin.lon], [route.destination.lat, route.destination.lon]], {
+                    color: '#dc2626',
+                    weight: 3,
+                    opacity: 0.7
+                }).addTo(railwayMap).bindPopup(`${route.origin.code} → ${route.destination.code}<br>${formatMoney(route.revenue - route.cost)}/day`);
+            });
+        }
+
+        // Game Actions
+        function buyTrain(id) {
+            const train = trainTypes.find(t => t.id === id);
+            if (gameState.cash < train.price) {
+                showNotification('Insufficient funds!', 'error');
+                return;
+            }
+            gameState.cash -= train.price;
+            gameState.fleet.push({ ...train, id: Date.now() + Math.random() });
+            showNotification('Train purchased!', 'success');
+            updateUI();
+            renderMarket();
+            saveGame();
+        }
+
+        function sellTrain(index) {
+            const train = gameState.fleet[index];
+            const sellPrice = Math.floor(train.price * 0.7);
+            if (confirm(`Sell ${train.name} for ${formatMoney(sellPrice)}?`)) {
+                gameState.cash += sellPrice;
+                gameState.fleet.splice(index, 1);
+                showNotification('Train sold', 'success');
+                updateUI();
+                renderFleet();
+                saveGame();
+            }
+        }
+
+        function quickAssignRoute(index) {
+            openCreateRouteModal();
+            setTimeout(() => {
+                document.getElementById('routeTrain').value = gameState.fleet[index].id;
+                updateRoutePreview();
+            }, 100);
+        }
+
+        function openCreateRouteModal() {
+            const available = gameState.fleet.filter(t => !gameState.routes.some(r => r.trainId === t.id));
+            if (available.length === 0) {
+                showNotification('No available trains!', 'error');
+                return;
+            }
+
+            document.getElementById('routeTrain').innerHTML = '<option value="">Choose train...</option>' +
+                available.map(t => `<option value="${t.id}">${t.name} (${t.capacity || t.cargoCapacity} ${t.type === 'Freight' ? 't' : 'pax'}, ${t.maxDistance}km)</option>`).join('');
+            document.getElementById('routeOrigin').innerHTML = stations.map(s => 
+                `<option value="${s.code}">${s.code} - ${s.name}</option>`).join('');
+            document.getElementById('routeDestination').innerHTML = stations.map(s => 
+                `<option value="${s.code}">${s.code} - ${s.name}</option>`).join('');
+            
+            document.getElementById('createRouteModal').classList.add('active');
+            ['routeTrain', 'routeOrigin', 'routeDestination'].forEach(id => {
+                document.getElementById(id).addEventListener('change', updateRoutePreview);
+            });
+        }
+
+        function updateRoutePreview() {
+            const trainId = document.getElementById('routeTrain').value;
+            const originCode = document.getElementById('routeOrigin').value;
+            const destCode = document.getElementById('routeDestination').value;
+            const preview = document.getElementById('routePreview');
+
+            if (!trainId || !originCode || !destCode || originCode === destCode) {
+                preview.style.display = 'none';
+                return;
+            }
+
+            const train = gameState.fleet.find(t => t.id == trainId);
+            const origin = stations.find(s => s.code === originCode);
+            const dest = stations.find(s => s.code === destCode);
+            const distance = calculateDistance(origin.lat, origin.lon, dest.lat, dest.lon);
+            
+            if (distance > train.maxDistance) {
+                preview.innerHTML = `<div class="alert alert-danger"><div><strong>Distance exceeded!</strong></div></div>`;
+                preview.style.display = 'block';
+                return;
+            }
+
+            const travelTime = calculateTravelTime(distance, train.speed);
+            const revenue = calculateRouteRevenue(train, distance, dest.demand);
+            const cost = calculateRouteCost(train, distance);
+            const profit = revenue - cost;
+
+            preview.innerHTML = `
+                <div class="dashboard-card" style="margin: 16px 0;">
+                    <div class="card-header">
+                        <h3 class="card-title">Preview</h3>
+                    </div>
+                    <div class="route-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Distance</div>
+                            <div class="detail-value">${distance} km</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Time</div>
+                            <div class="detail-value">${travelTime.hours}h ${travelTime.minutes}m</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Revenue</div>
+                            <div class="detail-value" style="color: #10b981;">${formatMoney(revenue)}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Costs</div>
+                            <div class="detail-value" style="color: #ef4444;">${formatMoney(cost)}</div>
+                        </div>
+                        <div class="detail-item" style="grid-column: 1 / -1;">
+                            <div class="detail-label">Daily Profit</div>
+                            <div class="detail-value" style="color: ${profit > 0 ? '#10b981' : '#ef4444'}; font-size: 20px;">
+                                ${formatMoney(profit)}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            preview.style.display = 'block';
+        }
+
+        function createRoute() {
+            const trainId = document.getElementById('routeTrain').value;
+            const originCode = document.getElementById('routeOrigin').value;
+            const destCode = document.getElementById('routeDestination').value;
+
+            if (!trainId || !originCode || !destCode || originCode === destCode) {
+                showNotification('Invalid route!', 'error');
+                return;
+            }
+
+            const train = gameState.fleet.find(t => t.id == trainId);
+            const origin = stations.find(s => s.code === originCode);
+            const dest = stations.find(s => s.code === destCode);
+            const distance = calculateDistance(origin.lat, origin.lon, dest.lat, dest.lon);
+
+            if (distance > train.maxDistance) {
+                showNotification('Distance exceeded!', 'error');
+                return;
+            }
+
+            gameState.routes.push({
+                id: Date.now(),
+                trainId: train.id,
+                train,
+                origin,
+                destination: dest,
+                distance,
+                travelTime: calculateTravelTime(distance, train.speed),
+                revenue: calculateRouteRevenue(train, distance, dest.demand),
+                cost: calculateRouteCost(train, distance)
+            });
+
+            closeModal('createRouteModal');
+            showNotification('Route launched!', 'success');
+            updateUI();
+            renderRoutes();
+            saveGame();
+        }
+
+        function deleteRoute(index) {
+            const route = gameState.routes[index];
+            if (confirm(`Close route ${route.origin.code} → ${route.destination.code}?`)) {
+                gameState.routes.splice(index, 1);
+                showNotification('Route closed', 'success');
+                updateUI();
+                renderRoutes();
+                saveGame();
+            }
+        }
+
+        function conductResearch(id) {
+            const res = researchOptions.find(r => r.id === id);
+            if (completedResearch.includes(id)) return;
+            if (res.requires && !completedResearch.includes(res.requires)) {
+                showNotification('Prerequisites not met!', 'error');
+                return;
+            }
+            if (gameState.researchPoints < res.cost) {
+                showNotification('Insufficient RP!', 'error');
+                return;
+            }
+
+            gameState.researchPoints -= res.cost;
+            completedResearch.push(id);
+            gameState.research[res.type] = res.level;
+            gameState.routes.forEach(route => {
+                route.revenue = calculateRouteRevenue(route.train, route.distance, route.destination.demand);
+                route.cost = calculateRouteCost(route.train, route.distance);
+            });
+
+            showNotification('Research completed!', 'success');
+            updateUI();
+            renderResearch();
+            saveGame();
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <div class="notification-icon">${type === 'success' ? '✓' : '⚠'}</div>
+                    <div class="notification-text">${message}</div>
+                </div>
+            `;
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
+        }
+
+        function saveGame() {
+            localStorage.setItem('trainManagerSave', JSON.stringify({ gameState, completedResearch }));
+        }
+
+        function loadGame() {
+            const saved = localStorage.getItem('trainManagerSave');
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    Object.assign(gameState, data.gameState);
+                    completedResearch = data.completedResearch || [];
+                } catch (e) {}
+            }
+        }
+
+        // Game Loop
+        function gameLoop() {
+            const dailyRev = gameState.routes.reduce((s, r) => s + r.revenue, 0);
+            const dailyCost = gameState.routes.reduce((s, r) => s + r.cost, 0);
+            gameState.cash += dailyRev - dailyCost;
+            gameState.researchPoints += Math.floor(gameState.routes.length * 0.5);
+            gameState.totalTrips += gameState.routes.length;
+            gameState.totalPassengers += gameState.routes.reduce((s, r) => s + (r.train.capacity || 0), 0);
+
+            const newLevel = Math.floor(gameState.totalTrips / 100) + 1;
+            if (newLevel > gameState.level) {
+                gameState.level = newLevel;
+                gameState.reputation = Math.min(5, Math.floor(gameState.level / 2) + 3);
+                gameState.researchPoints += 50;
+                showNotification(`Level ${gameState.level} reached!`, 'success');
+            }
+
+            updateUI();
+            saveGame();
+        }
+
+        // Initialization
+        window.addEventListener('load', () => {
+            loadGame();
+            setTimeout(() => {
+                document.getElementById('introScreen').classList.add('fade-out');
+                setTimeout(() => {
+                    document.getElementById('gameContainer').classList.add('visible');
+                    updateUI();
+                    renderMarket();
+                }, 800);
+            }, 3000);
+        });
+
+        setInterval(gameLoop, 10000);
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>

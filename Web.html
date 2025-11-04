@@ -1,0 +1,1666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="Sharvika Games - Play free online simulation and educational games">
+    <meta name="theme-color" content="#01875f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Sharvika Games - Play Free Online Games</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background: #f8f9fa;
+            color: #202124;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: #fff;
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .store-logo {
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
+        }
+
+        .store-name {
+            font-size: 22px;
+            color: #5f6368;
+            font-weight: 400;
+            letter-spacing: -0.5px;
+            white-space: nowrap;
+        }
+
+        .store-name .highlight {
+            color: #01875f;
+            font-weight: 500;
+        }
+
+        .search-container {
+            flex: 1;
+            max-width: 720px;
+        }
+
+        .search-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            width: 20px;
+            height: 20px;
+            opacity: 0.6;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .search-box {
+            width: 100%;
+            height: 48px;
+            background: #f1f3f4;
+            border: none;
+            border-radius: 8px;
+            padding: 0 16px 0 48px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .search-box:focus {
+            background: #fff;
+            box-shadow: 0 1px 6px rgba(32,33,36,0.28);
+        }
+
+        .mobile-search {
+            display: none;
+        }
+
+        /* Navigation */
+        .nav-tabs {
+            background: #fff;
+            border-bottom: 1px solid #dadce0;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .nav-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-container {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-tab {
+            padding: 16px 0;
+            color: #5f6368;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+            transition: all 0.2s;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .nav-tab:hover {
+            color: #202124;
+        }
+
+        .nav-tab.active {
+            color: #01875f;
+            border-bottom-color: #01875f;
+        }
+
+        /* Main Content */
+        .main {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 24px;
+            min-height: calc(100vh - 250px);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 500;
+            color: #202124;
+        }
+
+        /* Games List */
+        .games-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .game-item {
+            background: #fff;
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            transition: all 0.2s;
+            cursor: pointer;
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+            -webkit-tap-highlight-color: transparent;
+            position: relative;
+        }
+
+        .game-item:hover {
+            box-shadow: 0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
+        }
+
+        .game-item:active {
+            transform: scale(0.99);
+        }
+
+        .game-icon-wrapper {
+            flex-shrink: 0;
+        }
+
+        .game-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 16px;
+            object-fit: cover;
+            border: 1px solid rgba(0,0,0,0.1);
+            display: block;
+        }
+
+        .game-details {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .game-title {
+            font-size: 16px;
+            font-weight: 400;
+            color: #202124;
+            margin-bottom: 2px;
+            line-height: 1.4;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .game-developer {
+            font-size: 13px;
+            color: #5f6368;
+            margin-bottom: 8px;
+        }
+
+        .game-stats {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+
+        .rating-box {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .rating-badge {
+            background: #01875f;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            color: #5f6368;
+        }
+
+        .category-badge {
+            background: #e8f5e9;
+            color: #137333;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .game-description {
+            font-size: 12px;
+            color: #5f6368;
+            margin: 6px 0;
+            line-height: 1.4;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .game-actions {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .play-btn {
+            background: #01875f;
+            color: #fff;
+            border: none;
+            padding: 10px 32px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s;
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            white-space: nowrap;
+            min-height: 40px;
+        }
+
+        .play-btn:hover {
+            background: #016d4f;
+            box-shadow: 0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
+        }
+
+        .play-btn:active {
+            transform: scale(0.96);
+        }
+
+        /* Footer */
+        .footer {
+            background: #fff;
+            border-top: 1px solid #dadce0;
+            padding: 24px;
+            margin-top: 64px;
+        }
+
+        .footer-content {
+            max-width: 1320px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: #5f6368;
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.2s;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .footer-link:hover {
+            color: #01875f;
+        }
+
+        .footer-link:active {
+            color: #016d4f;
+        }
+
+        .footer-text {
+            color: #5f6368;
+            font-size: 12px;
+        }
+
+        .footer-brand {
+            font-weight: 500;
+            color: #01875f;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            animation: slideDown 0.3s;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            padding: 24px;
+            border-bottom: 1px solid #dadce0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: #fff;
+            z-index: 1;
+        }
+
+        .modal-header h2 {
+            font-size: 20px;
+            font-weight: 500;
+            color: #202124;
+        }
+
+        .close {
+            color: #5f6368;
+            font-size: 28px;
+            font-weight: 300;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.2s;
+            -webkit-tap-highlight-color: transparent;
+            flex-shrink: 0;
+        }
+
+        .close:hover {
+            background: #f1f3f4;
+        }
+
+        .close:active {
+            background: #e8eaed;
+        }
+
+        .modal-body {
+            padding: 24px;
+            color: #5f6368;
+            line-height: 1.8;
+        }
+
+        .modal-body h3 {
+            color: #202124;
+            font-size: 16px;
+            font-weight: 500;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .modal-body p {
+            margin-bottom: 16px;
+        }
+
+        .modal-body ul {
+            margin-left: 20px;
+            margin-bottom: 16px;
+        }
+
+        .modal-body li {
+            margin-bottom: 8px;
+        }
+
+        /* No Results Message */
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #5f6368;
+            display: none;
+        }
+
+        .no-results-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.3;
+        }
+
+        .no-results-text {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .no-results-subtext {
+            font-size: 14px;
+        }
+
+        /* ========================================
+           MOBILE RESPONSIVE (PLAY STORE STYLE)
+        ======================================== */
+
+        /* Tablet (768px - 1024px) */
+        @media (max-width: 1024px) {
+            .header-container {
+                max-width: 100%;
+            }
+
+            .nav-container,
+            .main,
+            .footer-content {
+                max-width: 100%;
+            }
+
+            .search-container {
+                max-width: 500px;
+            }
+        }
+
+        /* Mobile & Tablet (up to 768px) */
+        @media (max-width: 768px) {
+            body {
+                font-size: 14px;
+            }
+
+            /* Header Mobile */
+            .header-container {
+                padding: 0 16px;
+                height: 56px;
+                gap: 12px;
+            }
+
+            .store-logo {
+                width: 36px;
+                height: 36px;
+            }
+
+            .store-name {
+                font-size: 18px;
+            }
+
+            /* Hide desktop search on mobile */
+            .search-container {
+                display: none;
+            }
+
+            /* Mobile Search Bar */
+            .mobile-search {
+                display: block;
+                padding: 8px 16px;
+                background: #fff;
+                border-bottom: 1px solid #dadce0;
+            }
+
+            .mobile-search .search-wrapper {
+                position: relative;
+                display: flex;
+                align-items: center;
+            }
+
+            .mobile-search .search-box {
+                width: 100%;
+                height: 44px;
+                background: #f1f3f4;
+                border: none;
+                border-radius: 8px;
+                padding: 0 16px 0 44px;
+                font-size: 16px;
+                outline: none;
+                transition: all 0.2s;
+            }
+
+            .mobile-search .search-icon {
+                position: absolute;
+                left: 14px;
+                width: 20px;
+                height: 20px;
+                opacity: 0.6;
+                pointer-events: none;
+            }
+
+            .mobile-search .search-box:focus {
+                background: #fff;
+                box-shadow: 0 1px 6px rgba(32,33,36,0.28);
+            }
+
+            /* Navigation Mobile */
+            .nav-tabs {
+                overflow-x: scroll;
+                scroll-snap-type: x proximity;
+            }
+
+            .nav-container {
+                padding: 0 16px;
+                gap: 24px;
+            }
+
+            .nav-tab {
+                padding: 14px 0;
+                font-size: 14px;
+                scroll-snap-align: start;
+            }
+
+            /* Main Content Mobile */
+            .main {
+                padding: 12px 16px 16px;
+            }
+
+            .section-header {
+                margin-bottom: 12px;
+            }
+
+            .section-title {
+                font-size: 18px;
+                font-weight: 500;
+            }
+
+            /* Games List Mobile - Play Store Style */
+            .games-list {
+                gap: 8px;
+            }
+
+            .game-item {
+                padding: 12px;
+                gap: 12px;
+                border-radius: 8px;
+                flex-wrap: nowrap;
+            }
+
+            .game-icon {
+                width: 64px;
+                height: 64px;
+                border-radius: 12px;
+            }
+
+            .game-details {
+                flex: 1;
+                min-width: 0;
+            }
+
+            .game-title {
+                font-size: 14px;
+                line-height: 1.3;
+                margin-bottom: 2px;
+                -webkit-line-clamp: 2;
+            }
+
+            .game-developer {
+                font-size: 12px;
+                margin-bottom: 6px;
+            }
+
+            .game-stats {
+                gap: 8px;
+                margin-bottom: 6px;
+            }
+
+            .rating-badge {
+                font-size: 11px;
+                padding: 2px 6px;
+            }
+
+            .stat-item {
+                font-size: 11px;
+            }
+
+            .category-badge {
+                font-size: 11px;
+                padding: 3px 8px;
+            }
+
+            .game-description {
+                font-size: 11px;
+                margin: 4px 0;
+                -webkit-line-clamp: 1;
+            }
+
+            /* Play Button Mobile */
+            .game-actions {
+                flex-shrink: 0;
+                width: auto;
+            }
+
+            .play-btn {
+                padding: 8px 20px;
+                font-size: 13px;
+                min-height: 36px;
+                border-radius: 20px;
+            }
+
+            /* Footer Mobile */
+            .footer {
+                padding: 20px 16px;
+                margin-top: 40px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 12px;
+            }
+
+            .footer-links {
+                justify-content: center;
+                gap: 16px;
+                flex-wrap: wrap;
+            }
+
+            .footer-link {
+                font-size: 12px;
+                padding: 8px;
+            }
+
+            .footer-text {
+                font-size: 11px;
+            }
+
+            /* Modal Mobile */
+            .modal-content {
+                width: 96%;
+                margin: 20px auto;
+                max-height: calc(100vh - 40px);
+                border-radius: 12px;
+            }
+
+            .modal-header {
+                padding: 16px;
+            }
+
+            .modal-header h2 {
+                font-size: 18px;
+            }
+
+            .close {
+                width: 36px;
+                height: 36px;
+                font-size: 26px;
+            }
+
+            .modal-body {
+                padding: 16px;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+
+            .modal-body h3 {
+                font-size: 15px;
+                margin-top: 16px;
+                margin-bottom: 8px;
+            }
+
+            .modal-body p {
+                margin-bottom: 12px;
+            }
+
+            .modal-body ul {
+                margin-left: 16px;
+                margin-bottom: 12px;
+            }
+
+            .modal-body li {
+                margin-bottom: 6px;
+            }
+        }
+
+        /* Small Mobile (up to 480px) */
+        @media (max-width: 480px) {
+            .header-container {
+                padding: 0 12px;
+                height: 56px;
+                gap: 8px;
+            }
+
+            .store-logo {
+                width: 32px;
+                height: 32px;
+            }
+
+            .store-name {
+                font-size: 16px;
+                letter-spacing: -0.3px;
+            }
+
+            .mobile-search {
+                padding: 8px 12px;
+            }
+
+            .mobile-search .search-box {
+                height: 42px;
+                font-size: 15px;
+            }
+
+            .nav-container {
+                padding: 0 12px;
+                gap: 20px;
+            }
+
+            .nav-tab {
+                padding: 12px 0;
+                font-size: 13px;
+            }
+
+            .main {
+                padding: 12px;
+            }
+
+            .section-header {
+                margin-bottom: 10px;
+            }
+
+            .section-title {
+                font-size: 16px;
+            }
+
+            .games-list {
+                gap: 8px;
+            }
+
+            .game-item {
+                padding: 10px;
+                gap: 10px;
+            }
+
+            .game-icon {
+                width: 56px;
+                height: 56px;
+                border-radius: 10px;
+            }
+
+            .game-title {
+                font-size: 13px;
+                line-height: 1.2;
+            }
+
+            .game-developer {
+                font-size: 11px;
+                margin-bottom: 4px;
+            }
+
+            .game-stats {
+                gap: 6px;
+            }
+
+            .rating-badge {
+                font-size: 10px;
+                padding: 2px 5px;
+            }
+
+            .stat-item {
+                font-size: 10px;
+            }
+
+            .category-badge {
+                font-size: 10px;
+                padding: 2px 6px;
+            }
+
+            .game-description {
+                font-size: 10px;
+                margin: 3px 0;
+            }
+
+            .play-btn {
+                padding: 7px 16px;
+                font-size: 12px;
+                min-height: 32px;
+                border-radius: 16px;
+            }
+
+            .footer {
+                padding: 16px 12px;
+                margin-top: 32px;
+            }
+
+            .footer-links {
+                gap: 12px;
+                flex-direction: column;
+            }
+
+            .footer-link {
+                font-size: 11px;
+                padding: 6px;
+            }
+
+            .footer-text {
+                font-size: 10px;
+            }
+
+            .modal-content {
+                width: 98%;
+                margin: 10px auto;
+                max-height: calc(100vh - 20px);
+                border-radius: 8px;
+            }
+
+            .modal-header {
+                padding: 12px;
+            }
+
+            .modal-header h2 {
+                font-size: 16px;
+            }
+
+            .close {
+                width: 32px;
+                height: 32px;
+                font-size: 24px;
+            }
+
+            .modal-body {
+                padding: 12px;
+                font-size: 13px;
+            }
+
+            .modal-body h3 {
+                font-size: 14px;
+            }
+        }
+
+        /* Very Small Mobile (up to 360px) */
+        @media (max-width: 360px) {
+            .header-container {
+                padding: 0 8px;
+                gap: 6px;
+            }
+
+            .store-logo {
+                width: 28px;
+                height: 28px;
+            }
+
+            .store-name {
+                font-size: 14px;
+            }
+
+            .mobile-search {
+                padding: 6px 8px;
+            }
+
+            .nav-container {
+                padding: 0 8px;
+                gap: 16px;
+            }
+
+            .main {
+                padding: 8px;
+            }
+
+            .game-item {
+                padding: 8px;
+                gap: 8px;
+            }
+
+            .game-icon {
+                width: 52px;
+                height: 52px;
+            }
+
+            .play-btn {
+                padding: 6px 12px;
+                font-size: 11px;
+                min-height: 30px;
+            }
+        }
+
+        /* Landscape Mobile */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .header-container {
+                height: 48px;
+            }
+
+            .modal-content {
+                max-height: 95vh;
+                margin: 2% auto;
+            }
+
+            .modal-header {
+                padding: 10px 16px;
+            }
+
+            .modal-body {
+                padding: 10px 16px;
+            }
+        }
+
+        /* Desktop Large Screens */
+        @media (min-width: 1600px) {
+            .header-container,
+            .nav-container,
+            .main,
+            .footer-content {
+                max-width: 1440px;
+            }
+
+            .game-icon {
+                width: 90px;
+                height: 90px;
+            }
+
+            .game-title {
+                font-size: 17px;
+            }
+        }
+
+        /* Touch Device Optimization */
+        @media (hover: none) and (pointer: coarse) {
+            .game-item:hover {
+                box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+            }
+
+            .play-btn:hover {
+                background: #01875f;
+            }
+
+            .nav-tab:hover {
+                color: #5f6368;
+            }
+
+            .nav-tab.active:hover {
+                color: #01875f;
+            }
+
+            .footer-link:hover {
+                color: #5f6368;
+            }
+
+            .close:hover {
+                background: none;
+            }
+
+            /* Larger touch targets for mobile */
+            .nav-tab {
+                min-height: 48px;
+                display: flex;
+                align-items: center;
+            }
+
+            .footer-link {
+                min-height: 44px;
+                display: inline-flex;
+                align-items: center;
+            }
+        }
+
+        /* Loading State */
+        .game-icon.loading {
+            background: #f1f3f4;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Accessibility */
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            margin: -1px;
+            padding: 0;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        /* Focus Styles */
+        *:focus-visible {
+            outline: 2px solid #01875f;
+            outline-offset: 2px;
+        }
+
+        .play-btn:focus-visible,
+        .nav-tab:focus-visible,
+        .footer-link:focus-visible {
+            outline: 2px solid #01875f;
+            outline-offset: 2px;
+        }
+
+        /* Print Styles */
+        @media print {
+            .header,
+            .nav-tabs,
+            .footer,
+            .modal,
+            .mobile-search {
+                display: none;
+            }
+
+            .main {
+                padding: 0;
+            }
+
+            .game-item {
+                page-break-inside: avoid;
+            }
+        }
+
+        /* Reduce Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" role="banner">
+        <div class="header-container">
+            <a href="#" class="logo-section" aria-label="Sharvika Games Home">
+                <svg class="store-logo" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <defs>
+                        <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#01875f;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#00c48c;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <circle cx="24" cy="24" r="20" fill="url(#gradient1)"/>
+                    <path d="M24 8 L32 18 L28 18 L28 28 L20 28 L20 18 L16 18 Z" fill="white"/>
+                    <circle cx="24" cy="34" r="3" fill="white"/>
+                </svg>
+                <div class="store-name"><span class="highlight">Sharvika</span> Games</div>
+            </a>
+            
+            <!-- Desktop Search -->
+            <div class="search-container">
+                <div class="search-wrapper">
+                    <svg class="search-icon" viewBox="0 0 24 24" fill="#5f6368" aria-hidden="true">
+                        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                    </svg>
+                    <input type="search" class="search-box" id="desktopSearch" placeholder="Search for games" aria-label="Search games">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Search (Shows only on mobile) -->
+    <div class="mobile-search">
+        <div class="search-wrapper">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="#5f6368" aria-hidden="true">
+                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+            </svg>
+            <input type="search" class="search-box" id="mobileSearch" placeholder="Search for games" aria-label="Search games">
+        </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs" role="navigation" aria-label="Main navigation">
+        <div class="nav-container">
+            <div class="nav-tab active" role="button" tabindex="0" aria-pressed="true">All Games</div>
+            <div class="nav-tab" role="button" tabindex="0" aria-pressed="false">Simulation</div>
+            <div class="nav-tab" role="button" tabindex="0" aria-pressed="false">Education</div>
+            <div class="nav-tab" role="button" tabindex="0" aria-pressed="false">Strategy</div>
+            <div class="nav-tab" role="button" tabindex="0" aria-pressed="false">New Releases</div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main" role="main">
+        <div class="section-header">
+            <h2 class="section-title">Featured Games</h2>
+        </div>
+
+        <div class="games-list" role="list" id="gamesList">
+            <!-- Game 1: Airline Manager 5 -->
+            <article class="game-item" role="listitem" data-title="Airline Manager 5" data-developer="Sharvika Games Studio">
+                <div class="game-icon-wrapper">
+                    <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=200&h=200&fit=crop" 
+                         alt="Airline Manager 5 - Airplane in flight" 
+                         class="game-icon"
+                         loading="lazy"
+                         onerror="this.src='https://images.pexels.com/photos/46148/aircraft-jet-landing-cloud-46148.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1'">
+                </div>
+                <div class="game-details">
+                    <h3 class="game-title">Airline Manager 5</h3>
+                    <div class="game-developer">Sharvika Games Studio</div>
+                    <div class="game-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.8 stars">4.8 ★</span>
+                        </div>
+                        <span class="stat-item">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="#5f6368" aria-hidden="true">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                            Everyone
+                        </span>
+                        <span class="category-badge">Simulation</span>
+                    </div>
+                    <div class="game-description">Build and manage your own airline empire. Buy planes, create routes, and dominate the skies!</div>
+                </div>
+                <div class="game-actions">
+                    <a href="am5.html" 
+                       class="play-btn" 
+                       aria-label="Play Airline Manager 5">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                        Play
+                    </a>
+                </div>
+            </article>
+
+            <!-- Game 2: Train Manager -->
+            <article class="game-item" role="listitem" data-title="Train Manager" data-developer="Sharvika Games Studio">
+                <div class="game-icon-wrapper">
+                    <img src="https://images.unsplash.com/photo-1474487548417-781cb71495f3?w=200&h=200&fit=crop" 
+                         alt="Train Manager - Modern train" 
+                         class="game-icon"
+                         loading="lazy"
+                         onerror="this.src='https://images.pexels.com/photos/1330515/pexels-photo-1330515.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1'">
+                </div>
+                <div class="game-details">
+                    <h3 class="game-title">Train Manager</h3>
+                    <div class="game-developer">Sharvika Games Studio</div>
+                    <div class="game-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.7 stars">4.7 ★</span>
+                        </div>
+                        <span class="stat-item">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="#5f6368" aria-hidden="true">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                            Everyone
+                        </span>
+                        <span class="category-badge">Simulation</span>
+                    </div>
+                    <div class="game-description">Manage railway networks, schedule trains, and transport passengers across the country efficiently.</div>
+                </div>
+                <div class="game-actions">
+                    <a href="tm.html" 
+                       class="play-btn" 
+                       aria-label="Play Train Manager">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                        Play
+                    </a>
+                </div>
+            </article>
+
+            <!-- Game 3: Bus Manager -->
+            <article class="game-item" role="listitem" data-title="Bus Manager" data-developer="Sharvika Games Studio">
+                <div class="game-icon-wrapper">
+                    <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=200&h=200&fit=crop" 
+                         alt="Bus Manager - City bus" 
+                         class="game-icon"
+                         loading="lazy"
+                         onerror="this.src='https://images.pexels.com/photos/385998/pexels-photo-385998.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1'">
+                </div>
+                <div class="game-details">
+                    <h3 class="game-title">Bus Manager</h3>
+                    <div class="game-developer">Sharvika Games Studio</div>
+                    <div class="game-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.6 stars">4.6 ★</span>
+                        </div>
+                        <span class="stat-item">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="#5f6368" aria-hidden="true">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                            Everyone
+                        </span>
+                        <span class="category-badge">Simulation</span>
+                    </div>
+                    <div class="game-description">Run your own bus company! Create routes, manage schedules, and provide the best public transport service.</div>
+                </div>
+                <div class="game-actions">
+                    <a href="bm.html" 
+                       class="play-btn" 
+                       aria-label="Play Bus Manager">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                        Play
+                    </a>
+                </div>
+            </article>
+
+            <!-- Game 4: Map Education -->
+            <article class="game-item" role="listitem" data-title="Map Education" data-developer="Sharvika Games Studio">
+                <div class="game-icon-wrapper">
+                    <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=200&h=200&fit=crop" 
+                         alt="Map Education - World map and learning" 
+                         class="game-icon"
+                         loading="lazy"
+                         onerror="this.src='https://images.pexels.com/photos/1098515/pexels-photo-1098515.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&dpr=1'">
+                </div>
+                <div class="game-details">
+                    <h3 class="game-title">Map Education</h3>
+                    <div class="game-developer">Sharvika Games Studio</div>
+                    <div class="game-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.9 stars">4.9 ★</span>
+                        </div>
+                        <span class="stat-item">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="#5f6368" aria-hidden="true">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                            Everyone
+                        </span>
+                        <span class="category-badge">Education</span>
+                    </div>
+                    <div class="game-description">Learn world geography in a fun interactive way! Explore countries, capitals, landmarks, and cultures.</div>
+                </div>
+                <div class="game-actions">
+                    <a href="map.html" 
+                       class="play-btn" 
+                       aria-label="Play Map Education">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                        Play
+                    </a>
+                </div>
+            </article>
+        </div>
+
+        <!-- No Results Message -->
+        <div class="no-results" id="noResults">
+            <div class="no-results-icon">🔍</div>
+            <div class="no-results-text">No games found</div>
+            <div class="no-results-subtext">Try searching for something else</div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="footer-content">
+            <div class="footer-links">
+                <span class="footer-link" onclick="openModal('aboutModal')" role="button" tabindex="0">About</span>
+                <a href="mailto:contact@sharvikagames.com" class="footer-link">Contact Us</a>
+                <span class="footer-link" onclick="openModal('privacyModal')" role="button" tabindex="0">Privacy Policy</span>
+                <span class="footer-link" onclick="openModal('termsModal')" role="button" tabindex="0">Terms of Service</span>
+            </div>
+            <div class="footer-text">
+                © 2025 <span class="footer-brand">Sharvika Games</span>. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- About Modal -->
+    <div id="aboutModal" class="modal" role="dialog" aria-labelledby="aboutTitle" aria-modal="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="aboutTitle">About Sharvika Games</h2>
+                <button class="close" onclick="closeModal('aboutModal')" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Welcome to <strong>Sharvika Games</strong>, your destination for fun and educational browser-based games!</p>
+                
+                <h3>Our Mission</h3>
+                <p>We create engaging simulation and educational games that are accessible to everyone. Play instantly in your browser - no downloads required!</p>
+                
+                <h3>What We Offer</h3>
+                <ul>
+                    <li>Free online games playable in any browser</li>
+                    <li>Simulation games for transport management</li>
+                    <li>Educational games to learn while having fun</li>
+                    <li>Regular updates with new features and content</li>
+                    <li>Mobile-friendly responsive design</li>
+                </ul>
+                
+                <h3>Game Collection</h3>
+                <ul>
+                    <li><strong>Airline Manager 5:</strong> Build your aviation empire</li>
+                    <li><strong>Train Manager:</strong> Control railway networks</li>
+                    <li><strong>Bus Manager:</strong> Run a public transport company</li>
+                    <li><strong>Map Education:</strong> Learn world geography</li>
+                </ul>
+                
+                <p><strong>Contact:</strong> For feedback and suggestions, reach out to contact@sharvikagames.com</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Privacy Policy Modal -->
+    <div id="privacyModal" class="modal" role="dialog" aria-labelledby="privacyTitle" aria-modal="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="privacyTitle">Privacy Policy</h2>
+                <button class="close" onclick="closeModal('privacyModal')" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Last Updated:</strong> January 2025</p>
+                
+                <h3>1. Information Collection</h3>
+                <p>Sharvika Games respects your privacy. We do not collect, store, or share personal information. All games run locally in your browser.</p>
+                
+                <h3>2. Game Data</h3>
+                <p>Game progress may be saved locally on your device using browser storage (localStorage). This data never leaves your device and can be cleared at any time through your browser settings.</p>
+                
+                <h3>3. Cookies</h3>
+                <p>We do not use tracking cookies. Essential cookies may be used only to remember your game preferences locally.</p>
+                
+                <h3>4. Third-Party Services</h3>
+                <p>Our games do not integrate with third-party services or analytics platforms.</p>
+                
+                <h3>5. Children's Privacy</h3>
+                <p>Our games are safe for all ages. We do not knowingly collect any personal information from children.</p>
+                
+                <h3>6. Data Security</h3>
+                <p>Since we don't collect data, there is no risk of your information being compromised through our platform.</p>
+                
+                <h3>7. Changes to Policy</h3>
+                <p>We may update this privacy policy from time to time. Changes will be posted on this page.</p>
+                
+                <h3>8. Contact</h3>
+                <p>Questions about privacy? Contact us at contact@sharvikagames.com</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms of Service Modal -->
+    <div id="termsModal" class="modal" role="dialog" aria-labelledby="termsTitle" aria-modal="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="termsTitle">Terms of Service</h2>
+                <button class="close" onclick="closeModal('termsModal')" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Effective Date:</strong> January 2025</p>
+                
+                <h3>1. Acceptance of Terms</h3>
+                <p>By accessing and playing games on Sharvika Games, you accept these terms. If you don't agree, please don't use our service.</p>
+                
+                <h3>2. Use of Service</h3>
+                <p>Our games are provided free of charge for personal entertainment and educational purposes. You agree to:</p>
+                <ul>
+                    <li>Use games for lawful purposes only</li>
+                    <li>Not attempt to hack, reverse engineer, or exploit our games</li>
+                    <li>Not use automated tools or bots</li>
+                    <li>Respect other players and community guidelines</li>
+                </ul>
+                
+                <h3>3. Intellectual Property</h3>
+                <p>All games, graphics, code, and content are owned by Sharvika Games. You may not copy, modify, or distribute our games without permission.</p>
+                
+                <h3>4. Game Availability</h3>
+                <p>We strive to keep games available 24/7, but cannot guarantee uninterrupted access. Games may be updated or discontinued at any time.</p>
+                
+                <h3>5. User Conduct</h3>
+                <p>Players must:</p>
+                <ul>
+                    <li>Play fairly and honestly</li>
+                    <li>Not exploit bugs or glitches</li>
+                    <li>Not use offensive usernames or content</li>
+                    <li>Report bugs and issues responsibly</li>
+                </ul>
+                
+                <h3>6. Limitation of Liability</h3>
+                <p>Sharvika Games is provided "as is" without warranties. We're not liable for any damages arising from your use of our games.</p>
+                
+                <h3>7. Updates and Changes</h3>
+                <p>We may modify games, features, and these terms at any time. Continued use constitutes acceptance of changes.</p>
+                
+                <h3>8. Governing Law</h3>
+                <p>These terms are governed by applicable laws without regard to conflict of law provisions.</p>
+                
+                <h3>9. Contact</h3>
+                <p>Questions or concerns? Contact us at contact@sharvikagames.com</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal Functions
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            
+            const focusableElements = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+            const firstElement = focusableElements[0];
+            
+            if (firstElement) {
+                setTimeout(() => firstElement.focus(), 100);
+            }
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Close modal on ESC key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const modals = document.querySelectorAll('.modal');
+                modals.forEach(modal => {
+                    if (modal.style.display === 'block') {
+                        modal.style.display = 'none';
+                    }
+                });
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Enhanced Search functionality
+        function setupSearch(searchInput) {
+            let searchTimeout;
+            
+            searchInput.addEventListener('input', function(e) {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    const searchTerm = e.target.value.toLowerCase().trim();
+                    const gameItems = document.querySelectorAll('.game-item');
+                    const noResults = document.getElementById('noResults');
+                    let visibleCount = 0;
+                    
+                    gameItems.forEach(item => {
+                        const title = item.getAttribute('data-title').toLowerCase();
+                        const developer = item.getAttribute('data-developer').toLowerCase();
+                        
+                        if (title.includes(searchTerm) || developer.includes(searchTerm) || searchTerm === '') {
+                            item.style.display = 'flex';
+                            visibleCount++;
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                    
+                    if (visibleCount === 0 && searchTerm !== '') {
+                        noResults.style.display = 'block';
+                    } else {
+                        noResults.style.display = 'none';
+                    }
+                    
+                    // Sync search boxes
+                    const otherSearch = searchInput.id === 'desktopSearch' ? 
+                        document.getElementById('mobileSearch') : 
+                        document.getElementById('desktopSearch');
+                    if (otherSearch && otherSearch.value !== e.target.value) {
+                        otherSearch.value = e.target.value;
+                    }
+                }, 300);
+            });
+        }
+
+        // Setup search for both inputs
+        const desktopSearch = document.getElementById('desktopSearch');
+        const mobileSearch = document.getElementById('mobileSearch');
+        
+        if (desktopSearch) setupSearch(desktopSearch);
+        if (mobileSearch) setupSearch(mobileSearch);
+
+        // Tab switching
+        const tabs = document.querySelectorAll('.nav-tab');
+        tabs.forEach((tab, index) => {
+            tab.addEventListener('click', function() {
+                tabs.forEach(t => {
+                    t.classList.remove('active');
+                    t.setAttribute('aria-pressed', 'false');
+                });
+                this.classList.add('active');
+                this.setAttribute('aria-pressed', 'true');
+            });
+            
+            tab.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.click();
+                }
+                
+                if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    const nextTab = tabs[index + 1] || tabs[0];
+                    nextTab.focus();
+                    nextTab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                }
+                
+                if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    const prevTab = tabs[index - 1] || tabs[tabs.length - 1];
+                    prevTab.focus();
+                    prevTab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                }
+            });
+        });
+
+        // Footer link keyboard support
+        document.querySelectorAll('.footer-link[role="button"]').forEach(link => {
+            link.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.click();
+                }
+            });
+        });
+
+        // Touch feedback
+        const gameItems = document.querySelectorAll('.game-item');
+        gameItems.forEach(item => {
+            item.addEventListener('touchstart', function() {
+                this.style.opacity = '0.8';
+            });
+            
+            item.addEventListener('touchend', function() {
+                this.style.opacity = '1';
+            });
+        });
+
+        // Prevent double-tap zoom on iOS
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
+</body>
+</html>
