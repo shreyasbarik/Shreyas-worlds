@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fusion Point - Sharvika</title>
+    <title>Community Hub - Sharvika</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -1017,15 +1017,15 @@
         <button class="close-btn" id="menuClose">×</button>
         <ul>
             <li>
-                <button onclick="switchChannelFromMenu('community')">The Lounge</button>
+                <button onclick="switchChannelFromMenu('community')">Community Chat</button>
                 <div class="menu-subtitle">Public discussion</div>
             </li>
             <li>
-                <button onclick="switchChannelFromMenu('suggestions')">MindShare Haven</button>
+                <button onclick="switchChannelFromMenu('suggestions')">Suggestion Hub</button>
                 <div class="menu-subtitle">Share your ideas & feedback</div>
             </li>
             <li>
-                <button onclick="switchChannelFromMenu('announcements')">Update Express</button>
+                <button onclick="switchChannelFromMenu('announcements')">Announcements</button>
                 <div class="menu-subtitle">Official updates</div>
             </li>
             <li>
@@ -1064,8 +1064,8 @@
     <div class="app-container" id="appContainer">
         <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <div class="app-title">Fusion Point</div>
-                <div class="app-subtitle">Sharvika Connect</div>
+                <div class="app-title">Community Hub</div>
+                <div class="app-subtitle">Connect with Sharvika community</div>
             </div>
 
             <div class="sidebar-search">
@@ -1074,15 +1074,15 @@
 
             <div class="sidebar-menu">
                 <div class="menu-item active" onclick="switchChannel('community')">
-                    <div class="menu-item-title">The Lounge</div>
+                    <div class="menu-item-title">Community Chat</div>
                     <div class="menu-item-subtitle">Public discussion</div>
                 </div>
                 <div class="menu-item" onclick="switchChannel('suggestions')">
-                    <div class="menu-item-title">MindShare Haven</div>
+                    <div class="menu-item-title">Suggestion Hub</div>
                     <div class="menu-item-subtitle">Share your ideas & feedback</div>
                 </div>
                 <div class="menu-item" onclick="switchChannel('announcements')">
-                    <div class="menu-item-title">Update Express</div>
+                    <div class="menu-item-title">Announcements</div>
                     <div class="menu-item-subtitle">Official updates</div>
                     <span class="unread-badge" id="announcementBadge" style="display: none;">0</span>
                 </div>
@@ -1308,7 +1308,7 @@
         // ✅ CHECK PAGE STATUS
         async function checkPageStatus() {
             try {
-                const statusDoc = await db.collection('systemSettings').doc('Fusion PointStatus').get();
+                const statusDoc = await db.collection('systemSettings').doc('communityHubStatus').get();
                 if (statusDoc.exists) {
                     pageEnabled = statusDoc.data().enabled !== false;
                     isReadOnly = statusDoc.data().readOnly === true;
@@ -1327,7 +1327,7 @@
                     document.getElementById('readonlyBadge').style.display = 'inline-block';
                     document.getElementById('inputContainer').innerHTML = `
                         <div class="input-disabled-notice">
-                            Fusion Point is in Read-Only mode. Posting is temporarily disabled.
+                            📖 Community Hub is in Read-Only mode. Posting is temporarily disabled.
                         </div>
                     `;
                 }
