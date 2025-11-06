@@ -1,0 +1,2340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="Sharvika BookSpace - Download premium books, guides, and learning resources">
+    <meta name="theme-color" content="#01875f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Sharvika BookSpace - Premium Books & Learning Resources</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background: #f8f9fa;
+            color: #202124;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: #fff;
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .store-logo {
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
+        }
+
+        .store-name {
+            font-size: 22px;
+            color: #5f6368;
+            font-weight: 400;
+            letter-spacing: -0.5px;
+            white-space: nowrap;
+        }
+
+        .store-name .highlight {
+            color: #01875f;
+            font-weight: 500;
+        }
+
+        .search-container {
+            flex: 1;
+            max-width: 720px;
+        }
+
+        .search-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            width: 20px;
+            height: 20px;
+            opacity: 0.6;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .search-box {
+            width: 100%;
+            height: 48px;
+            background: #f1f3f4;
+            border: none;
+            border-radius: 8px;
+            padding: 0 16px 0 48px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .search-box:focus {
+            background: #fff;
+            box-shadow: 0 1px 6px rgba(32,33,36,0.28);
+        }
+
+        .mobile-search {
+            display: none;
+        }
+
+        /* Navigation */
+        .nav-tabs {
+            background: #fff;
+            border-bottom: 1px solid #dadce0;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .nav-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-container {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-tab {
+            padding: 16px 0;
+            color: #5f6368;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+            transition: all 0.2s;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .nav-tab:hover {
+            color: #202124;
+        }
+
+        .nav-tab.active {
+            color: #01875f;
+            border-bottom-color: #01875f;
+        }
+
+        /* Main Content */
+        .main {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 24px;
+            min-height: calc(100vh - 250px);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 500;
+            color: #202124;
+        }
+
+        /* Books List */
+        .books-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .book-item {
+            background: #fff;
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            transition: all 0.2s;
+            cursor: pointer;
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+            -webkit-tap-highlight-color: transparent;
+            position: relative;
+        }
+
+        .book-item:hover {
+            box-shadow: 0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
+        }
+
+        .book-item:active {
+            transform: scale(0.99);
+        }
+
+        .book-icon-wrapper {
+            flex-shrink: 0;
+        }
+
+        .book-cover {
+            width: 80px;
+            height: 110px;
+            border-radius: 4px;
+            object-fit: cover;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            border: 1px solid rgba(0,0,0,0.1);
+            display: block;
+        }
+
+        .book-cover.loading {
+            background: linear-gradient(135deg, #f1f3f4 0%, #e8eaed 100%);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .book-details {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .book-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: #202124;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .book-author {
+            font-size: 13px;
+            color: #5f6368;
+            margin-bottom: 8px;
+        }
+
+        .book-stats {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+
+        .rating-box {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .rating-badge {
+            background: #01875f;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            color: #5f6368;
+        }
+
+        .category-badge {
+            background: #e8f5e9;
+            color: #137333;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .book-description {
+            font-size: 12px;
+            color: #5f6368;
+            margin: 6px 0;
+            line-height: 1.4;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .book-actions {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .download-btn {
+            background: #01875f;
+            color: #fff;
+            border: none;
+            padding: 10px 32px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s;
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            white-space: nowrap;
+            min-height: 40px;
+        }
+
+        .download-btn:hover {
+            background: #016d4f;
+            box-shadow: 0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
+        }
+
+        .download-btn:active {
+            transform: scale(0.96);
+        }
+
+        /* Footer */
+        .footer {
+            background: #fff;
+            border-top: 1px solid #dadce0;
+            padding: 24px;
+            margin-top: 64px;
+        }
+
+        .footer-content {
+            max-width: 1320px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: #5f6368;
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.2s;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .footer-link:hover {
+            color: #01875f;
+        }
+
+        .footer-link:active {
+            color: #016d4f;
+        }
+
+        .footer-text {
+            color: #5f6368;
+            font-size: 12px;
+        }
+
+        .footer-brand {
+            font-weight: 500;
+            color: #01875f;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            animation: slideDown 0.3s;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            padding: 24px;
+            border-bottom: 1px solid #dadce0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: #fff;
+            z-index: 1;
+        }
+
+        .modal-header h2 {
+            font-size: 20px;
+            font-weight: 500;
+            color: #202124;
+        }
+
+        .close {
+            color: #5f6368;
+            font-size: 28px;
+            font-weight: 300;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.2s;
+            -webkit-tap-highlight-color: transparent;
+            flex-shrink: 0;
+        }
+
+        .close:hover {
+            background: #f1f3f4;
+        }
+
+        .close:active {
+            background: #e8eaed;
+        }
+
+        .modal-body {
+            padding: 24px;
+            color: #5f6368;
+            line-height: 1.8;
+        }
+
+        .modal-body h3 {
+            color: #202124;
+            font-size: 16px;
+            font-weight: 500;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .modal-body p {
+            margin-bottom: 16px;
+        }
+
+        .modal-body ul {
+            margin-left: 20px;
+            margin-bottom: 16px;
+        }
+
+        .modal-body li {
+            margin-bottom: 8px;
+        }
+
+        /* No Results Message */
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #5f6368;
+            display: none;
+        }
+
+        .no-results-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.3;
+        }
+
+        .no-results-text {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .no-results-subtext {
+            font-size: 14px;
+        }
+
+        /* ========================================
+           MOBILE RESPONSIVE
+        ======================================== */
+
+        @media (max-width: 1024px) {
+            .header-container {
+                max-width: 100%;
+            }
+
+            .nav-container,
+            .main,
+            .footer-content {
+                max-width: 100%;
+            }
+
+            .search-container {
+                max-width: 500px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                font-size: 14px;
+            }
+
+            .header-container {
+                padding: 0 16px;
+                height: 56px;
+                gap: 12px;
+            }
+
+            .store-logo {
+                width: 36px;
+                height: 36px;
+            }
+
+            .store-name {
+                font-size: 18px;
+            }
+
+            .search-container {
+                display: none;
+            }
+
+            .mobile-search {
+                display: block;
+                padding: 8px 16px;
+                background: #fff;
+                border-bottom: 1px solid #dadce0;
+            }
+
+            .mobile-search .search-wrapper {
+                position: relative;
+                display: flex;
+                align-items: center;
+            }
+
+            .mobile-search .search-box {
+                width: 100%;
+                height: 44px;
+                background: #f1f3f4;
+                border: none;
+                border-radius: 8px;
+                padding: 0 16px 0 44px;
+                font-size: 16px;
+                outline: none;
+                transition: all 0.2s;
+            }
+
+            .mobile-search .search-icon {
+                position: absolute;
+                left: 14px;
+                width: 20px;
+                height: 20px;
+                opacity: 0.6;
+                pointer-events: none;
+            }
+
+            .mobile-search .search-box:focus {
+                background: #fff;
+                box-shadow: 0 1px 6px rgba(32,33,36,0.28);
+            }
+
+            .nav-tabs {
+                overflow-x: scroll;
+                scroll-snap-type: x proximity;
+            }
+
+            .nav-container {
+                padding: 0 16px;
+                gap: 24px;
+            }
+
+            .nav-tab {
+                padding: 14px 0;
+                font-size: 14px;
+                scroll-snap-align: start;
+            }
+
+            .main {
+                padding: 12px 16px 16px;
+            }
+
+            .section-header {
+                margin-bottom: 12px;
+            }
+
+            .section-title {
+                font-size: 18px;
+                font-weight: 500;
+            }
+
+            .books-list {
+                gap: 8px;
+            }
+
+            .book-item {
+                padding: 12px;
+                gap: 12px;
+                border-radius: 8px;
+                flex-wrap: nowrap;
+            }
+
+            .book-cover {
+                width: 56px;
+                height: 78px;
+                border-radius: 3px;
+            }
+
+            .book-details {
+                flex: 1;
+                min-width: 0;
+            }
+
+            .book-title {
+                font-size: 14px;
+                line-height: 1.3;
+                margin-bottom: 2px;
+                -webkit-line-clamp: 2;
+            }
+
+            .book-author {
+                font-size: 12px;
+                margin-bottom: 6px;
+            }
+
+            .book-stats {
+                gap: 8px;
+                margin-bottom: 6px;
+            }
+
+            .rating-badge {
+                font-size: 11px;
+                padding: 2px 6px;
+            }
+
+            .stat-item {
+                font-size: 11px;
+            }
+
+            .category-badge {
+                font-size: 11px;
+                padding: 3px 8px;
+            }
+
+            .book-description {
+                font-size: 11px;
+                margin: 4px 0;
+                -webkit-line-clamp: 1;
+            }
+
+            .book-actions {
+                flex-shrink: 0;
+                width: auto;
+            }
+
+            .download-btn {
+                padding: 8px 20px;
+                font-size: 13px;
+                min-height: 36px;
+                border-radius: 20px;
+            }
+
+            .footer {
+                padding: 20px 16px;
+                margin-top: 40px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 12px;
+            }
+
+            .footer-links {
+                justify-content: center;
+                gap: 16px;
+                flex-wrap: wrap;
+            }
+
+            .footer-link {
+                font-size: 12px;
+                padding: 8px;
+            }
+
+            .footer-text {
+                font-size: 11px;
+            }
+
+            .modal-content {
+                width: 96%;
+                margin: 20px auto;
+                max-height: calc(100vh - 40px);
+                border-radius: 12px;
+            }
+
+            .modal-header {
+                padding: 16px;
+            }
+
+            .modal-header h2 {
+                font-size: 18px;
+            }
+
+            .close {
+                width: 36px;
+                height: 36px;
+                font-size: 26px;
+            }
+
+            .modal-body {
+                padding: 16px;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+
+            .modal-body h3 {
+                font-size: 15px;
+                margin-top: 16px;
+                margin-bottom: 8px;
+            }
+
+            .modal-body p {
+                margin-bottom: 12px;
+            }
+
+            .modal-body ul {
+                margin-left: 16px;
+                margin-bottom: 12px;
+            }
+
+            .modal-body li {
+                margin-bottom: 6px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-container {
+                padding: 0 12px;
+                height: 56px;
+                gap: 8px;
+            }
+
+            .store-logo {
+                width: 32px;
+                height: 32px;
+            }
+
+            .store-name {
+                font-size: 16px;
+                letter-spacing: -0.3px;
+            }
+
+            .mobile-search {
+                padding: 8px 12px;
+            }
+
+            .mobile-search .search-box {
+                height: 42px;
+                font-size: 15px;
+            }
+
+            .nav-container {
+                padding: 0 12px;
+                gap: 20px;
+            }
+
+            .nav-tab {
+                padding: 12px 0;
+                font-size: 13px;
+            }
+
+            .main {
+                padding: 12px;
+            }
+
+            .section-header {
+                margin-bottom: 10px;
+            }
+
+            .section-title {
+                font-size: 16px;
+            }
+
+            .books-list {
+                gap: 8px;
+            }
+
+            .book-item {
+                padding: 10px;
+                gap: 10px;
+            }
+
+            .book-cover {
+                width: 50px;
+                height: 70px;
+                border-radius: 3px;
+            }
+
+            .book-title {
+                font-size: 13px;
+                line-height: 1.2;
+            }
+
+            .book-author {
+                font-size: 11px;
+                margin-bottom: 4px;
+            }
+
+            .book-stats {
+                gap: 6px;
+            }
+
+            .rating-badge {
+                font-size: 10px;
+                padding: 2px 5px;
+            }
+
+            .stat-item {
+                font-size: 10px;
+            }
+
+            .category-badge {
+                font-size: 10px;
+                padding: 2px 6px;
+            }
+
+            .book-description {
+                font-size: 10px;
+                margin: 3px 0;
+            }
+
+            .download-btn {
+                padding: 7px 16px;
+                font-size: 12px;
+                min-height: 32px;
+                border-radius: 16px;
+            }
+
+            .footer {
+                padding: 16px 12px;
+                margin-top: 32px;
+            }
+
+            .footer-links {
+                gap: 12px;
+                flex-direction: column;
+            }
+
+            .footer-link {
+                font-size: 11px;
+                padding: 6px;
+            }
+
+            .footer-text {
+                font-size: 10px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .header-container {
+                padding: 0 8px;
+                gap: 6px;
+            }
+
+            .store-logo {
+                width: 28px;
+                height: 28px;
+            }
+
+            .store-name {
+                font-size: 14px;
+            }
+
+            .mobile-search {
+                padding: 6px 8px;
+            }
+
+            .nav-container {
+                padding: 0 8px;
+                gap: 16px;
+            }
+
+            .main {
+                padding: 8px;
+            }
+
+            .book-item {
+                padding: 8px;
+                gap: 8px;
+            }
+
+            .book-cover {
+                width: 46px;
+                height: 64px;
+            }
+
+            .download-btn {
+                padding: 6px 12px;
+                font-size: 11px;
+                min-height: 30px;
+            }
+        }
+
+        @media (hover: none) and (pointer: coarse) {
+            .book-item:hover {
+                box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+            }
+
+            .download-btn:hover {
+                background: #01875f;
+            }
+
+            .nav-tab:hover {
+                color: #5f6368;
+            }
+
+            .nav-tab.active:hover {
+                color: #01875f;
+            }
+
+            .footer-link:hover {
+                color: #5f6368;
+            }
+
+            .close:hover {
+                background: none;
+            }
+        }
+
+        *:focus-visible {
+            outline: 2px solid #01875f;
+            outline-offset: 2px;
+        }
+
+        @media print {
+            .header,
+            .nav-tabs,
+            .footer,
+            .modal,
+            .mobile-search {
+                display: none;
+            }
+
+            .main {
+                padding: 0;
+            }
+
+            .book-item {
+                page-break-inside: avoid;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" role="banner">
+        <div class="header-container">
+            <a href="#" class="logo-section" aria-label="Sharvika BookSpace Home">
+                <svg class="store-logo" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <defs>
+                        <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#01875f;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#00c48c;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <rect x="10" y="8" width="28" height="34" rx="2" fill="url(#gradient1)"/>
+                    <rect x="14" y="14" width="20" height="2" fill="white" opacity="0.8"/>
+                    <rect x="14" y="19" width="20" height="2" fill="white" opacity="0.6"/>
+                    <rect x="14" y="24" width="16" height="2" fill="white" opacity="0.6"/>
+                    <rect x="14" y="29" width="18" height="2" fill="white" opacity="0.6"/>
+                    <path d="M38 42L24 34L10 42V8L24 14L38 8V42Z" fill="#01875f" opacity="0.3"/>
+                </svg>
+                <div class="store-name"><span class="highlight">Sharvika</span> BookSpace</div>
+            </a>
+            
+            <!-- Desktop Search -->
+            <div class="search-container">
+                <div class="search-wrapper">
+                    <svg class="search-icon" viewBox="0 0 24 24" fill="#5f6368" aria-hidden="true">
+                        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                    </svg>
+                    <input type="search" class="search-box" id="desktopSearch" placeholder="Search for books & resources" aria-label="Search books">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Search -->
+    <div class="mobile-search">
+        <div class="search-wrapper">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="#5f6368" aria-hidden="true">
+                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+            </svg>
+            <input type="search" class="search-box" id="mobileSearch" placeholder="Search for books & resources" aria-label="Search books">
+        </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs" role="navigation" aria-label="Main navigation">
+        <div class="nav-container">
+            <div class="nav-tab active" role="button" tabindex="0" aria-pressed="true">Featured</div>
+            <div class="nav-tab" role="button" tabindex="0" aria-pressed="false">AI & ML</div>
+            <div class="nav-tab" role="button" tabindex="0" aria-pressed="false">Design</div>
+            <div class="nav-tab" role="button" tabindex="0" aria-pressed="false">Programming</div>
+            <div class="nav-tab" role="button" tabindex="0" aria-pressed="false">Business</div>
+            <div class="nav-tab" role="button" tabindex="0" aria-pressed="false">All Categories</div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main" role="main">
+        <div class="section-header">
+            <h2 class="section-title">Premium Books</h2>
+        </div>
+
+        <div class="books-list" role="list" id="booksList">
+            
+            <!-- Book 1 -->
+            <article class="book-item" role="listitem" data-title="1000 ChatGPT Prompts to Master Your AI Efficiency" data-author="AI & Productivity">
+                <div class="book-icon-wrapper">
+                    <img src="https://images.pexels.com/photos/1666320/pexels-photo-1666320.jpeg?auto=compress&cs=tinysrgb&w=600" 
+                         alt="1000 ChatGPT Prompts book cover" 
+                         class="book-cover"
+                         loading="lazy">
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">1000 ChatGPT Prompts to Master Your AI Efficiency</h3>
+                    <div class="book-author">AI & Productivity</div>
+                    <div class="book-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.9">4.9 ★</span>
+                        </div>
+                        <span class="category-badge">AI</span>
+                        <span class="stat-item">📄 PDF</span>
+                    </div>
+                    <div class="book-description">Master AI efficiency with 1000 carefully curated ChatGPT prompts for productivity, creativity, and business.</div>
+                </div>
+                <div class="book-actions">
+                    <a href="https://drive.google.com/uc?export=download&id=1GXK1-5xjNC8TeWbaMBVrVcDZiPbfr5UV" 
+                       class="download-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Download 1000 ChatGPT Prompts">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                        </svg>
+                        Download
+                    </a>
+                </div>
+            </article>
+
+            <!-- Book 2 -->
+            <article class="book-item" role="listitem" data-title="ADOBE ILLUSTRATOR - Mastering Adobe Illustrator for Seamless Design Experiences" data-author="Adobe Press">
+                <div class="book-icon-wrapper">
+                    <img src="https://images.pexels.com/photos/1666320/pexels-photo-1666320.jpeg?auto=compress&cs=tinysrgb&w=600" 
+                         alt="Adobe Illustrator book cover" 
+                         class="book-cover"
+                         loading="lazy">
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">ADOBE ILLUSTRATOR - Mastering Adobe Illustrator for Seamless Design Experiences</h3>
+                    <div class="book-author">Adobe Press</div>
+                    <div class="book-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.8">4.8 ★</span>
+                        </div>
+                        <span class="category-badge">Design</span>
+                        <span class="stat-item">📄 PDF</span>
+                    </div>
+                    <div class="book-description">Complete guide to mastering Adobe Illustrator for professional vector design and illustrations.</div>
+                </div>
+                <div class="book-actions">
+                    <a href="https://drive.google.com/uc?export=download&id=1ZAwD_BDKAfqOD1JVyxIkUisL3UkKTJxv" 
+                       class="download-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Download Adobe Illustrator Guide">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                        </svg>
+                        Download
+                    </a>
+                </div>
+            </article>
+
+            <!-- Book 3 -->
+            <article class="book-item" role="listitem" data-title="Adobe Photoshop Classroom in a Book (2021 release)" data-author="Adobe Press">
+                <div class="book-icon-wrapper">
+                    <img src="https://images.pexels.com/photos/1666320/pexels-photo-1666320.jpeg?auto=compress&cs=tinysrgb&w=600" 
+                         alt="Adobe Photoshop Classroom in a Book cover" 
+                         class="book-cover"
+                         loading="lazy">
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">Adobe Photoshop Classroom in a Book (2021 release)</h3>
+                    <div class="book-author">Adobe Press</div>
+                    <div class="book-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.9">4.9 ★</span>
+                        </div>
+                        <span class="category-badge">Design</span>
+                        <span class="stat-item">📄 PDF</span>
+                    </div>
+                    <div class="book-description">Official Adobe training guide for Photoshop 2021 with hands-on projects and techniques.</div>
+                </div>
+                <div class="book-actions">
+                    <a href="https://drive.google.com/uc?export=download&id=1X0AXCsIQJO8Nz8pZQ1-9xU3P4S33rOsc" 
+                       class="download-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Download Adobe Photoshop Book">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                        </svg>
+                        Download
+                    </a>
+                </div>
+            </article>
+
+            <!-- Book 4 -->
+            <article class="book-item" role="listitem" data-title="AI-Powered Freelancing" data-author="Business & AI">
+                <div class="book-icon-wrapper">
+                    <img src="https://images.pexels.com/photos/1666320/pexels-photo-1666320.jpeg?auto=compress&cs=tinysrgb&w=600" 
+                         alt="AI-Powered Freelancing book cover" 
+                         class="book-cover"
+                         loading="lazy">
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">AI-Powered Freelancing</h3>
+                    <div class="book-author">Business & AI</div>
+                    <div class="book-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.7">4.7 ★</span>
+                        </div>
+                        <span class="category-badge">Business</span>
+                        <span class="stat-item">📄 PDF</span>
+                    </div>
+                    <div class="book-description">Learn how to leverage AI tools to boost your freelancing career and productivity.</div>
+                </div>
+                <div class="book-actions">
+                    <a href="https://drive.google.com/uc?export=download&id=17sNwaa2nD3_VcjgWMNkx7GI-DoXIJzhL" 
+                       class="download-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Download AI-Powered Freelancing">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                        </svg>
+                        Download
+                    </a>
+                </div>
+            </article>
+
+            <!-- Book 5 -->
+            <article class="book-item" role="listitem" data-title="Artificial Intelligence All-in-One For Dummies" data-author="For Dummies">
+                <div class="book-icon-wrapper">
+                    <img src="https://images.pexels.com/photos/1666320/pexels-photo-1666320.jpeg?auto=compress&cs=tinysrgb&w=600" 
+                         alt="AI All-in-One For Dummies book cover" 
+                         class="book-cover"
+                         loading="lazy">
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">Artificial Intelligence All-in-One For Dummies</h3>
+                    <div class="book-author">For Dummies</div>
+                    <div class="book-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.6">4.6 ★</span>
+                        </div>
+                        <span class="category-badge">AI</span>
+                        <span class="stat-item">📄 PDF</span>
+                    </div>
+                    <div class="book-description">Comprehensive guide to understanding and implementing artificial intelligence concepts.</div>
+                </div>
+                <div class="book-actions">
+                    <a href="https://drive.google.com/uc?export=download&id=1Da0achYHCdGCggf0spnBNtovltw3WA77" 
+                       class="download-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Download AI All-in-One">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                        </svg>
+                        Download
+                    </a>
+                </div>
+            </article>
+
+            <!-- Book 6 -->
+            <article class="book-item" role="listitem" data-title="Autodesk Inventor 2026 Black Book Part II (Colored)" data-author="Autodesk">
+                <div class="book-icon-wrapper">
+                    <img src="https://images.pexels.com/photos/1666320/pexels-photo-1666320.jpeg?auto=compress&cs=tinysrgb&w=600" 
+                         alt="Autodesk Inventor book cover" 
+                         class="book-cover"
+                         loading="lazy">
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">Autodesk Inventor 2026 Black Book Part II (Colored)</h3>
+                    <div class="book-author">Autodesk</div>
+                    <div class="book-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.8">4.8 ★</span>
+                        </div>
+                        <span class="category-badge">CAD</span>
+                        <span class="stat-item">📄 PDF</span>
+                    </div>
+                    <div class="book-description">Advanced guide to Autodesk Inventor 2026 with colored illustrations and detailed tutorials.</div>
+                </div>
+                <div class="book-actions">
+                    <a href="https://drive.google.com/uc?export=download&id=1dTPaYVFt9fLgYXi7I6XzfnvDafqWG_36" 
+                       class="download-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Download Autodesk Inventor Guide">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                        </svg>
+                        Download
+                    </a>
+                </div>
+            </article>
+
+            <!-- Book 7 -->
+            <article class="book-item" role="listitem" data-title="Blender 3D Incredible Models – A Comprehensive Guide" data-author="3D Graphics">
+                <div class="book-icon-wrapper">
+                    <img src="https://images.pexels.com/photos/1666320/pexels-photo-1666320.jpeg?auto=compress&cs=tinysrgb&w=600" 
+                         alt="Blender 3D book cover" 
+                         class="book-cover"
+                         loading="lazy">
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">Blender 3D Incredible Models – A Comprehensive Guide</h3>
+                    <div class="book-author">3D Graphics</div>
+                    <div class="book-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.9">4.9 ★</span>
+                        </div>
+                        <span class="category-badge">3D Design</span>
+                        <span class="stat-item">📄 PDF</span>
+                    </div>
+                    <div class="book-description">Complete guide to creating stunning 3D models and animations using Blender.</div>
+                </div>
+                <div class="book-actions">
+                    <a href="https://drive.google.com/uc?export=download&id=1jXHdPOUim97mIkCAd7WpRNGJtpJr8YR5" 
+                       class="download-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Download Blender 3D Guide">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                        </svg>
+                        Download
+                    </a>
+                </div>
+            </article>
+
+            <!-- Book 8 -->
+            <article class="book-item" role="listitem" data-title="Computing Essentials 2023, 29th Edition" data-author="McGraw Hill">
+                <div class="book-icon-wrapper">
+                    <img src="https://images.pexels.com/photos/1666320/pexels-photo-1666320.jpeg?auto=compress&cs=tinysrgb&w=600" 
+                         alt="Computing Essentials book cover" 
+                         class="book-cover"
+                         loading="lazy">
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">Computing Essentials 2023, 29th Edition</h3>
+                    <div class="book-author">McGraw Hill</div>
+                    <div class="book-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.7">4.7 ★</span>
+                        </div>
+                        <span class="category-badge">Computing</span>
+                        <span class="stat-item">📄 PDF</span>
+                    </div>
+                    <div class="book-description">Essential computing concepts and technologies for the modern digital world.</div>
+                </div>
+                <div class="book-actions">
+                    <a href="https://drive.google.com/uc?export=download&id=1R1CsLce0Cq_wWAPBTx0DrivOcL0EiXsk" 
+                       class="download-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Download Computing Essentials">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                        </svg>
+                        Download
+                    </a>
+                </div>
+            </article>
+
+            <!-- Book 9 -->
+            <article class="book-item" role="listitem" data-title="Deep Learning at Scale – At the Intersection" data-author="Machine Learning">
+                <div class="book-icon-wrapper">
+                    <img src="https://images.pexels.com/photos/1666320/pexels-photo-1666320.jpeg?auto=compress&cs=tinysrgb&w=600" 
+                         alt="Deep Learning at Scale book cover" 
+                         class="book-cover"
+                         loading="lazy">
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">Deep Learning at Scale – At the Intersection</h3>
+                    <div class="book-author">Machine Learning</div>
+                    <div class="book-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.9">4.9 ★</span>
+                        </div>
+                        <span class="category-badge">ML</span>
+                        <span class="stat-item">📄 PDF</span>
+                    </div>
+                    <div class="book-description">Advanced techniques for scaling deep learning models and infrastructure.</div>
+                </div>
+                <div class="book-actions">
+                    <a href="https://drive.google.com/uc?export=download&id=1CAiZnOF25PRE4xuv75b5qAPyLiB0-zAv" 
+                       class="download-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Download Deep Learning at Scale">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                        </svg>
+                        Download
+                    </a>
+                </div>
+            </article>
+
+            <!-- Book 10 -->
+            <article class="book-item" role="listitem" data-title="Enterprise AI For Dummies" data-author="For Dummies">
+                <div class="book-icon-wrapper">
+                    <img src="https://images.pexels.com/photos/1666320/pexels-photo-1666320.jpeg?auto=compress&cs=tinysrgb&w=600" 
+                         alt="Enterprise AI For Dummies book cover" 
+                         class="book-cover"
+                         loading="lazy">
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">Enterprise AI For Dummies</h3>
+                    <div class="book-author">For Dummies</div>
+                    <div class="book-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.6">4.6 ★</span>
+                        </div>
+                        <span class="category-badge">AI</span>
+                        <span class="stat-item">📄 PDF</span>
+                    </div>
+                    <div class="book-description">Implementing AI solutions at enterprise scale for business transformation.</div>
+                </div>
+                <div class="book-actions">
+                    <a href="https://drive.google.com/uc?export=download&id=1uhUIyVzZmvW19hYoWP46Z4PASua-UTb0" 
+                       class="download-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Download Enterprise AI">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                        </svg>
+                        Download
+                    </a>
+                </div>
+            </article>
+
+            <!-- Book 11 -->
+            <article class="book-item" role="listitem" data-title="Exploring Web Components – Build Reusable UI Web" data-author="Web Development">
+                <div class="book-icon-wrapper">
+                    <img src="https://images.pexels.com/photos/1666320/pexels-photo-1666320.jpeg?auto=compress&cs=tinysrgb&w=600" 
+                         alt="Web Components book cover" 
+                         class="book-cover"
+                         loading="lazy">
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">Exploring Web Components – Build Reusable UI Web</h3>
+                    <div class="book-author">Web Development</div>
+                    <div class="book-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.7">4.7 ★</span>
+                        </div>
+                        <span class="category-badge">Web Dev</span>
+                        <span class="stat-item">📄 PDF</span>
+                    </div>
+                    <div class="book-description">Master modern web components for building reusable and maintainable UI elements.</div>
+                </div>
+                <div class="book-actions">
+                    <a href="https://drive.google.com/uc?export=download&id=1kezj4GXWmITPtR5wotbFYyoZqlssdP46" 
+                       class="download-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Download Web Components Guide">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                        </svg>
+                        Download
+                    </a>
+                </div>
+            </article>
+
+            <!-- Book 12 -->
+            <article class="book-item" role="listitem" data-title="Linux Fundamentals, Second Edition" data-author="Linux Foundation">
+                <div class="book-icon-wrapper">
+                    <img src="https://images.pexels.com/photos/1666320/pexels-photo-1666320.jpeg?auto=compress&cs=tinysrgb&w=600" 
+                         alt="Linux Fundamentals book cover" 
+                         class="book-cover"
+                         loading="lazy">
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">Linux Fundamentals, Second Edition</h3>
+                    <div class="book-author">Linux Foundation</div>
+                    <div class="book-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.8">4.8 ★</span>
+                        </div>
+                        <span class="category-badge">Linux</span>
+                        <span class="stat-item">📄 PDF</span>
+                    </div>
+                    <div class="book-description">Comprehensive introduction to Linux operating system and command-line tools.</div>
+                </div>
+                <div class="book-actions">
+                    <a href="https://drive.google.com/uc?export=download&id=1uRJQU2ff85AArlF1gBPFdS8cdfr1PDXb" 
+                       class="download-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Download Linux Fundamentals">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                        </svg>
+                        Download
+                    </a>
+                </div>
+            </article>
+
+            <!-- Book 13 -->
+            <article class="book-item" role="listitem" data-title="Machine Learning Q and AI – 30 Essential" data-author="ML & AI">
+                <div class="book-icon-wrapper">
+                    <img src="https://images.pexels.com/photos/1666320/pexels-photo-1666320.jpeg?auto=compress&cs=tinysrgb&w=600" 
+                         alt="Machine Learning Q&A book cover" 
+                         class="book-cover"
+                         loading="lazy">
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">Machine Learning Q and AI – 30 Essential</h3>
+                    <div class="book-author">ML & AI</div>
+                    <div class="book-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.7">4.7 ★</span>
+                        </div>
+                        <span class="category-badge">ML</span>
+                        <span class="stat-item">📄 PDF</span>
+                    </div>
+                    <div class="book-description">Essential machine learning questions and concepts for AI practitioners.</div>
+                </div>
+                <div class="book-actions">
+                    <a href="https://drive.google.com/uc?export=download&id=17p401kiZJgyCvVKtX10CJL1QDt5NTiLq" 
+                       class="download-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Download Machine Learning Q&A">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                        </svg>
+                        Download
+                    </a>
+                </div>
+            </article>
+
+            <!-- Book 14 -->
+            <article class="book-item" role="listitem" data-title="Mathematics for Game Programming and Computer Graphics" data-author="Game Dev">
+                <div class="book-icon-wrapper">
+                    <img src="https://images.pexels.com/photos/1666320/pexels-photo-1666320.jpeg?auto=compress&cs=tinysrgb&w=600" 
+                         alt="Math for Game Programming book cover" 
+                         class="book-cover"
+                         loading="lazy">
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">Mathematics for Game Programming and Computer Graphics</h3>
+                    <div class="book-author">Game Dev</div>
+                    <div class="book-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.9">4.9 ★</span>
+                        </div>
+                        <span class="category-badge">Math</span>
+                        <span class="stat-item">📄 PDF</span>
+                    </div>
+                    <div class="book-description">Essential mathematics concepts for game programming and graphics development.</div>
+                </div>
+                <div class="book-actions">
+                    <a href="https://drive.google.com/uc?export=download&id=11iWjmU10iEGcnCFHEFO2Qu5r3pO6bA4m" 
+                       class="download-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Download Math for Game Programming">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                        </svg>
+                        Download
+                    </a>
+                </div>
+            </article>
+
+            <!-- Book 15 -->
+            <article class="book-item" role="listitem" data-title="Million Dollar AI Prompts – The Blueprint from Prompt to Product to Profit" data-author="AI Business">
+                <div class="book-icon-wrapper">
+                    <img src="https://images.pexels.com/photos/1666320/pexels-photo-1666320.jpeg?auto=compress&cs=tinysrgb&w=600" 
+                         alt="Million Dollar AI Prompts book cover" 
+                         class="book-cover"
+                         loading="lazy">
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">Million Dollar AI Prompts – The Blueprint from Prompt to Product to Profit</h3>
+                    <div class="book-author">AI Business</div>
+                    <div class="book-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.8">4.8 ★</span>
+                        </div>
+                        <span class="category-badge">Business</span>
+                        <span class="stat-item">📄 PDF</span>
+                    </div>
+                    <div class="book-description">Turn AI prompts into profitable products with proven strategies and blueprints.</div>
+                </div>
+                <div class="book-actions">
+                    <a href="https://drive.google.com/uc?export=download&id=1pksCNua13tobXlBDwNmjHOvfYrCqhcxv" 
+                       class="download-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Download Million Dollar AI Prompts">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                        </svg>
+                        Download
+                    </a>
+                </div>
+            </article>
+
+            <!-- Book 16 -->
+            <article class="book-item" role="listitem" data-title="Modern CSS by Joe Attardi" data-author="Joe Attardi">
+                <div class="book-icon-wrapper">
+                    <img src="https://images.pexels.com/photos/1666320/pexels-photo-1666320.jpeg?auto=compress&cs=tinysrgb&w=600" 
+                         alt="Modern CSS book cover" 
+                         class="book-cover"
+                         loading="lazy">
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">Modern CSS by Joe Attardi</h3>
+                    <div class="book-author">Joe Attardi</div>
+                    <div class="book-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.7">4.7 ★</span>
+                        </div>
+                        <span class="category-badge">Web Dev</span>
+                        <span class="stat-item">📄 PDF</span>
+                    </div>
+                    <div class="book-description">Master modern CSS techniques including Grid, Flexbox, and custom properties.</div>
+                </div>
+                <div class="book-actions">
+                    <a href="https://drive.google.com/uc?export=download&id=1T4xEwyYLMju0V0UWUZQ2RynWYNg3SXlI" 
+                       class="download-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Download Modern CSS">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                        </svg>
+                        Download
+                    </a>
+                </div>
+            </article>
+
+            <!-- Book 17 -->
+            <article class="book-item" role="listitem" data-title="Power Platform and the AI Revolution" data-author="Microsoft">
+                <div class="book-icon-wrapper">
+                    <img src="https://images.pexels.com/photos/1666320/pexels-photo-1666320.jpeg?auto=compress&cs=tinysrgb&w=600" 
+                         alt="Power Platform book cover" 
+                         class="book-cover"
+                         loading="lazy">
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">Power Platform and the AI Revolution</h3>
+                    <div class="book-author">Microsoft</div>
+                    <div class="book-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.6">4.6 ★</span>
+                        </div>
+                        <span class="category-badge">Platform</span>
+                        <span class="stat-item">📄 PDF</span>
+                    </div>
+                    <div class="book-description">Leverage Microsoft Power Platform with AI capabilities for business solutions.</div>
+                </div>
+                <div class="book-actions">
+                    <a href="https://drive.google.com/uc?export=download&id=1JPH2LWSJcC_HbPWudr51jj45XIIgZjAC" 
+                       class="download-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Download Power Platform Guide">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                        </svg>
+                        Download
+                    </a>
+                </div>
+            </article>
+
+            <!-- Book 18 -->
+            <article class="book-item" role="listitem" data-title="Practical Natural Language Processing" data-author="NLP">
+                <div class="book-icon-wrapper">
+                    <img src="https://images.pexels.com/photos/1666320/pexels-photo-1666320.jpeg?auto=compress&cs=tinysrgb&w=600" 
+                         alt="Practical NLP book cover" 
+                         class="book-cover"
+                         loading="lazy">
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">Practical Natural Language Processing</h3>
+                    <div class="book-author">NLP</div>
+                    <div class="book-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.8">4.8 ★</span>
+                        </div>
+                        <span class="category-badge">NLP</span>
+                        <span class="stat-item">📄 PDF</span>
+                    </div>
+                    <div class="book-description">Hands-on guide to implementing NLP solutions for real-world applications.</div>
+                </div>
+                <div class="book-actions">
+                    <a href="https://drive.google.com/uc?export=download&id=1tcebILix65vZK5WE5HZi4gNAp_PtoC-r" 
+                       class="download-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Download Practical NLP">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                        </svg>
+                        Download
+                    </a>
+                </div>
+            </article>
+
+            <!-- Book 19 -->
+            <article class="book-item" role="listitem" data-title="Practical PowerShell Security and Compliance Center, 2nd Edition" data-author="PowerShell">
+                <div class="book-icon-wrapper">
+                    <img src="https://images.pexels.com/photos/1666320/pexels-photo-1666320.jpeg?auto=compress&cs=tinysrgb&w=600" 
+                         alt="PowerShell Security book cover" 
+                         class="book-cover"
+                         loading="lazy">
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">Practical PowerShell Security and Compliance Center, 2nd Edition</h3>
+                    <div class="book-author">PowerShell</div>
+                    <div class="book-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.7">4.7 ★</span>
+                        </div>
+                        <span class="category-badge">Security</span>
+                        <span class="stat-item">📄 PDF</span>
+                    </div>
+                    <div class="book-description">Master PowerShell for security automation and compliance management.</div>
+                </div>
+                <div class="book-actions">
+                    <a href="https://drive.google.com/uc?export=download&id=1l5wm2V5Y-hQbSwMxcfvdXF8NqA25a9IV" 
+                       class="download-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Download PowerShell Security">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                        </svg>
+                        Download
+                    </a>
+                </div>
+            </article>
+
+            <!-- Book 20 -->
+            <article class="book-item" role="listitem" data-title="Smartphone Cinema – Making Great Films with Your Mobile Phone" data-author="Film Making">
+                <div class="book-icon-wrapper">
+                    <img src="https://images.pexels.com/photos/1666320/pexels-photo-1666320.jpeg?auto=compress&cs=tinysrgb&w=600" 
+                         alt="Smartphone Cinema book cover" 
+                         class="book-cover"
+                         loading="lazy">
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">Smartphone Cinema – Making Great Films with Your Mobile Phone</h3>
+                    <div class="book-author">Film Making</div>
+                    <div class="book-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.6">4.6 ★</span>
+                        </div>
+                        <span class="category-badge">Video</span>
+                        <span class="stat-item">📄 PDF</span>
+                    </div>
+                    <div class="book-description">Create professional-quality films using just your smartphone camera.</div>
+                </div>
+                <div class="book-actions">
+                    <a href="https://drive.google.com/uc?export=download&id=1qWb2lhqfJaMlQDPZ-mXLm0T8ZgcVYkL8" 
+                       class="download-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Download Smartphone Cinema">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                        </svg>
+                        Download
+                    </a>
+                </div>
+            </article>
+
+            <!-- Book 21 -->
+            <article class="book-item" role="listitem" data-title="Statistical Mechanics" data-author="Physics">
+                <div class="book-icon-wrapper">
+                    <img src="https://images.pexels.com/photos/1666320/pexels-photo-1666320.jpeg?auto=compress&cs=tinysrgb&w=600" 
+                         alt="Statistical Mechanics book cover" 
+                         class="book-cover"
+                         loading="lazy">
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">Statistical Mechanics</h3>
+                    <div class="book-author">Physics</div>
+                    <div class="book-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.8">4.8 ★</span>
+                        </div>
+                        <span class="category-badge">Physics</span>
+                        <span class="stat-item">📄 PDF</span>
+                    </div>
+                    <div class="book-description">Comprehensive introduction to statistical mechanics and thermodynamics.</div>
+                </div>
+                <div class="book-actions">
+                    <a href="https://drive.google.com/uc?export=download&id=1kclqfPb7caa8GXltdlWYjjwaVV2pqTha" 
+                       class="download-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Download Statistical Mechanics">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                        </svg>
+                        Download
+                    </a>
+                </div>
+            </article>
+
+            <!-- Book 22 -->
+            <article class="book-item" role="listitem" data-title="Tech Repair Toolkit – Your Complete Setup for Becoming a Freelance Repair Technician" data-author="Tech Repair">
+                <div class="book-icon-wrapper">
+                    <img src="https://images.pexels.com/photos/1666320/pexels-photo-1666320.jpeg?auto=compress&cs=tinysrgb&w=600" 
+                         alt="Tech Repair Toolkit book cover" 
+                         class="book-cover"
+                         loading="lazy">
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">Tech Repair Toolkit – Your Complete Setup for Becoming a Freelance Repair Technician</h3>
+                    <div class="book-author">Tech Repair</div>
+                    <div class="book-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.5">4.5 ★</span>
+                        </div>
+                        <span class="category-badge">Tech</span>
+                        <span class="stat-item">📄 PDF</span>
+                    </div>
+                    <div class="book-description">Complete guide to starting your own tech repair business as a freelancer.</div>
+                </div>
+                <div class="book-actions">
+                    <a href="https://drive.google.com/uc?export=download&id=1kjQc0nYwUImns6E3pIOr81qf5Yqkz9_G" 
+                       class="download-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Download Tech Repair Toolkit">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                        </svg>
+                        Download
+                    </a>
+                </div>
+            </article>
+
+            <!-- Book 23 -->
+            <article class="book-item" role="listitem" data-title="Time Series Forecasting in Python (Final Release)" data-author="Data Science">
+                <div class="book-icon-wrapper">
+                    <img src="https://images.pexels.com/photos/1666320/pexels-photo-1666320.jpeg?auto=compress&cs=tinysrgb&w=600" 
+                         alt="Time Series Forecasting book cover" 
+                         class="book-cover"
+                         loading="lazy">
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">Time Series Forecasting in Python (Final Release)</h3>
+                    <div class="book-author">Data Science</div>
+                    <div class="book-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.9">4.9 ★</span>
+                        </div>
+                        <span class="category-badge">Data Science</span>
+                        <span class="stat-item">📄 PDF</span>
+                    </div>
+                    <div class="book-description">Master time series analysis and forecasting using Python and modern libraries.</div>
+                </div>
+                <div class="book-actions">
+                    <a href="https://drive.google.com/uc?export=download&id=1v7wkEceykXpC3hBGD-8SsbOClEyKr6BM" 
+                       class="download-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Download Time Series Forecasting">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                        </svg>
+                        Download
+                    </a>
+                </div>
+            </article>
+
+            <!-- Book 24 -->
+            <article class="book-item" role="listitem" data-title="Unity 2020 Virtual Reality Projects – Learn VR Development (3rd Edition)" data-author="Game Dev">
+                <div class="book-icon-wrapper">
+                    <img src="https://images.pexels.com/photos/1666320/pexels-photo-1666320.jpeg?auto=compress&cs=tinysrgb&w=600" 
+                         alt="Unity VR Projects book cover" 
+                         class="book-cover"
+                         loading="lazy">
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">Unity 2020 Virtual Reality Projects – Learn VR Development (3rd Edition)</h3>
+                    <div class="book-author">Game Dev</div>
+                    <div class="book-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.8">4.8 ★</span>
+                        </div>
+                        <span class="category-badge">VR</span>
+                        <span class="stat-item">📄 PDF</span>
+                    </div>
+                    <div class="book-description">Build immersive VR experiences using Unity 2020 with hands-on projects.</div>
+                </div>
+                <div class="book-actions">
+                    <a href="https://drive.google.com/uc?export=download&id=1ZReecEU04uo7SeD3qGkO9oYnaMhL1prJ" 
+                       class="download-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Download Unity VR Projects">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                        </svg>
+                        Download
+                    </a>
+                </div>
+            </article>
+
+            <!-- Book 25 - NEW -->
+            <article class="book-item" role="listitem" data-title="Basics of Python Programming - Learn Python in 30 days 2nd Edition" data-author="Python Programming">
+                <div class="book-icon-wrapper">
+                    <img src="https://images.pexels.com/photos/1666320/pexels-photo-1666320.jpeg?auto=compress&cs=tinysrgb&w=600" 
+                         alt="Python Programming book cover" 
+                         class="book-cover"
+                         loading="lazy">
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">Basics of Python Programming - Learn Python in 30 days 2nd Edition</h3>
+                    <div class="book-author">Python Programming</div>
+                    <div class="book-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.9">4.9 ★</span>
+                        </div>
+                        <span class="category-badge">Programming</span>
+                        <span class="stat-item">📄 PDF</span>
+                    </div>
+                    <div class="book-description">Complete beginner-friendly guide to learning Python programming in just 30 days.</div>
+                </div>
+                <div class="book-actions">
+                    <a href="https://drive.google.com/uc?export=download&id=1T_cF1GihXhDubfsUlXWL6sB_ITZJQ39-" 
+                       class="download-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Download Python Programming Basics">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                        </svg>
+                        Download
+                    </a>
+                </div>
+            </article>
+
+            <!-- Book 26 - NEW -->
+            <article class="book-item" role="listitem" data-title="Engineering Drawing with AutoCAD, 3rd Edition" data-author="AutoCAD">
+                <div class="book-icon-wrapper">
+                    <img src="https://images.pexels.com/photos/1666320/pexels-photo-1666320.jpeg?auto=compress&cs=tinysrgb&w=600" 
+                         alt="AutoCAD Engineering Drawing book cover" 
+                         class="book-cover"
+                         loading="lazy">
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">Engineering Drawing with AutoCAD, 3rd Edition</h3>
+                    <div class="book-author">AutoCAD</div>
+                    <div class="book-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.8">4.8 ★</span>
+                        </div>
+                        <span class="category-badge">CAD</span>
+                        <span class="stat-item">📄 PDF</span>
+                    </div>
+                    <div class="book-description">Master engineering drawing techniques using AutoCAD with practical examples and projects.</div>
+                </div>
+                <div class="book-actions">
+                    <a href="https://drive.google.com/uc?export=download&id=1dbKZTjmkcfcywabkA3ib-PIoB7CD4tjM" 
+                       class="download-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Download AutoCAD Engineering Drawing">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                        </svg>
+                        Download
+                    </a>
+                </div>
+            </article>
+
+            <!-- Book 27 - NEW -->
+            <article class="book-item" role="listitem" data-title="Raspberry Pi 5 System Administration Basics" data-author="Raspberry Pi">
+                <div class="book-icon-wrapper">
+                    <img src="https://images.pexels.com/photos/1666320/pexels-photo-1666320.jpeg?auto=compress&cs=tinysrgb&w=600" 
+                         alt="Raspberry Pi 5 book cover" 
+                         class="book-cover"
+                         loading="lazy">
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">Raspberry Pi 5 System Administration Basics</h3>
+                    <div class="book-author">Raspberry Pi</div>
+                    <div class="book-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.7">4.7 ★</span>
+                        </div>
+                        <span class="category-badge">Hardware</span>
+                        <span class="stat-item">📄 PDF</span>
+                    </div>
+                    <div class="book-description">Essential guide to administering and managing Raspberry Pi 5 systems effectively.</div>
+                </div>
+                <div class="book-actions">
+                    <a href="https://drive.google.com/uc?export=download&id=1fhwQ4TFne3Wu9KpwDLeZZ2NHd57LV7vv" 
+                       class="download-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Download Raspberry Pi 5 Guide">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                        </svg>
+                        Download
+                    </a>
+                </div>
+            </article>
+
+            <!-- Book 28 - NEW -->
+            <article class="book-item" role="listitem" data-title="Data Cleaning with Power BI" data-author="Microsoft Power BI">
+                <div class="book-icon-wrapper">
+                    <img src="https://images.pexels.com/photos/1666320/pexels-photo-1666320.jpeg?auto=compress&cs=tinysrgb&w=600" 
+                         alt="Power BI Data Cleaning book cover" 
+                         class="book-cover"
+                         loading="lazy">
+                </div>
+                <div class="book-details">
+                    <h3 class="book-title">Data Cleaning with Power BI</h3>
+                    <div class="book-author">Microsoft Power BI</div>
+                    <div class="book-stats">
+                        <div class="rating-box">
+                            <span class="rating-badge" aria-label="Rating 4.8">4.8 ★</span>
+                        </div>
+                        <span class="category-badge">Data Science</span>
+                        <span class="stat-item">📄 PDF</span>
+                    </div>
+                    <div class="book-description">Learn professional data cleaning and transformation techniques using Microsoft Power BI.</div>
+                </div>
+                <div class="book-actions">
+                    <a href="https://drive.google.com/uc?export=download&id=1vgY2NXQRNYeTDpQx-CUO7nBlcFsYb8qr" 
+                       class="download-btn" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       aria-label="Download Data Cleaning with Power BI">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                        </svg>
+                        Download
+                    </a>
+                </div>
+            </article>
+
+        </div>
+
+        <!-- No Results Message -->
+        <div class="no-results" id="noResults">
+            <div class="no-results-icon">🔍</div>
+            <div class="no-results-text">No books found</div>
+            <div class="no-results-subtext">Try searching for something else</div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="footer-content">
+            <div class="footer-links">
+                <span class="footer-link" onclick="openModal('aboutModal')" role="button" tabindex="0">About</span>
+                <a href="mailto:teamsharvika.inbox@gmail.com" class="footer-link">Help Center</a>
+                <span class="footer-link" onclick="openModal('privacyModal')" role="button" tabindex="0">Privacy Policy</span>
+                <span class="footer-link" onclick="openModal('termsModal')" role="button" tabindex="0">Terms of Service</span>
+            </div>
+            <div class="footer-text">
+                © 2025 <span class="footer-brand">Sharvika</span>. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- About Modal -->
+    <div id="aboutModal" class="modal" role="dialog" aria-labelledby="aboutTitle" aria-modal="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="aboutTitle">About Sharvika BookSpace</h2>
+                <button class="close" onclick="closeModal('aboutModal')" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Welcome to <strong>Sharvika BookSpace</strong>, your premier destination for premium books, guides, and learning resources across technology, design, AI, and professional development.</p>
+                
+                <h3>Our Mission</h3>
+                <p>We curate high-quality educational resources to empower learners, professionals, and enthusiasts worldwide. Our goal is to make knowledge accessible and help you master new skills.</p>
+                
+                <h3>What We Offer</h3>
+                <ul>
+                    <li>Comprehensive books on AI, Machine Learning, and Data Science</li>
+                    <li>Professional design and creative software guides</li>
+                    <li>Programming and web development resources</li>
+                    <li>Business and entrepreneurship guides</li>
+                    <li>Latest editions and updated content</li>
+                    <li>Easy access and fast downloads</li>
+                </ul>
+                
+                <h3>Quality Content</h3>
+                <p>All resources on Sharvika BookSpace are carefully selected to ensure they provide genuine value and practical knowledge for your learning journey.</p>
+                
+                <p><strong>Contact:</strong> For inquiries, reach out to teamsharvika.inbox@gmail.com</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Privacy Policy Modal -->
+    <div id="privacyModal" class="modal" role="dialog" aria-labelledby="privacyTitle" aria-modal="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="privacyTitle">Privacy Policy</h2>
+                <button class="close" onclick="closeModal('privacyModal')" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Last Updated:</strong> January 2025</p>
+                
+                <h3>1. Information Collection</h3>
+                <p>Sharvika BookSpace respects your privacy. We do not collect, store, or share any personal information. Your browsing is completely anonymous.</p>
+                
+                <h3>2. Cookies and Tracking</h3>
+                <p>We do not use cookies or tracking technologies. Your activity on Sharvika BookSpace is not monitored or recorded.</p>
+                
+                <h3>3. Third-Party Services</h3>
+                <p>Downloads are hosted on Google Drive. We are not responsible for their privacy practices. Please review Google's privacy policy before downloading.</p>
+                
+                <h3>4. Data Security</h3>
+                <p>Since we don't collect personal data, there's no risk of information compromise through our platform. Users are responsible for their own security when downloading content.</p>
+                
+                <h3>5. User Responsibility</h3>
+                <p>Users should:</p>
+                <ul>
+                    <li>Ensure device security when downloading files</li>
+                    <li>Scan files with antivirus software</li>
+                    <li>Comply with copyright laws</li>
+                    <li>Use resources for educational purposes</li>
+                </ul>
+                
+                <h3>6. Contact</h3>
+                <p>Questions? Email us at teamsharvika.inbox@gmail.com</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms of Service Modal -->
+    <div id="termsModal" class="modal" role="dialog" aria-labelledby="termsTitle" aria-modal="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="termsTitle">Terms of Service</h2>
+                <button class="close" onclick="closeModal('termsModal')" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Effective Date:</strong> January 2025</p>
+                
+                <h3>1. Acceptance of Terms</h3>
+                <p>By using Sharvika BookSpace, you agree to these terms. If you don't agree, please don't use our service.</p>
+                
+                <h3>2. Use of Service</h3>
+                <p>Users must:</p>
+                <ul>
+                    <li>Be of legal age in their jurisdiction</li>
+                    <li>Use resources for educational and personal purposes</li>
+                    <li>Respect intellectual property rights</li>
+                    <li>Not redistribute or sell downloaded content</li>
+                </ul>
+                
+                <h3>3. Content Disclaimer</h3>
+                <p>We provide links to educational resources. Sharvika BookSpace is not responsible for:</p>
+                <ul>
+                    <li>Content accuracy or completeness</li>
+                    <li>External link availability</li>
+                    <li>Copyright compliance</li>
+                    <li>How users utilize downloaded materials</li>
+                </ul>
+                
+                <h3>4. Educational Use</h3>
+                <p>All resources are provided for educational purposes. Users should obtain proper licenses for commercial use and comply with copyright laws.</p>
+                
+                <h3>5. Limitation of Liability</h3>
+                <p>Sharvika BookSpace is not liable for any damages resulting from use of our service or downloaded content.</p>
+                
+                <h3>6. Changes to Service</h3>
+                <p>We reserve the right to modify or discontinue the service at any time without notice.</p>
+                
+                <h3>7. Contact</h3>
+                <p>Questions about these terms? Contact teamsharvika.inbox@gmail.com</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal Functions
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            
+            const focusableElements = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+            const firstElement = focusableElements[0];
+            
+            if (firstElement) {
+                setTimeout(() => firstElement.focus(), 100);
+            }
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const modals = document.querySelectorAll('.modal');
+                modals.forEach(modal => {
+                    if (modal.style.display === 'block') {
+                        modal.style.display = 'none';
+                    }
+                });
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Search functionality
+        function setupSearch(searchInput) {
+            let searchTimeout;
+            
+            searchInput.addEventListener('input', function(e) {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    const searchTerm = e.target.value.toLowerCase().trim();
+                    const bookItems = document.querySelectorAll('.book-item');
+                    const noResults = document.getElementById('noResults');
+                    let visibleCount = 0;
+                    
+                    bookItems.forEach(item => {
+                        const title = item.getAttribute('data-title').toLowerCase();
+                        const author = item.getAttribute('data-author').toLowerCase();
+                        
+                        if (title.includes(searchTerm) || author.includes(searchTerm) || searchTerm === '') {
+                            item.style.display = 'flex';
+                            visibleCount++;
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                    
+                    if (visibleCount === 0 && searchTerm !== '') {
+                        noResults.style.display = 'block';
+                    } else {
+                        noResults.style.display = 'none';
+                    }
+                    
+                    const otherSearch = searchInput.id === 'desktopSearch' ? 
+                        document.getElementById('mobileSearch') : 
+                        document.getElementById('desktopSearch');
+                    if (otherSearch && otherSearch.value !== e.target.value) {
+                        otherSearch.value = e.target.value;
+                    }
+                }, 300);
+            });
+        }
+
+        const desktopSearch = document.getElementById('desktopSearch');
+        const mobileSearch = document.getElementById('mobileSearch');
+        
+        if (desktopSearch) setupSearch(desktopSearch);
+        if (mobileSearch) setupSearch(mobileSearch);
+
+        // Tab navigation
+        const tabs = document.querySelectorAll('.nav-tab');
+        tabs.forEach((tab, index) => {
+            tab.addEventListener('click', function() {
+                tabs.forEach(t => {
+                    t.classList.remove('active');
+                    t.setAttribute('aria-pressed', 'false');
+                });
+                this.classList.add('active');
+                this.setAttribute('aria-pressed', 'true');
+            });
+            
+            tab.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.click();
+                }
+                
+                if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    const nextTab = tabs[index + 1] || tabs[0];
+                    nextTab.focus();
+                    nextTab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                }
+                
+                if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    const prevTab = tabs[index - 1] || tabs[tabs.length - 1];
+                    prevTab.focus();
+                    prevTab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                }
+            });
+        });
+
+        // Footer link keyboard support
+        document.querySelectorAll('.footer-link[role="button"]').forEach(link => {
+            link.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.click();
+                }
+            });
+        });
+
+        // Touch feedback
+        const bookItems = document.querySelectorAll('.book-item');
+        bookItems.forEach(item => {
+            item.addEventListener('touchstart', function() {
+                this.style.opacity = '0.8';
+            });
+            
+            item.addEventListener('touchend', function() {
+                this.style.opacity = '1';
+            });
+        });
+
+        // Prevent double-tap zoom on iOS
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
+</body>
+</html>
